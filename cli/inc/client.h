@@ -1,0 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rfrey <rfrey@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/05/13 16:55:21 by rfrey             #+#    #+#             */
+/*   Updated: 2014/06/05 00:00:08 by rfrey            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CLIENT_H
+# define CLIENT_H
+
+# include "list.h"
+
+# define BUF_SIZE	4096
+
+typedef enum	e_bool
+{
+	FALSE,
+	TRUE
+}				t_bool;
+
+typedef struct	s_env
+{
+	char	*teamname;
+	char	*hostname;
+	int		port;
+	int		sock;
+	t_list	*buf_read;
+	t_list	*buf_write;
+	int		n_client;
+	int		pos_x;
+	int		pos_y;
+	char	*last_cmd;
+}				t_env;
+
+void	ft_ferror(char *msg);
+void	init_env(t_env *env);
+void	free_env(t_env *env);
+int		connect_to_server(char *ip, int port);
+void	main_loop(t_env *env);
+void	play(t_env *env);
+
+#endif
