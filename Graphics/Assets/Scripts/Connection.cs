@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Connection : MonoBehaviour {
 
 	public	GameObject 	menu;
+	public	GameObject	world;
 	public	InputField 	field;
 	public	int			port;
 
@@ -32,7 +33,9 @@ public class Connection : MonoBehaviour {
 			return ;
 		}
 		Debug.Log("Connected...");
-		menu.SetActive(false);
+		menu.SetActive (false);
+		world.SetActive (true);
+
 		_clientSocket.BeginReceive(_recieveBuffer,0,_recieveBuffer.Length,SocketFlags.None,new AsyncCallback(ReceiveCallback),null);
 		
 	}
@@ -75,6 +78,7 @@ public class Connection : MonoBehaviour {
 		{
 			_clientSocket.Disconnect(true);
 			Debug.Log ("Disconected...");
+			world.SetActive (false);
 			menu.SetActive(true);
 		}
 	}
