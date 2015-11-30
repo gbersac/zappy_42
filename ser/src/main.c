@@ -64,4 +64,3 @@ void		ft_ferror(char *msg)
 	ft_putendl(msg);
 	exit(EXIT_FAILURE);
 }
-

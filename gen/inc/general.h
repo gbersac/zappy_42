@@ -71,6 +71,10 @@ typedef struct	s_trantorian
 }				t_trantorian;
 
 void			init_trantorian(t_trantorian *trantor);
+
+/*
+** List of all the types of resources in the game. List of t_ressource_lst.
+*/
 t_list			*get_lst_resource(void);
 t_resource		str_to_resource(char *res);
 char			*resource_to_str(t_resource res);

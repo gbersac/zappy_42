@@ -42,6 +42,13 @@
 
 typedef int (*t_cmd_fct)(t_env *env, t_fd *fd, char *cmd);
 
+/*
+** This is one of the command that can be executed by a player.
+**
+** label: Name of that command.
+** fct: the function to execute to execute that command.
+** time: time it take to execute that command.
+*/
 typedef struct	s_cmd
 {
 	char		*label;
@@ -65,6 +72,6 @@ int				ser_incantation(t_env *env, t_fd *fd, char *cmd);
 int				ser_fork(t_env *env, t_fd *fd, char *cmd);
 int				ser_connect_nbr(t_env *env, t_fd *fd, char *cmd);
 
-int			interpret_cmd(t_env *e, t_fd *fd, char *cmd);
+int				interpret_cmd(t_env *e, t_fd *fd, char *cmd);
 
 #endif

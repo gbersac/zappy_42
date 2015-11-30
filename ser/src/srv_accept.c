@@ -40,9 +40,10 @@ static void		client_write(t_env *e, int cs)
 		send(cs, tmp, ft_strlen(tmp) + 1, 0);
 		free(tmp);
 	}
+	e->fds = NULL;
 }
 
-void			srv_accept(t_env *e, int s)
+void		accept_player(t_env *e, int s)
 {
 	int					cs;
 	struct sockaddr_in	csin;
@@ -62,4 +63,41 @@ void			srv_accept(t_env *e, int s)
 	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor);
+}
+
+void		accept_graphic(t_env *e, int s)
+{
+	int					cs;
+	struct sockaddr_in	csin;
+	socklen_t			csin_len;
+
+	csin_len = sizeof(csin);
+	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
+		ft_ferror("accept error");
+	printf("New client #%d from %s:%d\n", cs,
+			inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
+	e->fds[cs].nickname = NULL;
+	clean_fd(&e->fds[cs]);
+	e->fds[cs].fd = cs;
+	e->fds[cs].type = FD_GRAPHIC;
+	e->fds[cs].fct_read = client_read;
+	e->fds[cs].fct_write = client_write;
+	e->fds[cs].to_send = NULL;
+	e->fds[cs].nickname = get_dfl_nickname();
+	e->fds[cs].buf_read_len = 0;
+	init_trantorian(&e->fds[cs].trantor);
+}
+
+void srv_accept(t_env *e, int cs)
+{
+	int		r;
+	char	buf[BUF_SIZE + 1];
+
+	r = recv(cs, buf, BUF_SIZE, 0);
+	if (r <= 0)
+		close_connection(e, cs);
+	if (strncmp("GRAPHIC\n", buf, 8))
+		accept_graphic(e, cs);
+	else
+		accept_player(e, cs);
 }

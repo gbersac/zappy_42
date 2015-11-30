@@ -29,15 +29,26 @@
 # include "map.h"
 # include "incantation.h"
 
-# define FD_FREE	0
-# define FD_SERV	1
-# define FD_CLIENT	2
+/*
+** Type of the client.
+*/
+typedef enum	e_fd_type
+{
+	FD_FREE,
+	FD_SERV,
+	FD_CLIENT,
+	FD_GRAPHIC
+}				t_fd_type;
+
 
 /*
 ** There is one out of POP_STONE chance that a stone pop on a square.
-** There is one out of POP_FOOD chance that a food pop on a square.
 */
 # define POP_STONE	10
+
+/*
+** There is one out of POP_FOOD chance that a food pop on a square.
+*/
 # define POP_FOOD	20
 
 # define BUF_SIZE	4096
@@ -46,9 +57,16 @@
 
 # define USAGE		"Usage: %s port\n"
 
+/*
+** This is the informations associated with one client.
+**
+** fct_read: function to execute when something is read on this fd.
+** fct_write: functionto execute when something is write on this fd.
+*/
 typedef struct	s_fd
 {
-	int				type;
+	int				fd;
+	t_fd_type		type;
 	void			(*fct_read)();
 	void			(*fct_write)();
 	char			buf_read[BUF_SIZE + 1];
@@ -58,6 +76,14 @@ typedef struct	s_fd
 	t_trantorian	trantor;
 }				t_fd;
 
+/*
+** Global vars of the program.
+**
+** fds: list of all the possible fds. All are set to 0 except those
+** 		corresponding to a client (not optimizing memory consumption).
+** fd_read, fd_write: for the select function.
+** maxfd: the highest fd (usefull for select).
+*/
 typedef struct	s_env
 {
 	t_fd	*fds;
@@ -75,6 +101,10 @@ void			init_env(t_env *e);
 void			main_loop(t_env *e);
 void			srv_create(t_env *e, int port);
 void			srv_accept(t_env *e, int s);
+
+/*
+** Function to read command comming from a client.
+*/
 void			client_read(t_env *e, int cs);
 void			clean_fd(t_fd *fd);
 void			do_select(t_env *e);

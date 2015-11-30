@@ -12,7 +12,7 @@
 
 #include "cmd.h"
 
-void	add_to_send(t_env *e, int cs)
+void	send_to_others(t_env *e, int cs)
 {
 	int		i;
 	char	*tmp;

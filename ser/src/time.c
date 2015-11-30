@@ -24,7 +24,7 @@ long long	get_time_now(void)
 	return (to_return);
 }
 
-int					get_num_turn(t_env *env)
+int			get_num_turn(t_env *env)
 {
 	static long long	begin = 0;
 	long long			elapsed;
