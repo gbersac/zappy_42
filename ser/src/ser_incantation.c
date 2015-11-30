@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:02:09 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/11/30 20:13:56 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static t_list	*get_lst_trantor(t_env *env, int level, int x, int y)
 				env->fds[i].trantor.pos_x == x &&
 				env->fds[i].trantor.pos_y == y &&
 				env->fds[i].trantor.level == level)
+		{
 			ft_listpushback(&lst, &env->fds[i]);
+		}
 		++i;
 	}
 	return (lst);

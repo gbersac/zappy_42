@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:05:51 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/11/30 19:47:21 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int			ser_droite(t_env *env, t_fd *fd, char *cmd)
 			trantor->direction = LEFT;
 			break ;
 	}
-	ft_listpushback(&fd->to_send, strdup(MSG_OK));
+	send_cmd_to_client(fd, MSG_OK);
 	env = NULL;
 	cmd = NULL;
 	return (0);

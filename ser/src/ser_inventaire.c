@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:06:30 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/11/30 20:20:29 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	end_ser_inventaire(char *str, t_fd *fd)
 	str = (char*)malloc(sizeof(char) * strlen(str) + 5);
 	memcpy(str, buf, strlen(buf) + 1);
 	strcat(str, "}");
-	ft_listpushback(&fd->to_send, str);
+	send_cmd_to_client(fd, str);
 }
 
 int			ser_inventaire(t_env *env, t_fd *fd, char *cmd)

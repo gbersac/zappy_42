@@ -6,7 +6,7 @@
 #    By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/04/22 13:15:39 by gbersac           #+#    #+#              #
-#    Updated: 2014/06/11 19:37:50 by gbersac          ###   ########.fr        #
+#    Updated: 2015/11/30 20:23:00 by gbersac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@
 SRCS			:= clean_fd.c client_read.c interpret_cmd.c \
 					 main.c main_loop.c srv_accept.c \
 					srv_create.c update_env.c update_env_fct.c map.c time.c \
-					init_env.c new_turn.c \
+					init_env.c new_turn.c cmd_msg.c \
 					ser_avance.c ser_droite.c ser_gauche.c ser_voir.c \
 					ser_inventaire.c ser_prend.c ser_pose.c ser_expulse.c \
 					ser_broadcast.c ser_incantation.c ser_fork.c \

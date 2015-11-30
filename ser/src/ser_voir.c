@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:06:21 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/11/30 19:50:17 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ static void	end_ser_voir(t_fd *fd, char *str)
 	str = (char*)malloc(sizeof(char) * strlen(str) + 3);
 	memcpy(str, buf, strlen(buf) + 1);
 	strcat(str, "}");
-	ft_listpushback(&fd->to_send, str);
-	fd = NULL;
+	send_cmd_to_client(fd, str);
 }
 
 int			ser_voir(t_env *env, t_fd *fd, char *cmd)

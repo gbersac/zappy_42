@@ -20,7 +20,7 @@ int			ser_gauche(t_env *env, t_fd *fd, char *cmd)
 			trantor->direction = RIGHT;
 			break ;
 	}
-	ft_listpushback(&fd->to_send, strdup(MSG_OK));
+	send_cmd_to_client(fd, MSG_OK);
 	env = NULL;
 	cmd = NULL;
 	return (0);

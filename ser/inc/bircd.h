@@ -103,7 +103,8 @@ void			srv_create(t_env *e, int port);
 void			srv_accept(t_env *e, int s);
 
 /*
-** Function to read command comming from a client.
+** Function to read command comming from a client
+** (either graphic or normal client).
 */
 void			client_read(t_env *e, int cs);
 void			clean_fd(t_fd *fd);
@@ -118,5 +119,10 @@ void			close_connection(t_env *e, int cs);
 void			avance_trantor(t_env *env,
 								t_trantorian	*trantor,
 								t_direction dir);
+
+/*
+** Send cmd to the client fd. Add the \n at the end.
+*/
+void			send_cmd_to_client(t_fd *fd, char *str);
 
 #endif

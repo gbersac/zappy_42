@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 22:09:30 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:04:16 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/11/30 19:50:41 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int				ser_avance(t_env *env, t_fd *fd, char *cmd)
 
 	trantor = &fd->trantor;
 	move_trantor(env, trantor, trantor->direction);
-	ft_listpushback(&fd->to_send, strdup(MSG_OK));
+	send_cmd_to_client(fd, MSG_OK);
 	cmd = NULL;
 	return (0);
 }
