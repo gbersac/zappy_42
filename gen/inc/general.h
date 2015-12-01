@@ -49,9 +49,17 @@ typedef enum	e_direction
 	UP,
 	RIGHT,
 	DOWN,
-	LEFT,
-	CENTER
+	LEFT
 }				t_direction;
+
+typedef enum	e_sound_dir
+{
+	U,
+	R,
+	D,
+	L,
+	C
+}				t_sound_dir;
 
 # define LIFE_LONG		126
 # define INIT_LIFE		10
