@@ -22,7 +22,8 @@ SRCS			:= clean_fd.c client_read.c interpret_cmd.c \
 					ser_avance.c ser_droite.c ser_gauche.c ser_voir.c \
 					ser_inventaire.c ser_prend.c ser_pose.c ser_expulse.c \
 					ser_broadcast.c ser_incantation.c ser_fork.c \
-					ser_connect_nbr.c map_str.c incantation.c
+					ser_connect_nbr.c map_str.c incantation.c \
+					get_sound_dir.c
 
 PATH_OBJ		:= obj
 PATH_SRC		:= src

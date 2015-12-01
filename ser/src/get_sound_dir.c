@@ -1,5 +1,5 @@
-// #include "../inc/map.h"
-// #include "../../gen/inc/general.h"
+#include "../inc/map.h"
+#include "../../gen/inc/general.h"
 
 /*
 ** Sound direction starts from trantorian sight 1
@@ -36,7 +36,7 @@ static int sound_direction(t_sound_dir h, t_sound_dir v, t_direction d)
 
 static int sound_x(t_trantorian src, t_trantorian dst, t_map map, t_sound_dir x)
 {
-	if ((x + x) > map.width) // x > map.with/2
+	if ((int)(x + x) > map.width) // x > map.with/2
 	{
 		if (src.pos_x < dst.pos_x)
 		{
@@ -64,7 +64,7 @@ static int sound_x(t_trantorian src, t_trantorian dst, t_map map, t_sound_dir x)
 
 static int sound_y(t_trantorian src, t_trantorian dst, t_map map, t_sound_dir y)
 {
-	if ((y + y) > map.height)
+	if ((int)(y + y) > map.height)
 	{
 		if (src.pos_y < dst.pos_y)
 		{
