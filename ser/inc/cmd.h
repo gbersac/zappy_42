@@ -13,6 +13,7 @@
 #ifndef CMD_H
 # define CMD_H
 
+# include <stdio.h>
 # include "bircd.h"
 # include "libft.h"
 
