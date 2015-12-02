@@ -79,8 +79,8 @@ typedef struct	s_fd
 /*
 ** Global vars of the program.
 **
-** fds: list of all the possible fds. All are set to 0 except those
-** 		corresponding to a client (not optimizing memory consumption).
+** fds: array of all the possible fd. All are set to 0 except those
+** 		corresponding to a client (use a lot of memory, I know).
 ** fd_read, fd_write: for the select function.
 ** maxfd: the highest fd (usefull for select).
 */

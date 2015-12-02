@@ -14,6 +14,7 @@
 # define CMD_H
 
 # include "bircd.h"
+# include "libft.h"
 
 # define CMD_AVANCE				"avance"
 # define CMD_AVANCE_TIME		7
