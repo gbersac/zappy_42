@@ -1,0 +1,2 @@
+#Set unix ending on .cs files
+*.cs text eol=lf
