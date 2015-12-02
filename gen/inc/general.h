@@ -69,6 +69,7 @@ typedef struct	s_trantorian
 	int			health_point;
 	int			pos_x;
 	int			pos_y;
+	char		*team;
 	t_list		*inventory;
 	int			level;
 	t_direction	direction;

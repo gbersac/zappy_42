@@ -6,7 +6,7 @@
 #    By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/04/22 13:15:39 by gbersac           #+#    #+#              #
-#    Updated: 2015/12/02 16:26:11 by gbersac          ###   ########.fr        #
+#    Updated: 2015/12/02 18:40:26 by gbersac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,16 +63,14 @@ all: $(NAME_SERVEUR)
 $(NAME_SERVEUR): $(OBJECTS)
 	$(CC) -o $@ $(OBJECTS) $(LIBRARY) $(DEBUG)
 
-$(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
-	@mkdir -p $(PATH_OBJ)
-	$(CC) -c -o $@ $(CFLAGS) $^ $(DEBUG) $(INCLUDES)
-
 $(PATH_OBJ)/cli/%.o: $(addprefix $(PATH_SRC)/cli/,%.c)
-	@mkdir -p $(PATH_OBJ)/cli
 	$(CC) -c -o $@ $(CFLAGS) $^ $(DEBUG) $(INCLUDES)
 
 $(PATH_OBJ)/gfx/%.o: $(addprefix $(PATH_SRC)/gfx/,%.c)
-	@mkdir -p $(PATH_OBJ)/gfx
+	$(CC) -c -o $@ $(CFLAGS) $^ $(DEBUG) $(INCLUDES)
+
+$(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
+	@mkdir -p $(PATH_OBJ) $(PATH_OBJ)/cli $(PATH_OBJ)/gfx
 	$(CC) -c -o $@ $(CFLAGS) $^ $(DEBUG) $(INCLUDES)
 
 clean:
