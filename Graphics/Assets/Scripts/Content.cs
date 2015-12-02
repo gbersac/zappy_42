@@ -10,14 +10,14 @@ public class Content : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		createStone ("bct " + transform.position.x + " " + transform.position.y + "1 2 3 4 5 6");
 
 	}
 
 	public void	createStone(string answer)
 	{
 		string [] split = answer.Split (new Char [] {' '});
-		if (( int.Parse(split[1]) == transform.position.x) && ( int.Parse(split[2]) == transform.position.y))
+
+		if (( int.Parse(split[1]) == transform.position.x) && ( int.Parse(split[2]) == transform.position.z))
 		{
 			for(int i = 0; i < 6; i++)
 			{
