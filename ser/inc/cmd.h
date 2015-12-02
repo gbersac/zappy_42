@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:08:41 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 17:12:44 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ typedef struct	s_cmd
 /*
 ** A command return 0 if successful, -1 otherwise
 */
+
+/*
+** Commands to clients
+*/
 int				ser_avance(t_env *env, t_fd *fd, char *cmd);
 int				ser_droite(t_env *env, t_fd *fd, char *cmd);
 int				ser_gauche(t_env *env, t_fd *fd, char *cmd);
@@ -71,6 +75,43 @@ int				ser_broadcast(t_env *env, t_fd *fd, char *cmd);
 int				ser_incantation(t_env *env, t_fd *fd, char *cmd);
 int				ser_fork(t_env *env, t_fd *fd, char *cmd);
 int				ser_connect_nbr(t_env *env, t_fd *fd, char *cmd);
+
+/*
+** Spontaneous (message send which are not response to me)
+** commands to graphics.
+*/
+int				gfx_pex(t_env *env);
+int				gfx_pbc(t_env *env);
+int				gfx_pie(t_env *env);
+int				gfx_pfk(t_env *env);
+int				gfx_pdr(t_env *env);
+int				gfx_pgt(t_env *env);
+int				gfx_pdi(t_env *env);
+int				gfx_enw(t_env *env);
+int				gfx_eht(t_env *env);
+int				gfx_ebo(t_env *env);
+int				gfx_edi(t_env *env);
+int				gfx_seg(t_env *env);
+int				gfx_smg(t_env *env);
+
+/*
+** Commands to graphics.
+*/
+int				gfx_msz(t_env *env, t_fd *fd, char *cmd);
+int				gfx_bct(t_env *env, t_fd *fd, char *cmd);
+int				gfx_mct(t_env *env, t_fd *fd, char *cmd);
+int				gfx_tna(t_env *env, t_fd *fd, char *cmd);
+int				gfx_ppo(t_env *env, t_fd *fd, char *cmd);
+int				gfx_plv(t_env *env, t_fd *fd, char *cmd);
+int				gfx_pin(t_env *env, t_fd *fd, char *cmd);
+int				gfx_pic(t_env *env, t_fd *fd, char *cmd);
+int				gfx_sgt(t_env *env, t_fd *fd, char *cmd);
+int				gfx_sst(t_env *env, t_fd *fd, char *cmd);
+
+/*
+** Graphics commands callable from other part of code.
+*/
+int				gfx_bct_call(t_env *env, t_fd *fd, int x, int y);
 
 int				interpret_cmd(t_env *e, t_fd *fd, char *cmd);
 

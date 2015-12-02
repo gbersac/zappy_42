@@ -6,7 +6,7 @@
 #    By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/04/22 13:15:39 by gbersac           #+#    #+#              #
-#    Updated: 2015/11/30 20:23:00 by gbersac          ###   ########.fr        #
+#    Updated: 2015/12/02 16:26:11 by gbersac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,21 +15,31 @@
 # BASIC VARIABLES															   #
 ################################################################################
 
-SRCS			:= clean_fd.c client_read.c interpret_cmd.c \
+SRCS_MAIN		:= clean_fd.c client_read.c interpret_cmd.c \
 					 main.c main_loop.c srv_accept.c \
 					srv_create.c update_env.c update_env_fct.c map.c time.c \
-					init_env.c new_turn.c cmd_msg.c \
-					ser_avance.c ser_droite.c ser_gauche.c ser_voir.c \
-					ser_inventaire.c ser_prend.c ser_pose.c ser_expulse.c \
-					ser_broadcast.c ser_incantation.c ser_fork.c \
-					ser_connect_nbr.c map_str.c incantation.c \
-					get_sound_dir.c
+					init_env.c new_turn.c cmd_msg.c map_str.c incantation.c
+
+SRCS_CLI		:=	cli/ser_avance.c cli/ser_droite.c cli/ser_gauche.c cli/ser_voir.c \
+					cli/ser_inventaire.c cli/ser_prend.c cli/ser_pose.c cli/ser_expulse.c \
+					cli/ser_broadcast.c cli/ser_incantation.c cli/ser_fork.c \
+					cli/ser_connect_nbr.c
+
+SRCS_GFX		:=	gfx/gfx_pex.c gfx/gfx_pbc.c gfx/gfx_pie.c gfx/gfx_pfk.c \
+					gfx/gfx_pdr.c gfx/gfx_pgt.c gfx/gfx_pdi.c gfx/gfx_enw.c \
+					gfx/gfx_eht.c gfx/gfx_ebo.c gfx/gfx_edi.c gfx/gfx_seg.c \
+					gfx/gfx_msz.c gfx/gfx_bct.c gfx/gfx_mct.c gfx/gfx_tna.c \
+					gfx/gfx_ppo.c gfx/gfx_plv.c gfx/gfx_pin.c gfx/gfx_pic.c \
+					gfx/gfx_sgt.c gfx/gfx_sst.c gfx/gfx_smg.c
+
+SRCS			:= $(SRCS_MAIN) $(SRCS_CLI) $(SRCS_GFX)
 
 PATH_OBJ		:= obj
 PATH_SRC		:= src
 PATH_INC		:= inc
 
 CFLAGS			:= -Wall -Wextra -Werror
+
 OBJECTS			:= $(patsubst %.c, $(PATH_OBJ)/%.o, $(SRCS))
 
 ################################################################################
@@ -55,6 +65,14 @@ $(NAME_SERVEUR): $(OBJECTS)
 
 $(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
 	@mkdir -p $(PATH_OBJ)
+	$(CC) -c -o $@ $(CFLAGS) $^ $(DEBUG) $(INCLUDES)
+
+$(PATH_OBJ)/cli/%.o: $(addprefix $(PATH_SRC)/cli/,%.c)
+	@mkdir -p $(PATH_OBJ)/cli
+	$(CC) -c -o $@ $(CFLAGS) $^ $(DEBUG) $(INCLUDES)
+
+$(PATH_OBJ)/gfx/%.o: $(addprefix $(PATH_SRC)/gfx/,%.c)
+	@mkdir -p $(PATH_OBJ)/gfx
 	$(CC) -c -o $@ $(CFLAGS) $^ $(DEBUG) $(INCLUDES)
 
 clean:

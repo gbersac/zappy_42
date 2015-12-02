@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/22 17:11:27 by rfrey             #+#    #+#             */
-/*   Updated: 2015/11/30 20:23:17 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 15:42:52 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,21 @@ void	send_cmd_to_client(t_fd *fd, char *str)
 
 	to_send = ft_strjoin(str, "\n");
 	ft_listpushback(&fd->to_send, to_send);
+}
+
+void	send_cmd_to_graphics(t_env *env, char *str)
+{
+	char	*to_send;
+	int		i;
+	t_fd	*client;
+
+	to_send = ft_strjoin(str, "\n");
+	i = 0;
+	while (i < env->maxfd)
+	{
+		client = &env->fds[i];
+		if (client->type == FD_GRAPHIC)
+			ft_listpushback(&client->to_send, to_send);
+		++i;
+	}
 }
