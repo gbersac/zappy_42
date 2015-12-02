@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 18:48:38 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/09 18:56:43 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 19:35:28 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,3 +21,9 @@ void			init_trantorian(t_trantorian *trantor)
 	trantor->level = 1;
 	trantor->direction = DOWN;
 }
+
+int				direction_to_nbr(t_direction dir)
+{
+	return (dir + 1);
+}
+

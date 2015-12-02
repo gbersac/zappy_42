@@ -1,0 +1,25 @@
+msz : Taille de la carte.
+bct : Contenu d’une case de la carte.
+mct : Contenu de la carte (toutes les cases).
+tna : Nom des équipes.
+ppo : Position d’un joueur.
+plv : Niveau d’un joueur.
+pin : Inventaire d’un joueur.
+pex : *Un joueur expulse.
+pbc : *Un joueur fait un broadcast.
+pic : Premier joueur lance l’incantation pour tous les suivants sur la case.
+pie : *Fin de l’incantation sur la case donneé avec le résultat R (0 ou 1).
+pfk : *Le joueur pond un œuf.
+pdr : *Le joueur jette une ressource.
+pgt : *Le joueur prend une ressource.
+pdi : *Le joueur est mort de faim.
+enw : *L’œuf a été pondu sur la case par le joueur.
+eht : *L’œuf éclot.
+ebo : *Un joueur s’est connecté pour l’œuf.
+edi : *L’œuf éclos est mort de faim.
+sgt : Demande de l’unité de temps courante sur le serveur.
+sst : Modification de l’unité de temps sur le serveur.
+seg : *Fin du jeu. L’équipe donneé remporte la partie.
+smg : *Message du serveur.
+suc : *Commande inconnue.
+sbp : *Mauvais paramètres pour la commande.

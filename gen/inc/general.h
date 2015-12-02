@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 19:02:16 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:31:11 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 18:25:34 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,25 @@ typedef struct	s_resourcd_lst
 	char		*label;
 }				t_resource_lst;
 
+/*
+** Orientation of a trantorian. Do not change the order of the directions !
+*/
 typedef enum	e_direction
 {
-	LEFT,
-	RIGHT,
 	UP,
-	DOWN
+	RIGHT,
+	DOWN,
+	LEFT
 }				t_direction;
+
+typedef enum	e_sound_dir
+{
+	U,
+	R,
+	D,
+	L,
+	C
+}				t_sound_dir;
 
 # define LIFE_LONG		126
 # define INIT_LIFE		10
@@ -60,6 +72,7 @@ typedef struct	s_trantorian
 	int			health_point;
 	int			pos_x;
 	int			pos_y;
+	char		*team;
 	t_list		*inventory;
 	int			level;
 	t_direction	direction;
@@ -71,11 +84,21 @@ typedef struct	s_trantorian
 }				t_trantorian;
 
 void			init_trantorian(t_trantorian *trantor);
+
+/*
+** List of all the types of resources in the game. List of t_ressource_lst.
+*/
 t_list			*get_lst_resource(void);
 t_resource		str_to_resource(char *res);
 char			*resource_to_str(t_resource res);
 void			add_resource(t_list **lst, t_resource res);
 int				del_resource(t_list **lst, t_resource res);
 int				has_resource(t_list *lst_res, t_resource res);
+
+/*
+** Return the number associated with a direction according to the zappy spec.
+** see protocol-client-graphique-zappy.pdf
+*/
+int				direction_to_nbr(t_direction dir);
 
 #endif

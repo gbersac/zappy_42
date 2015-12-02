@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfrey <rfrey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flime <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/05/13 16:37:24 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/05 00:01:01 by rfrey            ###   ########.fr       */
+/*   Created: 2015/11/30 17:18:14 by flime             #+#    #+#             */
+/*   Updated: 2015/11/30 17:18:23 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int				main(int argc, char **argv)
 	if ((env.sock = connect_to_server(env.hostname, env.port)) == -1)
 		ft_ferror("Socket initialization error");
 	ft_printf("Connection etablished at %s:%d\n", env.hostname, env.port);
+	printf("%s\n", env.teamname);
 	main_loop(&env);
 	close(env.sock);
 	free_env(&env);

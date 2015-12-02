@@ -70,7 +70,7 @@ void	main_loop(t_env *env)
 			play(env);
 		FD_SET(env->sock, &fds_read);
 		//to delete
-		FD_SET(0, &fds_read);
+		FD_SET(STDIN_FILENO, &fds_read);
 		//to delete
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
@@ -80,7 +80,7 @@ void	main_loop(t_env *env)
 			read_msg(env);
 
 		// to delete
-		if (FD_ISSET(0, &fds_read))
+		if (FD_ISSET(STDIN_FILENO, &fds_read))
 		{
 			char	buf[1];
 

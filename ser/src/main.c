@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:26:04 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/08 16:13:35 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 18:56:08 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int			main(int ac, char **av)
 	gen_map(&e);
 	srv_create(&e, e.port);
 	srand(time(NULL));
+	printf("Server ready on port %d\n", e.port);
 	main_loop(&e);
 	return (EXIT_SUCCESS);
 	ac = 0;
@@ -64,4 +65,3 @@ void		ft_ferror(char *msg)
 	ft_putendl(msg);
 	exit(EXIT_FAILURE);
 }
-

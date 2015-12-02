@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_msg.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfrey <rfrey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/22 17:11:27 by rfrey             #+#    #+#             */
-/*   Updated: 2014/05/22 22:35:03 by rfrey            ###   ########.fr       */
+/*   Updated: 2015/12/02 19:36:50 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,70 +35,97 @@ int		cmd_msg_error(t_env *e, int cs, char *error)
 	return (-1);
 }
 
-int		get_msg_data(char *cmd, char **nickname, char **msg)
+/*
+** int		get_msg_data(char *cmd, char **nickname, char **msg)
+** {
+** 	int		i;
+** 	int		l;
+**
+** 	i = 3;
+** 	l = 0;
+** 	while (cmd[i] == ' ' || cmd[i] == '\t')
+** 		++i;
+** 	while (cmd[i + l] && cmd[i + l] != ' ' && cmd[i + l] != '\t')
+** 		++l;
+** 	if (!l)
+** 		return (-1);
+** 	*nickname = ft_strsub(cmd, i, l);
+** 	i += l;
+** 	l = 0;
+** 	while (cmd[i] == ' ' || cmd[i] == '\t')
+** 		++i;
+** 	while (cmd[i + l])
+** 		++l;
+** 	if (!l)
+** 	{
+** 		free(*nickname);
+** 		return (-1);
+** 	}
+** 	*msg = ft_strsub(cmd, i, l);
+** 	return (0);
+** }
+**
+** char	*get_full_msg(t_env *e, char *msg, int cs)
+** {
+** 	char	*tmp;
+** 	char	*tmp2;
+**
+** 	tmp = ft_strjoin(e->fds[cs].nickname, " whisper to you : ");
+** 	tmp2 = ft_strjoin(tmp, msg);
+** 	free(tmp);
+** 	free(msg);
+** 	return (tmp2);
+** }
+**
+** int		send_private_msg(t_env *e, int cs, char *cmd)
+** {
+** 	char	*nickname;
+** 	char	*msg;
+** 	char	*tmp2;
+** 	int		fd;
+**
+** 	nickname = NULL;
+** 	msg = NULL;
+** 	if (get_msg_data(cmd, &nickname, &msg))
+** 		return (cmd_msg_error(e, cs, "ERROR : msg <nickname> <message>"));
+** 	tmp2 = get_full_msg(e, msg, cs);
+** 	if ((fd = get_fd_by_nickname(e, nickname)) == -1)
+** 	{
+** 		free(tmp2);
+** 		free(nickname);
+** 		return (cmd_msg_error(e, cs, "ERROR : nickname not found"));
+** 	}
+** 	free(nickname);
+** 	if (e->fds[fd].type == FD_CLIENT)
+** 		ft_listpushback(&e->fds[fd].to_send, ft_strdup(tmp2));
+** 	else
+** 		return (cmd_msg_error(e, cs, "ERROR : not a user"));
+** 	free(tmp2);
+** 	return (0);
+** }
+*/
+
+void	send_cmd_to_client(t_fd *fd, char *str)
 {
+	char *to_send;
+
+	to_send = ft_strjoin(str, "\n");
+	ft_listpushback(&fd->to_send, to_send);
+}
+
+void	send_cmd_to_graphics(t_env *env, char *str)
+{
+	char	*to_send;
 	int		i;
-	int		l;
+	t_fd	*client;
 
-	i = 3;
-	l = 0;
-	while (cmd[i] == ' ' || cmd[i] == '\t')
-		++i;
-	while (cmd[i + l] && cmd[i + l] != ' ' && cmd[i + l] != '\t')
-		++l;
-	if (!l)
-		return (-1);
-	*nickname = ft_strsub(cmd, i, l);
-	i += l;
-	l = 0;
-	while (cmd[i] == ' ' || cmd[i] == '\t')
-		++i;
-	while (cmd[i + l])
-		++l;
-	if (!l)
+	to_send = ft_strjoin(str, "\n");
+	i = 0;
+	while (i < env->maxfd)
 	{
-		free(*nickname);
-		return (-1);
+		client = &env->fds[i];
+		if (client->type == FD_GRAPHIC)
+			ft_listpushback(&client->to_send, to_send);
+		++i;
 	}
-	*msg = ft_strsub(cmd, i, l);
-	return (0);
-}
-
-char	*get_full_msg(t_env *e, char *msg, int cs)
-{
-	char	*tmp;
-	char	*tmp2;
-
-	tmp = ft_strjoin(e->fds[cs].nickname, " whisper to you : ");
-	tmp2 = ft_strjoin(tmp, msg);
-	free(tmp);
-	free(msg);
-	return (tmp2);
-}
-
-int		send_private_msg(t_env *e, int cs, char *cmd)
-{
-	char	*nickname;
-	char	*msg;
-	char	*tmp2;
-	int		fd;
-
-	nickname = NULL;
-	msg = NULL;
-	if (get_msg_data(cmd, &nickname, &msg))
-		return (cmd_msg_error(e, cs, "ERROR : msg <nickname> <message>"));
-	tmp2 = get_full_msg(e, msg, cs);
-	if ((fd = get_fd_by_nickname(e, nickname)) == -1)
-	{
-		free(tmp2);
-		free(nickname);
-		return (cmd_msg_error(e, cs, "ERROR : nickname not found"));
-	}
-	free(nickname);
-	if (e->fds[fd].type == FD_CLIENT)
-		ft_listpushback(&e->fds[fd].to_send, ft_strdup(tmp2));
-	else
-		return (cmd_msg_error(e, cs, "ERROR : not a user"));
-	free(tmp2);
-	return (0);
 }
