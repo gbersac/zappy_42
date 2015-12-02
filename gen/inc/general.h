@@ -46,11 +46,20 @@ typedef struct	s_resourcd_lst
 
 typedef enum	e_direction
 {
-	LEFT,
-	RIGHT,
 	UP,
-	DOWN
+	RIGHT,
+	DOWN,
+	LEFT
 }				t_direction;
+
+typedef enum	e_sound_dir
+{
+	U,
+	R,
+	D,
+	L,
+	C
+}				t_sound_dir;
 
 # define LIFE_LONG		126
 # define INIT_LIFE		10

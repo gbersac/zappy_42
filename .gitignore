@@ -3,6 +3,8 @@ server
 serveur
 gfx
 
+.nfs.*
+
 # Object files
 *.o
 *.ko
