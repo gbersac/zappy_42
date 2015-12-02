@@ -24,7 +24,15 @@ public class Content : MonoBehaviour {
 				quantity[i] = int.Parse(split[i+3]);
 				for (int j = 0; j < quantity[i]; j++)
 				{
-					GameObject stone = Instantiate (stones[i], transform.position, transform.rotation) as GameObject;
+					Vector3 spawnPosition;
+					spawnPosition.x = UnityEngine.Random.Range(transform.position.x - 0.5f , transform.position.x + 0.5f);
+					Debug.Log (spawnPosition.x);
+					spawnPosition.z = UnityEngine.Random.Range(transform.position.z - 0.5f , transform.position.z + 0.5f);
+					Debug.Log (spawnPosition.z);
+					spawnPosition.y = transform.position.y;
+
+
+					GameObject stone = Instantiate (stones[i], spawnPosition, transform.rotation) as GameObject;
 					stone.transform.parent = gameObject.transform;
 				}
 			}

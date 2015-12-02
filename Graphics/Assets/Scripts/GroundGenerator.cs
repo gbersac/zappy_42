@@ -22,7 +22,8 @@ public class GroundGenerator : MonoBehaviour {
 				spawnPosition.z = j;	
 				GameObject spawnedObject = Instantiate (dalle, spawnPosition, transform.rotation) as GameObject;
 				spawnedObject.transform.parent = gameObject.transform;
-				spawnedObject.GetComponent<Content>().createStone("bct " + spawnPosition.x + " " +spawnPosition.z + " 1 2 3 4 5 6");
+				// "bct spawnPosition.x  spawnPosition.z"
+				spawnedObject.GetComponent<Content>().createStone("bct " + spawnPosition.x + " " +spawnPosition.z + " 1 2 1 2 1 2");
 			}
 		}
 	}

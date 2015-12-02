@@ -67,6 +67,7 @@ public class Connection : MonoBehaviour {
 
 
 
+
 	public void	StartConnection()
 	{
 		port = int.Parse (field.text);
