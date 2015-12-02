@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 19:02:16 by gbersac           #+#    #+#             */
-/*   Updated: 2015/11/30 20:21:57 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 18:25:34 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ typedef struct	s_resourcd_lst
 	char		*label;
 }				t_resource_lst;
 
+/*
+** Orientation of a trantorian. Do not change the order of the directions !
+*/
 typedef enum	e_direction
 {
 	UP,
@@ -91,5 +94,11 @@ char			*resource_to_str(t_resource res);
 void			add_resource(t_list **lst, t_resource res);
 int				del_resource(t_list **lst, t_resource res);
 int				has_resource(t_list *lst_res, t_resource res);
+
+/*
+** Return the number associated with a direction according to the zappy spec.
+** see protocol-client-graphique-zappy.pdf
+*/
+int				direction_to_nbr(t_direction dir);
 
 #endif

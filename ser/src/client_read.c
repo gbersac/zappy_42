@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:53:59 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/08 17:48:24 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 20:10:53 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	client_read(t_env *e, int cs)
 				close_connection(e, cs);
 			else
 			{
-				bzero(e->fds[cs].buf_read, BUF_SIZE + 1);
+				bzero(e->fds[cs].buf_read, BUF_SIZE);
 				e->fds[cs].buf_read_len = 0;
 			}
 		}

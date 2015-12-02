@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/21 22:36:03 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/11 21:12:58 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 19:03:26 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@ static void		alc(t_list **lst, char *label, t_cmd_fct fct, int t)
 	newc->fct = fct;
 	newc->time = t;
 	ft_listpushback(lst, newc);
+}
+
+static void		append_gfx_cmd(t_list *lst)
+{
+	alc(&lst, "msz", gfx_msz, 0);
+	alc(&lst, "bct", gfx_bct, 0);
+	alc(&lst, "mct", gfx_mct, 0);
+	alc(&lst, "tna", gfx_tna, 0);
+	alc(&lst, "ppo", gfx_ppo, 0);
+	alc(&lst, "plv", gfx_plv, 0);
+	alc(&lst, "pin", gfx_pin, 0);
+	alc(&lst, "pic", gfx_pic, 0);
+	alc(&lst, "sgt", gfx_sgt, 0);
+	alc(&lst, "sst", gfx_sst, 0);
 }
 
 static t_list	*get_lst_cmd(void)
@@ -41,6 +55,7 @@ static t_list	*get_lst_cmd(void)
 		alc(&lst, CMD_INCANTATION, ser_incantation, CMD_INCANTATION_TIME);
 		alc(&lst, CMD_FORK, ser_fork, CMD_FORK_TIME);
 		alc(&lst, CMD_CONNECT_NBR, ser_connect_nbr, CMD_CONNECT_NBR_TIME);
+		append_gfx_cmd(lst);
 	}
 	return (lst);
 }
