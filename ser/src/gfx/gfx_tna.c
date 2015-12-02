@@ -2,12 +2,21 @@
 
 int		gfx_tna(t_env *env, t_fd *fd, char *cmd)
 {
-	char	*to_send;
+	int		x;
+	int		y;
 
-	to_send = (char*)malloc(4);
-	memcpy(to_send, "pex ", 4);
-	send_cmd_to_client(fd, to_send);
+	y = 0;
+	while (y < env->map.height)
+	{
+		x = 0;
+		while (x < env->map.width)
+		{
+			gfx_bct_call(env, fd, x, y);
+			++x;
+		}
+		++y;
+	}
 	return 1;
-env = NULL; cmd = NULL;
+	cmd = NULL;
 }
 

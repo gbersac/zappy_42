@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/02 16:16:13 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 17:12:44 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,11 @@ int				gfx_pin(t_env *env, t_fd *fd, char *cmd);
 int				gfx_pic(t_env *env, t_fd *fd, char *cmd);
 int				gfx_sgt(t_env *env, t_fd *fd, char *cmd);
 int				gfx_sst(t_env *env, t_fd *fd, char *cmd);
+
+/*
+** Graphics commands callable from other part of code.
+*/
+int				gfx_bct_call(t_env *env, t_fd *fd, int x, int y);
 
 int				interpret_cmd(t_env *e, t_fd *fd, char *cmd);
 

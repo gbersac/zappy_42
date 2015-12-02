@@ -2,10 +2,10 @@
 /server
 /serveur
 /gfx
-cli/client
-d_gfx/gfx
-ser/client
-ser/serveur
+/cli/client
+/d_gfx/gfx
+/ser/client
+/ser/serveur
 
 .nfs.*
 

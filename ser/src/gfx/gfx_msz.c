@@ -4,10 +4,8 @@ int		gfx_msz(t_env *env, t_fd *fd, char *cmd)
 {
 	char	*to_send;
 
-	to_send = (char*)malloc(4);
-	memcpy(to_send, "pex ", 4);
+	asprintf(&to_send, "msz %d %d\n", env->map.width, env->map.height);
 	send_cmd_to_client(fd, to_send);
 	return 1;
-env = NULL; cmd = NULL;
+	cmd = NULL;
 }
-
