@@ -6,7 +6,7 @@
 #    By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/04/22 13:15:39 by gbersac           #+#    #+#              #
-#    Updated: 2015/12/02 15:50:59 by gbersac          ###   ########.fr        #
+#    Updated: 2015/12/02 16:26:11 by gbersac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,9 @@ SRCS_CLI		:=	cli/ser_avance.c cli/ser_droite.c cli/ser_gauche.c cli/ser_voir.c \
 SRCS_GFX		:=	gfx/gfx_pex.c gfx/gfx_pbc.c gfx/gfx_pie.c gfx/gfx_pfk.c \
 					gfx/gfx_pdr.c gfx/gfx_pgt.c gfx/gfx_pdi.c gfx/gfx_enw.c \
 					gfx/gfx_eht.c gfx/gfx_ebo.c gfx/gfx_edi.c gfx/gfx_seg.c \
-					gfx/gfx_smg.c
+					gfx/gfx_msz.c gfx/gfx_bct.c gfx/gfx_mct.c gfx/gfx_tna.c \
+					gfx/gfx_ppo.c gfx/gfx_plv.c gfx/gfx_pin.c gfx/gfx_pic.c \
+					gfx/gfx_sgt.c gfx/gfx_sst.c gfx/gfx_smg.c
 
 SRCS			:= $(SRCS_MAIN) $(SRCS_CLI) $(SRCS_GFX)
 
