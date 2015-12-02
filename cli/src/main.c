@@ -64,6 +64,7 @@ int				main(int argc, char **argv)
 	if ((env.sock = connect_to_server(env.hostname, env.port)) == -1)
 		ft_ferror("Socket initialization error");
 	ft_printf("Connection etablished at %s:%d\n", env.hostname, env.port);
+	printf("%s\n", env.teamname);
 	main_loop(&env);
 	close(env.sock);
 	free_env(&env);
