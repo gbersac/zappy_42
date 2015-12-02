@@ -25,6 +25,7 @@ public class GroundGenerator : MonoBehaviour {
 				spawnedObject.GetComponent<Content>().createStone("bct " + spawnPosition.x + " " +spawnPosition.z + " 1 2 1 2 1 2");
 			}
 		}
+		Camera.main.transform.Translate(width/2, 10, height/2, Space.World);
 	}
 	// Use this for initialization
 	void Start () {

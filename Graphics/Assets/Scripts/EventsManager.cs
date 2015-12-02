@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class EventsManager : MonoBehaviour {
 	
 	private Dictionary<string, System.Action<string>> functions;
-	private string fake = "msz 4 5\n";
+	private string fake = "msz 20 20\n";
 	public GameObject ground;
 	// Use this for initialization
 
