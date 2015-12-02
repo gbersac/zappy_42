@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/02 18:35:37 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 19:42:49 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ char			*get_dfl_nickname(void)
 	return (nickname);
 }
 
+/*
+** Each message to send must be allocated on the heap.
+*/
 static void		client_write(t_env *e, int cs)
 {
 	char	*tmp;
@@ -40,7 +43,7 @@ static void		client_write(t_env *e, int cs)
 		send(cs, tmp, ft_strlen(tmp) + 1, 0);
 		free(tmp);
 	}
-	e->fds = NULL;
+	e->fds[cs].to_send = 0;
 }
 
 void		accept_player(t_env *e, int s)
@@ -74,7 +77,7 @@ void		accept_graphic(t_env *e, int s)
 	csin_len = sizeof(csin);
 	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
 		ft_ferror("accept error");
-	printf("New client #%d from %s:%d\n", cs,
+	printf("New graphic client #%d from %s:%d\n", cs,
 			inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	e->fds[cs].nickname = NULL;
 	clean_fd(&e->fds[cs]);
