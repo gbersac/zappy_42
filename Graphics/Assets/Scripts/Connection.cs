@@ -65,6 +65,8 @@ public class Connection : MonoBehaviour {
 		_clientSocket.SendAsync(socketAsyncData);
 	}
 
+
+
 	public void	StartConnection()
 	{
 		port = int.Parse (field.text);
