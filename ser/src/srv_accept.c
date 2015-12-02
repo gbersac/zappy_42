@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/02 19:42:49 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 19:52:10 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ void		accept_graphic(t_env *e, int s)
 	init_trantorian(&e->fds[cs].trantor);
 }
 
-void srv_accept(t_env *e, int cs)
+void		srv_accept(t_env *e, int cs)
 {
 	int		r;
 	char	buf[BUF_SIZE + 1];
 
 	r = recv(cs, buf, BUF_SIZE, 0);
-	if (strncmp("GRAPHIC\n", buf, 8))
+	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
 	else
 		accept_player(e, cs);

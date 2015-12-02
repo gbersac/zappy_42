@@ -20,7 +20,7 @@ void		send_msg_to_all_excpt_src(t_env *env, t_fd *fd, char *msg)
 		trant->team, msg);
 	while (i < env->maxfd)
 	{
-		printf("")
+		// printf("")
 		if (env->fds[i].type == FD_CLIENT && env->fds[i].fd != fd->fd)
 			send_cmd_to_client(&env->fds[i], str);
 		i++;

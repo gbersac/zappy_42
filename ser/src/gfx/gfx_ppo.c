@@ -2,12 +2,24 @@
 
 int		gfx_ppo(t_env *env, t_fd *fd, char *cmd)
 {
-	char	*to_send;
+	char			*to_send;
+	int				num;
+	t_trantorian	*trantor;
 
-	to_send = (char*)malloc(4);
-	memcpy(to_send, "pex ", 4);
+	sscanf(cmd, "ppo %d\n", &num);
+	trantor = &env->fds[num].trantor;
+	printf("type %d dir %d\n", env->fds[num].type, direction_to_nbr(trantor->direction));
+	if (env->fds[num].type != FD_CLIENT)
+	{
+		send_cmd_to_client(fd, MSG_KO);
+		return (0);
+	}
+	asprintf(&to_send, "ppo %d %d %d %d",
+			num,
+			trantor->pos_x,
+			trantor->pos_y,
+			direction_to_nbr(trantor->direction));
 	send_cmd_to_client(fd, to_send);
-	return 1;
-env = NULL; cmd = NULL;
+	free(to_send);
+	return (1);
 }
-

@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/02 15:30:26 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 19:55:08 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ typedef struct	s_fd
 **
 ** fds: array of all the possible fd. All are set to 0 except those
 ** 		corresponding to a client (use a lot of memory, I know).
+**		The num of a trantor is the fd number of its client so that
+**		fds[num trantor].trantor.number = num trantor.
 ** fd_read, fd_write: for the select function.
 ** maxfd: the highest fd (usefull for select).
 */
