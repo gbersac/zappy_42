@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/10 21:53:24 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 15:30:26 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,11 @@ void			avance_trantor(t_env *env,
 ** Send cmd to the client fd. Add the \n at the end.
 */
 void			send_cmd_to_client(t_fd *fd, char *str);
+
+/*
+** Send str to all the graphics client connected to this server.
+** Add the \n at the end.
+*/
+void			send_cmd_to_graphics(t_env *env, char *str);
 
 #endif
