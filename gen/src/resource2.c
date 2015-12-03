@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 21:53:41 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/02 21:39:42 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 13:33:54 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,3 +48,20 @@ int				has_resource(t_list *lst_res, t_resource res)
 	}
 	return (-1);
 }
+
+int				nb_res_in_inventory(t_resource res, t_list *inventory)
+{
+	int				nb;
+	t_resource		r;
+
+	nb = 0;
+	while (inventory != NULL)
+	{
+		r = *((t_resource*)inventory->data);
+		if (res == r)
+			++nb;
+		inventory = inventory->next;
+	}
+	return (nb);
+}
+

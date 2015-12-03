@@ -6,27 +6,11 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/11/30 20:20:29 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 13:51:47 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cmd.h"
-
-static int	nb_res_inventory(t_resource res, t_list *inventory)
-{
-	int				nb;
-	t_resource		r;
-
-	nb = 0;
-	while (inventory != NULL)
-	{
-		r = *((t_resource*)inventory->data);
-		if (res == r)
-			++nb;
-		inventory = inventory->next;
-	}
-	return (nb);
-}
 
 static void	append_res_str(char **prev, char *label, int nb)
 {
@@ -62,7 +46,7 @@ int			ser_inventaire(t_env *env, t_fd *fd, char *cmd)
 	while (lst_res != NULL)
 	{
 		r = (t_resource_lst*)lst_res->data;
-		nb_res = nb_res_inventory(r->type, trantor->inventory);
+		nb_res = nb_res_in_inventory(r->type, trantor->inventory);
 		if (nb_res != 0)
 			append_res_str(&str, r->label, nb_res);
 		lst_res = lst_res->next;

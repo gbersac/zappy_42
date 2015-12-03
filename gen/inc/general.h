@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 19:02:16 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/02 21:56:03 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 13:34:48 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ char			*resource_to_str(t_resource res);
 char			*resources_to_str(t_list *lst_res);
 void			add_resource(t_list **lst, t_resource res);
 int				del_resource(t_list **lst, t_resource res);
+
+/*
+** Return the number of resource of type res in the inventory.
+*/
+int				nb_res_in_inventory(t_resource res, t_list *inventory);
 
 /*
 ** Return the id of the node in the list of the resource res or -1 if threre

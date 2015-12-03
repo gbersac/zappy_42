@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/11/30 19:50:17 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 13:53:41 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static void	add_sq_str(t_env *env, int x, int y, char **prev)
 		*prev[0] = '{';
 	}
 	str = square_to_str(env, x, y);
-	printf("sq x %d y %d str %s\n", x, y, str);
 	buf = *prev;
 	*prev = (char*)malloc(strlen(str) + strlen(buf) + 3);
 	sprintf(*prev, "%s%s, ", buf, str);
