@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/11/30 20:21:25 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/02 21:57:23 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ int				ser_prend(t_env *env, t_fd *fd, char *cmd)
 	else
 		add_resource(&fd->trantor.inventory, res);
 	send_cmd_to_client(fd, MSG_OK);
-	env = NULL;
 	return (0);
+	env = NULL;
 }

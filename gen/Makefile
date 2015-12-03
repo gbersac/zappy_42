@@ -6,7 +6,7 @@
 #    By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/30 12:40:20 by gbersac           #+#    #+#              #
-#    Updated: 2014/06/09 22:09:27 by gbersac          ###   ########.fr        #
+#    Updated: 2015/12/02 21:44:50 by gbersac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 # SOURCES       															   #
 ################################################################################
 
-SRC			:= init_trantorian.c resource.c resource2.c
+SRC			:= init_trantorian.c resource.c resource2.c resources_to_str.c
 
 ################################################################################
 # BASIC VARIABLES															   #
