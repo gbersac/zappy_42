@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 	public string	name = "lol";
 	int		posx = 0;
 	int		posy = 0;
+	int		level = 1;
 	int		nourriture = 2;
 	int		deraumere = 0;
 	int		linemate = 1;
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour {
 	void OnMouseDown () {
 		// change the target of the LookAtTarget script to be this gameobject.
 		if (info == false) {
-			infoPanel.GetComponent<infoPanel>().setinfo( name, posx, posy, nourriture, deraumere, linemate, mediane, phiras, sibur, thysame);
+			infoPanel.GetComponent<infoPanel>().setinfo( name, posx, posy, level, nourriture, deraumere, linemate, mediane, phiras, sibur, thysame);
 			infoPanel.SetActive (true);
 			info = true;
 		} else {
@@ -48,8 +49,11 @@ public class Player : MonoBehaviour {
 			transform.Translate(Vector3.forward * Time.deltaTime);
 		}
 		if(Input.GetKey(KeyCode.DownArrow)){
-			transform.Translate(Vector3.back * Time.deltaTime);
-			
+			transform.Translate(Vector3.back * Time.deltaTime);	
+		}
+		if (Input.GetKey (KeyCode.Return)) {
+			level = (level < 8) ? level++ : level;
+			Debug.Log(level);
 		}
 
 	}
