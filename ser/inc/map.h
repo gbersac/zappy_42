@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 17:34:05 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/09 19:32:09 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 14:27:22 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ typedef struct	s_map
 	int			width;
 	int			height;
 	t_list		*teams;
+
+	/*
+	** Time divisor (option -t).
+	*/
 	int			time_d;
 	int			max_client;
 
