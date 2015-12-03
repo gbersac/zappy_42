@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gfx_pin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 14:15:54 by gbersac           #+#    #+#             */
+/*   Updated: 2015/12/03 21:07:53 by gbersac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cmd.h"
 
 static char	*str_inventory(char *buf, t_list *inventory)
 {
 	sprintf(buf, "%d %d %d %d %d %d %d",
+			nb_res_in_inventory(FOOD, inventory),
 			nb_res_in_inventory(LINEMATE, inventory),
 			nb_res_in_inventory(DERAUMERE, inventory),
 			nb_res_in_inventory(SIBUR, inventory),
 			nb_res_in_inventory(MENDIANE, inventory),
 			nb_res_in_inventory(PHIRAS, inventory),
-			nb_res_in_inventory(THYSTAME, inventory),
-			nb_res_in_inventory(FOOD, inventory));
+			nb_res_in_inventory(THYSTAME, inventory));
 	return (buf);
 }
 
