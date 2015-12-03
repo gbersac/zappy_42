@@ -3,11 +3,16 @@
 int		gfx_tna(t_env *env, t_fd *fd, char *cmd)
 {
 	char	*to_send;
+	t_list	*iter;
 
-	to_send = (char*)malloc(4);
-	memcpy(to_send, "pex ", 4);
-	send_cmd_to_client(fd, to_send);
-	return 1;
-env = NULL; cmd = NULL;
+	iter = env->map.teams;
+	while (iter != NULL)
+	{
+		asprintf(&to_send, "tna %s\n", iter->data);
+		send_cmd_to_client(fd, to_send);
+		free(to_send);
+		iter = iter->next;
+	}
+	return (1);
+	cmd = NULL;
 }
-

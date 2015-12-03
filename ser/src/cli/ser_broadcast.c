@@ -1,7 +1,32 @@
 #include "cmd.h"
 
+void		send_msg_to_all_excpt_src(t_env *env, t_fd *fd, char *msg)
+{
+	int				i;
+	char			*str;
+	t_trantorian	*trant;
+
+	i = 0;
+	str = NULL;
+	trant = &fd->trantor;
+	asprintf(&str, "# %d %d %s %s", trant->pos_x, trant->pos_y, 
+		trant->team, msg);
+	while (i < env->maxfd)
+	{
+		if (env->fds[i].type == FD_CLIENT && env->fds[i].fd != fd->fd)
+		{
+			send_cmd_to_client(&env->fds[i], str);
+		}
+		i++;
+	}
+}
+
 int			ser_broadcast(t_env *env, t_fd *fd, char *cmd)
 {
-	env = NULL; fd = NULL; cmd = NULL;
+	char	**split;
+
+	split = ft_strsplit(cmd, ' ');
+	send_msg_to_all_excpt_src(env, fd, split[1]);
+	send_cmd_to_client(fd, MSG_OK);
 	return (0);
 }

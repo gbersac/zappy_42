@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 21:12:47 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/06 21:22:54 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 15:12:21 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ int			update_env(t_env *e, char **av)
 			_exit(EXIT_FAILURE);
 		i += res;
 	}
-	while (e->map.teams != NULL)
-		e->map.teams = e->map.teams->next;
 	if (!test_env(e))
 	{
 		usage();

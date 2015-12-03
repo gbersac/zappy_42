@@ -6,14 +6,16 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/02 17:12:44 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 13:51:24 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CMD_H
 # define CMD_H
 
+# include <stdio.h>
 # include "bircd.h"
+# include "libft.h"
 
 # define CMD_AVANCE				"avance"
 # define CMD_AVANCE_TIME		7
