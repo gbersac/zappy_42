@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 17:33:33 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/08 18:26:52 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 15:08:01 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void			gen_map(t_env *e)
 	int			nb_square;
 	int			i;
 	t_square	*sq;
+	t_list		*teams;
 
+	teams = e->map.teams;
 	nb_square = e->map.width * e->map.height;
 	e->map.tartan = (t_square*)malloc(sizeof(t_square) * nb_square);
 	bzero(e->map.tartan, sizeof(t_square) * nb_square);
@@ -49,6 +51,7 @@ void			gen_map(t_env *e)
 		sq->y = i / e->map.width;
 		++i;
 	}
+	e->map.teams = teams;
 }
 
 void			add_resources_square(t_square *sq, t_resource type)
