@@ -53,6 +53,8 @@ public class Connection : MonoBehaviour {
 		Buffer.BlockCopy(_recieveBuffer,0,recData,0,recieved);
 		
 		//Process data here the way you want , all your bytes will be stored in recData
+		Debug.Log ("ici");
+		Debug.Log (Convert.ToBase64String(recData));
 		
 		//Start receiving again
 		_clientSocket.BeginReceive(_recieveBuffer,0,_recieveBuffer.Length,SocketFlags.None,new AsyncCallback(ReceiveCallback),null);
