@@ -59,6 +59,7 @@ void		accept_player(t_env *e, int s)
 			inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	e->fds[cs].nickname = NULL;
 	clean_fd(&e->fds[cs]);
+	e->fds[cs].fd = cs;
 	e->fds[cs].type = FD_CLIENT;
 	e->fds[cs].fct_read = client_read;
 	e->fds[cs].fct_write = client_write;
