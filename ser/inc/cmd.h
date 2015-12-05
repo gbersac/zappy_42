@@ -117,4 +117,9 @@ int				gfx_bct_call(t_env *env, t_fd *fd, int x, int y);
 
 int				interpret_cmd(t_env *e, t_fd *fd, char *cmd);
 
+/*
+** find source sound direction from dst point of view
+*/
+int				get_sound_dir(t_trantorian src, t_trantorian dst, t_map map);
+
 #endif
