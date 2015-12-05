@@ -3,19 +3,19 @@
 int		gfx_bct_call(t_env *env, t_fd *fd, int x, int y)
 {
 	char		*to_send;
-	t_list		*inventory;
+	t_inventory	*inventory;
 	t_square	*sq;
 
 	sq = get_square(env, x, y);
-	inventory = sq->content;
+	inventory = &sq->content;
 	asprintf(&to_send, "bct %d %d %d %d %d %d %d %d %d", x, y,
-			nb_res_in_inventory(FOOD, inventory),
-			nb_res_in_inventory(LINEMATE, inventory),
-			nb_res_in_inventory(DERAUMERE, inventory),
-			nb_res_in_inventory(SIBUR, inventory),
-			nb_res_in_inventory(MENDIANE, inventory),
-			nb_res_in_inventory(PHIRAS, inventory),
-			nb_res_in_inventory(THYSTAME, inventory));
+			nb_res_in_inventory(inventory, FOOD),
+			nb_res_in_inventory(inventory, LINEMATE),
+			nb_res_in_inventory(inventory, DERAUMERE),
+			nb_res_in_inventory(inventory, SIBUR),
+			nb_res_in_inventory(inventory, MENDIANE),
+			nb_res_in_inventory(inventory, PHIRAS),
+			nb_res_in_inventory(inventory, THYSTAME));
 	send_cmd_to_client(fd, to_send);
 	return (1);
 }

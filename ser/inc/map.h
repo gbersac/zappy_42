@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 17:34:05 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/03 14:27:22 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/05 17:02:59 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 typedef struct	s_square
 {
-	int		x;
-	int		y;
-	t_list	*content;
+	int			x;
+	int			y;
+	t_inventory	content;
 }				t_square;
 
 typedef struct	s_map
@@ -46,10 +46,8 @@ typedef struct	s_map
 
 struct			s_env;
 
-char			*square_to_str(struct s_env *env, int x, int y);
 t_square		*get_square(struct s_env *e, int x, int y);
 void			gen_map(struct s_env *e);
-void			add_resources_square(t_square *sq, t_resource type);
 int				adjust_coord(int coord, int ref);
 char			*resource_to_str(t_resource res);
 
