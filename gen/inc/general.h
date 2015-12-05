@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 19:02:16 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/03 13:34:48 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 16:13:01 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,15 @@ typedef struct	s_trantorian
 	** Time before the trantor is allow to do something.
 	*/
 	int			countdown;
+
+	/*
+	** This is the number of the trantorian. It correspond to the fd num of
+	** the client.
+	*/
+	int			id;
 }				t_trantorian;
 
-void			init_trantorian(t_trantorian *trantor);
+void			init_trantorian(t_trantorian *trantor, int id);
 
 /*
 ** List of all the types of resources in the game. List of t_ressource_lst.

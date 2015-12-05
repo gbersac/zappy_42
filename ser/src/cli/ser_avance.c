@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 22:09:30 by gbersac           #+#    #+#             */
-/*   Updated: 2015/11/30 19:50:41 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/05 13:44:57 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void			avance_trantor(t_env *env,
 
 	sq = get_square(env, trantor->pos_x, trantor->pos_y);
 	del_resource(&sq->content, PLAYER);
-	avance_trantor(env, trantor, dir);
+	move_trantor(env, trantor, dir);
 	sq = get_square(env, trantor->pos_x, trantor->pos_y);
 	add_resource(&sq->content, PLAYER);
 }

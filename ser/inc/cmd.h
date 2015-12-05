@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/03 13:51:24 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/03 16:11:34 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int				ser_connect_nbr(t_env *env, t_fd *fd, char *cmd);
 ** Spontaneous (message send which are not response to me)
 ** commands to graphics.
 */
-int				gfx_pex(t_env *env);
+int				gfx_pex(t_env *env, t_fd *fd);
 int				gfx_pbc(t_env *env);
 int				gfx_pie(t_env *env);
 int				gfx_pfk(t_env *env);

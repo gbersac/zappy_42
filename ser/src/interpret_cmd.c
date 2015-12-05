@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/21 22:36:03 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/02 19:03:26 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/05 13:46:21 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,7 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		}
 		lst_cmd = lst_cmd->next;
 	}
+	if (lst_cmd == NULL)
+		printf("unknow command %s\n", cmd);
 	return (0);
 }
