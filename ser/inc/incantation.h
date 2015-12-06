@@ -6,33 +6,48 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/10 21:37:32 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:02:44 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/05 19:13:04 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INCANTATION_H
 # define INCANTATION_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 # include "list.h"
+# include "general.h"
 # include "libft.h"
 
-# define NB_LEVEL	8
+# define NB_LEVEL			8
 
+/*
+** Number of trantor required to reach max level.
+*/
+# define NB_TRANTOR_VICTORY	6
+
+
+/*
+** This structure represent the ressources required to launch an incantation.
+*/
 typedef struct	s_incantation
 {
-	int		beg_level;
+	int		big_level;
 	int		end_level;
+
+	/*
+	** The number of players required to create an incantation.
+	*/
 	int		players;
-	int		nb_linemate;
-	int		nb_deraumere;
-	int		nb_sibur;
-	int		nb_mendiane;
-	int		nb_phiras;
-	int		nb_thystame;
+
+	t_inventory	required_resources;
 }				t_incantation;
 
 t_incantation	*get_lst_lvl(void);
+
+/*
+** Return the incantation needed to eveolve for a trantorian of level `level`.
+*/
+t_incantation	incantation_to_evolve(int level);
 
 #endif

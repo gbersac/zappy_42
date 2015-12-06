@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 19:02:16 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/05 16:54:50 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 21:00:10 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,14 @@ typedef struct	s_inventory
 	int			nb_thystame;
 }				t_inventory;
 
+typedef char*	t_team;
+
 typedef struct	s_trantorian
 {
 	int			health_point;
 	int			pos_x;
 	int			pos_y;
-	char		*team;
+	t_team		team;
  	int			level;
 	t_direction	direction;
 	t_inventory	inventory;
@@ -133,5 +135,10 @@ int				direction_to_nbr(t_direction dir);
 ** The returned string have to be freed.
 */
 char			*inventory_to_str(t_inventory *inv);
+
+/*
+** Reverse of inventory_to_str.
+*/
+t_inventory		str_to_inventory(char *str);
 
 #endif

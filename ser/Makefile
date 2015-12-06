@@ -18,7 +18,7 @@
 SRCS_MAIN		:= clean_fd.c client_read.c interpret_cmd.c \
 					 main.c main_loop.c srv_accept.c \
 					srv_create.c update_env.c update_env_fct.c map.c time.c \
-					init_env.c new_turn.c cmd_msg.c incantation.c
+					init_env.c new_turn.c cmd_msg.c incantation.c team.c
 
 SRCS_CLI		:=	cli/ser_avance.c cli/ser_droite.c cli/ser_gauche.c cli/ser_voir.c \
 					cli/ser_inventaire.c cli/ser_prend.c cli/ser_pose.c cli/ser_expulse.c \

@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/02 19:55:08 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 21:31:58 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef enum	e_fd_type
 	FD_CLIENT,
 	FD_GRAPHIC
 }				t_fd_type;
-
 
 /*
 ** There is one out of POP_STONE chance that a stone pop on a square.
@@ -132,5 +131,8 @@ void			send_cmd_to_client(t_fd *fd, char *str);
 ** Add the \n at the end.
 */
 void			send_cmd_to_graphics(t_env *env, char *str);
+
+int				is_in_team(t_trantorian *trantor, t_team team);
+t_team			test_for_victory(t_env *env);
 
 #endif

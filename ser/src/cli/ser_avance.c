@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 22:09:30 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/05 13:44:57 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 22:12:13 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void		move_trantor(t_env *env,
 	}
 	trantor->pos_x = adjust_coord(trantor->pos_x, env->map.width);
 	trantor->pos_y = adjust_coord(trantor->pos_y, env->map.height);
-	printf("avance_trantor apres x %d y %d\n", trantor->pos_x, trantor->pos_y);
 }
 
 void			avance_trantor(t_env *env,

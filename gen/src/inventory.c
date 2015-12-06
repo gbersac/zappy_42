@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/05 16:55:46 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/05 19:02:38 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/05 19:21:50 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,18 @@ char			*inventory_to_str(t_inventory *inv)
 **		trantor->inventory.nb_phiras,
 **		trantor->inventory.nb_thystame);
 */
+
+t_inventory		str_to_inventory(char *str)
+{
+	t_inventory	to_return;
+
+	sscanf(str, "%d %d %d %d %d %d %d",
+			&to_return.nb_food,
+			&to_return.nb_linemate,
+			&to_return.nb_deraumere,
+			&to_return.nb_sibur,
+			&to_return.nb_mendiane,
+			&to_return.nb_phiras,
+			&to_return.nb_thystame);
+	return (to_return);
+}
