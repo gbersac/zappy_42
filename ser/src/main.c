@@ -55,6 +55,13 @@ int			main(int ac, char **av)
 	srv_create(&e, e.port);
 	srand(time(NULL));
 	printf("Server ready on port %d\n", e.port);
+
+	// int i = 0;
+	// while (i < e.maxfd) {
+	// 	if (e.fds[i].type != FD_FREE)
+	// 		printf("is free %d\n", i);
+	// }
+
 	main_loop(&e);
 	return (EXIT_SUCCESS);
 	ac = 0;

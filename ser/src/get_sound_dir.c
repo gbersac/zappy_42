@@ -1,5 +1,6 @@
-#include "../inc/map.h"
-#include "../../gen/inc/general.h"
+#include "map.h"
+#include "general.h"
+#include "bircd.h"
 
 /*
 ** Sound direction starts from trantorian sight 1

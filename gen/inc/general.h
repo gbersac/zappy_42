@@ -98,6 +98,7 @@ typedef struct	s_trantorian
 	/*
 	** This is the number of the trantorian. It correspond to the fd num of
 	** the client.
+	** If trantorian is not associated to a fd, its id is -1
 	*/
 	int			id;
 }				t_trantorian;

@@ -23,7 +23,7 @@ SRCS_MAIN		:= clean_fd.c client_read.c interpret_cmd.c \
 SRCS_CLI		:=	cli/ser_avance.c cli/ser_droite.c cli/ser_gauche.c cli/ser_voir.c \
 					cli/ser_inventaire.c cli/ser_prend.c cli/ser_pose.c cli/ser_expulse.c \
 					cli/ser_broadcast.c cli/ser_incantation.c cli/ser_fork.c \
-					cli/ser_connect_nbr.c
+					cli/ser_connect_nbr.c get_sound_dir.c
 
 SRCS_GFX		:=	gfx/gfx_pex.c gfx/gfx_pbc.c gfx/gfx_pie.c gfx/gfx_pfk.c \
 					gfx/gfx_pdr.c gfx/gfx_pgt.c gfx/gfx_pdi.c gfx/gfx_enw.c \

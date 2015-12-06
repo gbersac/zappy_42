@@ -9,9 +9,16 @@ void		send_msg_to_all_excpt_src(t_env *env, t_fd *fd, char *msg)
 	i = 0;
 	str = NULL;
 	trant = &fd->trantor;
-	asprintf(&str, "%s %d %d %d %s %s",
+/*	asprintf(&str, "%s %d %d %d %s %s",
 			CMD_BROADCAST,
 			rand() % 8 + 1,
+			trant->pos_x,
+			trant->pos_y,
+			trant->team,
+			msg);*/
+	asprintf(&str, "%s %d %d %d %s %s",
+			CMD_BROADCAST,
+			get_sound_dir(fd->trantor, *trant, env->map),
 			trant->pos_x,
 			trant->pos_y,
 			trant->team,
@@ -22,6 +29,7 @@ void		send_msg_to_all_excpt_src(t_env *env, t_fd *fd, char *msg)
 			send_cmd_to_client(&env->fds[i], str);
 		i++;
 	}
+	free(str);
 }
 
 int			ser_broadcast(t_env *env, t_fd *fd, char *cmd)
