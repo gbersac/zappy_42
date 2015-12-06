@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 22:10:21 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 22:47:52 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,13 @@ static int		test_incantation_feasability(t_trantorian *trantor,
 {
 	if (ft_listcnt(trantors) < incant->players)
 	{
+		printf("incantation failed because not enough players\n");
 		send_cmd_to_client(fd, MSG_KO);
 		return (-1);
 	}
 	if (!trantor_has_resources(trantor, incant))
 	{
+		printf("incantation faile because not enough resources\n");
 		send_cmd_to_client(fd, MSG_KO);
 		return (-1);
 	}
@@ -109,8 +111,9 @@ int				ser_incantation(t_env *env, t_fd *fd, char *cmd)
 	sq = get_square(env, trantor->pos_x, trantor->pos_y);
 	trantors = get_lst_trantor(env, trantor);
 	incant = incantation_to_evolve(trantor->level);
-	if (!test_incantation_feasability(trantor, &incant, fd, trantors))
+	if (test_incantation_feasability(trantor, &incant, fd, trantors) == -1)
 		return (-1);
+	printf("new incantation for level %d\n", incant.big_level);
 	modify_trantor(trantors, trantor);
 	send_cmd_to_client(fd, MSG_OK);
 	test_for_victory(env);

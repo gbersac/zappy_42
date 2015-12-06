@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 21:54:36 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 22:49:02 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int				ser_prend(t_env *env, t_fd *fd, char *cmd)
 		fd->trantor.health_point += LIFE_LONG;
 	else
 		add_resource(&fd->trantor.inventory, res);
-	del_resource(&fd->trantor.inventory, res);
+	del_resource(&sq->content, res);
 	send_cmd_to_client(fd, MSG_OK);
 	return (0);
 	env = NULL;

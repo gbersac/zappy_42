@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/03 16:01:30 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 22:44:59 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void		client_write(t_env *e, int cs)
 {
 	char	*tmp;
 
-		printf("client_write\n");
 	while (e->fds[cs].to_send)
 	{
 		tmp = (char*)ft_listpop(&e->fds[cs].to_send);

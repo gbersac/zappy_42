@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:28 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/05 13:41:07 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 22:43:50 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ static void	init_fd(t_env *e)
 	{
 		if (e->fds[i].type != FD_FREE)
 		{
-			printf("not free %d\n", i);
 			FD_SET(i, &e->fd_read);
 			if (e->fds[i].to_send) {
-				printf("set to send for %d\n", i);
 				FD_SET(i, &e->fd_write);
 			}
 			e->max = MAX(e->max, i);
@@ -46,11 +44,8 @@ static void	check_fd(t_env *e)
 	{
 		if (FD_ISSET(i, &e->fd_read) && e->fds[i].fct_read != NULL)
 			e->fds[i].fct_read(e, i);
-		if (FD_ISSET(i, &e->fd_write) && e->fds[i].fct_write != NULL){
-			printf("before\n");
-			e->fds[i].fct_write(e, i);	
-			printf("after\n");
-		}
+		if (FD_ISSET(i, &e->fd_write) && e->fds[i].fct_write != NULL)
+			e->fds[i].fct_write(e, i);
 		if (FD_ISSET(i, &e->fd_read) || FD_ISSET(i, &e->fd_write))
 			e->r--;
 		i++;
@@ -67,7 +62,6 @@ void		main_loop(t_env *e)
 	current_turn = get_num_turn(e);
 	while (42)
 	{
-		printf("ici\n");
 		init_fd(e);
 		e->r = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &tv);
 		check_fd(e);
