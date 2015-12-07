@@ -30,33 +30,54 @@ void	send_buffer(t_env *env)
 	}
 }
 
-void	read_msg(t_env *env)
+void 	read_msg(t_env *env)
 {
-	static char	buf[BUF_SIZE];
-	static int	buf_len = 0;
+	char	buf[BUF_SIZE];
+	int	buf_len = 0;
+	// static char	buf[BUF_SIZE];
+	// static int	buf_len = 0;
 	int			r;
-	int			i;
-	int			l;
+	// int			i;
+	char **split;
+	// int			l;
 
 	r = recv(env->sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
 	if (r == 0)
 		ft_ferror("Disconnect by the server.");
-	i = buf_len;
-	buf_len += r;
-	while (i < buf_len)
+	// i = buf_len;
+	// buf_len += r;
+
+	split = ft_strsplit(buf, '\n');
+
+	int j = 0;
+
+	while (split[j])
 	{
-		if (!buf[i])
-		{
-			if ((l = ft_strlen(buf)))
-				ft_listpushback(&env->buf_read, ft_strsub(buf, 0, l));
-			ft_memcpy(buf, &buf[i + 1], buf_len - i - 1);
-			buf_len = buf_len - i - 1;
-		}
-		++i;
+		ft_listpushback(&env->buf_read, split[j]);
+		j++;
 	}
-	printf("%s\n", buf);
+
+	// while (i < buf_len)
+	// {
+	// 	if (!buf[i])
+	// 	{
+	// 		printf("!buf[i]");
+	// 		if ((l = ft_strlen(buf)))
+	// 		{
+	// 			printf("l = ft_strlen(buf))");
+	// 			ft_listpushback(&env->buf_read, ft_strsub(buf, 0, l));
+	// 		}
+	// 		ft_memcpy(buf, &buf[i + 1], buf_len - i - 1);
+	// 		buf_len = buf_len - i - 1;
+	// 	}
+	// 	++i;
+	// }
+
+	/* a faire */
+	//free(split[]) et sous split;
 }
 
+#include <unistd.h>
 void	main_loop(t_env *env)
 {
 	fd_set	fds_read;
@@ -67,7 +88,10 @@ void	main_loop(t_env *env)
 	while (42)
 	{
 		if (env->buf_read)
+		{
+			ft_putendl("play");
 			play(env);
+		}
 		FD_SET(env->sock, &fds_read);
 		//to delete
 		FD_SET(STDIN_FILENO, &fds_read);
@@ -75,19 +99,27 @@ void	main_loop(t_env *env)
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
+		{
+			ft_putendl("send");
 			send_buffer(env);
+		}
+		// sleep(1);
 		if (FD_ISSET(env->sock, &fds_read))
+		{
+			ft_putendl("read");
 			read_msg(env);
+			// ft_putstr(env->buf_read->data);
+		}
 
 		// to delete
-		if (FD_ISSET(STDIN_FILENO, &fds_read))
+		/*if (FD_ISSET(STDIN_FILENO, &fds_read))
 		{
 			char	buf[1];
 
 			read(STDIN_FILENO, buf, 1);
 			write(env->sock, buf, 1);
 			// printf("send %s\n", buf);
-		}
+		}*/
 		// to delete
 	}
 }

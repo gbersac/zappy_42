@@ -90,6 +90,9 @@ int		main(void)
 	char *message="BONJOUR\n";
 	send(new_socket,message,strlen(message),0);
 
+	char *message2="YOUHOU\n";
+	send(new_socket,message2,strlen(message2),0);
+
 	static char	buf[BUF_SIZE];
 	static int	buf_len = 0;
 	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
