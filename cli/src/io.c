@@ -103,23 +103,21 @@ void	main_loop(t_env *env)
 			ft_putendl("send");
 			send_buffer(env);
 		}
-		// sleep(1);
 		if (FD_ISSET(env->sock, &fds_read))
 		{
 			ft_putendl("read");
 			read_msg(env);
-			// ft_putstr(env->buf_read->data);
 		}
 
 		// to delete
-		/*if (FD_ISSET(STDIN_FILENO, &fds_read))
-		{
-			char	buf[1];
+		// if (FD_ISSET(STDIN_FILENO, &fds_read))
+		// {
+		// 	char	buf[1];
 
-			read(STDIN_FILENO, buf, 1);
-			write(env->sock, buf, 1);
-			// printf("send %s\n", buf);
-		}*/
+		// 	read(STDIN_FILENO, buf, 1);
+		// 	write(env->sock, buf, 1);
+		// 	// printf("send %s\n", buf);
+		// }
 		// to delete
 	}
 }

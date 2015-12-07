@@ -87,11 +87,11 @@ int		main(void)
   	if (new_socket<0)
     	perror("Accept connection");
 
-	char *message="BONJOUR\n";
+	char *message="BIENVENUE\n";
 	send(new_socket,message,strlen(message),0);
 
-	char *message2="YOUHOU\n";
-	send(new_socket,message2,strlen(message2),0);
+	// char *message2="YOUHOU\n";
+	// send(new_socket,message2,strlen(message2),0);
 
 	static char	buf[BUF_SIZE];
 	static int	buf_len = 0;
