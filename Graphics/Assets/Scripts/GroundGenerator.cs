@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GroundGenerator : MonoBehaviour {
 
 	public int	width;
 	public int	height;
 	public GameObject dalle;
+	public GameObject[,] dalles;
 
 	public void Initialize()
 	{
+		dalles = new GameObject[width,height];
 		Vector3 spawnPosition;
 		spawnPosition.x = 0;
 		spawnPosition.y = 0;
@@ -19,14 +22,15 @@ public class GroundGenerator : MonoBehaviour {
 			spawnPosition.x = i;
 			for (int j = 0; j < height; j++) {
 				spawnPosition.z = j;	
-				GameObject spawnedObject = Instantiate (dalle, spawnPosition, transform.rotation) as GameObject;
-				spawnedObject.transform.parent = gameObject.transform;
+				dalles[i,j] = Instantiate (dalle, spawnPosition, transform.rotation) as GameObject;
+				dalles[i,j].transform.parent = gameObject.transform;
 				// "bct spawnPosition.x  spawnPosition.z"
-				spawnedObject.GetComponent<Content>().createStone("bct " + spawnPosition.x + " " +spawnPosition.z + " 1 2 1 2 1 2");
+		//		dalles[i][j].GetComponent<Content>().createStone("bct " + spawnPosition.x + " " +spawnPosition.z + " 1 2 1 2 1 2");
 			}
 		}
 		Camera.main.transform.Translate(width/2, 10, height/2, Space.World);
 	}
+
 	// Use this for initialization
 	void Start () {
 

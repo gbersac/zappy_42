@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class MessagesBox : MonoBehaviour {
+
     public Text msgUI;
     string textColor = "#000000ff";
     string defaultColor = "#000000ff";
@@ -33,7 +34,6 @@ public class MessagesBox : MonoBehaviour {
         ret += ((int)(color.g * 255)).ToString("x2");
         ret += ((int)(color.b * 255)).ToString("x2");
         ret += "ff";
-        Debug.Log(ret);
         return ret;
     }
 

@@ -15,7 +15,6 @@ public class infoPanel : MonoBehaviour {
 	void Start () {
 	
 	}
-	
 
 	public void	setinfo(string name, int posx, int posy, int level, int nourriture,
 	                    int deraumere, int linemate, int mediane, int phiras, int sibur, int thysame)

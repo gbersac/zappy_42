@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 using System.Collections.Generic;
 
 public class EventsManager : MonoBehaviour {
@@ -15,12 +16,8 @@ public class EventsManager : MonoBehaviour {
     public MessagesBox msgBox;
 	// Use this for initialization
 
-	string	ReturnArgs(string s)
-	{
-		return s;
-	}
+	static public EventsManager em;
 
-  
     void    recMessage(string s)
     {
         msgBox.ServerMessage(s, Color.grey);
@@ -35,13 +32,106 @@ public class EventsManager : MonoBehaviour {
 		x = int.Parse (s.Substring(0, index));
 		y = int.Parse (s.Substring(index + 1, s.Length - index - 1));
 		map = ground.GetComponent<GroundGenerator> ();
-		Debug.Log ("Mapsize X=" + x + " Y=" + y);
 		map.width = x;
 		map.height = y;
 		map.Initialize ();
-		//start async recv
+
+	}
+	
+	void	ft_content_map(string s)
+	{
+		int x;
+		int y;
+		GroundGenerator map;
+		map = ground.GetComponent<GroundGenerator> ();
+
+		string [] split = s.Split (new Char [] {' '});
+		x = int.Parse(split [1]);
+		y = int.Parse(split [2]);
+		// delete map.dalles[x[y];
+		map.dalles[x,y].GetComponent<Content>().createStone("bct " + s);
+		return;
 	}
 
+	void	ft_team_name(string s)
+	{
+		return;
+	}
+	
+	void	ft_new_player(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_position(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_level(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_inventory(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_expulse(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_brodcast(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_incantation(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_ponds(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_vomit(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_take(string s)
+	{
+		return;
+	}
+	
+	void	ft_player_died(string s)
+	{
+		return;
+	}
+	
+	void	ft_new_egg_pos(string s)
+	{
+		return;
+	}
+	
+	void	ft_egg_born(string s)
+	{
+		return;
+	}
+	
+	void	ft_egg_died(string s)
+	{
+		return;
+	}
+	
+	void	ft_end(string s)
+	{
+		return;
+	}
     void timeUnit(string s)
     {
         msgBox.ServerMessage("Server time unit: " + s, Color.green);
@@ -63,21 +153,40 @@ public class EventsManager : MonoBehaviour {
 		int index = line.IndexOf(' ');
 		string f_key = line.Split(' ')[0];
 		string f_arg = line.Substring(index + 1, line.Length - index - 1);
-		Debug.Log("key [" + f_key + "]");
         if (functions.ContainsKey(f_key))
             functions[f_key](f_arg);
         else
             Debug.Log("Unknown command " + f_key);
+		Debug.Log ("recv: " + line);
 	}
 
 	void Start () {
-        msgBox = Instantiate<MessagesBox>(msgBox);
+		em = this.GetComponent<EventsManager> ();
+		msgBox = Instantiate<MessagesBox>(msgBox);
 		functions = new Dictionary<string, System.Action<string>> ();
-        functions.Add("msg", recMessage);
-        functions.Add("msz", ft_mapsize);
-        functions.Add("suc", unknownCommand);
-        functions.Add("sbp", badArgs);
-        functions.Add("sgt", timeUnit);
+		functions.Add("msz", ft_mapsize);
+		functions.Add("bct", ft_content_map);
+		functions.Add("tna", ft_team_name);
+		functions.Add("pnw", ft_new_player);
+		functions.Add("ppo", ft_player_position);
+		functions.Add("plv", ft_player_level);
+		functions.Add("pin", ft_player_inventory);
+		functions.Add("pex", ft_player_expulse);
+		functions.Add("pbc", ft_player_brodcast);
+		functions.Add("pic", ft_player_incantation);
+		functions.Add("pfk", ft_player_ponds);
+		functions.Add("pdr", ft_player_vomit);
+		functions.Add("pgt", ft_player_take);
+		functions.Add("pdi", ft_player_died);
+		functions.Add("enw", ft_new_egg_pos);
+		functions.Add("eht", ft_egg_born);
+		functions.Add("edi", ft_egg_died);
+		functions.Add("sgt", timeUnit);
+		functions.Add("seg", ft_end);
+		functions.Add("smg", recMessage);
+		functions.Add("suc", unknownCommand);
+		functions.Add("sbp", badArgs);
+
 	}
 	
 	// Update is called once per frame

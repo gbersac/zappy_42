@@ -55,12 +55,17 @@ public class Connection : MonoBehaviour {
 	
 	public String readSocket()
 	{
-		if (!socketReady)
+		if (!socketReady) {
 			return "";
-		if (theStream.DataAvailable)
-			return theReader.ReadLine();
-		else
+		}
+		if (theStream.DataAvailable) {
+			var s = theReader.ReadLine();
+			Debug.Log(s);
+			return (s);
+			//return theReader.ReadLine ();
+		} else {
 			return "";
+		}
 	}
 	
 	public void closeSocket()
@@ -78,16 +83,19 @@ public class Connection : MonoBehaviour {
 		host = "127.0.0.1";
 		port = int.Parse (field.text);
 		setupSocket ();
-		message = readSocket ();
-		Debug.Log (message);
-		writeSocket ("msz");
-		message = readSocket();
-		Debug.Log(message);
+		//Temporary
+		writeSocket("msz");
+
 	}
 
 
 	void	Update()
 	{
+		if ((message = readSocket ()) != "") {
+			//Debug.Log ("ou est charly " + message.Length);
+			EventsManager.em.Parse(message);
+		}
+
 		if (Input.GetKey(KeyCode.Escape))
 		{
 			closeSocket();
