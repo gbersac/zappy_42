@@ -1,79 +1,88 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using System.Net;
+using System.IO;
 using System.Net.Sockets;
 using UnityEngine.UI;
 
 public class Connection : MonoBehaviour {
 
-	public	GameObject 	menu;
-	public	GameObject	world;
-	public	InputField 	field;
-	public	int			port;
+	public	GameObject 		menu;
+	public	GameObject		world;
+	public	InputField 		field;
 
-	private Socket _clientSocket = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);
-	private byte[] _recieveBuffer = new byte[8142];
+	string					host;
+	int						port;
+	string					message;
+
+	internal Boolean		socketReady = false;
+	private TcpClient		mySocket;
+	private NetworkStream	theStream;
+	private StreamWriter	theWriter;
+	private StreamReader	theReader;
+
+	static public Connection con;
 
 	void	Start()
 	{
+		con = this.GetComponent<Connection> ();
 	}
 
-
-	private void SetupServer(int port)
+	public void setupSocket()
 	{
-		try
-		{
-			_clientSocket.Connect(new IPEndPoint(IPAddress.Loopback, port));
+		try {
+			mySocket = new TcpClient(host, port);
+			theStream = mySocket.GetStream();
+			theWriter = new StreamWriter(theStream);
+			theReader = new StreamReader(theStream);
+			socketReady = true;
+			Debug.Log ("Connected");
 		}
-		catch(SocketException ex)
-		{
-			Debug.Log(ex.Message);
-			_clientSocket.Disconnect(true);
-			return ;
+		catch (Exception e) {
+			Debug.Log("Socket error: " + e);
+			Application.LoadLevel(0);
 		}
-		Debug.Log("Connected...");
-		menu.SetActive (false);
-		world.SetActive (true);
-
-		_clientSocket.BeginReceive(_recieveBuffer,0,_recieveBuffer.Length,SocketFlags.None,new AsyncCallback(ReceiveCallback),null);
-		
 	}
 	
-	private void ReceiveCallback(IAsyncResult AR)
+	public void writeSocket(string theLine)
 	{
-		//Check how much bytes are recieved and call EndRecieve to finalize handshake
-		int recieved = _clientSocket.EndReceive(AR);
-		
-		if(recieved <= 0)
+		if (!socketReady)
 			return;
-		
-		//Copy the recieved data into new buffer , to avoid null bytes
-		byte[] recData = new byte[recieved];
-		Buffer.BlockCopy(_recieveBuffer,0,recData,0,recieved);
-		
-		//Process data here the way you want , all your bytes will be stored in recData
-		Debug.Log ("ici");
-		Debug.Log (Convert.ToBase64String(recData));
-		
-		//Start receiving again
-		_clientSocket.BeginReceive(_recieveBuffer,0,_recieveBuffer.Length,SocketFlags.None,new AsyncCallback(ReceiveCallback),null);
+		string foo = theLine + "\n";
+		theWriter.Write(foo);
+		theWriter.Flush();
 	}
 	
-	private void SendData(byte[] data)
+	public String readSocket()
 	{
-		SocketAsyncEventArgs socketAsyncData = new SocketAsyncEventArgs();
-		socketAsyncData.SetBuffer(data,0,data.Length);
-		_clientSocket.SendAsync(socketAsyncData);
+		if (!socketReady)
+			return "";
+		if (theStream.DataAvailable)
+			return theReader.ReadLine();
+		else
+			return "";
 	}
-
-
-
+	
+	public void closeSocket()
+	{
+		if (!socketReady)
+			return;
+		theWriter.Close();
+		theReader.Close();
+		mySocket.Close();
+		socketReady = false;
+	}
 
 	public void	StartConnection()
 	{
+		host = "127.0.0.1";
 		port = int.Parse (field.text);
-		SetupServer (port);
+		setupSocket ();
+		message = readSocket ();
+		Debug.Log (message);
+		writeSocket ("msz");
+		message = readSocket();
+		Debug.Log(message);
 	}
 
 
@@ -81,7 +90,7 @@ public class Connection : MonoBehaviour {
 	{
 		if (Input.GetKey(KeyCode.Escape))
 		{
-			_clientSocket.Disconnect(true);
+			closeSocket();
 			Debug.Log ("Disconected...");
 			world.SetActive (false);
 			menu.SetActive(true);
