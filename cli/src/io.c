@@ -30,25 +30,25 @@ void	send_buffer(t_env *env)
 	}
 }
 
-void 	read_msg(t_env *env)
+void	read_msg(t_env *env)
 {
-	int			r;
-	int j = 0;
-	char **split;
-	char *buf;
+	char	*buf;
+	int		r;
+	int		j;
+	char	**split;
 
 	buf = ft_strnew(BUF_SIZE);
 	r = recv(env->sock, buf, BUF_SIZE, 0);
 	if (r == 0)
 		ft_ferror("Disconnect by the server.");
 	split = ft_strsplit(buf, '\n');
+	j = 0;
 	while (split[j])
 		ft_listpushback(&env->buf_read, split[j++]);
-	/* a faire */
+	//a faire
 	//free(split[]) et sous split;
 }
 
-#include <unistd.h>
 void	main_loop(t_env *env)
 {
 	fd_set	fds_read;
