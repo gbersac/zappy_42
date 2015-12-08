@@ -31,6 +31,7 @@ typedef struct	s_env
 	int			sock;
 	t_list		*buf_read;
 	t_list		*buf_write;
+	t_list		*buf_pending;
 	int			n_client;
 	int			n_request;
 	int			pos_x;

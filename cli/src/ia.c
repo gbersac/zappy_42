@@ -53,6 +53,7 @@ int		get_server_param(char *get, t_env *env)
 		env->pos_x = ft_atoi(pos[0]);
 		env->pos_y = ft_atoi(pos[1]);
 		ft_printf("[coords]: %d, %d\n", env->pos_x, env->pos_y);
+		env->n_request++;
 		return (2);
 	}
 	else
@@ -78,13 +79,12 @@ void	valid_last_action(t_env *env)
 
 void	interpret_msg(t_env *env, char *get)
 {
-	if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
+	char *tmp;
+	if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
+		ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
 	{
-		ft_putendl("[ok]");
-	}
-	else if (ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
-	{
-		ft_putendl("[ko]");
+		ft_putendl(get); //list des requetes en cours
+		tmp = (char *)ft_listpop(&env->buf_pending);
 	}
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
 	{
@@ -96,6 +96,8 @@ void	interpret_msg(t_env *env, char *get)
 		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
 	else if (get_server_param(get, env))
 		;
+	env->n_request--;
+	ft_printf("n_request: %d\n", env->n_request);
 }
 
 void	play(t_env *env)
