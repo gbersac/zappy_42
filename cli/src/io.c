@@ -32,48 +32,18 @@ void	send_buffer(t_env *env)
 
 void 	read_msg(t_env *env)
 {
-	char	buf[BUF_SIZE];
-	int	buf_len = 0;
-	// static char	buf[BUF_SIZE];
-	// static int	buf_len = 0;
 	int			r;
-	// int			i;
+	int j = 0;
 	char **split;
-	// int			l;
+	char *buf;
 
-	r = recv(env->sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
+	buf = ft_strnew(BUF_SIZE);
+	r = recv(env->sock, buf, BUF_SIZE, 0);
 	if (r == 0)
 		ft_ferror("Disconnect by the server.");
-	// i = buf_len;
-	// buf_len += r;
-
 	split = ft_strsplit(buf, '\n');
-
-	int j = 0;
-
 	while (split[j])
-	{
-		ft_listpushback(&env->buf_read, split[j]);
-		ft_putstr("read_msg: ");ft_putendl(split[j]);
-		j++;
-	}
-
-	// while (i < buf_len)
-	// {
-	// 	if (!buf[i])
-	// 	{
-	// 		printf("!buf[i]");
-	// 		if ((l = ft_strlen(buf)))
-	// 		{
-	// 			printf("l = ft_strlen(buf))");
-	// 			ft_listpushback(&env->buf_read, ft_strsub(buf, 0, l));
-	// 		}
-	// 		ft_memcpy(buf, &buf[i + 1], buf_len - i - 1);
-	// 		buf_len = buf_len - i - 1;
-	// 	}
-	// 	++i;
-	// }
-
+		ft_listpushback(&env->buf_read, split[j++]);
 	/* a faire */
 	//free(split[]) et sous split;
 }
@@ -111,14 +81,14 @@ void	main_loop(t_env *env)
 		}
 
 		// to delete
-		// if (FD_ISSET(STDIN_FILENO, &fds_read))
-		// {
-		// 	char	buf[1];
+		if (FD_ISSET(STDIN_FILENO, &fds_read))
+		{
+			char	buf[1];
 
-		// 	read(STDIN_FILENO, buf, 1);
-		// 	write(env->sock, buf, 1);
-		// 	// printf("send %s\n", buf);
-		// }
+			read(STDIN_FILENO, buf, 1);
+			write(env->sock, buf, 1);
+			// printf("send %s\n", buf);
+		}
 		// to delete
 	}
 }

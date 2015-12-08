@@ -28,11 +28,9 @@ void	get_server_param(t_env *env)
 	char	**pos;
 
 	get = (char*)ft_listpop(&env->buf_read);
-	// ft_putstr("1");ft_putendl(get);
 	env->n_client = ft_atoi(get);
 	free(get);
 	get = (char*)ft_listpop(&env->buf_read);
-	// ft_putstr("2");ft_putendl(get);
 	pos = ft_strsplit(get, ' ');
 	if (!pos || ft_strtabsize(pos) < 2)
 		ft_ferror("Wrong coordinate msg");
@@ -61,7 +59,7 @@ void	interpret_msg(t_env *env, char *get)
 {
 	if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
-		ft_listpushback(&env->buf_write, env->teamname);
+		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
 		env->last_cmd = MSG_WELCOME;
 	}
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
@@ -94,7 +92,7 @@ void	play(t_env *env)
 		return ;
 	}
 	get = (char*)ft_listpop(&env->buf_read);
-	// ft_putendl(get);
+	ft_putendl(get);
 	interpret_msg(env, get);
 	free(get);
 }
