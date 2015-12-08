@@ -32,7 +32,6 @@ int	ft_strisdigit(char *str)
 
 void	handle_action(t_env *env)
 {
-//	env->last_cmd = ...;
 	++env;
 }
 
@@ -82,18 +81,14 @@ void	interpret_msg(t_env *env, char *get)
 	if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
 	{
 		ft_putendl("[ok]");
-		// valid_last_action(env);
-		// handle_action(env);
 	}
 	else if (ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
 	{
 		ft_putendl("[ko]");
-		// handle_action(env);
 	}
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
 	{
 		ft_printf("[broadcast]: <%s>\n", get);
-		// des trucs
 	}
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
 		player_dies(env, get);

@@ -32,9 +32,9 @@ typedef struct	s_env
 	t_list		*buf_read;
 	t_list		*buf_write;
 	int			n_client;
+	int			n_request;
 	int			pos_x;
 	int			pos_y;
-	char		*last_cmd;
 }				t_env;
 
 void			ft_ferror(char *msg);
