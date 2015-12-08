@@ -86,15 +86,22 @@ void	main_loop(t_env *env)
 			read_msg(env);
 		}
 
+		if (env->status == voir)
+		{
+			ft_putendl("voir");
+			ft_listpushback(&env->buf_write, ft_strdup("voir"));
+			env->status++;
+		}
+
 		// to delete
-		if (FD_ISSET(STDIN_FILENO, &fds_read))
+		/*if (FD_ISSET(STDIN_FILENO, &fds_read))
 		{
 			char	buf[1];
 
 			read(STDIN_FILENO, buf, 1);
 			write(env->sock, buf, 1);
 			// printf("send %s\n", buf);
-		}
+		}*/
 		// to delete
 	}
 }

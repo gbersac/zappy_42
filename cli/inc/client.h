@@ -23,6 +23,13 @@ typedef enum	e_bool
 	TRUE
 }				t_bool;
 
+typedef enum	e_status
+{
+	init,
+	voir,
+	end
+}				t_status;
+
 typedef struct	s_env
 {
 	char		*teamname;
@@ -36,6 +43,7 @@ typedef struct	s_env
 	int			n_request;
 	int			pos_x;
 	int			pos_y;
+	int			status;
 }				t_env;
 
 void			ft_ferror(char *msg);

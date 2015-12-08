@@ -58,6 +58,7 @@ int				main(int argc, char **argv)
 	t_env	env;
 
 	init_env(&env);
+	env.status = init;
 	set_args(argc, argv, &env);
 	if (!env.teamname || !env.port)
 		usage(argv[0]);

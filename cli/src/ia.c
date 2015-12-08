@@ -54,6 +54,7 @@ int		get_server_param(char *get, t_env *env)
 		env->pos_y = ft_atoi(pos[1]);
 		ft_printf("[coords]: %d, %d\n", env->pos_x, env->pos_y);
 		env->n_request++;
+		env->status = voir;
 		return (2);
 	}
 	else
@@ -77,6 +78,12 @@ void	valid_last_action(t_env *env)
 	++env;
 }
 
+void	interpret_broadcast(char *get, t_env *env)
+{
+	(void)env;
+	(void)get;
+}
+
 void	interpret_msg(t_env *env, char *get)
 {
 	char *tmp;
@@ -88,6 +95,7 @@ void	interpret_msg(t_env *env, char *get)
 	}
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
 	{
+		interpret_broadcast(get, env);
 		ft_printf("[broadcast]: <%s>\n", get);
 	}
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
@@ -98,6 +106,7 @@ void	interpret_msg(t_env *env, char *get)
 		;
 	env->n_request--;
 	ft_printf("n_request: %d\n", env->n_request);
+	ft_printf("status: %d\n", env->status);
 }
 
 void	play(t_env *env)

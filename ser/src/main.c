@@ -104,11 +104,14 @@ int		main(void)
 	char *xy="10 10\n";
 	send(new_socket,xy,strlen(xy),0);
 
+	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
+	printf("%s", buf); //print_message
+
 	char *ok="ok\n";
 	send(new_socket,ok,strlen(ok),0);
 
-	char *ko="ko\n";
-	send(new_socket,ko,strlen(ko),0);
+	// char *ko="ko\n";
+	// send(new_socket,ko,strlen(ko),0);
 	while (42)
 		;
 
