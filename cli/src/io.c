@@ -44,7 +44,10 @@ void	read_msg(t_env *env)
 	split = ft_strsplit(buf, '\n');
 	j = 0;
 	while (split[j])
+	{
+		ft_putendl(split[j]);
 		ft_listpushback(&env->buf_read, split[j++]);
+	}
 	//a faire
 	//free(split[]) et sous split;
 }

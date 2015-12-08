@@ -16,29 +16,51 @@
 #include "libft.h"
 #include "general.h"
 
+int	ft_strisdigit(char *str)
+{
+	int	i;
+
+	i = (str[0] == '-' || str[0] == '+') ? 1 : 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	handle_action(t_env *env)
 {
 //	env->last_cmd = ...;
 	++env;
 }
 
-void	get_server_param(t_env *env)
+int		get_server_param(char *get, t_env *env)
 {
-	char	*get;
 	char	**pos;
+	int		len;
 
-	get = (char*)ft_listpop(&env->buf_read);
-	env->n_client = ft_atoi(get);
-	free(get);
-	get = (char*)ft_listpop(&env->buf_read);
 	pos = ft_strsplit(get, ' ');
-	if (!pos || ft_strtabsize(pos) < 2)
-		ft_ferror("Wrong coordinate msg");
-	env->pos_x = ft_atoi(pos[0]);
-	env->pos_y = ft_atoi(pos[1]);
-	free(get);
-	ft_strtabfree(&pos);
-	handle_action(env);
+	len = ft_strtabsize(pos);
+	if (pos && len == 1 && ft_strisdigit(pos[0]))
+	{
+		env->n_client = ft_atoi(get);
+		ft_printf("[nclient]: %d\n", env->n_client);
+		return (1);
+	}
+	else if (pos && len == 2 && ft_strisdigit(pos[0]) && ft_strisdigit(pos[1]))
+	{
+		env->pos_x = ft_atoi(pos[0]);
+		env->pos_y = ft_atoi(pos[1]);
+		ft_printf("[coords]: %d, %d\n", env->pos_x, env->pos_y);
+		return (2);
+	}
+	else
+	{
+		ft_ferror("error: get_server_param()");
+		return (0);
+	}
 }
 
 void	player_dies(t_env *env, char *get)
@@ -57,42 +79,35 @@ void	valid_last_action(t_env *env)
 
 void	interpret_msg(t_env *env, char *get)
 {
-	if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
+	if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
 	{
-		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
-		env->last_cmd = MSG_WELCOME;
-	}
-	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
-		player_dies(env, get);
-	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST)))
-	{
-		ft_printf("Get a broadcast : <%s>\n", get);
-		// des trucs
-	}
-	else if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
-	{
-		valid_last_action(env);
-		handle_action(env);
+		ft_putendl("[ok]");
+		// valid_last_action(env);
+		// handle_action(env);
 	}
 	else if (ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
 	{
-		ft_printf("Last action fail\n");
-		handle_action(env);
+		ft_putendl("[ko]");
+		// handle_action(env);
 	}
+	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
+	{
+		ft_printf("[broadcast]: <%s>\n", get);
+		// des trucs
+	}
+	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
+		player_dies(env, get);
+	else if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
+		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
+	else if (get_server_param(get, env))
+		;
 }
 
 void	play(t_env *env)
 {
 	char	*get;
 
-	if (ft_strnequ(env->last_cmd, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
-	{
-		if (ft_listcnt(env->buf_read) >= 2)
-			get_server_param(env);
-		return ;
-	}
 	get = (char*)ft_listpop(&env->buf_read);
-	ft_putendl(get);
 	interpret_msg(env, get);
 	free(get);
 }
