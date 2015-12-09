@@ -23,7 +23,7 @@ void	send_buffer(t_env *env)
 {
 	char	*tmp;
 
-	while (env->buf_write)
+	while (env->buf_write && env->n_request < 10)
 	{
 		tmp = (char *)ft_listpop(&env->buf_write);
 		ft_listpushback(&env->buf_pending, tmp);

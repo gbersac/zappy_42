@@ -105,22 +105,40 @@ int		main(void)
 	send(new_socket,xy,strlen(xy),0);
 
 	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
-	printf("%s\n", buf); //print_message
+	printf("%s\n", buf); //receive broadcast
 
-	char *voir="{nourriture sibur, joueur sibur, phiras phiras, }\n";
+	char *ok0="ok\n";
+	send(new_socket,ok0,strlen(ok0),0); //retour broadcast
+
+	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
+	printf("%s\n", buf); //receive voir
+
+	char *voir="{nourriture, joueur sibur, phiras phiras, }\n";
 	send(new_socket,voir,strlen(voir),0);
 
 	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
-	printf("%s\n", buf); //print_message
-
+	printf("%s\n", buf); //prend nourriture 
 	char *ok="ok\n";
-	send(new_socket,ok,strlen(ok),0);
+	send(new_socket,ok,strlen(ok),0); //ret prend
 
 	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
-	printf("%s\n", buf); //print_message
+	printf("%s\n", buf); //inventaire
+	char *ok2="345 3 5 10 2 1 7\n";
+	send(new_socket,ok2,strlen(ok2),0); //ret inventaire
 
-	char *ok1="ok\n";
-	send(new_socket,ok1,strlen(ok1),0);
+	// char *ok3="ok\n";
+	// send(new_socket,ok3,strlen(ok3),0); //retour inventaire
+
+	// recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
+	// printf("%s\n", buf); //print_message
+
+	// char *ok1="ok\n";
+	// send(new_socket,ok1,strlen(ok1),0);
+
+	// recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
+	// printf("%s\n", buf); //print_message
+
+	
 
 
 	// char *ko="ko\n";

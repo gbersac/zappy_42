@@ -60,6 +60,8 @@ int				main(int argc, char **argv)
 	init_env(&env);
 	env.status = init;
 	set_args(argc, argv, &env);
+	env.n_request = 0;
+	env.role = valet;
 	if (!env.teamname || !env.port)
 		usage(argv[0]);
 	if ((env.sock = connect_to_server(env.hostname, env.port)) == -1)

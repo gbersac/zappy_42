@@ -14,6 +14,7 @@
 # define CLIENT_H
 
 # include "list.h"
+# include "../../gen/inc/general.h"
 
 # define BUF_SIZE	4096
 
@@ -28,8 +29,14 @@ typedef enum	e_status
 	init,
 	voir,
 	take,
-	end
+	poser,
 }				t_status;
+
+typedef enum	e_role
+{
+	valet,
+	roi
+}				t_role;
 
 typedef struct	s_env
 {
@@ -45,6 +52,8 @@ typedef struct	s_env
 	int			pos_x;
 	int			pos_y;
 	int			status;
+	int			role;
+	t_inventory	inventory;
 }				t_env;
 
 void			ft_ferror(char *msg);
