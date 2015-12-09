@@ -16,45 +16,7 @@
 #include "libft.h"
 #include "general.h"
 
-void broadcast(t_env *env, char *str)
-{
-	char *ret;
-
-	ft_putendl("broadcast");
-	ret = ft_strjoin("broadcast ", str);
-	ft_listpushback(&env->buf_write, ret);
-}
-
-/* 
-** prend <objet>
-*/
-void prend(char *str, t_env *env)
-{
-	char *ret;
-
-	ft_putendl("prend");
-	ret = ft_strjoin("prend ", str);
-	ft_listpushback(&env->buf_write, ret);
-}
-
-/* 
-** pose <objet>
-*/
-void pose(char *str, t_env *env)
-{
-	char *ret;
-
-	ft_putendl("pose");
-	ret = ft_strjoin("pose ", str);
-	ft_listpushback(&env->buf_write, ret);
-}
-
-void inventaire(t_env *env)
-{
-	ft_listpushback(&env->buf_write, "inventaire");
-}
-
-void parse_voir(char *str, t_env *env)
+void parse_voir(t_env *env, char *str)
 {
 	char *without_bracket;
 	char **astr;
@@ -76,53 +38,13 @@ void parse_voir(char *str, t_env *env)
 	i = 0;
 	while (case_astr[i])
 	{
-		prend(case_astr[i], env);
+		cmd(env, "prend ", case_astr[i]);
 		i++;
 	}
-	inventaire(env);// test a delete
+	cmd(env, "inventaire ", NULL);// test a delete
 }
 
-void print_inventaire(t_env *env)
-{
-	ft_putendl("");ft_putnbr(env->inventory.nb_food);
-	ft_putendl("");ft_putnbr(env->inventory.nb_linemate);
-	ft_putendl("");ft_putnbr(env->inventory.nb_deraumere);
-	ft_putendl("");ft_putnbr(env->inventory.nb_sibur);
-	ft_putendl("");ft_putnbr(env->inventory.nb_mendiane);
-	ft_putendl("");ft_putnbr(env->inventory.nb_phiras);
-	ft_putendl("");ft_putnbr(env->inventory.nb_thystame);
-	ft_putendl("");
-}
-
-/*
-** Takes a string of the inventory in the form :
-** %d         %d       %d       %d    %d       %d     %d
-** nourriture linemate deraumes sibur mendiane phiras thystame
-**
-** and fill the inventory
-*/
-
-void parse_inventaire(char *str, t_env *env)
-{
-	char **astr;
-
-	astr = ft_strsplit(str, ' ');
-	env->inventory.nb_food = ft_atoi(astr[0]);
-	env->inventory.nb_linemate = ft_atoi(astr[1]);
-	env->inventory.nb_deraumere = ft_atoi(astr[2]);
-	env->inventory.nb_sibur = ft_atoi(astr[3]);
-	env->inventory.nb_mendiane = ft_atoi(astr[4]);
-	env->inventory.nb_phiras = ft_atoi(astr[5]);
-	env->inventory.nb_thystame = ft_atoi(astr[6]);
-	print_inventaire(env);
-}
-
-void	handle_action(t_env *env)
-{
-	++env;
-}
-
-int		get_server_param(char *get, t_env *env)
+static int		get_server_param(char *get, t_env *env)
 {
 	char	**pos;
 	int		len;
@@ -151,7 +73,7 @@ int		get_server_param(char *get, t_env *env)
 	}
 }
 
-void	player_dies(t_env *env, char *get)
+static void	player_dies(t_env *env, char *get)
 {
 	ft_printf("Player dies\n");
 	close(env->sock);
@@ -160,44 +82,53 @@ void	player_dies(t_env *env, char *get)
 	exit(EXIT_SUCCESS);
 }
 
-void	valid_last_action(t_env *env)
-{
-	++env;
-}
-
-void	interpret_broadcast(char *get, t_env *env)
+void	interpret_broadcast(t_env *env, char *get)
 {
 	(void)env;
 	(void)get;
 }
 
+
+/*
+** 
+**
+**
+*/
+
+// void	interpret_msg_digit(t_env *env, char *get)
+// {
+
+// }
+static int		interpret_msg_okko(t_env *env, char *get)
+{
+	(void)env;
+	if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
+		ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
+		return (1);
+	return (0);
+}
+
 void	interpret_msg(t_env *env, char *get)
 {
 	char *tmp;
-	if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
-		ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)) ||
-		ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
-	{
-		ft_putendl(get); //list des requetes en cours
+
+	ft_putendl(get);
+	if (interpret_msg_okko(env, get))
 		tmp = (char *)ft_listpop(&env->buf_pending);
-	}
+	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
+		tmp = (char *)ft_listpop(&env->buf_pending);
 	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
 	{
-		ft_putendl(get); //list des requetes en cours
 		tmp = (char *)ft_listpop(&env->buf_pending);
 		env->n_request++;
 	}
 	else if (get[0] == '{' && ft_isalpha(get[1]))
-		parse_voir(get, env);
+		parse_voir(env, get);
 	else if (env->status > 0 && ft_isdigit(get[0]))
-	{
-		ft_putendl("parse_inventaire");
-		ft_putendl(get);
-		parse_inventaire(get, env);
-	}
+		parse_inventaire(env, get);
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
 	{
-		interpret_broadcast(get, env);
+		interpret_broadcast(env, get);
 		ft_printf("[broadcast]: <%s>\n", get);
 		env->n_request++;
 	}
@@ -206,10 +137,12 @@ void	interpret_msg(t_env *env, char *get)
 	else if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
 		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
-		broadcast(env, "Je suis là");
+		cmd(env, "broadcast ", "Je suis là");
 	}
-	else if (get_server_param(get, env))
+	else if (get_server_param(get, env))//digit
 		;
+	else
+		ft_printf("message %s not implemented");
 	env->n_request--;
 	ft_printf("n_request: %d\n", env->n_request);
 	ft_printf("status: %d\n", env->status);

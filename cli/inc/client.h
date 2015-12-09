@@ -63,5 +63,8 @@ int				connect_to_server(char *ip, int port);
 void			main_loop(t_env *env);
 void			play(t_env *env);
 void			send_buffer(t_env *env);
+void 			cmd(t_env *env, char *cmd, char *str);
+void 			parse_inventaire(t_env *env, char *str);
+void 			print_inventaire(t_env *env);
 
 #endif

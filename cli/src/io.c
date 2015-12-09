@@ -71,9 +71,6 @@ void	main_loop(t_env *env)
 			play(env);
 		}
 		FD_SET(env->sock, &fds_read);
-		//to delete
-		FD_SET(STDIN_FILENO, &fds_read);
-		//to delete
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
@@ -86,23 +83,11 @@ void	main_loop(t_env *env)
 			ft_putendl("read");
 			read_msg(env);
 		}
-
 		if (env->status == voir)
 		{
 			ft_putendl("voir");
 			ft_listpushback(&env->buf_write, ft_strdup("voir"));
 			env->status++;
 		}
-
-		// to delete
-		/*if (FD_ISSET(STDIN_FILENO, &fds_read))
-		{
-			char	buf[1];
-
-			read(STDIN_FILENO, buf, 1);
-			write(env->sock, buf, 1);
-			// printf("send %s\n", buf);
-		}*/
-		// to delete
 	}
 }
