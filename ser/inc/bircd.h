@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/02 19:55:08 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 22:14:04 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef enum	e_fd_type
 	FD_GRAPHIC
 }				t_fd_type;
 
-
 /*
 ** There is one out of POP_STONE chance that a stone pop on a square.
 */
@@ -63,7 +62,7 @@ typedef enum	e_fd_type
 ** fct_read: function to execute when something is read on this fd.
 ** fct_write: functionto execute when something is write on this fd.
 */
-typedef struct	s_fd
+typedef struct		s_fd
 {
 	int				fd;
 	t_fd_type		type;
@@ -74,7 +73,15 @@ typedef struct	s_fd
 	t_list			*to_send;
 	char			*nickname;
 	t_trantorian	trantor;
-}				t_fd;
+}					t_fd;
+
+typedef struct		s_egg
+{
+	int				countdown;
+	char			*team;
+	int				x;
+	int				y;
+}					t_egg;
 
 /*
 ** Global vars of the program.
@@ -86,17 +93,20 @@ typedef struct	s_fd
 ** fd_read, fd_write: for the select function.
 ** maxfd: the highest fd (usefull for select).
 */
-typedef struct	s_env
+typedef struct		s_env
 {
-	t_fd	*fds;
-	int		port;
-	int		maxfd;
-	int		max;
-	int		r;
-	fd_set	fd_read;
-	fd_set	fd_write;
-	t_map	map;
-}				t_env;
+	t_fd			*fds;
+	int				port;
+	int				maxfd;
+	int				max;
+	int				r;
+	fd_set			fd_read;
+	fd_set			fd_write;
+	t_map			map;
+	t_list			*egg;
+}					t_env;
+
+
 
 void			ft_ferror(char *msg);
 void			init_env(t_env *e);
@@ -132,5 +142,8 @@ void			send_cmd_to_client(t_fd *fd, char *str);
 ** Add the \n at the end.
 */
 void			send_cmd_to_graphics(t_env *env, char *str);
+
+int				is_in_team(t_trantorian *trantor, t_team team);
+t_team			test_for_victory(t_env *env);
 
 #endif

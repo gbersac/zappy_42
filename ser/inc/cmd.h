@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/03 13:51:24 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 22:43:04 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,12 @@ int				ser_fork(t_env *env, t_fd *fd, char *cmd);
 int				ser_connect_nbr(t_env *env, t_fd *fd, char *cmd);
 
 /*
-** Spontaneous (message send which are not response to me)
+** Spontaneous (message send which are not response to the client)
 ** commands to graphics.
 */
-int				gfx_pex(t_env *env);
-int				gfx_pbc(t_env *env);
+int				gfx_pex(t_env *env, t_fd *fd);
+int				gfx_pbc(t_env *env, t_fd *fd, char *msg);
+int				gfx_pic(t_env *env, t_list *trantors);
 int				gfx_pie(t_env *env);
 int				gfx_pfk(t_env *env);
 int				gfx_pdr(t_env *env);
@@ -106,7 +107,6 @@ int				gfx_tna(t_env *env, t_fd *fd, char *cmd);
 int				gfx_ppo(t_env *env, t_fd *fd, char *cmd);
 int				gfx_plv(t_env *env, t_fd *fd, char *cmd);
 int				gfx_pin(t_env *env, t_fd *fd, char *cmd);
-int				gfx_pic(t_env *env, t_fd *fd, char *cmd);
 int				gfx_sgt(t_env *env, t_fd *fd, char *cmd);
 int				gfx_sst(t_env *env, t_fd *fd, char *cmd);
 
@@ -116,5 +116,10 @@ int				gfx_sst(t_env *env, t_fd *fd, char *cmd);
 int				gfx_bct_call(t_env *env, t_fd *fd, int x, int y);
 
 int				interpret_cmd(t_env *e, t_fd *fd, char *cmd);
+
+/*
+** find source sound direction from dst point of view
+*/
+int				get_sound_dir(t_trantorian src, t_trantorian dst, t_map map);
 
 #endif

@@ -80,13 +80,13 @@ static int	sound_y(t_trantorian src, t_trantorian dst, t_map m, t_sound_dir y)
 	{
 		if (src.pos_y < dst.pos_y)
 		{
-			return (U);
 			y = src.pos_y + m.width - dst.pos_y;
+			return (D);
 		}
 		else if (src.pos_y > dst.pos_y)
 		{
-			return (D);
 			y = dst.pos_y + m.width - src.pos_y;
+			return (U);
 		}
 		else
 			return (C);

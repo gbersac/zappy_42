@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/10 21:37:20 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:02:24 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 21:37:51 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 static void		add_node(t_incantation *incant, char *str)
 {
-	incant->beg_level = str[0];
-	incant->end_level = str[0] + 1;
-	incant->players = str[1];
-	incant->nb_linemate = str[2];
-	incant->nb_deraumere = str[3];
-	incant->nb_sibur = str[4];
-	incant->nb_mendiane = str[5];
-	incant->nb_phiras = str[6];
-	incant->nb_thystame = str[7];
+	incant->big_level = str[0] - '0';
+	incant->end_level = str[0] + 1 - '0';
+	incant->players = str[1] - '0';
+	incant->required_resources = str_to_inventory(str + 3);
 }
 
 t_incantation	*get_lst_lvl(void)
@@ -32,13 +27,18 @@ t_incantation	*get_lst_lvl(void)
 	if (incants == NULL)
 	{
 		incants = (t_incantation*)malloc(sizeof(t_incantation) * (NB_LEVEL));
-		add_node(incants + 0, "11100000");
-		add_node(incants + 1, "22111000");
-		add_node(incants + 2, "32201020");
-		add_node(incants + 3, "44112010");
-		add_node(incants + 4, "54121300");
-		add_node(incants + 5, "66123010");
-		add_node(incants + 6, "76222221");
+		add_node(incants + 0, "11 0 1 0 0 0 0 0");
+		add_node(incants + 1, "22 0 1 1 1 0 0 0");
+		add_node(incants + 2, "32 0 2 0 1 0 2 0");
+		add_node(incants + 3, "44 0 1 1 2 0 1 0");
+		add_node(incants + 4, "54 0 1 2 1 3 0 0");
+		add_node(incants + 5, "66 0 1 2 3 0 1 0");
+		add_node(incants + 6, "76 0 2 2 2 2 2 1");
 	}
 	return (incants);
+}
+
+t_incantation	incantation_to_evolve(int level)
+{
+	return (get_lst_lvl()[level - 1]);
 }

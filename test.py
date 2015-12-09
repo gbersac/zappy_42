@@ -8,12 +8,7 @@ import thread
 import threading
 import cmd
 import shlex
-# from threading  import Thread
-
-# try:
-#     from Queue import Queue, Empty
-# except ImportError:
-#     from queue import Queue, Empty  # python 3.x
+import select
 
 ON_POSIX = 'posix' in sys.builtin_module_names
 
@@ -65,10 +60,10 @@ class Process(object):
 		self.p.stdin.write(cmd)
 
 	def read(self):
-		output = self.p.stdout
-		fd = output.fileno()
-		fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-		fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+		# output = self.p.stdout
+		# fd = output.fileno()
+		# fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+		# fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 		try:
 			s = output.readline()
 			while s != '':
@@ -109,22 +104,38 @@ class Server(Process):
 # create processes
 serveur = Server()
 progs.append(serveur)
+progs_by_stdin = {}
+progs_by_stdout = {}
 print '[0] server on port ', port
+rlist = [serveur.p.stdout]
+wlist = [serveur.p.stdin]
+progs_by_stdin[serveur.p.stdin] = serveur
+progs_by_stdout[serveur.p.stdout] = serveur
 for team in teams:
 	for x in xrange(0, PLAYER_IN_TEAM):
 		player = Player(team)
 		print '[%d] player in team %s' % (player.id, team)
 		progs.append(player)
+		rlist.append(player.p.stdout)
+		wlist.append(player.p.stdin)
+		progs_by_stdin[player.p.stdin] = player
+		progs_by_stdout[player.p.stdout] = player
+
 print ''
 
 # read outputs of all the progs
 def read_progs():
-	global progs_lock, progs
+	global progs_lock, progs, rlist, wlist
 	while True:
-		for prog in progs:
-			progs_lock.acquire(True)
-			prog.read()
-			progs_lock.release()
+		inputr, outputr, exceptr = select.select(rlist, wlist, [])
+		for s in inputr:
+			line = s.read(buf, 500)
+			if line != '':
+				print line
+			# progs_by_stdout[s].read()
+		for s in outputr:
+			s.write('msz')
+			# progs_by_stdin[s].send_cmd("msz")
 		time.sleep(0.01)
 
 try:

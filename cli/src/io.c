@@ -32,29 +32,21 @@ void	send_buffer(t_env *env)
 
 void	read_msg(t_env *env)
 {
-	static char	buf[BUF_SIZE];
-	static int	buf_len = 0;
-	int			r;
-	int			i;
-	int			l;
+	char	*buf;
+	int		r;
+	int		j;
+	char	**split;
 
-	r = recv(env->sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
+	buf = ft_strnew(BUF_SIZE);
+	r = recv(env->sock, buf, BUF_SIZE, 0);
 	if (r == 0)
 		ft_ferror("Disconnect by the server.");
-	i = buf_len;
-	buf_len += r;
-	while (i < buf_len)
-	{
-		if (!buf[i])
-		{
-			if ((l = ft_strlen(buf)))
-				ft_listpushback(&env->buf_read, ft_strsub(buf, 0, l));
-			ft_memcpy(buf, &buf[i + 1], buf_len - i - 1);
-			buf_len = buf_len - i - 1;
-		}
-		++i;
-	}
-	printf("%s\n", buf);
+	split = ft_strsplit(buf, '\n');
+	j = 0;
+	while (split[j])
+		ft_listpushback(&env->buf_read, split[j++]);
+	//a faire
+	//free(split[]) et sous split;
 }
 
 void	main_loop(t_env *env)
@@ -67,7 +59,10 @@ void	main_loop(t_env *env)
 	while (42)
 	{
 		if (env->buf_read)
+		{
+			ft_putendl("play");
 			play(env);
+		}
 		FD_SET(env->sock, &fds_read);
 		//to delete
 		FD_SET(STDIN_FILENO, &fds_read);
@@ -75,9 +70,15 @@ void	main_loop(t_env *env)
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
+		{
+			ft_putendl("send");
 			send_buffer(env);
+		}
 		if (FD_ISSET(env->sock, &fds_read))
+		{
+			ft_putendl("read");
 			read_msg(env);
+		}
 
 		// to delete
 		if (FD_ISSET(STDIN_FILENO, &fds_read))
