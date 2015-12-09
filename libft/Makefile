@@ -32,7 +32,7 @@ ft_strtabadd.c ft_strtabrm.c ft_listpoplast.c ft_listpop_n.c ft_strtabinit.c \
 ft_printf.c pf_convert.c pf_get_format.c pf_init.c pf_output.c \
 pf_parse.c pf_tools.c pf_type_format.c ft_strdelchar.c \
 ft_btaddnode.c ft_btinitnode.c ft_btbalancing.c ft_btwidthbrowse.c \
-ft_btclear.c ft_getenv.c ft_strcup.c
+ft_btclear.c ft_getenv.c ft_strcup.c ft_strisdigit.c
 
 OBJ = $(patsubst %.c, $(PATH_OBJ)/%.o, $(SRC))
 

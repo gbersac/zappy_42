@@ -16,18 +16,44 @@
 #include "libft.h"
 #include "general.h"
 
-int	ft_strisdigit(char *str)
+/* 
+** prendre takes 
+*/
+void prend(char *str, t_env *env)
 {
-	int	i;
+	char *ret;
 
-	i = (str[0] == '-' || str[0] == '+') ? 1 : 0;
-	while (str[i])
+	ft_putendl("prend");
+	ret = ft_strjoin("prend ", str);
+	ft_listpushback(&env->buf_write, ret);
+}
+
+void parse_voir(char *str, t_env *env)
+{
+	char *without_bracket;
+	char **astr;
+	char **case_astr;
+	int i;
+
+	ft_putendl("parse_voir");
+	ft_putendl(str);
+	without_bracket = ft_strsub(str, 1, ft_strlen(str) - 2);
+	ft_putendl(without_bracket);
+	astr = ft_strsplit(without_bracket, ',');
+	ft_strtabput(astr);
+	i = 0;
+	// while (astr[i])
+	// {
+		case_astr = ft_strsplit(astr[i], ' ');
+		ft_strtabput(case_astr);
+		// i++;
+	// }
+	i = 0;
+	while (case_astr[i])
 	{
-		if (!ft_isdigit(str[i]))
-			return (0);
+		prend(case_astr[i], env);
 		i++;
 	}
-	return (1);
 }
 
 void	handle_action(t_env *env)
@@ -92,6 +118,11 @@ void	interpret_msg(t_env *env, char *get)
 	{
 		ft_putendl(get); //list des requetes en cours
 		tmp = (char *)ft_listpop(&env->buf_pending);
+	}
+	else if (get[0] == '{')
+	{
+		if (ft_isalpha(get[1]))
+			parse_voir(get, env);
 	}
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
 	{

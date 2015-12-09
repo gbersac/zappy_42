@@ -29,6 +29,7 @@ void	send_buffer(t_env *env)
 		ft_listpushback(&env->buf_pending, tmp);
 		send(env->sock, tmp, ft_strlen(tmp) + 1, 0);
 		env->n_request++;
+		ft_printf("send: %s\n", tmp);
 		ft_printf("n_request: %d\n", env->n_request);
 	}
 }

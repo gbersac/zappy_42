@@ -27,6 +27,7 @@ typedef enum	e_status
 {
 	init,
 	voir,
+	take,
 	end
 }				t_status;
 
@@ -52,5 +53,6 @@ void			free_env(t_env *env);
 int				connect_to_server(char *ip, int port);
 void			main_loop(t_env *env);
 void			play(t_env *env);
+void			send_buffer(t_env *env);
 
 #endif
