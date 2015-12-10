@@ -66,5 +66,6 @@ void			send_buffer(t_env *env);
 void 			cmd(t_env *env, char *cmd, char *str);
 void 			parse_inventaire(t_env *env, char *str);
 void 			print_inventaire(t_env *env);
+void			parse_voir(t_env *env, char *str);
 
 #endif
