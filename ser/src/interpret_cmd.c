@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/21 22:36:03 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/02 19:03:26 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/05 13:46:21 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void		append_gfx_cmd(t_list *lst)
 	alc(&lst, "ppo", gfx_ppo, 0);
 	alc(&lst, "plv", gfx_plv, 0);
 	alc(&lst, "pin", gfx_pin, 0);
-	alc(&lst, "pic", gfx_pic, 0);
+	// alc(&lst, "pic", gfx_pic, 0);
 	alc(&lst, "sgt", gfx_sgt, 0);
 	alc(&lst, "sst", gfx_sst, 0);
 }
@@ -84,5 +84,7 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		}
 		lst_cmd = lst_cmd->next;
 	}
+	if (lst_cmd == NULL)
+		printf("unknow command %s\n", cmd);
 	return (0);
 }

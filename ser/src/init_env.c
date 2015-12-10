@@ -29,6 +29,7 @@ void		init_env(t_env *e)
 	struct rlimit	rlp;
 	int				ret;
 
+	bzero(e, sizeof(t_env));
 	if ((ret = getrlimit(RLIMIT_NOFILE, &rlp)) == -1)
 		ft_ferror("getrlimit error");
 	e->maxfd = rlp.rlim_cur;

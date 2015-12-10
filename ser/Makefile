@@ -6,7 +6,7 @@
 #    By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/04/22 13:15:39 by gbersac           #+#    #+#              #
-#    Updated: 2015/12/02 18:40:26 by gbersac          ###   ########.fr        #
+#    Updated: 2015/12/05 16:59:13 by gbersac          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,12 @@
 SRCS_MAIN		:= clean_fd.c client_read.c interpret_cmd.c \
 					 main.c main_loop.c srv_accept.c \
 					srv_create.c update_env.c update_env_fct.c map.c time.c \
-					init_env.c new_turn.c cmd_msg.c map_str.c incantation.c
+					init_env.c new_turn.c cmd_msg.c incantation.c team.c
 
 SRCS_CLI		:=	cli/ser_avance.c cli/ser_droite.c cli/ser_gauche.c cli/ser_voir.c \
 					cli/ser_inventaire.c cli/ser_prend.c cli/ser_pose.c cli/ser_expulse.c \
 					cli/ser_broadcast.c cli/ser_incantation.c cli/ser_fork.c \
-					cli/ser_connect_nbr.c
+					cli/ser_connect_nbr.c get_sound_dir.c
 
 SRCS_GFX		:=	gfx/gfx_pex.c gfx/gfx_pbc.c gfx/gfx_pie.c gfx/gfx_pfk.c \
 					gfx/gfx_pdr.c gfx/gfx_pgt.c gfx/gfx_pdi.c gfx/gfx_enw.c \

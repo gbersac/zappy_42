@@ -1,12 +1,10 @@
 #include "cmd.h"
 
-int	gfx_pex(t_env *env)
+int	gfx_pex(t_env *env, t_fd *fd)
 {
 	char	*to_send;
 
-	to_send = (char*)malloc(4);
-	memcpy(to_send, "pex ", 4);
+	asprintf(&to_send, "pex %d\n", fd->trantor.id);
 	send_cmd_to_graphics(env, to_send);
-	return 1;
+	return (1);
 }
-

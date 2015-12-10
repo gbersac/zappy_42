@@ -6,30 +6,48 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:03:48 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/05 13:50:32 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd.h"
 
+static void	expulse_one_fd(t_env *env, t_fd *target, t_fd *expulsor)
+{
+	t_trantorian	*trantor;
+	char			*to_send;
+
+	trantor = &expulsor->trantor;
+	if (target->type == FD_CLIENT &&
+			expulsor != target &&
+			target->trantor.pos_x == trantor->pos_x &&
+			target->trantor.pos_y == trantor->pos_y)
+	{
+		printf("before\n");
+		avance_trantor(env, &target->trantor, trantor->direction);
+		printf("ici\n");
+		asprintf(&to_send, "deplacement %d\n",
+				direction_to_nbr(trantor->direction));
+		send_cmd_to_client(target, to_send);
+	}
+}
+
 int			ser_expulse(t_env *env, t_fd *fd, char *cmd)
 {
-	t_square		*sq;
-	t_trantorian	*trantor;
-	int				i;
+	int		i;
 
-	trantor = &fd->trantor;
-	sq = get_square(env, trantor->pos_x, trantor->pos_y);
 	i = 0;
+	if (fd->type != FD_CLIENT)
+	{
+		printf("ser_expulse forbiden client.\n");
+		return (-1);
+	}
 	while (i < env->maxfd)
 	{
-		if (env->fds[i].type == FD_CLIENT &&
-				&env->fds[i] != fd &&
-				env->fds[i].trantor.pos_x == trantor->pos_x &&
-				env->fds[i].trantor.pos_y == trantor->pos_y)
-			avance_trantor(env, &env->fds[i].trantor, trantor->direction);
+		expulse_one_fd(env, &env->fds[i], fd);
 		++i;
 	}
+	gfx_pex(env, fd);
 	cmd = NULL;
 	return (0);
 }

@@ -1,24 +1,23 @@
-#include "cmd.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gfx_pin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/03 14:15:54 by gbersac           #+#    #+#             */
+/*   Updated: 2015/12/05 17:02:27 by gbersac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static char	*str_inventory(char *buf, t_list *inventory)
-{
-	sprintf(buf, "%d %d %d %d %d %d %d",
-			nb_res_in_inventory(LINEMATE, inventory),
-			nb_res_in_inventory(DERAUMERE, inventory),
-			nb_res_in_inventory(SIBUR, inventory),
-			nb_res_in_inventory(MENDIANE, inventory),
-			nb_res_in_inventory(PHIRAS, inventory),
-			nb_res_in_inventory(THYSTAME, inventory),
-			nb_res_in_inventory(FOOD, inventory));
-	return (buf);
-}
+#include "cmd.h"
 
 int			gfx_pin(t_env *env, t_fd *fd, char *cmd)
 {
 	char			*to_send;
 	int				num;
 	t_trantorian	*trantor;
-	char			buf[1024];
+	char			*inv_str;
 
 	sscanf(cmd, "pin %d\n", &num);
 	trantor = &env->fds[num].trantor;
@@ -27,12 +26,14 @@ int			gfx_pin(t_env *env, t_fd *fd, char *cmd)
 		send_cmd_to_client(fd, MSG_KO);
 		return (0);
 	}
+	inv_str = inventory_to_str(&trantor->inventory);
 	asprintf(&to_send, "pin %d %d %d %s",
 			num,
 			trantor->pos_x,
 			trantor->pos_y,
-			str_inventory(buf, trantor->inventory));
+			inv_str);
 	send_cmd_to_client(fd, to_send);
+	free(inv_str);
 	free(to_send);
 	return (1);
 }

@@ -59,7 +59,7 @@ void	interpret_msg(t_env *env, char *get)
 {
 	if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
-		ft_listpushback(&env->buf_write, env->teamname);
+		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
 		env->last_cmd = MSG_WELCOME;
 	}
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
@@ -92,6 +92,7 @@ void	play(t_env *env)
 		return ;
 	}
 	get = (char*)ft_listpop(&env->buf_read);
+	ft_putendl(get);
 	interpret_msg(env, get);
 	free(get);
 }

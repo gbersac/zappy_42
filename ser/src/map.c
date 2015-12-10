@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 17:33:33 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/03 15:08:01 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/05 16:43:50 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,4 @@ void			gen_map(t_env *e)
 		++i;
 	}
 	e->map.teams = teams;
-}
-
-void			add_resources_square(t_square *sq, t_resource type)
-{
-	t_resource		*newc;
-
-	newc = (t_resource*)malloc(sizeof(t_resource));
-	*newc = type;
-	ft_listpushback(&(sq->content), newc);
 }
