@@ -16,6 +16,8 @@ public class EventsManager : MonoBehaviour {
     public MessagesBox msgBox;
 	// Use this for initialization
 
+	int i = 0;
+
 	static public EventsManager em;
 
     void    recMessage(string s)
@@ -35,7 +37,7 @@ public class EventsManager : MonoBehaviour {
 		map.width = x;
 		map.height = y;
 		map.Initialize ();
-
+	//	Connection.con.writeSocket ("mct");
 	}
 	
 	void	ft_content_map(string s)

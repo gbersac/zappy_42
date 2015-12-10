@@ -16,6 +16,8 @@ int		gfx_bct_call(t_env *env, t_fd *fd, int x, int y)
 			nb_res_in_inventory(inventory, MENDIANE),
 			nb_res_in_inventory(inventory, PHIRAS),
 			nb_res_in_inventory(inventory, THYSTAME));
+
+	printf("%s\n", to_send);
 	send_cmd_to_client(fd, to_send);
 	return (1);
 }

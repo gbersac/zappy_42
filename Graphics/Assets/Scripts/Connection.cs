@@ -13,13 +13,13 @@ public class Connection : MonoBehaviour {
 
 	string					host;
 	int						port;
-	string					message;
+//	string					message;
 
-	internal Boolean		socketReady = false;
-	private TcpClient		mySocket;
-	private NetworkStream	theStream;
-	private StreamWriter	theWriter;
-	private StreamReader	theReader;
+	Boolean					socketReady = false;
+	TcpClient		mySocket;
+	NetworkStream	theStream;
+	StreamWriter	theWriter;
+	StreamReader	theReader;
 
 	static public Connection con;
 
@@ -37,6 +37,7 @@ public class Connection : MonoBehaviour {
 			theReader = new StreamReader(theStream);
 			socketReady = true;
 			Debug.Log ("Connected");
+			menu.SetActive(false);
 		}
 		catch (Exception e) {
 			Debug.Log("Socket error: " + e);
@@ -46,6 +47,7 @@ public class Connection : MonoBehaviour {
 	
 	public void writeSocket(string theLine)
 	{
+		Debug.Log ("connection write " + theLine);
 		if (!socketReady)
 			return;
 		string foo = theLine + "\n";
@@ -60,7 +62,7 @@ public class Connection : MonoBehaviour {
 		}
 		if (theStream.DataAvailable) {
 			var s = theReader.ReadLine();
-			Debug.Log(s);
+			Debug.Log("connection readed " + s);
 			return (s);
 			//return theReader.ReadLine ();
 		} else {
@@ -91,9 +93,40 @@ public class Connection : MonoBehaviour {
 
 	void	Update()
 	{
+		string message;
 		if ((message = readSocket ()) != "") {
-			//Debug.Log ("ou est charly " + message.Length);
+			Debug.Log ("connection cmd " + message.Length + " :" + message);
 			EventsManager.em.Parse(message);
+		}
+		
+		if(Input.GetKeyDown(KeyCode.Q)){
+			writeSocket("msz");
+		}
+		if(Input.GetKeyDown(KeyCode.W)){
+			int i = UnityEngine.Random.Range(0,19);
+			int j = UnityEngine.Random.Range(0,19);
+			writeSocket("bct "+i.ToString()+" "+j.ToString());
+		}
+		if(Input.GetKeyDown(KeyCode.E)){
+			writeSocket("mct");
+		}
+		if(Input.GetKeyDown(KeyCode.R)){
+			writeSocket("tna");
+		}
+		if(Input.GetKeyDown(KeyCode.T)){
+			writeSocket("ppo 0");
+		}
+		if(Input.GetKeyDown(KeyCode.Y)){
+			writeSocket("plv 0");
+		}
+		if(Input.GetKeyDown(KeyCode.U)){
+			writeSocket("pin 0");
+		}
+		if(Input.GetKeyDown(KeyCode.I)){
+			writeSocket("sgt");
+		}
+		if(Input.GetKeyDown(KeyCode.O)){
+			writeSocket("sst 10");
 		}
 
 		if (Input.GetKey(KeyCode.Escape))

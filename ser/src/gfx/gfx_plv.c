@@ -6,6 +6,7 @@ int		gfx_plv(t_env *env, t_fd *fd, char *cmd)
 	int				num;
 	t_trantorian	*trantor;
 
+	printf("plv called\n");
 	sscanf(cmd, "plv %d\n", &num);
 	trantor = &env->fds[num].trantor;
 	if (env->fds[num].type != FD_CLIENT)
