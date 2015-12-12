@@ -94,7 +94,7 @@ typedef struct	s_trantorian
 	** Time before the trantor is allow to do something.
 	*/
 	int			countdown;
-
+	int			laying;
 	/*
 	** This is the number of the trantorian. It correspond to the fd num of
 	** the client.

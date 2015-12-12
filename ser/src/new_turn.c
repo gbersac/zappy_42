@@ -19,6 +19,64 @@ static void	trantor_dead(t_env *env, int cs, t_fd *fd)
 	close_connection(env, cs);
 }
 
+static void		grow_egg(t_env *e)
+{
+	t_egg	*egg;
+	t_list	*tmp;
+	// int		i;
+
+	// i = 0;
+	tmp = e->egg;
+	if (tmp)
+	{
+		while (tmp)
+		{
+			egg = (t_egg*)(tmp->data);
+			if (egg->countdown > 0)
+			{
+				// i++;
+				--egg->countdown;
+				// printf("%d egg %d x:%d y:%d countdown : %d\n", i, egg->id, egg->x, egg->y,egg->countdown);
+				if (egg->countdown == 0)
+				{
+						if (tmp->next)
+					{
+						ft_listpop(&tmp);
+						continue ;
+					}
+					printf("%d egg is now fully grown and removed\n", i);
+				}
+			}
+			tmp = tmp->next;
+		}
+	}
+}
+
+static void		set_egg(t_env *e, int id)
+{
+	t_egg	*egg;
+	t_list	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = e->egg;
+	if (tmp)
+	{
+		while (tmp)
+		{
+			egg = (t_egg*)(tmp->data);
+			if (egg->countdown == 0 && egg->id == id)
+			{
+				printf("EGG READY !\n");
+				egg->countdown = 600;
+			}
+			i++;
+			tmp = tmp->next;
+		}
+	}
+	printf("number of eggs : %d\n", i);
+}
+
 static void	decrease_life(t_env *e)
 {
 	int				i;
@@ -31,17 +89,27 @@ static void	decrease_life(t_env *e)
 		{
 			trantor = &e->fds[i].trantor;
 			--(trantor->health_point);
-			if (trantor->health_point <= 0)
+			if (trantor->health_point == 0)
 				trantor_dead(e, i, &e->fds[i]);
-			if (trantor->countdown > 0){
+			else if (trantor->countdown > 0){
 				--trantor->countdown;
+				// printf("trantor->countdown : %d\n", trantor->countdown);
 				if (trantor->countdown == 0)
+				{
+					if (trantor->laying == 1)
+					{
+						trantor->laying = 0;
+						set_egg(e, trantor->id);
+					}
 					printf("trantor %d is now ready to work !\n", trantor->id);
+				}
 			}
 		}
 		++i;
 	}
 }
+
+
 
 static void	pop_squart_resources(t_square *sq)
 {
@@ -72,5 +140,6 @@ static void	pop_resources(t_env *e)
 void		new_turn(t_env *e)
 {
 	decrease_life(e);
+	grow_egg(e);
 	pop_resources(e);
 }

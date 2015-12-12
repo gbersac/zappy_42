@@ -67,6 +67,7 @@ void		accept_player(t_env *e, int s)
 	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
+	ft_listpushback(&e->trant, &e->fds[cs].trantor);
 }
 
 void		accept_graphic(t_env *e, int s)

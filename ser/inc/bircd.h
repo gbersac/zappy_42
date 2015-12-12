@@ -81,6 +81,7 @@ typedef struct		s_egg
 	char			*team;
 	int				x;
 	int				y;
+	int				id;
 }					t_egg;
 
 /*
@@ -104,6 +105,7 @@ typedef struct		s_env
 	fd_set			fd_write;
 	t_map			map;
 	t_list			*egg;
+	t_list			*trant;
 }					t_env;
 
 
