@@ -20,8 +20,7 @@ int			ser_fork(t_env *env, t_fd *fd, char *cmd)
 	cmd = NULL;
 	new_egg = (t_egg*)malloc(sizeof(t_egg));
 	new_egg->countdown = 0;
-	// new_egg.team = fd->trantor.team;
-	new_egg->team = NULL;
+	new_egg->team = fd->trantor.team;
 	new_egg->x = fd->trantor.pos_x;
 	new_egg->y = fd->trantor.pos_y;
 	new_egg->id = fd->fd;

@@ -23,9 +23,7 @@ static void		grow_egg(t_env *e)
 {
 	t_egg	*egg;
 	t_list	*tmp;
-	// int		i;
 
-	// i = 0;
 	tmp = e->egg;
 	if (tmp)
 	{
@@ -34,7 +32,6 @@ static void		grow_egg(t_env *e)
 			egg = (t_egg*)(tmp->data);
 			if (egg->countdown > 0)
 			{
-				// i++;
 				--egg->countdown;
 				// printf("%d egg %d x:%d y:%d countdown : %d\n", i, egg->id, egg->x, egg->y,egg->countdown);
 				if (egg->countdown == 0)
@@ -44,7 +41,7 @@ static void		grow_egg(t_env *e)
 						ft_listpop(&tmp);
 						continue ;
 					}
-					printf("%d egg is now fully grown and removed\n", i);
+					printf("egg is now fully grown and removed\n");
 				}
 			}
 			tmp = tmp->next;
