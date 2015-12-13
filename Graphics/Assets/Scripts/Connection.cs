@@ -47,14 +47,54 @@ public class Connection : MonoBehaviour {
 	
 	public void writeSocket(string theLine)
 	{
-		Debug.Log ("connection write " + theLine);
 		if (!socketReady)
 			return;
 		string foo = theLine + "\n";
 		theWriter.Write(foo);
 		theWriter.Flush();
 	}
-	
+
+	string half = string.Empty;
+	void ReadSock()
+	{
+		socketReady = false;
+		if (theStream.DataAvailable && theStream.CanRead) {
+			char []buf = new char[1024];
+			bool done = false;
+			string s;
+			while (!done)
+			{
+				int l;
+				if ((l = theReader.Read (buf, 0, buf.Length)) <= 0)
+				{
+					Debug.Log("read failed");
+					break ;
+				}
+				else if (l == buf.Length)
+				{
+					half = half + new string(buf);
+					continue;
+				}
+				else
+				{
+					s = half + new string(buf);
+					half = string.Empty;
+				}
+				string []ss = s.Split('\0');
+				int i = 1;
+				foreach (string s0 in ss)
+				{
+					Debug.Log ("len = " + s0.Length +  " read " + s0);
+					if (!string.IsNullOrEmpty(s0) && i != ss.Length)
+						EventsManager.em.Parse(s0);
+				}
+				//I have no idea why split adds an extra line each? time
+				done = true;
+			}
+		}
+		socketReady = true;
+	}
+
 	public String readSocket()
 	{
 		if (!socketReady) {
@@ -85,19 +125,12 @@ public class Connection : MonoBehaviour {
 		host = "127.0.0.1";
 		port = int.Parse (field.text);
 		setupSocket ();
-		//Temporary
-		writeSocket("msz");
-
 	}
-
 
 	void	Update()
 	{
-		string message;
-		if ((message = readSocket ()) != "") {
-			Debug.Log ("connection cmd " + message.Length + " :" + message);
-			EventsManager.em.Parse(message);
-		}
+		if (socketReady)
+			ReadSock ();
 		
 		if(Input.GetKeyDown(KeyCode.Q)){
 			writeSocket("msz");

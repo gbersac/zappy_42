@@ -47,9 +47,9 @@ public class EventsManager : MonoBehaviour {
 		GroundGenerator map;
 		map = ground.GetComponent<GroundGenerator> ();
 
-		string [] split = s.Split (new Char [] {' '});
-		x = int.Parse(split [1]);
-		y = int.Parse(split [2]);
+		string [] split = s.Split (' ');
+		x = int.Parse(split [0]);
+		y = int.Parse(split [1]);
 		// delete map.dalles[x[y];
 		map.dalles[x,y].GetComponent<Content>().createStone("bct " + s);
 		return;
@@ -159,7 +159,6 @@ public class EventsManager : MonoBehaviour {
             functions[f_key](f_arg);
         else
             Debug.Log("Unknown command " + f_key);
-		Debug.Log ("recv: " + line);
 	}
 
 	void Start () {
