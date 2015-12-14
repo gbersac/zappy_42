@@ -17,31 +17,6 @@
 # include "bircd.h"
 # include "libft.h"
 
-# define CMD_AVANCE				"avance"
-# define CMD_AVANCE_TIME		7
-# define CMD_DROITE				"droite"
-# define CMD_DROITE_TIME		7
-# define CMD_GAUCHE				"gauche"
-# define CMD_GAUCHE_TIME		7
-# define CMD_VOIR				"voir"
-# define CMD_VOIR_TIME			7
-# define CMD_INVENTAIRE			"inventaire"
-# define CMD_INVENTAIRE_TIME	1
-# define CMD_PREND				"prend"
-# define CMD_PREND_TIME			7
-# define CMD_POSE				"pose"
-# define CMD_POSE_TIME			7
-# define CMD_EXPULSE			"expulse"
-# define CMD_EXPULSE_TIME		7
-# define CMD_BROADCAST			"broadcast"
-# define CMD_BROADCAST_TIME		7
-# define CMD_INCANTATION		"incantation"
-# define CMD_INCANTATION_TIME	300
-# define CMD_FORK				"fork"
-# define CMD_FORK_TIME			42
-# define CMD_CONNECT_NBR		"connect_nbr"
-# define CMD_CONNECT_NBR_TIME	0
-
 typedef int (*t_cmd_fct)(t_env *env, t_fd *fd, char *cmd);
 
 /*
@@ -77,6 +52,8 @@ int				ser_broadcast(t_env *env, t_fd *fd, char *cmd);
 int				ser_incantation(t_env *env, t_fd *fd, char *cmd);
 int				ser_fork(t_env *env, t_fd *fd, char *cmd);
 int				ser_connect_nbr(t_env *env, t_fd *fd, char *cmd);
+int				ser_connect_nbr(t_env *env, t_fd *fd, char *cmd);
+int				ser_begin_info(t_env *env, t_fd *fd, char *cmd);
 
 /*
 ** Spontaneous (message send which are not response to the client)

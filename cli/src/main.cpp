@@ -46,7 +46,7 @@ static void		set_args(int argc, char **argv, t_env *env)
 	while (i < argc)
 	{
 		if (ft_strequ(argv[i], "-n") && i + 1 < argc)
-			env->teamname = argv[i + 1];
+			env->trantor.team = argv[i + 1];
 		else if (ft_strequ(argv[i], "-p")&& i + 1 < argc)
 			env->port = ft_atoi(argv[i + 1]);
 		else if (ft_strequ(argv[i], "-h") && i + 1 < argc)
@@ -63,7 +63,7 @@ int				main(int argc, char **argv)
 
 	init_env(&env);
 	set_args(argc, argv, &env);
-	if (!env.teamname || !env.port)
+	if (!env.trantor.team || !env.port)
 		usage(argv[0]);
 	if ((env.sock = connect_to_server(env.hostname, env.port)) == -1)
 		ft_ferror("Socket initialization error");

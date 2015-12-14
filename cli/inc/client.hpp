@@ -16,6 +16,7 @@
 # include <string>
 # include <iostream>
 # include "list.h"
+# include "general.h"
 
 # define BUF_SIZE	4096
 
@@ -27,16 +28,19 @@ typedef enum	e_bool
 
 typedef struct	s_env
 {
-	char		*teamname;
-	char		*hostname;
-	int			port;
-	int			sock;
-	t_list		*buf_read;
-	t_list		*buf_write;
-	int			n_client;
-	int			pos_x;
-	int			pos_y;
-	char		*last_cmd;
+	char			*hostname;
+	int				port;
+	int				sock;
+	t_list			*buf_read;
+	t_list			*buf_write;
+	int				n_client;
+	char			*last_cmd;
+
+	/*
+	** Number of client that could be accepted by server.
+	*/
+	int				nb_free_trantor;
+	t_trantorian	trantor;
 }				t_env;
 
 void			ft_ferror(std::string msg);

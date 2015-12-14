@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/06 22:14:04 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/14 20:03:38 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct		s_egg
 **		The num of a trantor is the fd number of its client so that
 **		fds[num trantor].trantor.number = num trantor.
 ** fd_read, fd_write: for the select function.
-** maxfd: the highest fd (usefull for select).
+** maxfd: the highest fd (usefull for select). Number of t_fd in fds.
 */
 typedef struct		s_env
 {
@@ -105,6 +105,8 @@ typedef struct		s_env
 	fd_set			fd_write;
 	t_map			map;
 	t_list			*egg;
+
+	// what is in this list ?
 	t_list			*trant;
 }					t_env;
 
@@ -148,5 +150,7 @@ void			send_cmd_to_all(t_env *env, char *str);
 
 int				is_in_team(t_trantorian *trantor, t_team team);
 t_team			test_for_victory(t_env *env);
+int				nb_idle_trantor(t_env *env, t_team team);
+int				team_exist(t_env *env, t_team team);
 
 #endif
