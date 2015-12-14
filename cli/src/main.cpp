@@ -63,7 +63,7 @@ int				main(int argc, char **argv)
 
 	init_env(&env);
 	set_args(argc, argv, &env);
-	if (env.teamname || !env.port)
+	if (!env.teamname || !env.port)
 		usage(argv[0]);
 	if ((env.sock = connect_to_server(env.hostname, env.port)) == -1)
 		ft_ferror("Socket initialization error");

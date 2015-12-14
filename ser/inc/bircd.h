@@ -144,6 +144,7 @@ void			send_cmd_to_client(t_fd *fd, char *str);
 ** Add the \n at the end.
 */
 void			send_cmd_to_graphics(t_env *env, char *str);
+void			send_cmd_to_all(t_env *env, char *str);
 
 int				is_in_team(t_trantorian *trantor, t_team team);
 t_team			test_for_victory(t_env *env);

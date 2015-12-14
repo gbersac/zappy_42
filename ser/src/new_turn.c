@@ -136,6 +136,7 @@ static void	pop_resources(t_env *e)
 
 void		new_turn(t_env *e)
 {
+	send_cmd_to_all(e, "newturn");
 	decrease_life(e);
 	grow_egg(e);
 	pop_resources(e);

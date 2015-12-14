@@ -129,3 +129,20 @@ void	send_cmd_to_graphics(t_env *env, char *str)
 		++i;
 	}
 }
+
+void	send_cmd_to_all(t_env *env, char *str)
+{
+	char	*to_send;
+	int		i;
+	t_fd	*client;
+
+	to_send = ft_strjoin(str, "\n");
+	i = 0;
+	while (i < env->maxfd)
+	{
+		client = &env->fds[i];
+		if (client->type == FD_GRAPHIC || client->type == FD_CLIENT)
+			ft_listpushback(&client->to_send, to_send);
+		++i;
+	}
+}
