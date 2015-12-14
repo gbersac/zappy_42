@@ -7,16 +7,10 @@ using System.Collections.Generic;
 public class EventsManager : MonoBehaviour {
 	
 	private Dictionary<string, System.Action<string>> functions;
-    private string fake = "msz 20 20\n";
-    private string fake2 = "msg Hello ca va ? Bonjouuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuur\n";
-    private string fake3 = "suc\n";
-    private string fake4 = "sbp\n";
-    private string fake5 = "sgt 4\n";
 	public GameObject ground;
     public MessagesBox msgBox;
+	public Player playerPrefab;
 	// Use this for initialization
-
-	int i = 0;
 
 	static public EventsManager em;
 
@@ -55,8 +49,21 @@ public class EventsManager : MonoBehaviour {
 		return;
 	}
 
+	Dictionary<string, Player> players = new Dictionary<string, Player>();
+
 	void	ft_team_name(string s)
 	{
+		if (players.ContainsKey (s)) {
+			Debug.Log ("TBD Player already exists: " + s);
+			return;
+		}
+		Player newPlayer = Instantiate<Player> (playerPrefab);
+		newPlayer.Init (s);
+		players.Add (s, newPlayer);
+		
+		//create player s in list or dictionary ?
+		//ppo = pos du joueur
+		//plv level et pin inventaire ou juste au clic ?
 		return;
 	}
 	
@@ -67,6 +74,8 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_player_position(string s)
 	{
+		//ko == player is ko ?
+		Debug.Log ("POS: " + s);
 		return;
 	}
 	
@@ -188,29 +197,5 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("suc", unknownCommand);
 		functions.Add("sbp", badArgs);
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			Parse(fake);
-		}
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Parse(fake2);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            Parse(fake3);
-        }
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Parse(fake4);
-        }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Parse(fake5);
-        }
 	}
 }

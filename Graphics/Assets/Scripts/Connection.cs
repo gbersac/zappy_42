@@ -48,8 +48,11 @@ public class Connection : MonoBehaviour {
 	
 	public void writeSocket(string theLine)
 	{
-		if (!socketReady)
+		if (!theStream.CanWrite) {
+			Debug.Log("Socket not ready ! " + theLine);
 			return;
+		}
+		Debug.Log ("Sending " + theLine);
 		string foo = theLine + "\n";
 		theWriter.Write(foo);
 		theWriter.Flush();
@@ -67,7 +70,7 @@ public class Connection : MonoBehaviour {
 		string [] ss = s.Split ('\0');
 		foreach (string s0 in ss) {
 			if (!string.IsNullOrEmpty (s0)) {
-				Debug.Log (s0);
+				//Debug.Log (s0);
 				EventsManager.em.Parse (s0);
 			}
 		}
@@ -83,7 +86,6 @@ public class Connection : MonoBehaviour {
 			var s = theReader.ReadLine();
 			Debug.Log("connection readed " + s);
 			return (s);
-			//return theReader.ReadLine ();
 		} else {
 			return string.Empty;
 		}
@@ -104,12 +106,31 @@ public class Connection : MonoBehaviour {
 		host = "127.0.0.1";
 		port = int.Parse (field.text);
 		setupSocket ();
+		InitWorld ();
 	}
 	
+	void	InitWorld()
+	{
+		writeSocket ("msz");
+		writeSocket ("mct");
+		writeSocket ("tna");
+		//some call not being received by client
+	}
+
 	void	Update()
 	{
 		if (socketReady)
 			ReadSock ();
+
+		if (Input.GetKeyDown (KeyCode.A)) {
+			writeSocket("ppo 1");
+		}
+		if (Input.GetKeyDown (KeyCode.S)) {
+			writeSocket("pin 1");
+		}
+		if (Input.GetKeyDown (KeyCode.D)) {
+			writeSocket("plv 1");
+		}
 
 		if(Input.GetKeyDown(KeyCode.Q)){
 			writeSocket("msz");

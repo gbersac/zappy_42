@@ -6,7 +6,7 @@ public class Player : MonoBehaviour {
 	public GameObject infoPanel;
 	public bool info = false;
 
-	public string	name = "lol";
+	public string	name = "lol"; //change var name to rm warning
 	int		posx = 0;
 	int		posy = 0;
 	int		level = 1;
@@ -18,10 +18,17 @@ public class Player : MonoBehaviour {
 	int		sibur = 1;
 	int		thysame = 0;
 
+	void Start()
+	{
+		this.enabled = false;
+	}
 
-	// Use this for initialization
-	void Start () {
-	
+	public void Init(string s)
+	{
+		name = s;
+		//ppo just sends ko or segv atm
+		//Connection.con.writeSocket ("ppo " + 1);
+		this.enabled = true;//if pos OK
 	}
 
 	void OnMouseDown () {
