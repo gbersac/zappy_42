@@ -35,6 +35,7 @@ public class Connection : MonoBehaviour {
 			theStream = mySocket.GetStream();
 			theWriter = new StreamWriter(theStream);
 			theReader = new StreamReader(theStream);
+			theReader.BaseStream.ReadTimeout = 1000;
 			socketReady = true;
 			Debug.Log ("Connected");
 			menu.SetActive(false);
@@ -53,43 +54,21 @@ public class Connection : MonoBehaviour {
 		theWriter.Write(foo);
 		theWriter.Flush();
 	}
-
-	string half = string.Empty;
+	
 	void ReadSock()
 	{
+		int len = mySocket.Available;
+		if (len <= 0)
+			return;
 		socketReady = false;
-		if (theStream.DataAvailable && theStream.CanRead) {
-			char []buf = new char[1024];
-			bool done = false;
-			string s;
-			while (!done)
-			{
-				int l;
-				if ((l = theReader.Read (buf, 0, buf.Length)) <= 0)
-				{
-					Debug.Log("read failed");
-					break ;
-				}
-				else if (l == buf.Length)
-				{
-					half = half + new string(buf);
-					continue;
-				}
-				else
-				{
-					s = half + new string(buf);
-					half = string.Empty;
-				}
-				string []ss = s.Split('\0');
-				int i = 1;
-				foreach (string s0 in ss)
-				{
-					Debug.Log ("len = " + s0.Length +  " read " + s0);
-					if (!string.IsNullOrEmpty(s0) && i != ss.Length)
-						EventsManager.em.Parse(s0);
-				}
-				//I have no idea why split adds an extra line each? time
-				done = true;
+		char [] buf = new char[len];
+		theReader.Read (buf, 0, len);
+		string s = new string (buf);
+		string [] ss = s.Split ('\0');
+		foreach (string s0 in ss) {
+			if (!string.IsNullOrEmpty (s0)) {
+				Debug.Log (s0);
+				EventsManager.em.Parse (s0);
 			}
 		}
 		socketReady = true;
@@ -98,7 +77,7 @@ public class Connection : MonoBehaviour {
 	public String readSocket()
 	{
 		if (!socketReady) {
-			return "";
+			return string.Empty;
 		}
 		if (theStream.DataAvailable) {
 			var s = theReader.ReadLine();
@@ -106,7 +85,7 @@ public class Connection : MonoBehaviour {
 			return (s);
 			//return theReader.ReadLine ();
 		} else {
-			return "";
+			return string.Empty;
 		}
 	}
 	
@@ -126,12 +105,12 @@ public class Connection : MonoBehaviour {
 		port = int.Parse (field.text);
 		setupSocket ();
 	}
-
+	
 	void	Update()
 	{
 		if (socketReady)
 			ReadSock ();
-		
+
 		if(Input.GetKeyDown(KeyCode.Q)){
 			writeSocket("msz");
 		}
