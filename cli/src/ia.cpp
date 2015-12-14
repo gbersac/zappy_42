@@ -10,11 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "client.h"
-#include "libft.h"
-#include "general.h"
+extern "C" {
+	#include <stdlib.h>
+	#include <unistd.h>
+	#include "libft.h"
+	#include "general.h"
+}
+
+#include "client.hpp"
 
 void	handle_action(t_env *env)
 {
@@ -60,7 +63,7 @@ void	interpret_msg(t_env *env, char *get)
 	if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
 		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
-		env->last_cmd = MSG_WELCOME;
+		env->last_cmd = strdup(MSG_WELCOME);
 	}
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
 		player_dies(env, get);

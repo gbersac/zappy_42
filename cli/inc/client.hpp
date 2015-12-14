@@ -13,6 +13,8 @@
 #ifndef CLIENT_H
 # define CLIENT_H
 
+# include <string>
+# include <iostream>
 # include "list.h"
 
 # define BUF_SIZE	4096
@@ -37,7 +39,7 @@ typedef struct	s_env
 	char		*last_cmd;
 }				t_env;
 
-void			ft_ferror(char *msg);
+void			ft_ferror(std::string msg);
 void			init_env(t_env *env);
 void			free_env(t_env *env);
 int				connect_to_server(char *ip, int port);

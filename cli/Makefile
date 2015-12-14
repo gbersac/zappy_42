@@ -14,14 +14,14 @@
 # BASIC VARIABLES															   #
 ################################################################################
 
-SRCS				:= main.c io.c connect.c ia.c env.c
+SRCS				:= main.cpp io.cpp connect.cpp ia.cpp env.cpp
 
 PATH_OBJ			:= obj
 PATH_SRC			:= src
 PATH_INC			:= inc
 
 CFLAGS				:= -Wall -Wextra -Werror
-OBJECTS				:= $(patsubst %.c, $(PATH_OBJ)/%.o, $(SRCS))
+OBJECTS				:= $(patsubst %.cpp, $(PATH_OBJ)/%.o, $(SRCS))
 
 ################################################################################
 # LIBRARY VARIABLES															   #
@@ -42,11 +42,11 @@ INCLUDES			:= -I./$(PATH_INC) $(patsubst %,-I%/inc,$(DIR_LIB))
 all: $(NAME_CLIENT)
 
 $(NAME_CLIENT): $(OBJECTS)
-	$(CC) -o $@ $(OBJECTS) $(LIBRARY) $(DEBUG)
+	$(CXX) -o $@ $(OBJECTS) $(LIBRARY) $(DEBUG)
 
-$(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
+$(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.cpp)
 	@mkdir -p $(PATH_OBJ)
-	$(CC) -c -o $@ $(CFLAGS) $^ $(DEBUG) $(INCLUDES)
+	$(CXX) -c -o $@ $(CFLAGS) $^ $(DEBUG) -x c $(INCLUDES)
 
 clean:
 	rm -f $(OBJECTS)

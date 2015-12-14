@@ -10,15 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
-#include "client.h"
-#include "general.h"
+extern "C" {
+	#include <stdlib.h>
+	#include "libft.h"
+	#include "general.h"
+}
+
+#include "client.hpp"
 
 void	init_env(t_env *env)
 {
 	ft_bzero(env, sizeof(t_env));
-	env->hostname = "127.0.0.1";
+	env->hostname = strdup("127.0.0.1");
 }
 
 void	free_env(t_env *env)
