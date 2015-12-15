@@ -52,7 +52,7 @@ public class Connection : MonoBehaviour {
 			Debug.Log("Socket not ready ! " + theLine);
 			return;
 		}
-		Debug.Log ("Sending " + theLine);
+		//Debug.Log ("Sending " + theLine);
 		string foo = theLine + "\n";
 		theWriter.Write(foo);
 		theWriter.Flush();
@@ -112,11 +112,14 @@ public class Connection : MonoBehaviour {
 	void	InitWorld()
 	{
 		writeSocket ("msz");
+		System.Threading.Thread.Sleep (50);
 		writeSocket ("mct");
+		System.Threading.Thread.Sleep (50);
 		writeSocket ("tna");
 		//some call not being received by client
 	}
 
+	private int eggCounter = 0;//
 	void	Update()
 	{
 		if (socketReady)
@@ -131,7 +134,15 @@ public class Connection : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.D)) {
 			writeSocket("plv 1");
 		}
-
+		if (Input.GetKeyDown (KeyCode.F)) {
+			int i = UnityEngine.Random.Range(0,10);
+			int j = UnityEngine.Random.Range(0,10);
+			EventsManager.em.Parse("enw " + eggCounter + " 0 " + i + " " + j);//min mapsize 10x10 !
+			eggCounter++;
+		}
+		if (Input.GetKeyDown (KeyCode.G)) {
+			EventsManager.em.Parse("eht " + (eggCounter - 1).ToString());
+		}
 		if(Input.GetKeyDown(KeyCode.Q)){
 			writeSocket("msz");
 		}

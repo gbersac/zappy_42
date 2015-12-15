@@ -8,6 +8,7 @@ public class GroundGenerator : MonoBehaviour {
 	public int	height;
 	public GameObject dalle;
 	public GameObject[,] dalles;
+	public List<Egg> availableEggs;
 
 	public void Initialize()
 	{
@@ -31,13 +32,7 @@ public class GroundGenerator : MonoBehaviour {
 		Camera.main.transform.Translate(width/2, 10, height/2, Space.World);
 	}
 
-	// Use this for initialization
 	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		availableEggs = new List<Egg> ();
 	}
 }

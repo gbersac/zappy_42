@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
 
 	void Start()
 	{
-		this.enabled = false;
+		//this.enabled = false;
 	}
 
 	public void Init(string s)
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour {
 		name = s;
 		//ppo just sends ko or segv atm
 		//Connection.con.writeSocket ("ppo " + 1);
-		this.enabled = true;//if pos OK
+		//this.enabled = true;//if pos OK
 	}
 
 	void OnMouseDown () {
@@ -48,6 +48,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void	Droite() {
+		Debug.Log ("droite");
 		transform.Translate(Vector3.right * Time.deltaTime);
 	}
 	
@@ -60,6 +61,15 @@ public class Player : MonoBehaviour {
 	
 		if(Input.GetKey(KeyCode.DownArrow)){
 			transform.Translate(Vector3.back * Time.deltaTime);	
+		}
+		if(Input.GetKey(KeyCode.UpArrow)){
+			Avance();
+		}
+		if(Input.GetKey(KeyCode.RightArrow)){
+			Droite();
+		}
+		if(Input.GetKey(KeyCode.LeftArrow)){
+			Gauche();
 		}
 		if (Input.GetKey (KeyCode.Return)) {
 			level = (level < 8) ? level++ : level;

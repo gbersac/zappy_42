@@ -10,13 +10,13 @@ public class EventsManager : MonoBehaviour {
 	public GameObject ground;
     public MessagesBox msgBox;
 	public Player playerPrefab;
-	// Use this for initialization
 
 	static public EventsManager em;
+	//keep static map ?
 
     void    recMessage(string s)
     {
-        msgBox.ServerMessage(s, Color.grey);
+        msgBox.ServerMessage(s, Color.white);
     }
 
 	void	ft_mapsize(string s)
@@ -31,7 +31,6 @@ public class EventsManager : MonoBehaviour {
 		map.width = x;
 		map.height = y;
 		map.Initialize ();
-	//	Connection.con.writeSocket ("mct");
 	}
 	
 	void	ft_content_map(string s)
@@ -60,10 +59,11 @@ public class EventsManager : MonoBehaviour {
 		Player newPlayer = Instantiate<Player> (playerPrefab);
 		newPlayer.Init (s);
 		players.Add (s, newPlayer);
-		
+
 		//create player s in list or dictionary ?
 		//ppo = pos du joueur
 		//plv level et pin inventaire ou juste au clic ?
+
 		return;
 	}
 	
@@ -74,7 +74,6 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_player_position(string s)
 	{
-		//ko == player is ko ?
 		Debug.Log ("POS: " + s);
 		return;
 	}
@@ -126,12 +125,52 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_new_egg_pos(string s)
 	{
-		return;
+		int eggNo;
+		int playerNo;
+		int x;
+		int y;
+		GroundGenerator map;//mb init at msz and keep
+		map = ground.GetComponent<GroundGenerator> ();
+		
+		string [] split = s.Split (' ');
+		if (split.Length != 4) {
+			Debug.Log("Error: bad paramaters number. Got " + s.Length + " expected 4. " + s);
+			return ;
+		}
+		try
+		{
+			eggNo = int.Parse(split [0]);
+			playerNo = int.Parse(split [1]);
+			x = int.Parse(split [2]);
+			y = int.Parse(split [3]);
+		}
+		catch
+		{
+			Debug.Log("Error: bad parameters in ft_new_egg_pos.");
+			return ;
+		}
+		map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo);
 	}
 	
 	void	ft_egg_born(string s)
 	{
-		return;
+
+		int eggNo;
+		GroundGenerator map;//mb init at msz and keep
+		map = ground.GetComponent<GroundGenerator> ();
+
+		try
+		{
+			eggNo = int.Parse(s);
+		}
+		catch
+		{
+			Debug.Log("Error: bad parameters in ft_egg_born.");
+			return ;
+		}
+		//map.availableEggs
+		//need an objet with all eggs
+		Debug.Log("Eggno " + s + " is hatching.");
 	}
 	
 	void	ft_egg_died(string s)
@@ -164,10 +203,12 @@ public class EventsManager : MonoBehaviour {
 		int index = line.IndexOf(' ');
 		string f_key = line.Split(' ')[0];
 		string f_arg = line.Substring(index + 1, line.Length - index - 1);
-        if (functions.ContainsKey(f_key))
-            functions[f_key](f_arg);
-        else
-            Debug.Log("Unknown command " + f_key);
+        if (functions.ContainsKey (f_key))
+			functions [f_key] (f_arg);
+		else if (f_key != "newturn")
+			recMessage (line);
+
+            //Debug.Log("Unknown command " + f_key);
 	}
 
 	void Start () {
