@@ -44,6 +44,8 @@ public class EventsManager : MonoBehaviour {
 		x = int.Parse(split [0]);
 		y = int.Parse(split [1]);
 		// delete map.dalles[x[y];
+		Debug.Log ("more stone " + s);
+		map.dalles [x, y].GetComponent<Content> ().deleteStone ();
 		map.dalles[x,y].GetComponent<Content>().createStone("bct " + s);
 		return;
 	}
