@@ -36,9 +36,16 @@ public class Player : MonoBehaviour {
 		if (info == false) {
 			infoPanel.GetComponent<infoPanel>().setinfo( name, posx, posy, level, nourriture, deraumere, linemate, mediane, phiras, sibur, thysame);
 			infoPanel.SetActive (true);
+			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(true);
+			CamManagement.cmgnt.MapCam.gameObject.SetActive(false);
+			CamManagement.cmgnt.PlayerCam.transform.parent = gameObject.transform;
+			CamManagement.cmgnt.PlayerCam.transform.localPosition = new Vector3(0f, 1.23f, -5.16f);
+
 			info = true;
 		} else {
 			infoPanel.SetActive (false);
+			CamManagement.cmgnt.MapCam.gameObject.SetActive(true);
+			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(false);
 			info = false;
 		}
 	}

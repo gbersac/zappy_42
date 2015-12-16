@@ -155,7 +155,7 @@ public class EventsManager : MonoBehaviour {
 	void	ft_egg_born(string s)
 	{
 
-		int eggNo;
+		int eggNo = 0;
 		GroundGenerator map;//mb init at msz and keep
 		map = ground.GetComponent<GroundGenerator> ();
 

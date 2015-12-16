@@ -13,12 +13,13 @@ public class Content : MonoBehaviour {
 	public void layEgg(int eggNo, int playerNo)
 	{
 		Vector3 spawnPosition;
-		spawnPosition.x = UnityEngine.Random.Range(transform.position.x - 0.2f , transform.position.x + 0.2f);
-		spawnPosition.z = UnityEngine.Random.Range(transform.position.z - 0.2f , transform.position.z + 0.2f);
+		spawnPosition.x = transform.position.x;
+		spawnPosition.z = transform.position.z;
 		spawnPosition.y = transform.position.y;
 		Debug.Log (string.Format ("Laying eggno {0} from playerno {1}", eggNo, playerNo));
 		Egg newEgg = Instantiate(eggPrefab, spawnPosition, transform.rotation) as Egg;
 		newEgg.Init (eggNo, playerNo);
+		newEgg.transform.parent = gameObject.transform;
 	}
 
 	public void	createStone(string answer)
