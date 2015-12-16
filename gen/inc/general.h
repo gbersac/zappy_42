@@ -41,6 +41,7 @@
 # define CMD_INCANTATION_TIME	300
 # define CMD_FORK				"fork"
 # define CMD_FORK_TIME			42
+# define CMD_HATCHING_TIME		600
 # define CMD_CONNECT_NBR		"connect_nbr"
 # define CMD_CONNECT_NBR_TIME	0
 # define CMD_BEGIN_INFO			"begin_info"
@@ -121,6 +122,11 @@ typedef struct	s_trantorian
 	** Time before the trantor is allow to do something.
 	*/
 	int			countdown;
+
+	/*
+	** Boolean value for trantorian laying an egg
+	** 1 : he is laying, 0 : he isn't
+	*/
 	int			laying;
 	/*
 	** This is the number of the trantorian. It correspond to the fd num of

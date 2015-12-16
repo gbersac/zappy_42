@@ -19,6 +19,21 @@ static void	trantor_dead(t_env *env, int cs, t_fd *fd)
 	close_connection(env, cs);
 }
 
+void				fork_player(t_env *e, t_egg *egg)
+{
+	t_trantorian	*trant;
+
+	trant = (t_trantorian*)malloc(sizeof(t_trantorian));
+	init_trantorian(trant, -1);
+	trant->direction = rand() % 4;
+	trant->pos_x = egg->x;
+	trant->pos_y = egg->y;
+	trant->team = egg->team;
+	printf("trant->id : %d\n", trant->id);
+	printf("trant->team : %s\n", trant->team);
+	ft_listpushback(&e->trant, trant);
+}
+
 static void		grow_egg(t_env *e)
 {
 	t_egg	*egg;
@@ -30,18 +45,31 @@ static void		grow_egg(t_env *e)
 		while (tmp)
 		{
 			egg = (t_egg*)(tmp->data);
-			if (egg->countdown > 0)
+			if (tmp->data)
 			{
-				--egg->countdown;
-				// printf("%d egg %d x:%d y:%d countdown : %d\n", i, egg->id, egg->x, egg->y,egg->countdown);
-				if (egg->countdown == 0)
+				if (egg->countdown > 0)
 				{
-						if (tmp->next)
+					--egg->countdown;
+					printf("egg %d x:%d y:%d countdown : %d\n", egg->id, egg->x, egg->y,egg->countdown);
+					if (egg->countdown == 0)
 					{
-						ft_listpop(&tmp);
-						continue ;
+						fork_player(e, egg);
+						if (tmp->next)
+						{
+							if (!tmp)
+								printf("tmp plus LA\n");
+							ft_listpop(&tmp);
+							continue ;
+						}
+						else
+						{
+							if (!tmp)
+								printf("tmp plus LA\n");
+							free(tmp);
+							e->egg = NULL;
+							break;
+						}
 					}
-					printf("egg is now fully grown and removed\n");
 				}
 			}
 			tmp = tmp->next;
@@ -65,7 +93,7 @@ static void		set_egg(t_env *e, int id)
 			if (egg->countdown == 0 && egg->id == id)
 			{
 				printf("EGG READY !\n");
-				egg->countdown = 600;
+				egg->countdown = CMD_HATCHING_TIME;
 			}
 			i++;
 			tmp = tmp->next;
@@ -90,7 +118,6 @@ static void	decrease_life(t_env *e)
 				trantor_dead(e, i, &e->fds[i]);
 			else if (trantor->countdown > 0){
 				--trantor->countdown;
-				// printf("trantor->countdown : %d\n", trantor->countdown);
 				if (trantor->countdown == 0)
 				{
 					if (trantor->laying == 1)
@@ -136,7 +163,7 @@ static void	pop_resources(t_env *e)
 
 void		new_turn(t_env *e)
 {
-	send_cmd_to_all(e, "newturn");
+	// send_cmd_to_all(e, "newturn");
 	decrease_life(e);
 	grow_egg(e);
 	pop_resources(e);

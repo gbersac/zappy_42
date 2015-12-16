@@ -106,7 +106,7 @@ typedef struct		s_env
 	t_map			map;
 	t_list			*egg;
 
-	// what is in this list ?
+	// ?? -> list of all trantorians
 	t_list			*trant;
 }					t_env;
 
