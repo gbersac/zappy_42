@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/14 19:15:33 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/16 16:15:26 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void		srv_accept(t_env *e, int cs)
 	int		r;
 	char	buf[BUF_SIZE + 1];
 
-	printf("srv_accept\n");
 	r = recv(cs, buf, BUF_SIZE, 0);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
