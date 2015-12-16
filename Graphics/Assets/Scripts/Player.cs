@@ -6,7 +6,9 @@ public class Player : MonoBehaviour {
 	public GameObject infoPanel;
 	public bool info = false;
 
-	public string	name = "lol"; //change var name to rm warning
+	GameObject pan;
+
+	string	name;
 	int		posx = 0;
 	int		posy = 0;
 	int		level = 1;
@@ -26,6 +28,8 @@ public class Player : MonoBehaviour {
 	public void Init(string s)
 	{
 		name = s;
+		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
+		pan.GetComponent<infoPanel>().setinfo( name, posx, posy, level, nourriture, deraumere, linemate, mediane, phiras, sibur, thysame);
 		//ppo just sends ko or segv atm
 		//Connection.con.writeSocket ("ppo " + 1);
 		//this.enabled = true;//if pos OK
@@ -34,23 +38,28 @@ public class Player : MonoBehaviour {
 	void OnMouseDown () {
 		// change the target of the LookAtTarget script to be this gameobject.
 		if (info == false) {
-			infoPanel.GetComponent<infoPanel>().setinfo( name, posx, posy, level, nourriture, deraumere, linemate, mediane, phiras, sibur, thysame);
-			infoPanel.SetActive (true);
+			pan.SetActive (true);
+			//Active PlayerCam
 			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(true);
+			//Desactiv MapCam
 			CamManagement.cmgnt.MapCam.gameObject.SetActive(false);
+			//put PlayerCam in Player environment
 			CamManagement.cmgnt.PlayerCam.transform.parent = gameObject.transform;
+			//set position PlayerCam in Player environment
 			CamManagement.cmgnt.PlayerCam.transform.localPosition = new Vector3(0f, 1.23f, -5.16f);
-
 			info = true;
 		} else {
-			infoPanel.SetActive (false);
+			pan.SetActive (false);
+			//Activ MapCam
 			CamManagement.cmgnt.MapCam.gameObject.SetActive(true);
+			//Desactive PlayerCam
 			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(false);
 			info = false;
 		}
 	}
 
 	void	Avance() {
+		Debug.Log ("avance");
 		transform.Translate(Vector3.forward * Time.deltaTime);
 	}
 
@@ -60,6 +69,7 @@ public class Player : MonoBehaviour {
 	}
 	
 	void	Gauche() {
+		Debug.Log ("gauche");
 		transform.Translate(Vector3.left * Time.deltaTime);
 	}
 

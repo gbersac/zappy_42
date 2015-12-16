@@ -39,6 +39,7 @@ public class Connection : MonoBehaviour {
 			socketReady = true;
 			Debug.Log ("Connected");
 			menu.SetActive(false);
+			world.SetActive(true);
 		}
 		catch (Exception e) {
 			Debug.Log("Socket error: " + e);

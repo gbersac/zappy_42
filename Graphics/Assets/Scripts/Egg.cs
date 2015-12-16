@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Egg : MonoBehaviour {
+
 	private int eggNo;
 	private int playerNo;
 
@@ -16,4 +17,5 @@ public class Egg : MonoBehaviour {
 		playerNo = playerno;
 		//prob change color, mb get a ref to parent player
 	}
+	
 }

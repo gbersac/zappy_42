@@ -59,6 +59,7 @@ public class EventsManager : MonoBehaviour {
 		Player newPlayer = Instantiate<Player> (playerPrefab);
 		newPlayer.Init (s);
 		players.Add (s, newPlayer);
+		newPlayer.transform.parent = GameObject.Find("World").transform;
 
 		//create player s in list or dictionary ?
 		//ppo = pos du joueur
@@ -155,8 +156,9 @@ public class EventsManager : MonoBehaviour {
 	void	ft_egg_born(string s)
 	{
 
-		int eggNo = 0;
-		GroundGenerator map;//mb init at msz and keep
+		int eggNo;
+		GroundGenerator map;
+		//mb init at msz and keep
 		map = ground.GetComponent<GroundGenerator> ();
 
 		try
