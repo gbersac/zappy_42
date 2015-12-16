@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/21 22:36:03 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/14 19:56:39 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/16 16:11:52 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,16 @@ static t_list	*get_lst_cmd(void)
 	return (lst);
 }
 
+void			unknow_cmd(t_list *lst_cmd, char *cmd, t_fd *fd)
+{
+	if (lst_cmd == NULL)
+	{
+		printf("unknow command %s\n", cmd);
+		send_cmd_to_client(fd, "suc");
+	}
+
+}
+
 int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 {
 	t_list	*lst_cmd;
@@ -86,7 +96,6 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		}
 		lst_cmd = lst_cmd->next;
 	}
-	if (lst_cmd == NULL)
-		printf("unknow command %s\n", cmd);
+	unknow_cmd(lst_cmd, cmd, fd);
 	return (0);
 }
