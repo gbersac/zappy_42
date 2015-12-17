@@ -5,11 +5,16 @@ using System.Collections.Generic;
 
 public class Content : MonoBehaviour {
 	
-	public List<GameObject> stones = new List<GameObject>();
-	public List<int> quantity = new List<int>();
-	public Egg eggPrefab;
+	public List<GameObject>		stones = new List<GameObject>();
+	public List<int>			quantity = new List<int>();
+	public Egg					eggPrefab;
+	bool						displayInfo = false;
+	public GameObject			infoPanel;
+	GameObject					pan;
+	bool						initialized = false;
 
 	//enw #eggNbr #nPlayer X Y
+
 	public void layEgg(int eggNo, int playerNo)
 	{
 		Vector3 spawnPosition;
@@ -42,16 +47,20 @@ public class Content : MonoBehaviour {
 					stone.transform.parent = gameObject.transform;
 				}
 			}
+			if (initialized == false) {
+				pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
+				initialized = true;
+				pan.transform.parent = GameObject.Find("Panels").transform;
+				pan.SetActive (false);
+			}
+			if (displayInfo == true) {
+				pan.GetComponent<dallesInfoPanel> ().setinfo (transform.position.x, transform.position.z, quantity[0], quantity[1], quantity[2], quantity[3], quantity[4], quantity[5], quantity[6]);
+				pan.SetActive (true);
+				Invoke ("hidePanel", 2);
+			}
 		}
-		//Deplacer ce message pour afficher l'info
-		Debug.Log ("Dalles content " + transform.position.x + " " + transform.position.z + "{Nourriture: "+ quantity[0]+"; Linemate: "+ quantity[1]+"; Deraumere: "+ quantity[2]+"; Sibur: "+ quantity[3]+"; Mendiane: "+ quantity[4]+"; Phiras: "+ quantity[5]+"; Thystame: "+ quantity[6]+";}");
 	}
-
-	void OnMouseDown () {
-		string s = "bct "+ transform.position.x+" "+transform.position.z;
-		Connection.con.writeSocket (s);
-	}
-
+	
 	public void deleteStone()
 	{
 		int i = transform.childCount;
@@ -59,6 +68,7 @@ public class Content : MonoBehaviour {
 		Debug.Log ("delete count:" +i);
 		while (j < i) {
 			if (transform.GetChild (j) is Egg) {
+				Debug.Log ("not deleted");
 				j++;
 				continue;
 			} else {
@@ -68,8 +78,17 @@ public class Content : MonoBehaviour {
 		}
 	}
 
-	// Update is called once per frame
-	void Update () {
-
+	void OnMouseDown () {
+		string s = "bct " + transform.position.x + " " + transform.position.z;
+		Connection.con.writeSocket (s);
+		if (displayInfo == false) {
+			displayInfo = true;
+		}
 	}
+
+	void hidePanel(){
+		pan.SetActive (false);
+		displayInfo = false;
+	}
+	
 }

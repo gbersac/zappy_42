@@ -11,11 +11,6 @@ public class infoPanel : MonoBehaviour {
 	int[] tab_sibur = new[] {0,1,1,2,1,3,2};
 	int[] tab_thysame = new[] {0,0,0,0,0,0,1};
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-
 	public void	setinfo(string name, int posx, int posy, int level, int nourriture,
 	                    int deraumere, int linemate, int mediane, int phiras, int sibur, int thysame)
 	{
@@ -28,10 +23,5 @@ public class infoPanel : MonoBehaviour {
 		transform.FindChild ("Panel/Stone sibur/Value").GetComponent<Text> ().text = sibur.ToString() + " / " + tab_sibur[level-1].ToString();
 		transform.FindChild ("Panel/Stone thysame/Value").GetComponent<Text> ().text = thysame.ToString() + " / " + tab_thysame[level-1].ToString();
 		return ;
-	}
-
-	// Update is called once per frame
-	void Update () {
-
 	}
 }
