@@ -65,7 +65,6 @@ public class Content : MonoBehaviour {
 	{
 		int i = transform.childCount;
 		int j = 0;
-		Debug.Log ("delete count:" +i);
 		while (j < i) {
 			if (transform.GetChild (j) is Egg) {
 				Debug.Log ("not deleted");

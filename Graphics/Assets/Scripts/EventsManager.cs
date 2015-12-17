@@ -8,11 +8,13 @@ public class EventsManager : MonoBehaviour {
 	
 	private Dictionary<string, System.Action<string>> functions;
 	public GameObject ground;
+	public GameObject speedController;
     public MessagesBox msgBox;
 	public Player playerPrefab;
 
 	static public EventsManager em;
 	//keep static map ?
+
 
     void    recMessage(string s)
     {
@@ -28,6 +30,8 @@ public class EventsManager : MonoBehaviour {
 		x = int.Parse (s.Substring(0, index));
 		y = int.Parse (s.Substring(index + 1, s.Length - index - 1));
 		map = ground.GetComponent<GroundGenerator> ();
+		if (map.width == x && map.height == y)
+			return;
 		map.width = x;
 		map.height = y;
 		map.Initialize ();
@@ -188,7 +192,16 @@ public class EventsManager : MonoBehaviour {
 	}
     void timeUnit(string s)
     {
-        msgBox.ServerMessage("Server time unit: " + s, Color.green);
+		
+		msgBox.ServerMessage("Server time unit: " + s, Color.green);
+		TimeManagement tpanel = speedController.GetComponent<TimeManagement> ();
+
+		string [] split = s.Split (' ');		
+		int t = int.Parse(split [0]);
+
+		tpanel.setTime (t);
+        
+		msgBox.ServerMessage("Server time unit: " + s, Color.green);
     }
 
     void badArgs(string s)

@@ -13,13 +13,12 @@ public class Connection : MonoBehaviour {
 
 	string					host;
 	int						port;
-//	string					message;
 
 	Boolean					socketReady = false;
-	TcpClient		mySocket;
-	NetworkStream	theStream;
-	StreamWriter	theWriter;
-	StreamReader	theReader;
+	TcpClient				mySocket;
+	NetworkStream			theStream;
+	StreamWriter			theWriter;
+	StreamReader			theReader;
 
 	static public Connection con;
 
@@ -40,6 +39,7 @@ public class Connection : MonoBehaviour {
 			Debug.Log ("Connected");
 			menu.SetActive(false);
 			world.SetActive(true);
+			EventsManager.em.speedController.SetActive (true);
 		}
 		catch (Exception e) {
 			Debug.Log("Socket error: " + e);
@@ -170,9 +170,9 @@ public class Connection : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.I)){
 			writeSocket("sgt");
 		}
-		if(Input.GetKeyDown(KeyCode.O)){
-			writeSocket("sst 10");
-		}
+	//	if(Input.GetKeyDown(KeyCode.O)){
+	//		writeSocket("sst 10");
+	//	}
 
 		if (Input.GetKey(KeyCode.Escape))
 		{
@@ -180,6 +180,7 @@ public class Connection : MonoBehaviour {
 			Debug.Log ("Disconected...");
 			world.SetActive (false);
 			menu.SetActive(true);
+			EventsManager.em.speedController.SetActive (false);
 		}
 	}
 
