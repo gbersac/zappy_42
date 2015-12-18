@@ -41,7 +41,7 @@ static void		client_write(t_env *e, int cs)
 	{
 		tmp = (char*)ft_listpop(&e->fds[cs].to_send);
 		send(cs, tmp, ft_strlen(tmp) + 1, 0);
-		free(tmp);
+		free(tmp); //seg fault
 	}
 	e->fds[cs].to_send = 0;
 }
@@ -68,7 +68,7 @@ void		accept_player(t_env *e, int s)
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
 	send_cmd_to_client(&e->fds[cs], MSG_WELCOME);
-	// what ??
+	// what ?? --> add the trantorian to the trant's list
 	ft_listpushback(&e->trant, &e->fds[cs].trantor);
 }
 

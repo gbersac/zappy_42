@@ -1,17 +1,7 @@
 # include "cmd.h"
 # include <unistd.h>
 
-void		fork_player_egg(t_env *env)
-{
-	t_trantorian trant;
 
-	init_trantorian(&trant, -1);
-	trant.direction = rand() % 4;
-	trant.laying = 1;
-	printf("trant.id : %d\n", trant.id);
-	printf("trant.team : %s\n", trant.team);
-	ft_listpushback(&env->trant, &trant);
-}
 
 int			ser_fork(t_env *env, t_fd *fd, char *cmd)
 {
