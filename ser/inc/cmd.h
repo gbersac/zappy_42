@@ -42,6 +42,8 @@
 # define CMD_CONNECT_NBR		"connect_nbr"
 # define CMD_CONNECT_NBR_TIME	0
 
+# define CMD_HATCHING_TIME	600
+
 typedef int (*t_cmd_fct)(t_env *env, t_fd *fd, char *cmd);
 
 /*

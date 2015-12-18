@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/06 22:14:04 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/18 17:16:07 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct		s_egg
 	char			*team;
 	int				x;
 	int				y;
+	int				id;
 }					t_egg;
 
 /*
@@ -91,7 +92,8 @@ typedef struct		s_egg
 **		The num of a trantor is the fd number of its client so that
 **		fds[num trantor].trantor.number = num trantor.
 ** fd_read, fd_write: for the select function.
-** maxfd: the highest fd (usefull for select).
+** maxfd: the highest fd (usefull for select). Number of t_fd in fds.
+** idle_trant:	list of all available trantor.
 */
 typedef struct		s_env
 {
@@ -104,6 +106,7 @@ typedef struct		s_env
 	fd_set			fd_write;
 	t_map			map;
 	t_list			*egg;
+	t_list			*idle_trant;
 }					t_env;
 
 
@@ -142,8 +145,16 @@ void			send_cmd_to_client(t_fd *fd, char *str);
 ** Add the \n at the end.
 */
 void			send_cmd_to_graphics(t_env *env, char *str);
+void			send_cmd_to_all(t_env *env, char *str);
+void			send_cmd_to_clients(t_env *env, char *str);
 
 int				is_in_team(t_trantorian *trantor, t_team team);
 t_team			test_for_victory(t_env *env);
+
+/*
+** Return the number of new player which can be connected.
+*/
+int				available_connexion(t_env *env, t_team team);
+int				team_exist(t_env *env, t_team team);
 
 #endif

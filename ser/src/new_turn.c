@@ -6,17 +6,83 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 22:22:49 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 22:53:27 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/18 17:20:28 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bircd.h"
+#include "cmd.h"
 
-static void	trantor_dead(t_env *env, int cs, t_fd *fd)
+static void		trantor_dead(t_env *env, int cs, t_fd *fd)
 {
 	ft_listpushback(&fd->to_send, strdup(MSG_DEAD));
 	printf("Trantor num %d is dead\n", cs);
 	close_connection(env, cs);
+}
+
+void				fork_player(t_env *e, t_egg *egg)
+{
+	t_trantorian	*trant;
+
+	trant = (t_trantorian*)malloc(sizeof(t_trantorian));
+	init_trantorian(trant, -1);
+	trant->direction = rand() % 4;
+	trant->pos_x = egg->x;
+	trant->pos_y = egg->y;
+	trant->team = egg->team;
+	ft_listpushback(&e->idle_trant, trant);
+}
+
+static void		grow_egg(t_env *e)
+{
+	t_egg	*egg;
+	t_list	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = e->egg;
+	while (tmp)
+	{
+		if (!tmp->data)
+			continue ;
+		egg = (t_egg*)(tmp->data);
+		if (egg->countdown > 0)
+		{
+			--egg->countdown;
+			// printf("egg %d x:%d y:%d countdown : %d\n", egg->id, egg->x, egg->y,egg->countdown);
+			if (egg->countdown == 0)
+			{
+				printf("Egg hatching for team %s\n", egg->team);
+				fork_player(e, egg);
+				ft_listpop_n(&e->egg, i);
+				continue ;
+			}
+		}
+		// printf("egg nb : %d\n", i);
+		i++;
+		tmp = tmp->next;
+	}
+}
+
+static void		set_egg(t_env *e, int id)
+{
+	t_egg	*egg;
+	t_list	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = e->egg;
+	while (tmp)
+	{
+		egg = (t_egg*)(tmp->data);
+		if (egg->countdown == 0 && egg->id == id)
+		{
+			printf("EGG READY !\n");
+			egg->countdown = CMD_HATCHING_TIME;
+		}
+		i++;
+		tmp = tmp->next;
+	}
+	printf("number of eggs : %d\n", i);
 }
 
 static void	decrease_life(t_env *e)
@@ -31,27 +97,49 @@ static void	decrease_life(t_env *e)
 		{
 			trantor = &e->fds[i].trantor;
 			--(trantor->health_point);
-			if (trantor->health_point <= 0)
+			if (trantor->health_point == 0)
 				trantor_dead(e, i, &e->fds[i]);
-			if (trantor->countdown > 0){
+			else if (trantor->countdown > 0){
 				--trantor->countdown;
 				if (trantor->countdown == 0)
+				{
+					if (trantor->laying == 1)
+					{
+						trantor->laying = 0;
+						set_egg(e, trantor->id);
+					}
 					printf("trantor %d is now ready to work !\n", trantor->id);
+				}
 			}
 		}
 		++i;
 	}
 }
 
-static void	pop_squart_resources(t_square *sq)
+static void	pop_squart_resources(t_env *env, t_square *sq)
 {
 	int		rdm;
+	int		change;
+	char	*to_send;
 
 	rdm = rand();
+	change = 0;
 	if (!(rdm % POP_STONE))
+	{
+		change = 1;
 		add_resource(&sq->content, rdm % 6 + 1);
+	}
 	if (!(rdm % POP_FOOD))
+	{
+		change = 1;
 		add_resource(&sq->content, FOOD);
+	}
+	if (change)
+	{
+		to_send = gfx_bct_str(env, sq->x, sq->y);
+		send_cmd_to_graphics(env, to_send);
+		free(to_send);
+	}
 }
 
 static void	pop_resources(t_env *e)
@@ -64,13 +152,15 @@ static void	pop_resources(t_env *e)
 	{
 		ttl_res = ttl_resource_in_inventory(&e->map.tartan[i].content);
 		if (ttl_res < MAX_RES_SQUARE)
-			pop_squart_resources(&e->map.tartan[i]);
+			pop_squart_resources(e, &e->map.tartan[i]);
 		++i;
 	}
 }
 
 void		new_turn(t_env *e)
 {
+	// send_cmd_to_clients(e, "newturn");
 	decrease_life(e);
+	grow_egg(e);
 	pop_resources(e);
 }
