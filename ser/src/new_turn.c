@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 22:22:49 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/16 17:08:53 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/18 17:07:37 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ static void	pop_squart_resources(t_env *env, t_square *sq)
 	{
 		to_send = gfx_bct_str(env, sq->x, sq->y);
 		send_cmd_to_graphics(env, to_send);
-		printf("%s\n", to_send);
 		free(to_send);
 	}
 }
@@ -150,7 +149,7 @@ static void	pop_resources(t_env *e)
 
 void		new_turn(t_env *e)
 {
-	send_cmd_to_all(e, "newturn");
+	send_cmd_to_clients(e, "newturn");
 	decrease_life(e);
 	grow_egg(e);
 	pop_resources(e);

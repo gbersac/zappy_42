@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/22 17:11:27 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/14 19:57:51 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/18 17:17:22 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,28 @@
 #include "libft.h"
 #include "bircd.h"
 
-int		get_fd_by_nickname(t_env *e, char *nickname)
-{
-	int	i;
-
-	i = 0;
-	while (i < e->maxfd)
-	{
-		if (e->fds[i].type == FD_CLIENT
-				&& ft_strequ(nickname, e->fds[i].nickname))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-int		cmd_msg_error(t_env *e, int cs, char *error)
-{
-	ft_listpushback(&e->fds[cs].to_send, ft_strdup(error));
-	return (-1);
-}
+/*
+** int		get_fd_by_nickname(t_env *e, char *nickname)
+** {
+** 	int	i;
+**
+** 	i = 0;
+** 	while (i < e->maxfd)
+** 	{
+** 		if (e->fds[i].type == FD_CLIENT
+** 				&& ft_strequ(nickname, e->fds[i].nickname))
+** 			return (i);
+** 		i++;
+** 	}
+** 	return (-1);
+** }
+**
+** int		cmd_msg_error(t_env *e, int cs, char *error)
+** {
+** 	ft_listpushback(&e->fds[cs].to_send, ft_strdup(error));
+** 	return (-1);
+** }
+*/
 
 /*
 ** int		get_msg_data(char *cmd, char **nickname, char **msg)
@@ -125,6 +127,23 @@ void	send_cmd_to_graphics(t_env *env, char *str)
 	{
 		client = &env->fds[i];
 		if (client->type == FD_GRAPHIC)
+			ft_listpushback(&client->to_send, to_send);
+		++i;
+	}
+}
+
+void	send_cmd_to_clients(t_env *env, char *str)
+{
+	char	*to_send;
+	int		i;
+	t_fd	*client;
+
+	to_send = ft_strjoin(str, "\n");
+	i = 0;
+	while (i < env->maxfd)
+	{
+		client = &env->fds[i];
+		if (client->type == FD_CLIENT)
 			ft_listpushback(&client->to_send, to_send);
 		++i;
 	}

@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/14 20:03:38 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/18 17:16:07 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ void			send_cmd_to_client(t_fd *fd, char *str);
 */
 void			send_cmd_to_graphics(t_env *env, char *str);
 void			send_cmd_to_all(t_env *env, char *str);
+void			send_cmd_to_clients(t_env *env, char *str);
 
 int				is_in_team(t_trantorian *trantor, t_team team);
 t_team			test_for_victory(t_env *env);
