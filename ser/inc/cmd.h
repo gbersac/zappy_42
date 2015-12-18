@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 22:43:04 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/16 16:49:21 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,6 @@
 # include <stdio.h>
 # include "bircd.h"
 # include "libft.h"
-
-# define CMD_AVANCE				"avance"
-# define CMD_AVANCE_TIME		7
-# define CMD_DROITE				"droite"
-# define CMD_DROITE_TIME		7
-# define CMD_GAUCHE				"gauche"
-# define CMD_GAUCHE_TIME		7
-# define CMD_VOIR				"voir"
-# define CMD_VOIR_TIME			7
-# define CMD_INVENTAIRE			"inventaire"
-# define CMD_INVENTAIRE_TIME	1
-# define CMD_PREND				"prend"
-# define CMD_PREND_TIME			7
-# define CMD_POSE				"pose"
-# define CMD_POSE_TIME			7
-# define CMD_EXPULSE			"expulse"
-# define CMD_EXPULSE_TIME		7
-# define CMD_BROADCAST			"broadcast"
-# define CMD_BROADCAST_TIME		7
-# define CMD_INCANTATION		"incantation"
-# define CMD_INCANTATION_TIME	300
-# define CMD_FORK				"fork"
-# define CMD_FORK_TIME			42
-# define CMD_CONNECT_NBR		"connect_nbr"
-# define CMD_CONNECT_NBR_TIME	0
-
-# define CMD_HATCHING_TIME	600
 
 typedef int (*t_cmd_fct)(t_env *env, t_fd *fd, char *cmd);
 
@@ -79,6 +52,8 @@ int				ser_broadcast(t_env *env, t_fd *fd, char *cmd);
 int				ser_incantation(t_env *env, t_fd *fd, char *cmd);
 int				ser_fork(t_env *env, t_fd *fd, char *cmd);
 int				ser_connect_nbr(t_env *env, t_fd *fd, char *cmd);
+int				ser_connect_nbr(t_env *env, t_fd *fd, char *cmd);
+int				ser_begin_info(t_env *env, t_fd *fd, char *cmd);
 
 /*
 ** Spontaneous (message send which are not response to the client)
@@ -116,6 +91,7 @@ int				gfx_sst(t_env *env, t_fd *fd, char *cmd);
 ** Graphics commands callable from other part of code.
 */
 int				gfx_bct_call(t_env *env, t_fd *fd, int x, int y);
+char			*gfx_bct_str(t_env *env, int x, int y);
 
 int				interpret_cmd(t_env *e, t_fd *fd, char *cmd);
 

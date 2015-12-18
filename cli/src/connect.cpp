@@ -10,12 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include "client.h"
-#include "libft.h"
+extern "C" {
+	#include <stdio.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+	#include <netdb.h>
+	#include "libft.h"
+}
+
+#include "client.hpp"
 
 int		connect_to_server(char *ip, int port)
 {

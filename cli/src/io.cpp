@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   io.c                                               :+:      :+:    :+:   */
+/*   io.cpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 21:56:17 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/10 16:40:32 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/14 19:55:39 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/select.h>
-#include <sys/socket.h>
-#include "list.h"
-#include "libft.h"
-#include "client.h"
+extern "C" {
+	#include <stdio.h>
+	#include <unistd.h>
+	#include <stdlib.h>
+	#include <sys/select.h>
+	#include <sys/socket.h>
+	#include "list.h"
+	#include "libft.h"
+}
+
+#include "client.hpp"
 
 void	send_buffer(t_env *env)
 {
@@ -26,18 +29,19 @@ void	send_buffer(t_env *env)
 	while (env->buf_write)
 	{
 		tmp = (char *)ft_listpop(&env->buf_write);
-		send(env->sock, tmp, ft_strlen(tmp) + 1, 0);
+		printf("send #%s#\n", tmp);
+		send(env->sock, tmp, ft_strlen(tmp), 0);
 	}
 }
 
 void	read_msg(t_env *env)
 {
-	char	*buf;
+	char	buf[BUF_SIZE + 1];
 	int		r;
 	int		j;
 	char	**split;
 
-	buf = ft_strnew(BUF_SIZE);
+	bzero(buf, BUF_SIZE + 1);
 	r = recv(env->sock, buf, BUF_SIZE, 0);
 	if (r == 0)
 		ft_ferror("Disconnect by the server.");
@@ -60,27 +64,24 @@ void	main_loop(t_env *env)
 	{
 		if (env->buf_read)
 		{
-			ft_putendl("play");
+			// ft_putendl("play");
 			play(env);
 		}
 		FD_SET(env->sock, &fds_read);
-		//to delete
+		//<to delete
 		FD_SET(STDIN_FILENO, &fds_read);
-		//to delete
+		//to delete/>
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
-		{
-			ft_putendl("send");
 			send_buffer(env);
-		}
 		if (FD_ISSET(env->sock, &fds_read))
 		{
-			ft_putendl("read");
+			// ft_putendl("read");
 			read_msg(env);
 		}
 
-		// to delete
+		// <to delete
 		if (FD_ISSET(STDIN_FILENO, &fds_read))
 		{
 			char	buf[1];
@@ -89,6 +90,6 @@ void	main_loop(t_env *env)
 			write(env->sock, buf, 1);
 			// printf("send %s\n", buf);
 		}
-		// to delete
+		// to delete/>
 	}
 }

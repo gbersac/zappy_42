@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 20:16:25 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/11 21:31:18 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/18 16:51:42 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void		add_lst_node(t_list **lst, char *label, t_cmd_fct fct)
 static void		init_lst(t_list **lst)
 {
 	add_lst_node(lst, "msz", gfx_msz);
-	add_lst_node(lst, "bct", gfx_bct);
 	add_lst_node(lst, "bct", gfx_bct);
 	add_lst_node(lst, "tna", gfx_tna);
 	add_lst_node(lst, "pnw", gfx_pnw);

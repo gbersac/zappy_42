@@ -13,7 +13,8 @@ int			ser_fork(t_env *env, t_fd *fd, char *cmd)
 	new_egg->y = fd->trantor.pos_y;
 	new_egg->id = fd->fd;
 	fd->trantor.laying = 1;
-	ft_listpushback(&env->egg, new_egg);
 	printf("ser_fork number of eggs %d\n", ft_listcnt(env->egg));
+	ft_listpushback(&env->egg, new_egg);
+	ft_listpushback(&env->egg, new_egg);
 	return (0);
 }

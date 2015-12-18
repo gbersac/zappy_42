@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/06 20:58:22 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 22:05:31 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/14 20:12:55 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,41 @@ t_team		test_for_victory(t_env *env)
 		iter = iter->next;
 	}
 	return (NULL);
+}
+
+int				available_connexion(t_env *env, t_team team)
+{
+	t_list			*iter;
+	t_trantorian	*trant;
+	int				to_return;
+
+	iter = env->idle_trant;
+	to_return = 0;
+	if (env->map.max_client > 0)
+		to_return = env->map.max_client;
+	while (iter != NULL)
+	{
+		trant = (t_trantorian*)iter->data;
+		if (strcmp(trant->team, team) == 0)
+			++to_return;
+		iter = iter->next;
+	}
+	return (to_return);
+	team = NULL;
+}
+
+int				team_exist(t_env *env, t_team team)
+{
+	t_list	*iter;
+	t_team	iter_team;
+
+	iter = env->map.teams;
+	while (iter != NULL)
+	{
+		iter_team = (t_team)iter->data;
+		if (strcmp(team, iter_team) == 0)
+			return (1);
+		iter = iter->next;
+	}
+	return (0);
 }

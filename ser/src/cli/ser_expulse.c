@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/05 13:50:32 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/18 17:09:58 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ static void	expulse_one_fd(t_env *env, t_fd *target, t_fd *expulsor)
 			target->trantor.pos_x == trantor->pos_x &&
 			target->trantor.pos_y == trantor->pos_y)
 	{
-		printf("before\n");
 		avance_trantor(env, &target->trantor, trantor->direction);
-		printf("ici\n");
 		asprintf(&to_send, "deplacement %d\n",
 				direction_to_nbr(trantor->direction));
 		send_cmd_to_client(target, to_send);

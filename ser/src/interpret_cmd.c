@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/21 22:36:03 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/05 13:46:21 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/16 16:11:52 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,21 @@ static t_list	*get_lst_cmd(void)
 		alc(&lst, CMD_INCANTATION, ser_incantation, CMD_INCANTATION_TIME);
 		alc(&lst, CMD_FORK, ser_fork, CMD_FORK_TIME);
 		alc(&lst, CMD_CONNECT_NBR, ser_connect_nbr, CMD_CONNECT_NBR_TIME);
+		alc(&lst, CMD_CONNECT_NBR, ser_connect_nbr, CMD_CONNECT_NBR_TIME);
+		alc(&lst, CMD_BEGIN_INFO, ser_begin_info, CMD_BEGIN_INFO_TIME);
 		append_gfx_cmd(lst);
 	}
 	return (lst);
+}
+
+void			unknow_cmd(t_list *lst_cmd, char *cmd, t_fd *fd)
+{
+	if (lst_cmd == NULL)
+	{
+		printf("unknow command %s\n", cmd);
+		send_cmd_to_client(fd, "suc");
+	}
+
 }
 
 int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
@@ -78,13 +90,12 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		if (ft_strnequ(command->label, cmd, strlen(command->label)))
 		{
 			res = command->fct(e, fd, cmd);
-			if (res >= 0)
+			if (res >= 0 && command->time > 0)
 				fd->trantor.countdown = command->time;
 			break ;
 		}
 		lst_cmd = lst_cmd->next;
 	}
-	if (lst_cmd == NULL)
-		printf("unknow command %s\n", cmd);
+	unknow_cmd(lst_cmd, cmd, fd);
 	return (0);
 }

@@ -150,6 +150,8 @@ void			send_cmd_to_clients(t_env *env, char *str);
 
 int				is_in_team(t_trantorian *trantor, t_team team);
 t_team			test_for_victory(t_env *env);
+int				nb_idle_trantor(t_env *env, t_team team);
+int				team_exist(t_env *env, t_team team);
 
 /*
 ** Return the number of new player which can be connected.

@@ -1,44 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ia.c                                               :+:      :+:    :+:   */
+/*   ia.cpp                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfrey <rfrey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/05 00:05:40 by rfrey            ###   ########.fr       */
+/*   Updated: 2015/12/14 20:14:47 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "client.h"
-#include "libft.h"
-#include "general.h"
+extern "C" {
+	#include <stdlib.h>
+	#include <unistd.h>
+	#include "libft.h"
+	#include "general.h"
+}
+
+#include "client.hpp"
 
 void	handle_action(t_env *env)
 {
 //	env->last_cmd = ...;
 	++env;
-}
-
-void	get_server_param(t_env *env)
-{
-	char	*get;
-	char	**pos;
-
-	get = (char*)ft_listpop(&env->buf_read);
-	env->n_client = ft_atoi(get);
-	free(get);
-	get = (char*)ft_listpop(&env->buf_read);
-	pos = ft_strsplit(get, ' ');
-	if (!pos || ft_strtabsize(pos) < 2)
-		ft_ferror("Wrong coordinate msg");
-	env->pos_x = ft_atoi(pos[0]);
-	env->pos_y = ft_atoi(pos[1]);
-	free(get);
-	ft_strtabfree(&pos);
-	handle_action(env);
 }
 
 void	player_dies(t_env *env, char *get)
@@ -57,12 +41,26 @@ void	valid_last_action(t_env *env)
 
 void	interpret_msg(t_env *env, char *get)
 {
+	char	*to_send;
+
 	if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
-		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
-		env->last_cmd = MSG_WELCOME;
+		asprintf(&to_send, "%s %s\n", CMD_BEGIN_INFO, env->trantor.team);
+		ft_listpushback(&env->buf_write, to_send);
+		env->last_cmd = strdup(to_send);
 	}
-	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
+	if (ft_strnequ(get, CMD_BEGIN_INFO, ft_strlen(CMD_BEGIN_INFO)))
+	{
+		int ret = sscanf(get, "begin_info %d %d %d\n",
+				&env->nb_free_trantor,
+				&env->trantor.pos_x,
+				&env->trantor.pos_x);
+		if (ret < 3)
+		{
+			printf("Team error: %s\n", get + 11);
+		}
+	}
+	if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
 		player_dies(env, get);
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST)))
 	{
@@ -85,12 +83,6 @@ void	play(t_env *env)
 {
 	char	*get;
 
-	if (ft_strnequ(env->last_cmd, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
-	{
-		if (ft_listcnt(env->buf_read) >= 2)
-			get_server_param(env);
-		return ;
-	}
 	get = (char*)ft_listpop(&env->buf_read);
 	ft_putendl(get);
 	interpret_msg(env, get);

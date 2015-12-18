@@ -57,7 +57,7 @@ static void		take_idle_trantor(t_env *env, t_fd *fd, t_team team_name)
 
 int				ser_begin_info(t_env *env, t_fd *fd, char *cmd)
 {
-	char	team_name[1000];
+	char	team_name[1024];
 	char	*to_send;
 
 	sscanf(cmd, "begin_info %s\n", team_name);

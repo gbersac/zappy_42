@@ -10,19 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <sys/errno.h>
-#include "client.h"
-#include "libft.h"
-#include "general.h"
+extern "C" {
+	#include <stdlib.h>
+	#include <unistd.h>
+	#include <stdio.h>
+	#include <sys/errno.h>
 
-void			ft_ferror(char *msg)
+	#include "libft.h"
+	#include "general.h"
+}
+
+#include "client.hpp"
+
+void			ft_ferror(std::string msg)
 {
-	if (!msg)
-		msg = "Undefined error";
-	ft_printf("%s\n", msg);
+	if (msg == "")
+		std::cout << "Undefined error" << std::endl;
+	ft_printf("%s\n", msg.c_str());
 	if (errno)
 		perror(NULL);
 	exit(EXIT_FAILURE);
@@ -42,7 +46,7 @@ static void		set_args(int argc, char **argv, t_env *env)
 	while (i < argc)
 	{
 		if (ft_strequ(argv[i], "-n") && i + 1 < argc)
-			env->teamname = argv[i + 1];
+			env->trantor.team = argv[i + 1];
 		else if (ft_strequ(argv[i], "-p")&& i + 1 < argc)
 			env->port = ft_atoi(argv[i + 1]);
 		else if (ft_strequ(argv[i], "-h") && i + 1 < argc)
@@ -59,7 +63,7 @@ int				main(int argc, char **argv)
 
 	init_env(&env);
 	set_args(argc, argv, &env);
-	if (!env.teamname || !env.port)
+	if (!env.trantor.team || !env.port)
 		usage(argv[0]);
 	if ((env.sock = connect_to_server(env.hostname, env.port)) == -1)
 		ft_ferror("Socket initialization error");
