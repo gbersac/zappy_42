@@ -46,7 +46,7 @@
 */
 
 /* testing client main */
-#include <netdb.h>
+/*#include <netdb.h>
 #include <stdio.h>
 #include <errno.h>
 int		main(void)
@@ -155,9 +155,9 @@ printf("bienvenue\n");
 	close(new_socket);
 
 	return (0);
-}
+}*/
 
-/*int			main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_env	e;
 
@@ -177,7 +177,7 @@ printf("bienvenue\n");
 	main_loop(&e);
 	return (EXIT_SUCCESS);
 	ac = 0;
-}*/
+}
 
 void		ft_ferror(char *msg)
 {

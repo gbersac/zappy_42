@@ -100,6 +100,10 @@ void		srv_accept(t_env *e, int cs)
 	char	buf[BUF_SIZE + 1];
 
 	printf("srv_accept\n");
+
+	char *message="BIENVENUE\n";
+	send(new_socket,message,strlen(message),0);
+
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
