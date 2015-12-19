@@ -104,7 +104,7 @@ void		srv_accept(t_env *e, int cs)
 	printf("srv_accept\n");
 
 	char *message="BIENVENUE\n";
-	send(new_socket,message,strlen(message),0);
+	send(cs,message,strlen(message),0);
 
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("-->%s\n", buf);
