@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "cmd.h"
 #include "bircd.h"
 #include "libft.h"
 
@@ -46,15 +47,13 @@ static void		client_write(t_env *e, int cs)
 	e->fds[cs].to_send = 0;
 }
 
-void		accept_player(t_env *e, int s)
+void		accept_player(t_env *e, int cs)
 {
-	int					cs;
+	// int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
 	csin_len = sizeof(csin);
-	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
-		ft_ferror("accept error");
 	printf("New client #%d from %s:%d\n", cs,
 			inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	e->fds[cs].nickname = NULL;
@@ -67,18 +66,16 @@ void		accept_player(t_env *e, int s)
 	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
-	send_cmd_to_client(&e->fds[cs], MSG_WELCOME);
+//	interpret_cmd(e, &e->fds[cs], "msz");
 }
 
-void		accept_graphic(t_env *e, int s)
+void		accept_graphic(t_env *e, int cs)
 {
-	int					cs;
+// 	int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
 	csin_len = sizeof(csin);
-	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
-		ft_ferror("accept error");
 	printf("New graphic client #%d from %s:%d\n", cs,
 			inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	e->fds[cs].nickname = NULL;
@@ -90,13 +87,27 @@ void		accept_graphic(t_env *e, int s)
 	e->fds[cs].to_send = NULL;
 	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
-	init_trantorian(&e->fds[cs].trantor, cs);
+	interpret_cmd(e, &e->fds[cs], "msz");
+	interpret_cmd(e, &e->fds[cs], "mct");
+	interpret_cmd(e, &e->fds[cs], "tna");
 }
 
-void		srv_accept(t_env *e, int cs)
+void		srv_accept(t_env *e, int s)
 {
 	int		r;
 	char	buf[BUF_SIZE + 1];
+
+	int		cs;
+
+	struct sockaddr_in	csin;
+	socklen_t			csin_len;
+
+	csin_len = sizeof(csin);
+	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
+		ft_ferror("accept error");
+	
+	char *message="BIENVENUE\n";
+	send(cs,message,strlen(message),0);
 
 	printf("srv_accept\n");
 	r = recv(cs, buf, BUF_SIZE, 0);
