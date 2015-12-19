@@ -107,11 +107,12 @@ public class Connection : MonoBehaviour {
 		host = "127.0.0.1";
 		port = int.Parse (field.text);
 		setupSocket ();
-		InitWorld ();
+
 	}
 	
-	void	InitWorld()
+	public void	InitWorld()
 	{
+		Debug.Log ("lol");
 		writeSocket ("msz");
 		System.Threading.Thread.Sleep (50);
 		writeSocket ("mct");
@@ -121,6 +122,7 @@ public class Connection : MonoBehaviour {
 	}
 
 	private int eggCounter = 0;//
+
 	void	Update()
 	{
 		if (socketReady)

@@ -227,10 +227,19 @@ public class EventsManager : MonoBehaviour {
             //Debug.Log("Unknown command " + f_key);
 	}
 
+	void ft_bienvenue(string s)
+	{
+		Debug.Log ("merci");
+		Connection.con.writeSocket ("GRAPHIC");
+		System.Threading.Thread.Sleep (50);
+		Connection.con.InitWorld();
+	}
+
 	void Start () {
 		em = this.GetComponent<EventsManager> ();
 		msgBox = Instantiate<MessagesBox>(msgBox);
 		functions = new Dictionary<string, System.Action<string>> ();
+		functions.Add ("BIENVENUE", ft_bienvenue);
 		functions.Add("msz", ft_mapsize);
 		functions.Add("bct", ft_content_map);
 		functions.Add("tna", ft_team_name);
