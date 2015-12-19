@@ -50,7 +50,7 @@ public class Content : MonoBehaviour {
 			if (initialized == false) {
 				pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
 				initialized = true;
-				pan.transform.parent = GameObject.Find("Panels").transform;
+				pan.transform.SetParent(GameObject.Find("Panels").GetComponent<Transform>());
 				pan.SetActive (false);
 			}
 			if (displayInfo == true) {

@@ -12,12 +12,12 @@ public class Player : MonoBehaviour {
 	int		posx = 0;
 	int		posy = 0;
 	int		level = 1;
-	int		nourriture = 2;
+	int		nourriture = 0;
 	int		deraumere = 0;
-	int		linemate = 1;
-	int		mediane = 3;
-	int		phiras = 10;
-	int		sibur = 1;
+	int		linemate = 0;
+	int		mediane = 0;
+	int		phiras = 0;
+	int		sibur = 0;
 	int		thysame = 0;
 
 	void Start()

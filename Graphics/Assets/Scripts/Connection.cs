@@ -71,7 +71,7 @@ public class Connection : MonoBehaviour {
 		string [] ss = s.Split ('\0');
 		foreach (string s0 in ss) {
 			if (!string.IsNullOrEmpty (s0)) {
-				//Debug.Log (s0);
+		//		Debug.Log (s0);
 				EventsManager.em.Parse (s0);
 			}
 		}
@@ -170,9 +170,9 @@ public class Connection : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.I)){
 			writeSocket("sgt");
 		}
-	//	if(Input.GetKeyDown(KeyCode.O)){
-	//		writeSocket("sst 10");
-	//	}
+		if(Input.GetKeyDown(KeyCode.O)){
+			writeSocket("sst 10");
+		}
 
 		if (Input.GetKey(KeyCode.Escape))
 		{

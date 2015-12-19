@@ -15,19 +15,21 @@ public class TimeManagement : MonoBehaviour {
 
 	public void	IncreaseSpeed()
 	{
-		Debug.Log ("click +");
+	//	Debug.Log ("click +");
 		int t = (time + 1 < 100) ? (time + 1) : 100;
 		string s = "sst " + t.ToString ();
-		Debug.Log (s);
+	//	Debug.Log (s);
+	//	string s = "lol";
 		Connection.con.writeSocket(s);
 	}
 	
 	public void	DecreaseSpeed()
 	{
-		Debug.Log ("click -");
+//		Debug.Log ("click -");
 		int t = (time - 1 > 1) ? (time - 1) : 1;
 		string s = "sst " + t.ToString ();
-		Debug.Log (s);
+		//		Debug.Log (s);
+//		string s = "lol";
 		Connection.con.writeSocket(s);
 	}
 

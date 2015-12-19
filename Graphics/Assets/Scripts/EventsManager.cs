@@ -47,8 +47,7 @@ public class EventsManager : MonoBehaviour {
 		string [] split = s.Split (' ');
 		x = int.Parse(split [0]);
 		y = int.Parse(split [1]);
-		// delete map.dalles[x[y];
-		Debug.Log ("more stone " + s);
+//		Debug.Log ("more stone " + s);
 		map.dalles [x, y].GetComponent<Content> ().deleteStone ();
 		map.dalles[x,y].GetComponent<Content>().createStone("bct " + s);
 		return;
@@ -200,7 +199,7 @@ public class EventsManager : MonoBehaviour {
 		int t = int.Parse(split [0]);
 
 		tpanel.setTime (t);
-        
+	//	Debug.Log ("ici");
 		msgBox.ServerMessage("Server time unit: " + s, Color.green);
     }
 
