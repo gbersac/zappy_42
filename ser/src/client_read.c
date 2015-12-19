@@ -48,6 +48,7 @@ void	client_read(t_env *e, int cs)
 	int		res;
 
 	r = recv(cs, buf, BUF_SIZE, 0);
+	printf("--[read]> %s\n", buf);
 	if (r <= 0)
 		close_connection(e, cs);
 	else

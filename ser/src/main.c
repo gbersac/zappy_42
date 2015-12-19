@@ -87,16 +87,22 @@ int		main(void)
   	if (new_socket<0)
     	perror("Accept connection");
 
+printf("bienvenue\n");
 	char *message="BIENVENUE\n";
 	send(new_socket,message,strlen(message),0);
+
+    static char	buf[BUF_SIZE];
+	static int	buf_len = 0;
+	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
+	printf("%s", buf); //print_message
 
 	// char *message2="YOUHOU\n";
 	// send(new_socket,message2,strlen(message2),0);
 
-	static char	buf[BUF_SIZE];
-	static int	buf_len = 0;
-	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
-	printf("%s", buf); //print_message
+	// static char	buf[BUF_SIZE];
+	// static int	buf_len = 0;
+	// recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
+	// printf("%s", buf); //print_message
 
 	char *nbclient="5\n";
 	send(new_socket,nbclient,strlen(nbclient),0);
