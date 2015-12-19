@@ -94,6 +94,8 @@ void		accept_graphic(t_env *e, int s)
 	init_trantorian(&e->fds[cs].trantor, cs);
 }
 
+#include <netdb.h>
+
 void		srv_accept(t_env *e, int cs)
 {
 	int		r;
