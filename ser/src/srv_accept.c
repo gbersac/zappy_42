@@ -69,17 +69,17 @@ void		accept_player(t_env *e, int s)
 	init_trantorian(&e->fds[cs].trantor, cs);
 }
 
-void		accept_graphic(t_env *e, int s)
+void		accept_graphic(t_env *e, int cs)
 {
-	int					cs;
+	// int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
 	printf("graph\n");
 
 	csin_len = sizeof(csin);
-	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
-		ft_ferror("accept error");
+	// if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
+	// 	ft_ferror("accept error");
 	printf("New graphic client #%d from %s:%d\n", cs,
 			inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	e->fds[cs].nickname = NULL;
@@ -96,12 +96,23 @@ void		accept_graphic(t_env *e, int s)
 
 #include <netdb.h>
 
-void		srv_accept(t_env *e, int cs)
+void		srv_accept(t_env *e, int s)
 {
 	int		r;
 	char	buf[BUF_SIZE + 1];
 
 	printf("srv_accept\n");
+
+
+	int					cs;
+	struct sockaddr_in	csin;
+	socklen_t			csin_len;
+
+	printf("graph\n");
+
+	csin_len = sizeof(csin);
+	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
+		ft_ferror("accept error");
 
 	char *message="BIENVENUE\n";
 	send(cs,message,strlen(message),0);
@@ -109,7 +120,7 @@ void		srv_accept(t_env *e, int cs)
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
-		accept_graphic(e, cs);
-	else
-		accept_player(e, cs);
+		accept_graphic(e, s);
+	// else
+	// 	accept_player(e, cs);
 }
