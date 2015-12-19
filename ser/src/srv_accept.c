@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "cmd.h"
 #include "bircd.h"
 #include "libft.h"
 
@@ -46,15 +47,15 @@ static void		client_write(t_env *e, int cs)
 	e->fds[cs].to_send = 0;
 }
 
-void		accept_player(t_env *e, int s)
+void		accept_player(t_env *e, int cs)
 {
-	int					cs;
+	// int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
 	csin_len = sizeof(csin);
-	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
-		ft_ferror("accept error");
+	// if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
+	// 	ft_ferror("accept error");
 	printf("New client #%d from %s:%d\n", cs,
 			inet_ntoa(csin.sin_addr), ntohs(csin.sin_port));
 	e->fds[cs].nickname = NULL;
@@ -91,7 +92,12 @@ void		accept_graphic(t_env *e, int cs)
 	e->fds[cs].to_send = NULL;
 	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
-	init_trantorian(&e->fds[cs].trantor, cs);
+	
+	gfx_msz(e, &e->fds[cs], "msz");
+	gfx_msz(e, &e->fds[cs], "mct");
+	gfx_msz(e, &e->fds[cs], "tna");
+
+//	init_trantorian(&e->fds[cs].trantor, cs);
 }
 
 #include <netdb.h>
@@ -121,6 +127,6 @@ void		srv_accept(t_env *e, int s)
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
-	// else
-	// 	accept_player(e, cs);
+	else
+	 	accept_player(e, cs);
 }
