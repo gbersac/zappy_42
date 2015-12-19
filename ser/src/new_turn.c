@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 22:22:49 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/19 17:36:53 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/19 19:00:31 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,13 @@
 
 static void		trantor_dead(t_env *env, int cs, t_fd *fd)
 {
+	char	*to_send;
+
 	ft_listpushback(&fd->to_send, strdup(MSG_DEAD));
 	printf("Trantor num %d is dead\n", cs);
+	asprintf(&to_send, "pdi %d", fd->trantor.id);
+	send_cmd_to_graphics(env, to_send);
+	free(to_send);
 	close_connection(env, cs);
 }
 
