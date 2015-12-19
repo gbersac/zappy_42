@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:16:37 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/14 20:13:41 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/19 17:16:02 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void		take_idle_trantor(t_env *env, t_fd *fd, t_team team_name)
 		if (strcmp(trantor->team, team_name) == 0)
 		{
 			fd->trantor = *trantor;
+			fd->trantor.id = fd->fd;
 			ft_listpop_n(&env->idle_trant, i + 1);
 			return ;
 		}

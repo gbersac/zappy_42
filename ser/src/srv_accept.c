@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/06 22:44:59 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/19 16:19:59 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void		accept_player(t_env *e, int s)
 	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
+	send_cmd_to_client(&e->fds[cs], MSG_WELCOME);
 }
 
 void		accept_graphic(t_env *e, int s)

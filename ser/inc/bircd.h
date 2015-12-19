@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/18 17:16:07 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/19 17:36:42 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,16 @@ typedef struct		s_fd
 	t_trantorian	trantor;
 }					t_fd;
 
+/*
+** id_trantor: the id of the trantor which created it.
+*/
 typedef struct		s_egg
 {
 	int				countdown;
 	char			*team;
 	int				x;
 	int				y;
+	int				id_trantor;
 	int				id;
 }					t_egg;
 
@@ -106,6 +110,7 @@ typedef struct		s_env
 	fd_set			fd_write;
 	t_map			map;
 	t_list			*egg;
+	int				id_egg;
 	t_list			*idle_trant;
 }					t_env;
 
