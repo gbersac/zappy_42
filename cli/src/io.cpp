@@ -26,11 +26,14 @@ void	send_buffer(t_env *env)
 {
 	char	*tmp;
 
-	while (env->buf_write)
+	while (env->buf_write && env->n_request < 10)
 	{
 		tmp = (char *)ft_listpop(&env->buf_write);
-		printf("send #%s#\n", tmp);
-		send(env->sock, tmp, ft_strlen(tmp), 0);
+		ft_listpushback(&env->buf_pending, tmp);
+		send(env->sock, tmp, ft_strlen(tmp) + 1, 0);
+		env->n_request++;
+		ft_printf("send: %s\n", tmp);
+		ft_printf("n_request: %d\n", env->n_request);
 	}
 }
 
@@ -48,7 +51,10 @@ void	read_msg(t_env *env)
 	split = ft_strsplit(buf, '\n');
 	j = 0;
 	while (split[j])
+	{
+		ft_putendl(split[j]);
 		ft_listpushback(&env->buf_read, split[j++]);
+	}
 	//a faire
 	//free(split[]) et sous split;
 }
@@ -68,9 +74,6 @@ void	main_loop(t_env *env)
 			play(env);
 		}
 		FD_SET(env->sock, &fds_read);
-		//<to delete
-		FD_SET(STDIN_FILENO, &fds_read);
-		//to delete/>
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
@@ -80,15 +83,11 @@ void	main_loop(t_env *env)
 			// ft_putendl("read");
 			read_msg(env);
 		}
-
-		// <to delete
-		if (FD_ISSET(STDIN_FILENO, &fds_read))
+		if (env->status == voir)
 		{
-			char	buf[1];
-
-			read(STDIN_FILENO, buf, 1);
-			write(env->sock, buf, 1);
-			// printf("send %s\n", buf);
+			ft_putendl("voir");
+			ft_listpushback(&env->buf_write, ft_strdup("voir"));
+			env->status++;
 		}
 		// to delete/>
 	}

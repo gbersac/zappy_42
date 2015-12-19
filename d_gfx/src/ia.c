@@ -18,7 +18,6 @@
 
 void	handle_action(t_env *env)
 {
-//	env->last_cmd = ...;
 	++env;
 }
 

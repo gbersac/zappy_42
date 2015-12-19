@@ -19,13 +19,36 @@ extern "C" {
 
 #include "client.hpp"
 
-void	handle_action(t_env *env)
+static int		get_server_param(char *get, t_env *env)
 {
-//	env->last_cmd = ...;
-	++env;
+	char	**pos;
+	int		len;
+
+	pos = ft_strsplit(get, ' ');
+	len = ft_strtabsize(pos);
+	if (pos && len == 1 && ft_strisdigit(pos[0]))
+	{
+		env->n_client = ft_atoi(get);
+		ft_printf("[nclient]: %d\n", env->n_client);
+		return (1);
+	}
+	else if (pos && len == 2 && ft_strisdigit(pos[0]) && ft_strisdigit(pos[1]))
+	{
+		env->pos_x = ft_atoi(pos[0]);
+		env->pos_y = ft_atoi(pos[1]);
+		ft_printf("[coords]: %d, %d\n", env->pos_x, env->pos_y);
+		env->n_request++;
+		env->status = voir;
+		return (2);
+	}
+	else
+	{
+		ft_ferror("error: get_server_param()");
+		return (0);
+	}
 }
 
-void	player_dies(t_env *env, char *get)
+static void	player_dies(t_env *env, char *get)
 {
 	ft_printf("Player dies\n");
 	close(env->sock);
@@ -34,49 +57,70 @@ void	player_dies(t_env *env, char *get)
 	exit(EXIT_SUCCESS);
 }
 
-void	valid_last_action(t_env *env)
+void	interpret_broadcast(t_env *env, char *get)
 {
-	++env;
+	(void)env;
+	(void)get;
+}
+
+
+/*
+** 
+**
+**
+*/
+
+// void	interpret_msg_digit(t_env *env, char *get)
+// {
+
+// }
+static int		interpret_msg_okko(t_env *env, char *get)
+{
+	(void)env;
+	if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
+		ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
+		return (1);
+	return (0);
 }
 
 void	interpret_msg(t_env *env, char *get)
 {
-	char	*to_send;
+	char *tmp;
 
-	if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
+	ft_putendl(get);
+	if (interpret_msg_okko(env, get))
+		tmp = (char *)ft_listpop(&env->buf_pending);
+	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
+		tmp = (char *)ft_listpop(&env->buf_pending);
+	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
 	{
-		asprintf(&to_send, "%s %s\n", CMD_BEGIN_INFO, env->trantor.team);
-		ft_listpushback(&env->buf_write, to_send);
-		env->last_cmd = strdup(to_send);
+		tmp = (char *)ft_listpop(&env->buf_pending);
+		env->n_request++;
 	}
-	if (ft_strnequ(get, CMD_BEGIN_INFO, ft_strlen(CMD_BEGIN_INFO)))
+	else if (get[0] == '{' && ft_isalpha(get[1]))
+		parse_voir(env, get);
+	else if (env->status > 0 && ft_isdigit(get[0]))
+		parse_inventaire(env, get);
+	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
 	{
-		int ret = sscanf(get, "begin_info %d %d %d\n",
-				&env->nb_free_trantor,
-				&env->trantor.pos_x,
-				&env->trantor.pos_x);
-		if (ret < 3)
-		{
-			printf("Team error: %s\n", get + 11);
-		}
+		interpret_broadcast(env, get);
+		ft_printf("[broadcast]: <%s>\n", get);
+		env->n_request++;
 	}
-	if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
+	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
 		player_dies(env, get);
-	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST)))
+	else if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
-		ft_printf("Get a broadcast : <%s>\n", get);
-		// des trucs
+		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
+		cmd(env, "broadcast ", "Je suis là");
 	}
-	else if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
-	{
-		valid_last_action(env);
-		handle_action(env);
-	}
-	else if (ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
-	{
-		ft_printf("Last action fail\n");
-		handle_action(env);
-	}
+	else if (get_server_param(get, env))//digit
+		;
+	else
+		ft_printf("message %s not implemented");
+	env->n_request--;
+	ft_printf("n_request: %d\n", env->n_request);
+	ft_printf("status: %d\n", env->status);
 }
 
 void	play(t_env *env)
@@ -84,7 +128,6 @@ void	play(t_env *env)
 	char	*get;
 
 	get = (char*)ft_listpop(&env->buf_read);
-	ft_putendl(get);
 	interpret_msg(env, get);
 	free(get);
 }

@@ -78,5 +78,6 @@ char		**ft_strtabrm(char ***tab, int index);
 char		*ft_strdelchar(char *str, char *to_remove);
 char		*ft_getenv(char **envp, char *get);
 char		*ft_strcup(char *s1, const char *s2);
+int			ft_strisdigit(char *str);
 
 #endif
