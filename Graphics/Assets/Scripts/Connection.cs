@@ -113,11 +113,11 @@ public class Connection : MonoBehaviour {
 	public void	InitWorld()
 	{
 		Debug.Log ("lol");
-		writeSocket ("msz");
-		System.Threading.Thread.Sleep (50);
-		writeSocket ("mct");
-		System.Threading.Thread.Sleep (50);
-		writeSocket ("tna");
+	//	writeSocket ("msz");
+	//	System.Threading.Thread.Sleep (50);
+	//	writeSocket ("mct");
+	//	System.Threading.Thread.Sleep (50);
+	//	writeSocket ("tna");
 		//some call not being received by client
 	}
 
