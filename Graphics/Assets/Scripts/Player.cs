@@ -19,10 +19,11 @@ public class Player : MonoBehaviour {
 	int		phiras = 0;
 	int		sibur = 0;
 	int		thysame = 0;
+	Animator animator;
 
 	void Start()
 	{
-		//this.enabled = false;
+		animator = GetComponent<Animator> ();
 	}
 
 	public void Init(string s)
@@ -58,28 +59,37 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	float toMove = 0;
 	void	Avance() {
-		Debug.Log ("avance");
-		transform.Translate(Vector3.forward * Time.deltaTime);
+		animator.SetBool ("walking", true);
+		toMove += 1f;
 	}
 
 	void	Droite() {
-		Debug.Log ("droite");
 		transform.Translate(Vector3.right * Time.deltaTime);
 	}
 	
 	void	Gauche() {
-		Debug.Log ("gauche");
 		transform.Translate(Vector3.left * Time.deltaTime);
+	}
+
+	void	Move()
+	{
+		Vector3 diff = Vector3.forward * Time.deltaTime;
+		transform.Translate (diff);
+		toMove -= (diff.x + diff.z);
 	}
 
 	// Update is called once per frame
 	void Update () {
-	
+		if (toMove > 0f)
+			Move ();
+		else
+			animator.SetBool ("walking", false);
 		if(Input.GetKey(KeyCode.DownArrow)){
 			transform.Translate(Vector3.back * Time.deltaTime);	
 		}
-		if(Input.GetKey(KeyCode.UpArrow)){
+		if(Input.GetKeyDown(KeyCode.UpArrow)){
 			Avance();
 		}
 		if(Input.GetKey(KeyCode.RightArrow)){
