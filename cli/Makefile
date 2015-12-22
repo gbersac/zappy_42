@@ -14,8 +14,8 @@
 # BASIC VARIABLES															   #
 ################################################################################
 
-SRCS				:=  main.c io.c connect.c ia.c env.c cmd.c \
-						parse_inventaire.c print_inventaire.c parse_voir.c
+SRCS				:=  main.cpp io.cpp connect.cpp ia.cpp env.cpp cmd.cpp \
+						parse_inventaire.cpp print_inventaire.cpp parse_voir.cpp
 
 PATH_OBJ			:= obj
 PATH_SRC			:= src
