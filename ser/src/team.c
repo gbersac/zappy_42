@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/06 20:58:22 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/14 20:12:55 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/19 19:10:22 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ int			is_in_team(t_trantorian *trantor, t_team team)
 	if (trantor->team == NULL)
 		return (0);
 	return (strcmp(trantor->team, team) == 0);
+}
+
+
+
+static char	*test_for_victory2(t_env *env, t_team team)
+{
+	char	*to_send;
+
+	asprintf(&to_send, "seg %s", team);
+	send_cmd_to_all(env, to_send);
+	free(to_send);
+	printf("Team %s is victorious !\n", team);
+	exit(EXIT_SUCCESS);
+	return (team);
 }
 
 t_team		test_for_victory(t_env *env)
@@ -41,7 +55,7 @@ t_team		test_for_victory(t_env *env)
 			++i;
 		}
 		if (winners >= NB_TRANTOR_VICTORY)
-			return (team);
+			return (test_for_victory2(env, team));
 		iter = iter->next;
 	}
 	return (NULL);

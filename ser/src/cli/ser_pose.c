@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/05 16:18:05 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/19 18:17:56 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int			ser_pose(t_env *env, t_fd *fd, char *cmd)
 {
+	char			*msg;
 	t_square		*sq;
 	t_trantorian	*trantor;
 	int				quantity_inventory;
@@ -31,6 +32,9 @@ int			ser_pose(t_env *env, t_fd *fd, char *cmd)
 	del_resource(&trantor->inventory, res);
 	add_resource(&sq->content, res);
 	send_cmd_to_client(fd, MSG_OK);
-	env = NULL;
+	asprintf(&msg, "pdr %d %d", fd->trantor.id, res);
+	send_cmd_to_graphics(env, msg);
+	free(msg);
 	return (0);
+	env = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 22:22:49 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/18 17:20:28 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/19 19:00:31 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,26 @@
 
 static void		trantor_dead(t_env *env, int cs, t_fd *fd)
 {
+	char	*to_send;
+
 	ft_listpushback(&fd->to_send, strdup(MSG_DEAD));
 	printf("Trantor num %d is dead\n", cs);
+	asprintf(&to_send, "pdi %d", fd->trantor.id);
+	send_cmd_to_graphics(env, to_send);
+	free(to_send);
 	close_connection(env, cs);
 }
 
 void				fork_player(t_env *e, t_egg *egg)
 {
 	t_trantorian	*trant;
+	char			*msg;
 
+	if (egg == NULL)
+	{
+		printf("error: null egg\n");
+		return ;
+	}
 	trant = (t_trantorian*)malloc(sizeof(t_trantorian));
 	init_trantorian(trant, -1);
 	trant->direction = rand() % 4;
@@ -30,59 +41,62 @@ void				fork_player(t_env *e, t_egg *egg)
 	trant->pos_y = egg->y;
 	trant->team = egg->team;
 	ft_listpushback(&e->idle_trant, trant);
+	asprintf(&msg, "eht %d", egg->id);
+	send_cmd_to_graphics(e, msg);
+	free(msg);
 }
 
 static void		grow_egg(t_env *e)
 {
 	t_egg	*egg;
-	t_list	*tmp;
+	t_list	*iter;
 	int		i;
 
 	i = 0;
-	tmp = e->egg;
-	while (tmp)
+	iter = e->egg;
+	while (iter)
 	{
-		if (!tmp->data)
+		if (!iter->data)
 			continue ;
-		egg = (t_egg*)(tmp->data);
+		egg = (t_egg*)(iter->data);
+		iter = iter->next;
 		if (egg->countdown > 0)
-		{
 			--egg->countdown;
-			// printf("egg %d x:%d y:%d countdown : %d\n", egg->id, egg->x, egg->y,egg->countdown);
-			if (egg->countdown == 0)
-			{
-				printf("Egg hatching for team %s\n", egg->team);
-				fork_player(e, egg);
-				ft_listpop_n(&e->egg, i);
-				continue ;
-			}
+		else if (egg->countdown == 0)
+		{
+			printf("Egg hatching for team %s\n", egg->team);
+			fork_player(e, egg);
+			ft_listpop_n(&e->egg, i + 1);
+			continue ;
 		}
-		// printf("egg nb : %d\n", i);
 		i++;
-		tmp = tmp->next;
 	}
 }
 
-static void		set_egg(t_env *e, int id)
+static void		set_egg(t_env *e, t_trantorian *trantor)
 {
 	t_egg	*egg;
 	t_list	*tmp;
 	int		i;
+	char	*msg;
 
 	i = 0;
 	tmp = e->egg;
 	while (tmp)
 	{
 		egg = (t_egg*)(tmp->data);
-		if (egg->countdown == 0 && egg->id == id)
+		if (egg->countdown == -1 && egg->id_trantor == trantor->id)
 		{
-			printf("EGG READY !\n");
 			egg->countdown = CMD_HATCHING_TIME;
+			egg->id = e->id_egg++;
+			asprintf(&msg, "enw %d %d %d %d", egg->id, trantor->id,
+					trantor->pos_x, trantor->pos_y);
+			send_cmd_to_graphics(e, msg);
+			free(msg);
 		}
 		i++;
 		tmp = tmp->next;
 	}
-	printf("number of eggs : %d\n", i);
 }
 
 static void	decrease_life(t_env *e)
@@ -106,7 +120,7 @@ static void	decrease_life(t_env *e)
 					if (trantor->laying == 1)
 					{
 						trantor->laying = 0;
-						set_egg(e, trantor->id);
+						set_egg(e, trantor);
 					}
 					printf("trantor %d is now ready to work !\n", trantor->id);
 				}

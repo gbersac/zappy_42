@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gfx_sst.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/14 15:46:21 by gbersac           #+#    #+#             */
+/*   Updated: 2015/12/19 19:18:39 by gbersac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cmd.h"
 
-int		gfx_sst(t_env *env, t_fd *fd, char *cmd)
+int     gfx_sst(t_env *env, t_fd *fd, char *cmd)
 {
-	char	*to_send;
+    char    *to_send;
 
-	env->map.time_d = ft_atoi(ft_strrchr(cmd, ' '));
-	to_send = (char*)malloc(4);
-	asprintf(&to_send, "sgt %d\n", env->map.time_d);
-	send_cmd_to_client(fd, to_send);
-	return (1);
+    sscanf(cmd, "sst %d\n", &env->map.time_d);
+    asprintf(&to_send, "sgt %d\n", env->map.time_d);
+    send_cmd_to_graphics(env, to_send);
+    free(to_send);
+    return (1);
+    fd = NULL;
 }
-
