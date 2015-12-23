@@ -20,7 +20,7 @@
 
 void			ft_ferror(char *msg)
 {
-	if (ft_strcmp(msg, ""))
+	if (!msg)
 		ft_putendl("Undefined error");
 	ft_printf("%s\n", msg);
 	if (errno)
@@ -96,8 +96,8 @@ int				main(int argc, char **argv)
 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
 	printf("%s", buf); //print_message
 
-	//char *team= "one\n";
-	//send(env.sock,team,strlen(team),0);
+	char *team= "toto\n";
+	send(env.sock,team,strlen(team),0);
 
 	ft_strclr(buf);
 	buf_len = 0;
