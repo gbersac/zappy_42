@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-extern "C" {
+// extern "C" {
 	#include <stdlib.h>
 	#include <unistd.h>
 	#include <stdio.h>
@@ -18,15 +18,15 @@ extern "C" {
 
 	#include "libft.h"
 	#include "general.h"
-}
+// }
 
-#include "client.hpp"
+#include "../inc/client.h"
 
-void			ft_ferror(std::string msg)
+void			ft_ferror(char *msg)
 {
-	if (msg == "")
-		std::cout << "Undefined error" << std::endl;
-	ft_printf("%s\n", msg.c_str());
+	if (ft_strcmp(msg, ""))
+		ft_putendl("Undefined error");
+	ft_printf("%s\n", msg);
 	if (errno)
 		perror(NULL);
 	exit(EXIT_FAILURE);

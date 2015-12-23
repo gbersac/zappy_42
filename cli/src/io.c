@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-extern "C" {
+// extern "C" {
 	#include <stdio.h>
 	#include <unistd.h>
 	#include <stdlib.h>
@@ -18,9 +18,9 @@ extern "C" {
 	#include <sys/socket.h>
 	#include "list.h"
 	#include "libft.h"
-}
+// }
 
-#include "client.hpp"
+#include "client.h"
 
 void	send_buffer(t_env *env)
 {

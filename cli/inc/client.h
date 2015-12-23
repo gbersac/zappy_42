@@ -13,8 +13,8 @@
 #ifndef CLIENT_H
 # define CLIENT_H
 
-# include <string>
-# include <iostream>
+// # include <string>
+// # include <iostream>
 # include "list.h"
 # include "general.h"
 //# include "../../gen/inc/general.h"
@@ -57,9 +57,10 @@ typedef struct	s_env
 	int			status;
 	int			role;
 	t_inventory	inventory;
+	t_trantorian	trantor;
 }				t_env;
 
-void			ft_ferror(std::string msg);
+void			ft_ferror(char *msg);
 void			init_env(t_env *env);
 void			free_env(t_env *env);
 int				connect_to_server(char *ip, int port);

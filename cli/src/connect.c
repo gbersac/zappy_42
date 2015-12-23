@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -10,15 +11,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-extern "C" {
+// extern "C" {
 	#include <stdio.h>
 	#include <netinet/in.h>
 	#include <arpa/inet.h>
 	#include <netdb.h>
 	#include "libft.h"
-}
+// }
 
-#include "client.hpp"
+#include "client.h"
 
 int		connect_to_server(char *ip, int port)
 {

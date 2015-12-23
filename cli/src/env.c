@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-extern "C" {
+// extern "C" {
 	#include <stdlib.h>
 	#include "libft.h"
 	#include "general.h"
-}
+// }
 
-#include "client.hpp"
+#include "client.h"
 
 void	init_env(t_env *env)
 {

@@ -14,15 +14,15 @@
 # BASIC VARIABLES															   #
 ################################################################################
 
-SRCS				:=  main.cpp io.cpp connect.cpp ia.cpp env.cpp cmd.cpp \
-						parse_inventaire.cpp print_inventaire.cpp parse_voir.cpp
+SRCS				:=  main.c io.c connect.c ia.c env.c cmd.c \
+						parse_inventaire.c print_inventaire.c parse_voir.c
 
 PATH_OBJ			:= obj
 PATH_SRC			:= src
 PATH_INC			:= inc
 
 CFLAGS				:= -Wall -Wextra -Werror
-OBJECTS				:= $(patsubst %.cpp, $(PATH_OBJ)/%.o, $(SRCS))
+OBJECTS				:= $(patsubst %.c, $(PATH_OBJ)/%.o, $(SRCS))
 
 ################################################################################
 # LIBRARY VARIABLES															   #
@@ -43,11 +43,11 @@ INCLUDES			:= -I./$(PATH_INC) $(patsubst %,-I%/inc,$(DIR_LIB))
 all: $(NAME_CLIENT)
 
 $(NAME_CLIENT): $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) $(LIBRARY) $(DEBUG)
+	gcc -o $@ $(OBJECTS) $(LIBRARY) $(DEBUG)
 
-$(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.cpp)
+$(PATH_OBJ)/%.o: $(addprefix $(PATH_SRC)/,%.c)
 	@mkdir -p $(PATH_OBJ)
-	$(CXX) -c -o $@ $(CFLAGS) $^ $(DEBUG) -x c $(INCLUDES)
+	gcc -c -o $@ $(CFLAGS) $^ $(DEBUG) -x c $(INCLUDES)
 
 clean:
 	rm -f $(OBJECTS)

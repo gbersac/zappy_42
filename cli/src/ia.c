@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-extern "C" {
+// extern "C" {
 	#include <stdlib.h>
 	#include <unistd.h>
 	#include "libft.h"
 	#include "general.h"
-}
+// }
 
-#include "client.hpp"
+#include "client.h"
 
 static int		get_server_param(char *get, t_env *env)
 {
@@ -112,7 +112,7 @@ void	interpret_msg(t_env *env, char *get)
 	else if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
 		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
-		cmd(env, "broadcast ", "Je suis là");
+		cmd(env, (char *)"broadcast ", (char *)"Je suis là");
 	}
 	else if (get_server_param(get, env))//digit
 		;

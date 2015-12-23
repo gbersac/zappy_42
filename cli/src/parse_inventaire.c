@@ -1,5 +1,5 @@
 #include "../../libft/inc/libft.h"
-#include "../inc/client.h"
+#include "client.h"
 
 /*
 ** Takes a string of the inventory in the form :

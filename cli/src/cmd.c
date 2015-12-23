@@ -1,5 +1,5 @@
-#include "../../libft/inc/libft.h"
 #include "../inc/client.h"
+#include "../../libft/inc/libft.h"
 
 void 	cmd(t_env *env, char *cmd, char *str)
 {
