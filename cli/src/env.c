@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rfrey <rfrey@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/06/04 23:59:17 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/05 00:03:52 by rfrey            ###   ########.fr       */
+/*   Created: 2014/06/04 23:59:17 by flime             #+#    #+#             */
+/*   Updated: 2014/06/05 00:03:52 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// extern "C" {
-	#include <stdlib.h>
-	#include "libft.h"
-	#include "general.h"
-// }
-
+#include <stdlib.h>
+#include "libft.h"
+#include "general.h"
 #include "client.h"
 
 void	init_env(t_env *env)

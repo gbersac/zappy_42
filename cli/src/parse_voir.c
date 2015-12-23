@@ -1,12 +1,12 @@
 #include "../../libft/inc/libft.h"
 #include "../inc/client.h"
 
-void parse_voir(t_env *env, char *str)
+void	parse_voir(t_env *env, char *str)
 {
-	char *without_bracket;
-	char **astr;
-	char **case_astr;
-	int i;
+	char	*without_bracket;
+	char	**astr;
+	char	**case_astr;
+	int		i;
 
 	ft_putendl(str);
 	without_bracket = ft_strsub(str, 1, ft_strlen(str) - 2);

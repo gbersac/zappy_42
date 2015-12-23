@@ -9,9 +9,9 @@
 ** and fill the inventory
 */
 
-void parse_inventaire(t_env *env, char *str)
+void	parse_inventaire(t_env *env, char *str)
 {
-	char **astr;
+	char	**astr;
 
 	astr = ft_strsplit(str, ' ');
 	env->inventory.nb_food = ft_atoi(astr[0]);

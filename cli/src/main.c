@@ -10,16 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// extern "C" {
-	#include <stdlib.h>
-	#include <unistd.h>
-	#include <stdio.h>
-	#include <sys/errno.h>
-
-	#include "libft.h"
-	#include "general.h"
-// }
-
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/errno.h>
+#include "libft.h"
+#include "general.h"
 #include "../inc/client.h"
 
 void			ft_ferror(char *msg)

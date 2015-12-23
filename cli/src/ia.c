@@ -5,21 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/06/04 22:35:26 by rfrey             #+#    #+#             */
+/*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
 /*   Updated: 2015/12/14 20:14:47 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// extern "C" {
-	#include <stdlib.h>
-	#include <unistd.h>
-	#include "libft.h"
-	#include "general.h"
-// }
-
+#include <stdlib.h>
+#include <unistd.h>
+#include "libft.h"
+#include "general.h"
 #include "client.h"
 
-static int		get_server_param(char *get, t_env *env)
+static int	get_server_param(char *get, t_env *env)
 {
 	char	**pos;
 	int		len;
@@ -57,7 +54,7 @@ static void	player_dies(t_env *env, char *get)
 	exit(EXIT_SUCCESS);
 }
 
-void	interpret_broadcast(t_env *env, char *get)
+void		interpret_broadcast(t_env *env, char *get)
 {
 	(void)env;
 	(void)get;
@@ -74,7 +71,7 @@ void	interpret_broadcast(t_env *env, char *get)
 // {
 
 // }
-static int		interpret_msg_okko(t_env *env, char *get)
+static int	interpret_msg_okko(t_env *env, char *get)
 {
 	(void)env;
 	if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
@@ -83,9 +80,9 @@ static int		interpret_msg_okko(t_env *env, char *get)
 	return (0);
 }
 
-void	interpret_msg(t_env *env, char *get)
+void		interpret_msg(t_env *env, char *get)
 {
-	char *tmp;
+	char	*tmp;
 
 	ft_putendl(get);
 	if (interpret_msg_okko(env, get))
@@ -123,7 +120,7 @@ void	interpret_msg(t_env *env, char *get)
 	ft_printf("status: %d\n", env->status);
 }
 
-void	play(t_env *env)
+void		play(t_env *env)
 {
 	char	*get;
 

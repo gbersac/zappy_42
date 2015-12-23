@@ -1,9 +1,9 @@
 #include "../inc/client.h"
 #include "../../libft/inc/libft.h"
 
-void 	cmd(t_env *env, char *cmd, char *str)
+void	cmd(t_env *env, char *cmd, char *str)
 {
-	char *ret;
+	char	*ret;
 
 	ft_putendl(cmd);
 	if (str)
