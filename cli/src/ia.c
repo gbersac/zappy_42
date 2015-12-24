@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 22:02:48 by flime            ###   ########.fr       */
+/*   Updated: 2015/12/24 22:29:55 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,17 @@ void		interpret_msg(t_env *env, char *get)
 	ft_putendl(get);
 	if (interpret_msg_okko(env, get))
 	{
-		ft_putendl("ko");
-		tmp = (char *)ft_listpop(&env->buf_pending);
+		ft_putendl("okko");
+		if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
+		{
+			ft_putendl("in");
+			cmd(env, "voir", "");
+		}
+		else
+			exit(0);
+		// tmp = (char *)ft_listpop(&env->buf_pending);
+		// ft_putstr("okko pop : ");
+		// ft_putendl(tmp);
 		// if (env->n_request == 1)
 		// 	env->n_request = 0;
 	}

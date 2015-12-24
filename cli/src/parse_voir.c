@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/23 23:17:00 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 21:58:23 by flime            ###   ########.fr       */
+/*   Updated: 2015/12/24 22:56:24 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	parse_voir(t_env *env, char *str)
 	i = 0;
 	// while (case_astr[i])
 	// {
-		// cmd(env, "prend ", case_astr[i]);
-		// i++;
+		cmd(env, "prend ", "1 0 0 0 0 0 0");
+	// 	i++;
 	// }
-	env->status = voir;
-	cmd(env, "voir", NULL);// test a delete
+	// env->status = voir;
+	// cmd(env, "voir", NULL);// test a delete
 }
