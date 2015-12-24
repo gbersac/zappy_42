@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/21 22:36:03 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/16 16:11:52 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/24 22:17:28 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,13 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 	int		res;
 	t_cmd	*command;
 
-	if (fd->trantor.countdown > 0)
-	{
-		ft_listpushback(&fd->to_send, strdup(MSG_KO));
-		return (0);
-	}
+	ft_putendl("interpret_cmd");
+	// CA SERT A QUOI???
+	// if (fd->trantor.countdown > 0)
+	// {
+	// 	ft_listpushback(&fd->to_send, strdup(MSG_KO));
+	// 	return (0);
+	// }
 	lst_cmd = get_lst_cmd();
 	while (lst_cmd != NULL)
 	{

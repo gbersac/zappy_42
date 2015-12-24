@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 17:18:14 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 17:28:59 by flime            ###   ########.fr       */
+/*   Updated: 2015/12/24 22:18:19 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,21 @@ int				main(int argc, char **argv)
 // 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
 // 	printf("%s", buf); //print_message
 
+// 	ft_strclr(buf);
+// 	buf_len = 0;
+// 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
+// 	printf("%s", buf); //print_message
+
+// 	char *voir= "voir\n";
+// 	send(env.sock,voir,strlen(voir),0);
+
+// 	ft_strclr(buf);
+// 	buf_len = 0;
+// 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
+// 	printf("%s", buf); //print_message
+
+// 	send(env.sock,voir,strlen(voir),0);
+	
 // 	ft_strclr(buf);
 // 	buf_len = 0;
 // 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);

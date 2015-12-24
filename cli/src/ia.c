@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 17:30:49 by flime            ###   ########.fr       */
+/*   Updated: 2015/12/24 22:02:48 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,12 @@ void		interpret_msg(t_env *env, char *get)
 	ft_putstr("interpret_msg: ");
 	ft_putendl(get);
 	if (interpret_msg_okko(env, get))
+	{
+		ft_putendl("ko");
 		tmp = (char *)ft_listpop(&env->buf_pending);
+		// if (env->n_request == 1)
+		// 	env->n_request = 0;
+	}
 	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
 		tmp = (char *)ft_listpop(&env->buf_pending);
 	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
@@ -95,15 +100,18 @@ void		interpret_msg(t_env *env, char *get)
 		tmp = (char *)ft_listpop(&env->buf_pending);
 		env->n_request++;
 	}
-	else if (get[0] == '{' && ft_isalpha(get[1]))
+	else if (get[0] == '{' && ft_isdigit(get[1]))
+	{
+		ft_putendl("{");
 		parse_voir(env, get);
+	}
 	else if (env->status > 0 && ft_isdigit(get[0]))
 		parse_inventaire(env, get);
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
 	{
 		interpret_broadcast(env, get);
 		ft_printf("[broadcast]: <%s>\n", get);
-		env->n_request++;
+		// env->n_request++;
 	}
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
 		player_dies(env, get);
@@ -112,7 +120,7 @@ void		interpret_msg(t_env *env, char *get)
 		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
 		cmd(env, (char *)"broadcast ", (char *)"Je suis là");
 	}
-	else if (get_server_param(get, env))//digit
+	else if (get[0] != '{' && get_server_param(get, env))//digit
 		;
 	else
 		ft_printf("message %s not implemented");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_read.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:53:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/14 19:56:32 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/24 21:53:53 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	client_read(t_env *e, int cs)
 	{
 		ft_memcpy(&(e->fds[cs].buf_read[e->fds[cs].buf_read_len]), buf, r);
 		e->fds[cs].buf_read_len += r;
-		if (e->fds[cs].buf_read[e->fds[cs].buf_read_len - 1] == '\n')
-		{
+		// if (e->fds[cs].buf_read[e->fds[cs].buf_read_len - 1] == '\n')
+		// {
 			res = interpret_cmd(e, &e->fds[cs], e->fds[cs].buf_read);
 			if (res == 1)
 				close_connection(e, cs);
@@ -65,6 +65,6 @@ void	client_read(t_env *e, int cs)
 				bzero(e->fds[cs].buf_read, BUF_SIZE);
 				e->fds[cs].buf_read_len = 0;
 			}
-		}
+		// }
 	}
 }
