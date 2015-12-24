@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ser_voir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/05 19:00:22 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/24 23:19:50 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,14 @@ static char	*explore_hori(t_env *env, t_fd *fd, int inc)
 static void	end_ser_voir(t_fd *fd, char *str)
 {
 	char			*buf;
+	char *ret;
 
 	buf = str;
 	str = (char*)malloc(sizeof(char) * strlen(str) + 3);
 	memcpy(str, buf, strlen(buf) + 1);
-	strcat(str, "}");
-	send_cmd_to_client(fd, str);
+	ret = ft_strsub(str, 0, strlen(buf) - 2);
+	strcat(ret, "}");
+	send_cmd_to_client(fd, ret);
 }
 
 int			ser_voir(t_env *env, t_fd *fd, char *cmd)
