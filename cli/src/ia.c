@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 00:22:22 by flime            ###   ########.fr       */
+/*   Updated: 2015/12/24 17:30:49 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void		interpret_msg(t_env *env, char *get)
 {
 	char	*tmp;
 
+	ft_putstr("interpret_msg: ");
 	ft_putendl(get);
 	if (interpret_msg_okko(env, get))
 		tmp = (char *)ft_listpop(&env->buf_pending);

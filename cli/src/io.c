@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 21:56:17 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 00:22:38 by flime            ###   ########.fr       */
+/*   Updated: 2015/12/24 17:31:38 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	read_msg(t_env *env)
 	j = 0;
 	while (split[j])
 	{
-		ft_putendl(split[j]);
+		// ft_putendl(split[j]);
 		ft_listpushback(&env->buf_read, split[j++]);
 	}
 	//a faire

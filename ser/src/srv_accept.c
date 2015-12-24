@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 00:21:45 by flime            ###   ########.fr       */
+/*   Updated: 2015/12/24 18:13:47 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,16 @@ void		accept_player(t_env *e, int cs)
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
 	//	interpret_cmd(e, &e->fds[cs], "msz");
+	char *nbclient= ft_strjoin(ft_itoa(e->map.max_client), "\n");
+	send(cs,nbclient,strlen(nbclient),0);
+	free(nbclient);
+	char *width= ft_strjoin(ft_itoa(e->map.width), " ");
+	char *height= ft_strjoin(ft_itoa(e->map.height), "\n");
+	char *xy= ft_strjoin(width, height);
+	send(cs,xy,strlen(xy),0);
+	free(width);
+	free(height);
+	free(xy);
 }
 
 void		accept_graphic(t_env *e, int cs)
@@ -117,6 +127,6 @@ void		srv_accept(t_env *e, int s)
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
-	else
+	else //carte???
 	 	accept_player(e, cs);
 }
