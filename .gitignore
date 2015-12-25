@@ -9,6 +9,9 @@
 
 .nfs.*
 
+# Mac files
+.DS_STORE
+
 # Object files
 *.o
 *.ko

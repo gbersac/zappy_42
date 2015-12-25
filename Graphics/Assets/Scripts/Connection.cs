@@ -78,20 +78,6 @@ public class Connection : MonoBehaviour {
 		socketReady = true;
 	}
 
-	public String readSocket()
-	{
-		if (!socketReady) {
-			return string.Empty;
-		}
-		if (theStream.DataAvailable) {
-			var s = theReader.ReadLine();
-			Debug.Log("connection readed " + s);
-			return (s);
-		} else {
-			return string.Empty;
-		}
-	}
-	
 	public void closeSocket()
 	{
 		if (!socketReady)

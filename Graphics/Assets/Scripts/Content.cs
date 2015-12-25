@@ -29,7 +29,7 @@ public class Content : MonoBehaviour {
 
 	public void	createStone(string answer)
 	{
-		string [] split = answer.Split (new Char [] {' '});
+		string [] split = answer.Split (' ');
 
 		if (( int.Parse(split[1]) == transform.position.x) && ( int.Parse(split[2]) == transform.position.z))
 		{

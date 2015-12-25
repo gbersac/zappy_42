@@ -70,7 +70,8 @@ public class Player : MonoBehaviour {
 	}
 	
 	void	Gauche() {
-		transform.Translate(Vector3.left * Time.deltaTime);
+		animator.SetTrigger ("lturn");
+		transform.Rotate (new Vector3 (0, -20.444f, 0));
 	}
 
 	void	Move()
@@ -92,10 +93,10 @@ public class Player : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.UpArrow)){
 			Avance();
 		}
-		if(Input.GetKey(KeyCode.RightArrow)){
+		if(Input.GetKeyDown(KeyCode.RightArrow)){
 			Droite();
 		}
-		if(Input.GetKey(KeyCode.LeftArrow)){
+		if(Input.GetKeyDown(KeyCode.LeftArrow)){
 			Gauche();
 		}
 		if (Input.GetKey (KeyCode.Return)) {
