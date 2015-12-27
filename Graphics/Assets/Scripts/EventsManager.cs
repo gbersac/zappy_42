@@ -14,8 +14,9 @@ public class EventsManager : MonoBehaviour {
 
 	public GroundGenerator map;
 	static public EventsManager em;
-	//keep static map ?
 
+	Dictionary<int, Player> players = new Dictionary<int, Player>();
+	int playerCounter = 0;
 
     void    recMessage(string s)
     {
@@ -54,24 +55,31 @@ public class EventsManager : MonoBehaviour {
 		return;
 	}
 
-	Dictionary<string, Player> players = new Dictionary<string, Player>();
 
 	void	ft_team_name(string s)
 	{
-		if (players.ContainsKey (s)) {
-			Debug.Log ("TBD Player already exists: " + s);
-			return;
-		}
+//		if (players.ContainsKey (s)) {
+//			Debug.Log ("TBD Player already exists: " + s);
+//			return;
+//		}
 		Player newPlayer = Instantiate<Player> (playerPrefab);
 		newPlayer.Init (s);
-		players.Add (s, newPlayer);
+		players.Add (playerCounter, newPlayer);
 		newPlayer.transform.parent = GameObject.Find("World").transform;
 
-		//create player s in list or dictionary ?
-		//ppo = pos du joueur
-		//plv level et pin inventaire ou juste au clic ?
+		//Connection.con.writeSocket ("ppo " + playerCounter);
+		//call pos or given ?
 
-		return;
+
+		//faking
+		int x = UnityEngine.Random.Range (0, 20);
+		int z = UnityEngine.Random.Range (0, 10);
+		int or = UnityEngine.Random.Range (1, 5);
+		string str = playerCounter + " " + x + " " + z + " " + or;
+		ft_player_position (str);
+		//end
+
+		playerCounter++;
 	}
 	
 	void	ft_new_player(string s)
@@ -81,8 +89,16 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_player_position(string s)
 	{
-		Debug.Log ("POS: " + s);
-		return;
+		int playerNo = int.Parse (s.Split (' ') [0]);
+		if (players.ContainsKey (playerNo))
+		{
+			int x = int.Parse (s.Split (' ') [1]);
+			int z = int.Parse (s.Split (' ') [2]);
+			int or = int.Parse (s.Split (' ') [3]);
+			players[playerNo].InitPos(x, z, or);
+		}
+		else
+			Debug.Log ("Player no " + playerNo + " not found.");
 	}
 	
 	void	ft_player_level(string s)

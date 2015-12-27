@@ -8,7 +8,7 @@ public class Player : MonoBehaviour {
 
 	GameObject pan;
 
-	string	name;
+	string	playerName;
 	int		posx = 0;
 	int		posy = 0;
 	int		level = 1;
@@ -23,27 +23,34 @@ public class Player : MonoBehaviour {
 
 	void Start()
 	{
-		//TMP for debug
-		posx = Random.Range (0, 10);
-		posy = Random.Range (0, 10);
-		Debug.Log (transform	.position);
-		Vector3 pos = transform.position;
-		pos.x = posx;
-		pos.z = posy;
-		transform.position = pos;
-
-
 		animator = GetComponent<Animator> ();
+	}
+
+	public void InitPos(int x, int z, int or)
+	{
+		float xOffset = 0f;
+		float zOffset = 0f;
+
+		if (or == 1)
+			zOffset = 0.8f;
+		else if (or == 2)
+			xOffset = -0.8f;
+		else if (or == 3)
+			zOffset = -0.8f;
+		else if (or == 4)
+			xOffset = 0.8f;
+		Vector3 pos = new Vector3 (x + xOffset, 0.1f, z + zOffset);
+
+		transform.Rotate (Vector3.up, -90f * (or - 1));
+		transform.position = pos;
+		gameObject.SetActive (true);
 	}
 
 	public void Init(string s)
 	{
-		name = s;
+		playerName = s;
 		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
-		pan.GetComponent<infoPanel>().setinfo( name, posx, posy, level, nourriture, deraumere, linemate, mediane, phiras, sibur, thysame);
-		//ppo just sends ko or segv atm
-		//Connection.con.writeSocket ("ppo " + 1);
-		//this.enabled = true;//if pos OK
+		pan.GetComponent<infoPanel>().setinfo( playerName, posx, posy, level, nourriture, deraumere, linemate, mediane, phiras, sibur, thysame);
 	}
 
 	void OnMouseDown () {
