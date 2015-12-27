@@ -25,13 +25,11 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_mapsize(string s)
 	{
-//		GroundGenerator map;
 		int x, y, index;
 		
 		index = s.IndexOf (' ');
 		x = int.Parse (s.Substring(0, index));
 		y = int.Parse (s.Substring(index + 1, s.Length - index - 1));
-//		map = ground.GetComponent<GroundGenerator> ();
 		if (map.width == x && map.height == y)
 			return;
 		map.width = x;
@@ -43,13 +41,10 @@ public class EventsManager : MonoBehaviour {
 	{
 		int x;
 		int y;
-//		GroundGenerator map;
-//		map = ground.GetComponent<GroundGenerator> ();
 
 		string [] split = s.Split (' ');
 		x = int.Parse(split [0]);
 		y = int.Parse(split [1]);
-//		Debug.Log ("more stone " + s);
 		map.dalles [x, y].GetComponent<Content> ().deleteStone ();
 		map.dalles[x,y].GetComponent<Content>().createStone("bct " + s);
 		return;
@@ -58,10 +53,6 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_team_name(string s)
 	{
-//		if (players.ContainsKey (s)) {
-//			Debug.Log ("TBD Player already exists: " + s);
-//			return;
-//		}
 		Player newPlayer = Instantiate<Player> (playerPrefab);
 		newPlayer.Init (s);
 		players.Add (playerCounter, newPlayer);
@@ -126,9 +117,11 @@ public class EventsManager : MonoBehaviour {
 		return;
 	}
 	
-	void	ft_player_ponds(string s)
+	void	ft_player_lays(string s)
 	{
-		return;
+		int playerNo = int.Parse (s);
+
+		players [playerNo].StartLaying ();
 	}
 	
 	void	ft_player_vomit(string s)
@@ -152,8 +145,6 @@ public class EventsManager : MonoBehaviour {
 		int playerNo;
 		int x;
 		int y;
-//		GroundGenerator map;//mb init at msz and keep
-//		map = ground.GetComponent<GroundGenerator> ();
 		
 		string [] split = s.Split (' ');
 		if (split.Length != 4) {
@@ -172,6 +163,7 @@ public class EventsManager : MonoBehaviour {
 			Debug.Log("Error: bad parameters in ft_new_egg_pos.");
 			return ;
 		}
+		players [playerNo].StopLaying ();
 		map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo);
 	}
 	
@@ -179,9 +171,6 @@ public class EventsManager : MonoBehaviour {
 	{
 
 		int eggNo;
-//		GroundGenerator map;
-		//mb init at msz and keep
-//		map = ground.GetComponent<GroundGenerator> ();
 
 		try
 		{
@@ -268,7 +257,7 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("pex", ft_player_expulse);
 		functions.Add("pbc", ft_player_brodcast);
 		functions.Add("pic", ft_player_incantation);
-		functions.Add("pfk", ft_player_ponds);
+		functions.Add("pfk", ft_player_lays);
 		functions.Add("pdr", ft_player_vomit);
 		functions.Add("pgt", ft_player_take);
 		functions.Add("pdi", ft_player_died);
@@ -281,5 +270,13 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("suc", unknownCommand);
 		functions.Add("sbp", badArgs);
 
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown (KeyCode.Z)) {
+			Parse ("pfk 0");
+		} else if (Input.GetKeyDown (KeyCode.X))
+			Parse ("enw 8 0 2 2");
 	}
 }

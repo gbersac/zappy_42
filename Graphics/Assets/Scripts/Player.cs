@@ -21,6 +21,16 @@ public class Player : MonoBehaviour {
 	int		thysame = 0;
 	Animator animator;
 
+	public void StartLaying()
+	{
+		animator.SetBool ("laying", true);
+	}
+
+	public void StopLaying()
+	{
+		animator.SetBool ("laying", false);
+	}
+
 	void Start()
 	{
 		animator = GetComponent<Animator> ();
