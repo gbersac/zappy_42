@@ -21,6 +21,39 @@ public class Player : MonoBehaviour {
 	int		thystame = 0;
 	Animator animator;
 
+	public void pickRess(int ressNo)
+	{
+		animator.SetTrigger ("picking");
+		switch (ressNo)
+		{
+		case 0:
+			nourriture++;
+			break ;
+		case 1:
+			linemate++;
+			break;
+		case 2:
+			deraumere++;
+			break;
+		case 3:
+			sibur++;
+			break;
+		case 4:
+			mendiane++;
+			break;
+		case 5:
+			phiras++;
+			break;
+		case 6:
+			thystame++;
+			break;
+		default:
+			Debug.Log("Error: unknown ressource " + ressNo);
+			break;
+		}
+		
+	}
+
 	public void throwRess(int ressNo)
 	{
 		animator.SetTrigger ("throwing");

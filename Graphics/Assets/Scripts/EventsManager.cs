@@ -139,9 +139,20 @@ public class EventsManager : MonoBehaviour {
 		}
 	}
 	
-	void	ft_player_take(string s)
+	void	ft_player_picks(string s)
 	{
-		return;
+		try
+		{
+			int playerNo = int.Parse (s.Split (' ') [0]);
+			int ressNo = int.Parse (s.Split (' ') [1]);
+			players[playerNo].pickRess(ressNo);
+			//should be rm from the map
+		}
+		catch
+		{
+			Debug.Log("Error: bad parameters in ft_player_picks.");
+			return ;
+		}
 	}
 	
 	void	ft_player_died(string s)
@@ -269,7 +280,7 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("pic", ft_player_incantation);
 		functions.Add("pfk", ft_player_lays);
 		functions.Add("pdr", ft_player_vomit);
-		functions.Add("pgt", ft_player_take);
+		functions.Add("pgt", ft_player_picks);
 		functions.Add("pdi", ft_player_died);
 		functions.Add("enw", ft_new_egg_pos);
 		functions.Add("eht", ft_egg_born);
@@ -289,6 +300,8 @@ public class EventsManager : MonoBehaviour {
 		else if (Input.GetKeyDown (KeyCode.X))
 			Parse ("enw 8 0 2 2");
 		else if (Input.GetKeyDown (KeyCode.C))
-			Parse ("pdr 0 0");
+			Parse ("pdr 0 1");
+		else if (Input.GetKeyDown (KeyCode.V))
+			Parse ("pgt 0 1");
 	}
 }
