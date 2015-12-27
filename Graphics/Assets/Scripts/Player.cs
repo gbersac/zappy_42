@@ -66,12 +66,13 @@ public class Player : MonoBehaviour {
 	}
 
 	void	Droite() {
-		transform.Translate(Vector3.right * Time.deltaTime);
+		animator.SetTrigger ("rturn");
+		transform.Rotate (new Vector3 (0, 14.69f, 0));
 	}
 	
 	void	Gauche() {
 		animator.SetTrigger ("lturn");
-		transform.Rotate (new Vector3 (0, -20.444f, 0));
+		transform.Rotate (new Vector3 (0, -20.4f, 0));
 	}
 
 	void	Move()
