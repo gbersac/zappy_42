@@ -55,6 +55,7 @@ public class EventsManager : MonoBehaviour {
 	{
 		Player newPlayer = Instantiate<Player> (playerPrefab);
 		newPlayer.Init (s);
+		newPlayer.playerNo = playerCounter;
 		players.Add (playerCounter, newPlayer);
 		newPlayer.transform.parent = GameObject.Find("World").transform;
 
@@ -146,7 +147,7 @@ public class EventsManager : MonoBehaviour {
 			int playerNo = int.Parse (s.Split (' ') [0]);
 			int ressNo = int.Parse (s.Split (' ') [1]);
 			players[playerNo].PickRess(ressNo);
-			//should be rm from the map
+			map.RemoveStone((int)(players[playerNo].transform.position.x), (int)(players[playerNo].transform.position.z), ressNo);
 		}
 		catch
 		{
@@ -325,7 +326,5 @@ public class EventsManager : MonoBehaviour {
 			Parse ("pgt 0 1");
 		else if (Input.GetKeyDown (KeyCode.B))
 			Parse ("seg 0");
-			
-		
 	}
 }

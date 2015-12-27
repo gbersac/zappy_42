@@ -5,6 +5,7 @@ public class Player : MonoBehaviour {
 	
 	public GameObject infoPanel;
 	public bool info = false;
+	public int	playerNo;
 	public bool alive = true;
 	GameObject pan;
 
@@ -131,6 +132,7 @@ public class Player : MonoBehaviour {
 		transform.Rotate (Vector3.up, -90f * (or - 1));
 		transform.position = pos;
 		gameObject.SetActive (true);
+//		textMesh.transform.position = Camera.current.WorldToScreenPoint(transform.position);
 	}
 
 	public void Init(string s)

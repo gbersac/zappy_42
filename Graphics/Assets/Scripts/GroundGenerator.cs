@@ -9,6 +9,29 @@ public class GroundGenerator : MonoBehaviour {
 	public GameObject dalle;
 	public GameObject[,] dalles;
 	public List<Egg> availableEggs;
+	private string []ressoucesNames = {
+		"Nourriture(Clone)",
+		"linemate(Clone)",
+		"deraumere(Clone)",
+		"sibur(Clone)",
+		"mediane(Clone)",
+		"phiras(Clone)",
+		"thysame(Clone)"
+	};
+
+	public void RemoveStone(int x, int z, int no)
+	{
+		try
+		{
+			Transform target = dalles [x, z].transform;
+			Transform stone = target.FindChild (ressoucesNames [no]);
+			Destroy (stone.gameObject);
+		}
+		catch
+		{
+			Debug.Log("No stone of given type at location X: " + x + " y: " + z);
+		}
+	}
 
 	public void Initialize()
 	{
