@@ -15,11 +15,44 @@ public class Player : MonoBehaviour {
 	int		nourriture = 0;
 	int		deraumere = 0;
 	int		linemate = 0;
-	int		mediane = 0;
+	int		mendiane = 0;
 	int		phiras = 0;
 	int		sibur = 0;
-	int		thysame = 0;
+	int		thystame = 0;
 	Animator animator;
+
+	public void throwRess(int ressNo)
+	{
+		animator.SetTrigger ("throwing");
+		switch (ressNo)
+		{
+		case 0:
+			nourriture--;
+			break ;
+		case 1:
+			linemate--;
+			break;
+		case 2:
+			deraumere--;
+			break;
+		case 3:
+			sibur--;
+			break;
+		case 4:
+			mendiane--;
+			break;
+		case 5:
+			phiras--;
+			break;
+		case 6:
+			thystame--;
+			break;
+		default:
+			Debug.Log("Error: unknown ressource " + ressNo);
+			break;
+		}
+
+	}
 
 	public void StartLaying()
 	{
@@ -60,7 +93,7 @@ public class Player : MonoBehaviour {
 	{
 		playerName = s;
 		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
-		pan.GetComponent<infoPanel>().setinfo( playerName, posx, posy, level, nourriture, deraumere, linemate, mediane, phiras, sibur, thysame);
+		pan.GetComponent<infoPanel>().setinfo( playerName, posx, posy, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
 	}
 
 	void OnMouseDown () {

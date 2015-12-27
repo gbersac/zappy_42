@@ -126,7 +126,17 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_player_vomit(string s)
 	{
-		return;
+		try
+		{
+			int playerNo = int.Parse (s.Split (' ') [0]);
+			int ressNo = int.Parse (s.Split (' ') [1]);
+			players[playerNo].throwRess(ressNo);
+		}
+		catch
+		{
+			Debug.Log("Error: bad parameters in ft_player_vomit.");
+			return ;
+		}
 	}
 	
 	void	ft_player_take(string s)
@@ -274,9 +284,11 @@ public class EventsManager : MonoBehaviour {
 
 	void Update()
 	{
-		if (Input.GetKeyDown (KeyCode.Z)) {
+		if (Input.GetKeyDown (KeyCode.Z))
 			Parse ("pfk 0");
-		} else if (Input.GetKeyDown (KeyCode.X))
+		else if (Input.GetKeyDown (KeyCode.X))
 			Parse ("enw 8 0 2 2");
+		else if (Input.GetKeyDown (KeyCode.C))
+			Parse ("pdr 0 0");
 	}
 }
