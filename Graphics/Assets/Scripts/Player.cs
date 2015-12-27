@@ -23,6 +23,16 @@ public class Player : MonoBehaviour {
 
 	void Start()
 	{
+		//TMP for debug
+		posx = Random.Range (0, 10);
+		posy = Random.Range (0, 10);
+		Debug.Log (transform	.position);
+		Vector3 pos = transform.position;
+		pos.x = posx;
+		pos.z = posy;
+		transform.position = pos;
+
+
 		animator = GetComponent<Animator> ();
 	}
 
@@ -47,7 +57,11 @@ public class Player : MonoBehaviour {
 			//put PlayerCam in Player environment
 			CamManagement.cmgnt.PlayerCam.transform.parent = gameObject.transform;
 			//set position PlayerCam in Player environment
-			CamManagement.cmgnt.PlayerCam.transform.localPosition = new Vector3(0f, 1.23f, -5.16f);
+			Vector3 pos = transform.position;
+			pos.y = 1.23f;
+			pos -= 4 * transform.forward;
+			CamManagement.cmgnt.PlayerCam.transform.position = pos;
+			CamManagement.cmgnt.PlayerCam.transform.rotation = transform.rotation;
 			info = true;
 		} else {
 			pan.SetActive (false);
@@ -82,12 +96,36 @@ public class Player : MonoBehaviour {
 		toMove -= (diff.x + diff.z);
 	}
 
+	void CheckBorders()
+	{
+		Vector3 currentPos = transform.position;
+		int width = EventsManager.em.map.width;
+		int height = EventsManager.em.map.height;
+
+		if (currentPos.x < -0.5f)
+			currentPos.x += width;
+		else if (currentPos.x > width - 0.5f)
+			currentPos.x -= width;
+		else if (currentPos.z < -0.5f)
+			currentPos.z += height;
+		else if (currentPos.z > height - 0.5f)
+			currentPos.z -= height;
+		else
+			return;
+		transform.position = currentPos;
+
+	}
+
+
 	// Update is called once per frame
 	void Update () {
 		if (toMove > 0f)
 			Move ();
 		else
 			animator.SetBool ("walking", false);
+		CheckBorders ();
+
+
 		if(Input.GetKey(KeyCode.DownArrow)){
 			transform.Translate(Vector3.back * Time.deltaTime);	
 		}

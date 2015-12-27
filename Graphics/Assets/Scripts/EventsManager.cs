@@ -12,6 +12,7 @@ public class EventsManager : MonoBehaviour {
     public MessagesBox msgBox;
 	public Player playerPrefab;
 
+	public GroundGenerator map;
 	static public EventsManager em;
 	//keep static map ?
 
@@ -23,13 +24,13 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_mapsize(string s)
 	{
-		GroundGenerator map;
+//		GroundGenerator map;
 		int x, y, index;
 		
 		index = s.IndexOf (' ');
 		x = int.Parse (s.Substring(0, index));
 		y = int.Parse (s.Substring(index + 1, s.Length - index - 1));
-		map = ground.GetComponent<GroundGenerator> ();
+//		map = ground.GetComponent<GroundGenerator> ();
 		if (map.width == x && map.height == y)
 			return;
 		map.width = x;
@@ -41,8 +42,8 @@ public class EventsManager : MonoBehaviour {
 	{
 		int x;
 		int y;
-		GroundGenerator map;
-		map = ground.GetComponent<GroundGenerator> ();
+//		GroundGenerator map;
+//		map = ground.GetComponent<GroundGenerator> ();
 
 		string [] split = s.Split (' ');
 		x = int.Parse(split [0]);
@@ -135,8 +136,8 @@ public class EventsManager : MonoBehaviour {
 		int playerNo;
 		int x;
 		int y;
-		GroundGenerator map;//mb init at msz and keep
-		map = ground.GetComponent<GroundGenerator> ();
+//		GroundGenerator map;//mb init at msz and keep
+//		map = ground.GetComponent<GroundGenerator> ();
 		
 		string [] split = s.Split (' ');
 		if (split.Length != 4) {
@@ -162,9 +163,9 @@ public class EventsManager : MonoBehaviour {
 	{
 
 		int eggNo;
-		GroundGenerator map;
+//		GroundGenerator map;
 		//mb init at msz and keep
-		map = ground.GetComponent<GroundGenerator> ();
+//		map = ground.GetComponent<GroundGenerator> ();
 
 		try
 		{
@@ -238,6 +239,7 @@ public class EventsManager : MonoBehaviour {
 	void Start () {
 		em = this.GetComponent<EventsManager> ();
 		msgBox = Instantiate<MessagesBox>(msgBox);
+		map = ground.GetComponent<GroundGenerator> ();
 		functions = new Dictionary<string, System.Action<string>> ();
 		functions.Add ("BIENVENUE", ft_bienvenue);
 		functions.Add("msz", ft_mapsize);
