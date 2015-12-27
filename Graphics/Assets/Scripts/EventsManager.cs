@@ -130,7 +130,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			int playerNo = int.Parse (s.Split (' ') [0]);
 			int ressNo = int.Parse (s.Split (' ') [1]);
-			players[playerNo].throwRess(ressNo);
+			players[playerNo].ThrowRess(ressNo);
 		}
 		catch
 		{
@@ -145,7 +145,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			int playerNo = int.Parse (s.Split (' ') [0]);
 			int ressNo = int.Parse (s.Split (' ') [1]);
-			players[playerNo].pickRess(ressNo);
+			players[playerNo].PickRess(ressNo);
 			//should be rm from the map
 		}
 		catch
@@ -214,7 +214,28 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_end(string s)
 	{
-		return;
+		Player winner;
+
+		try
+		{
+			int playerNo = int.Parse(s);
+			winner = players[playerNo];
+			foreach (int pNo in players.Keys)
+			{
+				if (pNo != playerNo)
+					players[pNo].Die();
+			}
+			winner.Celebrate();
+		}
+		catch
+		{
+			Debug.Log ("Error: bad parameters in ft_end.");
+		}
+		finally
+		{
+			Connection.con.closeSocket();
+			//quit app or game over screen ?
+		}
 	}
     void timeUnit(string s)
     {
@@ -259,7 +280,6 @@ public class EventsManager : MonoBehaviour {
 		Debug.Log ("merci");
 		Connection.con.writeSocket ("GRAPHIC");
 		System.Threading.Thread.Sleep (50);
-		Connection.con.InitWorld();
 	}
 
 	void Start () {
@@ -303,5 +323,9 @@ public class EventsManager : MonoBehaviour {
 			Parse ("pdr 0 1");
 		else if (Input.GetKeyDown (KeyCode.V))
 			Parse ("pgt 0 1");
+		else if (Input.GetKeyDown (KeyCode.B))
+			Parse ("seg 0");
+			
+		
 	}
 }

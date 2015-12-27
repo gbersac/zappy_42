@@ -5,7 +5,7 @@ public class Player : MonoBehaviour {
 	
 	public GameObject infoPanel;
 	public bool info = false;
-
+	public bool alive = true;
 	GameObject pan;
 
 	string	playerName;
@@ -21,7 +21,18 @@ public class Player : MonoBehaviour {
 	int		thystame = 0;
 	Animator animator;
 
-	public void pickRess(int ressNo)
+	public void Die()
+	{
+		alive = false;
+		animator.SetTrigger ("die");
+	}
+
+	public void Celebrate()
+	{
+		animator.SetBool ("celebration", true);
+	}
+
+	public void PickRess(int ressNo)
 	{
 		animator.SetTrigger ("picking");
 		switch (ressNo)
@@ -54,7 +65,7 @@ public class Player : MonoBehaviour {
 		
 	}
 
-	public void throwRess(int ressNo)
+	public void ThrowRess(int ressNo)
 	{
 		animator.SetTrigger ("throwing");
 		switch (ressNo)

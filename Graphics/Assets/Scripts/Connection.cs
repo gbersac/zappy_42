@@ -37,6 +37,7 @@ public class Connection : MonoBehaviour {
 			theReader.BaseStream.ReadTimeout = 1000;
 			socketReady = true;
 			Debug.Log ("Connected");
+			Debug.Log(mySocket.Connected);
 			menu.SetActive(false);
 			world.SetActive(true);
 			EventsManager.em.speedController.SetActive (true);
@@ -95,17 +96,6 @@ public class Connection : MonoBehaviour {
 		setupSocket ();
 
 	}
-	
-	public void	InitWorld()
-	{
-		Debug.Log ("lol");
-	//	writeSocket ("msz");
-	//	System.Threading.Thread.Sleep (50);
-	//	writeSocket ("mct");
-	//	System.Threading.Thread.Sleep (50);
-	//	writeSocket ("tna");
-		//some call not being received by client
-	}
 
 	private int eggCounter = 0;//
 
@@ -113,54 +103,6 @@ public class Connection : MonoBehaviour {
 	{
 		if (socketReady)
 			ReadSock ();
-
-		if (Input.GetKeyDown (KeyCode.A)) {
-			writeSocket("ppo 1");
-		}
-		if (Input.GetKeyDown (KeyCode.S)) {
-			writeSocket("pin 1");
-		}
-		if (Input.GetKeyDown (KeyCode.D)) {
-			writeSocket("plv 1");
-		}
-		if (Input.GetKeyDown (KeyCode.F)) {
-			int i = UnityEngine.Random.Range(0,10);
-			int j = UnityEngine.Random.Range(0,10);
-			EventsManager.em.Parse("enw " + eggCounter + " 0 " + i + " " + j);//min mapsize 10x10 !
-			eggCounter++;
-		}
-		if (Input.GetKeyDown (KeyCode.G)) {
-			EventsManager.em.Parse("eht " + (eggCounter - 1).ToString());
-		}
-		if(Input.GetKeyDown(KeyCode.Q)){
-			writeSocket("msz");
-		}
-		if(Input.GetKeyDown(KeyCode.W)){
-			int i = UnityEngine.Random.Range(0,19);
-			int j = UnityEngine.Random.Range(0,19);
-			writeSocket("bct "+i.ToString()+" "+j.ToString());
-		}
-		if(Input.GetKeyDown(KeyCode.E)){
-			writeSocket("mct");
-		}
-		if(Input.GetKeyDown(KeyCode.R)){
-			writeSocket("tna");
-		}
-		if(Input.GetKeyDown(KeyCode.T)){
-			writeSocket("ppo 0");
-		}
-		if(Input.GetKeyDown(KeyCode.Y)){
-			writeSocket("plv 0");
-		}
-		if(Input.GetKeyDown(KeyCode.U)){
-			writeSocket("pin 0");
-		}
-		if(Input.GetKeyDown(KeyCode.I)){
-			writeSocket("sgt");
-		}
-		if(Input.GetKeyDown(KeyCode.O)){
-			writeSocket("sst 10");
-		}
 
 		if (Input.GetKey(KeyCode.Escape))
 		{
