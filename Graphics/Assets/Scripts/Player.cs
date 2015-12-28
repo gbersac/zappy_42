@@ -6,12 +6,13 @@ public class Player : MonoBehaviour {
 	public GameObject infoPanel;
 	public bool info = false;
 	public int	playerNo;
-	public bool alive = true;
+	public bool isAlive = false;
 	GameObject pan;
-
+	float toMove = 0;
 	string	playerName;
 	int		posx = 0;
 	int		posy = 0;
+	int		orientation = 1;
 	int		level = 1;
 	int		nourriture = 0;
 	int		deraumere = 0;
@@ -22,9 +23,28 @@ public class Player : MonoBehaviour {
 	int		thystame = 0;
 	Animator animator;
 
+	public void MoveOrTurn(int x, int z, int or)
+	{
+		Debug.Log ("No " + playerNo + " is alive ? " + isAlive);
+		if (isAlive == false) {
+			InitPos (x, z, or);
+			return ;
+		}
+		if (or != orientation)
+		{
+			if (or > orientation || (or == 1 && orientation == 4))
+				Droite();
+			else
+				Gauche ();
+			orientation = or;
+		}
+		if (x != posx || z != posy)
+			Avance ();
+	}
+
 	public void Die()
 	{
-		alive = false;
+		isAlive = false;
 		animator.SetTrigger ("die");
 	}
 
@@ -132,7 +152,8 @@ public class Player : MonoBehaviour {
 		transform.Rotate (Vector3.up, -90f * (or - 1));
 		transform.position = pos;
 		gameObject.SetActive (true);
-//		textMesh.transform.position = Camera.current.WorldToScreenPoint(transform.position);
+		Debug.Log ("Now alive " + playerNo);
+		isAlive = true;
 	}
 
 	public void Init(string s)
@@ -169,14 +190,15 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	float toMove = 0;
 	void	Avance() {
 		animator.SetBool ("walking", true);
 		toMove += 1f;
 	}
 
 	void	Droite() {
+		Debug.Log ("pls");
 		animator.SetTrigger ("rturn");
+		Debug.Log ("pls bitch");
 		transform.Rotate (new Vector3 (0, 14.69f, 0));
 	}
 	
@@ -215,12 +237,15 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (!isAlive)
+			return;
 		if (toMove > 0f)
 			Move ();
 		else
 			animator.SetBool ("walking", false);
 		CheckBorders ();
-
+		posx = (int)(transform.position.x);
+		posy = (int)(transform.position.z);
 
 		if(Input.GetKey(KeyCode.DownArrow)){
 			transform.Translate(Vector3.back * Time.deltaTime);	

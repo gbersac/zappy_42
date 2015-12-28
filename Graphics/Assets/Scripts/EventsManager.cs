@@ -87,7 +87,7 @@ public class EventsManager : MonoBehaviour {
 			int x = int.Parse (s.Split (' ') [1]);
 			int z = int.Parse (s.Split (' ') [2]);
 			int or = int.Parse (s.Split (' ') [3]);
-			players[playerNo].InitPos(x, z, or);
+			players[playerNo].MoveOrTurn(x, z, or);
 		}
 		else
 			Debug.Log ("Player no " + playerNo + " not found.");
