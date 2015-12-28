@@ -109,9 +109,9 @@ public class EventsManager : MonoBehaviour {
 		return;
 	}
 	
-	void	ft_player_brodcast(string s)
+	void	ft_player_broadcast(string s)
 	{
-		return;
+		msgBox.ServerMessage ("Player No: " + s, Color.cyan);
 	}
 	
 	void	ft_player_incantation(string s)
@@ -323,7 +323,7 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("plv", ft_player_level);
 		functions.Add("pin", ft_player_inventory);
 		functions.Add("pex", ft_player_expulse);
-		functions.Add("pbc", ft_player_brodcast);
+		functions.Add("pbc", ft_player_broadcast);
 		functions.Add("pic", ft_player_incantation);
 		functions.Add("pfk", ft_player_lays);
 		functions.Add("pdr", ft_player_vomit);
@@ -357,5 +357,7 @@ public class EventsManager : MonoBehaviour {
 			Parse ("eht 8");
 		else if (Input.GetKeyDown (KeyCode.M))
 			Parse ("edi 8");
+		else if (Input.GetKeyDown (KeyCode.Semicolon))
+			Parse ("pbc 0 asdisdgjodfgifodgj OK salut");
 	}
 }
