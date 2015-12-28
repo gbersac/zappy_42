@@ -13,9 +13,7 @@ public class Content : MonoBehaviour {
 	GameObject					pan;
 	bool						initialized = false;
 
-	//enw #eggNbr #nPlayer X Y
-
-	public void layEgg(int eggNo, int playerNo)
+	public Egg layEgg(int eggNo, int playerNo)
 	{
 		Vector3 spawnPosition;
 		spawnPosition.x = transform.position.x;
@@ -25,6 +23,8 @@ public class Content : MonoBehaviour {
 		Egg newEgg = Instantiate(eggPrefab, spawnPosition, transform.rotation) as Egg;
 		newEgg.Init (eggNo, playerNo);
 		newEgg.transform.parent = gameObject.transform;
+
+		return newEgg;
 	}
 
 	public void	createStone(string answer)

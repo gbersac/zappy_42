@@ -25,7 +25,6 @@ public class Player : MonoBehaviour {
 
 	public void MoveOrTurn(int x, int z, int or)
 	{
-		Debug.Log ("No " + playerNo + " is alive ? " + isAlive);
 		if (isAlive == false) {
 			InitPos (x, z, or);
 			return ;
@@ -152,7 +151,6 @@ public class Player : MonoBehaviour {
 		transform.Rotate (Vector3.up, -90f * (or - 1));
 		transform.position = pos;
 		gameObject.SetActive (true);
-		Debug.Log ("Now alive " + playerNo);
 		isAlive = true;
 	}
 
@@ -196,9 +194,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void	Droite() {
-		Debug.Log ("pls");
 		animator.SetTrigger ("rturn");
-		Debug.Log ("pls bitch");
 		transform.Rotate (new Vector3 (0, 14.69f, 0));
 	}
 	

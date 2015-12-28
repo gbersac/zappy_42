@@ -3,8 +3,20 @@ using System.Collections;
 
 public class Egg : MonoBehaviour {
 
-	private int eggNo;
-	private int playerNo;
+	public int eggNo;
+	public int playerNo;
+
+	void KillEgg()
+	{
+		Destroy (this.gameObject);
+	}
+
+	public void DestroyEgg()
+	{
+		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
+		msh.material.color = Color.black;
+		Invoke ("KillEgg", 3);
+	}
 
 	public void HatchEgg()
 	{
@@ -15,7 +27,6 @@ public class Egg : MonoBehaviour {
 	{
 		eggNo = eggno;
 		playerNo = playerno;
-		//prob change color, mb get a ref to parent player
 	}
 	
 }

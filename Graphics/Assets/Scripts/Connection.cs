@@ -55,7 +55,7 @@ public class Connection : MonoBehaviour {
 			return;
 		}
 		//Debug.Log ("Sending " + theLine);
-		string foo = theLine + "\n\0";
+		string foo = theLine + "\n";
 		theWriter.Write(foo);
 		theWriter.Flush();
 	}

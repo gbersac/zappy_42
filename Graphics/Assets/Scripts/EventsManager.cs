@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class EventsManager : MonoBehaviour {
 	
 	private Dictionary<string, System.Action<string>> functions;
+	private List<Egg> eggs;
 	public GameObject ground;
 	public GameObject speedController;
     public MessagesBox msgBox;
@@ -158,7 +159,17 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_player_died(string s)
 	{
-		return;
+		int playerNo;
+
+		try
+		{
+			playerNo = int.Parse(s);
+			players[playerNo].Die();
+		}
+		catch
+		{
+			Debug.Log("Error: bad parameters in ft_player_died. " + s);
+		}
 	}
 	
 	void	ft_new_egg_pos(string s)
@@ -186,7 +197,7 @@ public class EventsManager : MonoBehaviour {
 			return ;
 		}
 		players [playerNo].StopLaying ();
-		map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo);
+		eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo));
 	}
 	
 	void	ft_egg_born(string s)
@@ -210,7 +221,20 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_egg_died(string s)
 	{
-		return;
+		Egg egg;
+		int eggNo;
+
+		try
+		{
+			eggNo = int.Parse(s);
+			egg = eggs.Find (x => x.eggNo == eggNo);
+			eggs.Remove(egg);
+			egg.DestroyEgg();
+		}
+		catch
+		{
+			Debug.Log("Error: bad parameters in ft_egg_died.");
+		}
 	}
 	
 	void	ft_end(string s)
@@ -241,15 +265,14 @@ public class EventsManager : MonoBehaviour {
     void timeUnit(string s)
     {
 		
-		msgBox.ServerMessage("Server time unit: " + s, Color.green);
 		TimeManagement tpanel = speedController.GetComponent<TimeManagement> ();
 
 		string [] split = s.Split (' ');		
 		int t = int.Parse(split [0]);
 
 		tpanel.setTime (t);
-	//	Debug.Log ("ici");
 		msgBox.ServerMessage("Server time unit: " + s, Color.green);
+	//	Debug.Log ("ici");
     }
 
     void badArgs(string s)
@@ -287,6 +310,7 @@ public class EventsManager : MonoBehaviour {
 		em = this.GetComponent<EventsManager> ();
 		msgBox = Instantiate<MessagesBox>(msgBox);
 		map = ground.GetComponent<GroundGenerator> ();
+		eggs = new List<Egg> ();
 		functions = new Dictionary<string, System.Action<string>> ();
 		functions.Add ("BIENVENUE", ft_bienvenue);
 		functions.Add("msz", ft_mapsize);
@@ -326,5 +350,7 @@ public class EventsManager : MonoBehaviour {
 			Parse ("pgt 0 1");
 		else if (Input.GetKeyDown (KeyCode.B))
 			Parse ("seg 0");
+		else if (Input.GetKeyDown (KeyCode.N))
+			Parse ("edi 8");
 	}
 }
