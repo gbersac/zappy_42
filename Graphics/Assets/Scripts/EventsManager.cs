@@ -96,12 +96,30 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_player_level(string s)
 	{
-		return;
+		try
+		{
+			int playerNo = int.Parse (s.Split (' ') [0]);
+			int lvl = int.Parse (s.Split (' ') [1]);
+			players[playerNo].SetLevel(lvl);
+		}
+		catch
+		{
+			Debug.Log ("Error: bad parameters in ft_player_level. " + s);
+		}
 	}
 	
 	void	ft_player_inventory(string s)
 	{
-		return;
+		try
+		{
+			string []ss = s.Split(' ');
+			int playerNo = int.Parse(ss[0]);
+			players[playerNo].SetStuff(ss);
+		}
+		catch
+		{
+			Debug.Log ("Error: bad parameters in ft_player_inventory. " + s);
+		}
 	}
 	
 	void	ft_player_expulse(string s)
@@ -399,10 +417,12 @@ public class EventsManager : MonoBehaviour {
 		else if (Input.GetKeyDown (KeyCode.M))
 			Parse ("edi 8");
 		else if (Input.GetKeyDown (KeyCode.Comma))
-			Parse ("pic " + players[0].posx + " " + players[0].posy + " 1 0");
+			Parse ("pic " + players [0].posx + " " + players [0].posy + " 1 0");
 		else if (Input.GetKeyDown (KeyCode.Slash))
-			Parse ("pie " + players[0].posx + " " + players[0].posy + " " + UnityEngine.Random.Range(0, 2));
+			Parse ("pie " + players [0].posx + " " + players [0].posy + " " + UnityEngine.Random.Range (0, 2));
 		else if (Input.GetKeyDown (KeyCode.Semicolon))
 			Parse ("pbc 0 asdisdgjodfgifodgj OK salut");
+		else if (Input.GetKeyDown (KeyCode.Quote))
+			Parse ("pin 0 0 0 2 3 4 5 6 7 8");
 	}
 }

@@ -26,10 +26,20 @@ public class Player : MonoBehaviour {
 	public void StopCasting(bool success)
 	{
 		animator.SetBool ("casting", false);
-		Debug.Log ("lvl up ? " + success);
 		if (success == true)
 			level++;
 		
+	}
+
+	public void SetStuff(string []stuff)
+	{
+		nourriture = int.Parse (stuff [3]);
+		linemate = int.Parse (stuff [4]);
+		deraumere = int.Parse (stuff [5]);
+		sibur = int.Parse (stuff [6]);
+		mendiane = int.Parse (stuff [7]);
+		phiras = int.Parse (stuff [8]);
+		thystame = int.Parse (stuff [9]);
 	}
 
 	public void StartCasting()
@@ -147,6 +157,11 @@ public class Player : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 	}
 
+	public void SetLevel(int lvl)
+	{
+		this.level = lvl;
+	}
+
 	public void InitPos(int x, int z, int or)
 	{
 		float xOffset = 0f;
@@ -244,8 +259,6 @@ public class Player : MonoBehaviour {
 
 	}
 
-
-	// Update is called once per frame
 	void Update () {
 		if (!isAlive)
 			return;
@@ -257,9 +270,8 @@ public class Player : MonoBehaviour {
 		posx = (int)(transform.position.x);
 		posy = (int)(transform.position.z);
 
-		if(Input.GetKey(KeyCode.DownArrow)){
-			transform.Translate(Vector3.back * Time.deltaTime);	
-		}
+
+		//DEBUG
 		if(Input.GetKeyDown(KeyCode.UpArrow)){
 			Avance();
 		}
@@ -273,6 +285,6 @@ public class Player : MonoBehaviour {
 			level = (level < 8) ? level++ : level;
 			Debug.Log(level);
 		}
-
+		//END
 	}
 }
