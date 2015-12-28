@@ -10,8 +10,8 @@ public class Player : MonoBehaviour {
 	GameObject pan;
 	float toMove = 0;
 	string	playerName;
-	int		posx = 0;
-	int		posy = 0;
+	public int		posx = 0;
+	public int		posy = 0;
 	int		orientation = 1;
 	int		level = 1;
 	int		nourriture = 0;
@@ -22,6 +22,20 @@ public class Player : MonoBehaviour {
 	int		sibur = 0;
 	int		thystame = 0;
 	Animator animator;
+
+	public void StopCasting(bool success)
+	{
+		animator.SetBool ("casting", false);
+		Debug.Log ("lvl up ? " + success);
+		if (success == true)
+			level++;
+		
+	}
+
+	public void StartCasting()
+	{
+		animator.SetBool ("casting", true);
+	}
 
 	public void MoveOrTurn(int x, int z, int or)
 	{

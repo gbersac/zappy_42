@@ -114,9 +114,50 @@ public class EventsManager : MonoBehaviour {
 		msgBox.ServerMessage ("Player No: " + s, Color.cyan);
 	}
 	
+	void	ft_player_end_incantation(string s)
+	{
+		try
+		{
+			int x = int.Parse (s.Split (' ') [0]);
+			int z = int.Parse (s.Split (' ') [1]);
+			bool success = (int.Parse(s.Split (' ') [2]) == 1) ? true : false;
+			foreach (Player p in players.Values)
+			{
+				if (p.posx == x && p.posy == z)
+					p.StopCasting(success);
+			}
+		}
+		catch
+		{
+			Debug.Log("Error: bad parameters in ft_player_end_incantation. " + s);
+		}
+	}
+
 	void	ft_player_incantation(string s)
 	{
-		return;
+		//it can be multiple players
+		int playerNo;
+		string [] ss = s.Split (' ');
+		try
+		{
+			int i = 3;
+			while (i < ss.Length)
+			{
+				playerNo = int.Parse(ss[i]);
+				if (players.ContainsKey (playerNo))
+				{
+					players[playerNo].StartCasting();
+					//provide lvl ?
+				}
+				else
+					Debug.Log ("Player no " + playerNo + " not found.");
+				i++;
+			}
+		}
+		catch
+		{
+			Debug.Log("Error: bad parameters in ft_player_incantation. " + s);
+		}
 	}
 	
 	void	ft_player_lays(string s)
@@ -137,7 +178,6 @@ public class EventsManager : MonoBehaviour {
 		catch
 		{
 			Debug.Log("Error: bad parameters in ft_player_vomit.");
-			return ;
 		}
 	}
 	
@@ -325,6 +365,7 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("pex", ft_player_expulse);
 		functions.Add("pbc", ft_player_broadcast);
 		functions.Add("pic", ft_player_incantation);
+		functions.Add("pie", ft_player_end_incantation);
 		functions.Add("pfk", ft_player_lays);
 		functions.Add("pdr", ft_player_vomit);
 		functions.Add("pgt", ft_player_picks);
@@ -357,6 +398,10 @@ public class EventsManager : MonoBehaviour {
 			Parse ("eht 8");
 		else if (Input.GetKeyDown (KeyCode.M))
 			Parse ("edi 8");
+		else if (Input.GetKeyDown (KeyCode.Comma))
+			Parse ("pic " + players[0].posx + " " + players[0].posy + " 1 0");
+		else if (Input.GetKeyDown (KeyCode.Slash))
+			Parse ("pie " + players[0].posx + " " + players[0].posy + " " + UnityEngine.Random.Range(0, 2));
 		else if (Input.GetKeyDown (KeyCode.Semicolon))
 			Parse ("pbc 0 asdisdgjodfgifodgj OK salut");
 	}
