@@ -11,6 +11,13 @@ public class Egg : MonoBehaviour {
 		Destroy (this.gameObject);
 	}
 
+	public void EggReady()
+	{
+		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
+		Color gold = new Color (1f, 215f / 255f, 0f, msh.material.color.a);
+		msh.material.color = gold;
+	}
+
 	public void DestroyEgg()
 	{
 		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
@@ -21,6 +28,7 @@ public class Egg : MonoBehaviour {
 	public void HatchEgg()
 	{
 		Debug.Log ("IM HATCHING YO");
+		//player is born so destroy egg ?
 	}
 
 	public void Init(int eggno, int playerno)

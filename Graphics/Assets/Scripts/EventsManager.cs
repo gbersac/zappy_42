@@ -202,23 +202,26 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_egg_born(string s)
 	{
-
+		Egg egg;
 		int eggNo;
 
 		try
 		{
 			eggNo = int.Parse(s);
+			egg = eggs.Find(x => x.eggNo == eggNo);
+			egg.EggReady();
 		}
 		catch
 		{
 			Debug.Log("Error: bad parameters in ft_egg_born.");
 			return ;
 		}
-		//map.availableEggs
-		//need an objet with all eggs
-		Debug.Log("Eggno " + s + " is hatching.");
 	}
-	
+	void	ft_player_replaces_egg(string s)
+	{
+		ft_egg_died (s);
+	}
+
 	void	ft_egg_died(string s)
 	{
 		Egg egg;
@@ -295,13 +298,12 @@ public class EventsManager : MonoBehaviour {
 			functions [f_key] (f_arg);
 		else if (f_key != "newturn")
 			recMessage (line);
-
-            //Debug.Log("Unknown command " + f_key);
 	}
 
 	void ft_bienvenue(string s)
 	{
 		Debug.Log ("merci");
+        msgBox.ServerMessage(s, Color.white);
 		Connection.con.writeSocket ("GRAPHIC");
 		System.Threading.Thread.Sleep (50);
 	}
@@ -330,6 +332,7 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("enw", ft_new_egg_pos);
 		functions.Add("eht", ft_egg_born);
 		functions.Add("edi", ft_egg_died);
+		functions.Add("ebo", ft_player_replaces_egg);
 		functions.Add("sgt", timeUnit);
 		functions.Add("seg", ft_end);
 		functions.Add("smg", recMessage);
@@ -351,6 +354,8 @@ public class EventsManager : MonoBehaviour {
 		else if (Input.GetKeyDown (KeyCode.B))
 			Parse ("seg 0");
 		else if (Input.GetKeyDown (KeyCode.N))
+			Parse ("eht 8");
+		else if (Input.GetKeyDown (KeyCode.M))
 			Parse ("edi 8");
 	}
 }
