@@ -21,7 +21,10 @@ void			init_trantorian(t_trantorian *trantor, int id)
 	trantor->level = 1;
 	trantor->direction = DOWN;
 	trantor->id = id;
+<<<<<<< HEAD
 	trantor->laying = 0;
+=======
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 }
 
 int				direction_to_nbr(t_direction dir)

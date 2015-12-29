@@ -6,7 +6,11 @@
 #    By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/04/22 13:15:39 by gbersac           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2015/12/14 19:09:39 by gbersac          ###   ########.fr        #
+=======
+#    Updated: 2015/12/05 16:59:13 by gbersac          ###   ########.fr        #
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,13 +22,21 @@
 SRCS_MAIN		:= clean_fd.c client_read.c interpret_cmd.c \
 					 main.c main_loop.c srv_accept.c \
 					srv_create.c update_env.c update_env_fct.c map.c time.c \
+<<<<<<< HEAD
 					init_env.c new_turn.c cmd_msg.c incantation.c team.c \
 					get_sound_dir.c
+=======
+					init_env.c new_turn.c cmd_msg.c incantation.c team.c
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 
 SRCS_CLI		:=	cli/ser_avance.c cli/ser_droite.c cli/ser_gauche.c cli/ser_voir.c \
 					cli/ser_inventaire.c cli/ser_prend.c cli/ser_pose.c cli/ser_expulse.c \
 					cli/ser_broadcast.c cli/ser_incantation.c cli/ser_fork.c \
+<<<<<<< HEAD
 					cli/ser_connect_nbr.c cli/ser_begin_info.c
+=======
+					cli/ser_connect_nbr.c get_sound_dir.c
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 
 SRCS_GFX		:=	gfx/gfx_pex.c gfx/gfx_pbc.c gfx/gfx_pie.c gfx/gfx_pfk.c \
 					gfx/gfx_pdr.c gfx/gfx_pgt.c gfx/gfx_pdi.c gfx/gfx_enw.c \

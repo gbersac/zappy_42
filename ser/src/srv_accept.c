@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/05/20 17:56:50 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 18:13:47 by flime            ###   ########.fr       */
+/*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
+/*   Updated: 2015/12/06 22:44:59 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void		accept_player(t_env *e, int cs)
 	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
+<<<<<<< HEAD
 	//	interpret_cmd(e, &e->fds[cs], "msz");
 	char *nbclient= ft_strjoin(ft_itoa(e->map.max_client), "\n");
 	send(cs,nbclient,strlen(nbclient),0);
@@ -77,6 +78,8 @@ void		accept_player(t_env *e, int cs)
 	free(width);
 	free(height);
 	free(xy);
+=======
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 }
 
 void		accept_graphic(t_env *e, int cs)
@@ -99,9 +102,13 @@ void		accept_graphic(t_env *e, int cs)
 	e->fds[cs].to_send = NULL;
 	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
+<<<<<<< HEAD
 	interpret_cmd(e, &e->fds[cs], "msz");
 	interpret_cmd(e, &e->fds[cs], "mct");
 	interpret_cmd(e, &e->fds[cs], "tna");
+=======
+	init_trantorian(&e->fds[cs].trantor, cs);
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 }
 
 void		srv_accept(t_env *e, int s)
@@ -109,6 +116,7 @@ void		srv_accept(t_env *e, int s)
 	int		r;
 	char	buf[BUF_SIZE + 1];
 
+<<<<<<< HEAD
 	int		cs;
 
 	struct sockaddr_in	csin;
@@ -123,6 +131,9 @@ void		srv_accept(t_env *e, int s)
 	// a mettre autre part, le serveur ne doit pas attendre reception
 	char *message="BIENVENUE\n";
 	send(cs,message,strlen(message),0);
+=======
+	printf("srv_accept\n");
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)

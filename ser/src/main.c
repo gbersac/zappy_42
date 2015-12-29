@@ -87,6 +87,7 @@
 //   	if (new_socket<0)
 //     	perror("Accept connection");
 
+<<<<<<< HEAD
 // printf("bienvenue\n");
 // 	char *message="BIENVENUE\n";
 // 	send(new_socket,message,strlen(message),0);
@@ -103,6 +104,18 @@
 // 	// static int	buf_len = 0;
 // 	// recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
 // 	// printf("%s", buf); //print_message
+=======
+// 	char *message="BIENVENUE\n";
+// 	send(new_socket,message,strlen(message),0);
+
+// 	// char *message2="YOUHOU\n";
+// 	// send(new_socket,message2,strlen(message2),0);
+
+// 	static char	buf[BUF_SIZE];
+// 	static int	buf_len = 0;
+// 	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
+// 	printf("%s", buf); //print_message
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 
 // 	char *nbclient="5\n";
 // 	send(new_socket,nbclient,strlen(nbclient),0);
@@ -110,6 +123,7 @@
 // 	char *xy="10 10\n";
 // 	send(new_socket,xy,strlen(xy),0);
 
+<<<<<<< HEAD
 // 	recv(new_socket, &buf[buf_len], BUF_SIZE - buf_len, 0);
 // 	printf("%s\n", buf); //receive broadcast
 
@@ -152,6 +166,8 @@
 // 	while (42)
 // 		;
 
+=======
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 // 	close(new_socket);
 
 // 	return (0);

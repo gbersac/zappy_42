@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/21 22:36:03 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/24 22:17:28 by flime            ###   ########.fr       */
+/*   Updated: 2015/12/05 13:46:21 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,11 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		}
 		lst_cmd = lst_cmd->next;
 	}
+<<<<<<< HEAD
 	unknow_cmd(lst_cmd, cmd, fd);
+=======
+	if (lst_cmd == NULL)
+		printf("unknow command %s\n", cmd);
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	return (0);
 }

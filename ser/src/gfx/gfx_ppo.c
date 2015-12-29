@@ -6,6 +6,7 @@ int		gfx_ppo(t_env *env, t_fd *fd, char *cmd)
 	int				num;
 	t_trantorian	*trantor;
 
+	printf("ppo called\n");
 	sscanf(cmd, "ppo %d\n", &num);
 	trantor = &env->fds[num].trantor;
 	if (env->fds[num].type != FD_CLIENT)

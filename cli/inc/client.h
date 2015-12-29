@@ -27,6 +27,7 @@ typedef enum		e_bool
 
 typedef enum		e_status
 {
+<<<<<<< HEAD
 	init,
 	voir,
 	take,
@@ -69,5 +70,25 @@ void 				cmd(t_env *env, char *cmd, char *str);
 void 				parse_inventaire(t_env *env, char *str);
 void 				print_inventaire(t_env *env);
 void				parse_voir(t_env *env, char *str);
+=======
+	char		*teamname;
+	char		*hostname;
+	int			port;
+	int			sock;
+	t_list		*buf_read;
+	t_list		*buf_write;
+	int			n_client;
+	int			pos_x;
+	int			pos_y;
+	char		*last_cmd;
+}				t_env;
+
+void			ft_ferror(char *msg);
+void			init_env(t_env *env);
+void			free_env(t_env *env);
+int				connect_to_server(char *ip, int port);
+void			main_loop(t_env *env);
+void			play(t_env *env);
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 
 #endif

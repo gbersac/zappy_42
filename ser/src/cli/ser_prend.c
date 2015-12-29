@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/19 18:17:13 by gbersac          ###   ########.fr       */
+/*   Updated: 2015/12/06 22:49:02 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int				ser_prend(t_env *env, t_fd *fd, char *cmd)
 {
 	t_square	*sq;
+<<<<<<< HEAD
 	char		*msg;
+=======
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	int			quantity_sq;
 	t_resource	res;
 

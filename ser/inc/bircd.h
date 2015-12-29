@@ -6,7 +6,11 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2015/12/19 17:36:42 by gbersac          ###   ########.fr       */
+=======
+/*   Updated: 2015/12/06 22:14:04 by gbersac          ###   ########.fr       */
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +79,23 @@ typedef struct		s_fd
 	t_trantorian	trantor;
 }					t_fd;
 
+<<<<<<< HEAD
 /*
 ** id_trantor: the id of the trantor which created it.
 */
+=======
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 typedef struct		s_egg
 {
 	int				countdown;
 	char			*team;
 	int				x;
 	int				y;
+<<<<<<< HEAD
 	int				id_trantor;
 	int				id;
+=======
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 }					t_egg;
 
 /*
@@ -110,8 +120,11 @@ typedef struct		s_env
 	fd_set			fd_write;
 	t_map			map;
 	t_list			*egg;
+<<<<<<< HEAD
 	int				id_egg;
 	t_list			*idle_trant;
+=======
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 }					t_env;
 
 
@@ -163,5 +176,8 @@ int				team_exist(t_env *env, t_team team);
 */
 int				available_connexion(t_env *env, t_team team);
 int				team_exist(t_env *env, t_team team);
+
+int				is_in_team(t_trantorian *trantor, t_team team);
+t_team			test_for_victory(t_env *env);
 
 #endif

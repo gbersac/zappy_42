@@ -5,6 +5,8 @@ int		gfx_mct(t_env *env, t_fd *fd, char *cmd)
 	int		x;
 	int		y;
 
+	printf("mct called\n");
+	
 	y = 0;
 	while (y < env->map.height)
 	{

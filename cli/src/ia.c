@@ -88,6 +88,7 @@ void		interpret_msg(t_env *env, char *get)
 	ft_putendl(get);
 	if (interpret_msg_okko(env, get))
 	{
+<<<<<<< HEAD
 		ft_putendl("okko");
 		if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
 		{
@@ -101,6 +102,10 @@ void		interpret_msg(t_env *env, char *get)
 		// ft_putendl(tmp);
 		// if (env->n_request == 1)
 		// 	env->n_request = 0;
+=======
+		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
+		env->last_cmd = MSG_WELCOME;
+>>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	}
 	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
 		tmp = (char *)ft_listpop(&env->buf_pending);
@@ -143,6 +148,7 @@ void		play(t_env *env)
 	char	*get;
 
 	get = (char*)ft_listpop(&env->buf_read);
+	ft_putendl(get);
 	interpret_msg(env, get);
 	free(get);
 }
