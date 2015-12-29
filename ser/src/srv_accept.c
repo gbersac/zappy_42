@@ -107,22 +107,6 @@ void		srv_accept(t_env *e, int s)
 	csin_len = sizeof(csin);
 	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
 		ft_ferror("accept error");
-	
-	// char *message="BIENVENUE\n";
-	// send(cs,message,strlen(message),0);
-
-	// printf("srv_accept\n");
-
-
-	// int					cs;
-	// struct sockaddr_in	csin;
-	// socklen_t			csin_len;
-
-	// printf("graph\n");
-
-	csin_len = sizeof(csin);
-	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
-		ft_ferror("accept error");
 
 	char *message="BIENVENUE\n";
 	send(cs,message,strlen(message),0);
