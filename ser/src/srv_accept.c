@@ -98,9 +98,7 @@ void		srv_accept(t_env *e, int s)
 {
 	int		r;
 	char	buf[BUF_SIZE + 1];
-
 	int		cs;
-
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
@@ -111,6 +109,7 @@ void		srv_accept(t_env *e, int s)
 	char *message="BIENVENUE\n";
 	send(cs,message,strlen(message),0);
 
+	ft_bzero(buf, sizeof(buf));
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)

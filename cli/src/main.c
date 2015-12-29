@@ -100,8 +100,8 @@ int				main(int argc, char **argv)
 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
 	printf("%s", buf); //print_message
 
-	//char *team= "one\n";
-	//send(env.sock,team,strlen(team),0);
+	char *team= "one\n";
+	send(env.sock,team,strlen(team),0);
 
 	ft_strclr(buf);
 	buf_len = 0;
