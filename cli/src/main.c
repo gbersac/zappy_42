@@ -84,11 +84,7 @@ int				main(int argc, char **argv)
 
 // 	init_env(&env);
 // 	set_args(argc, argv, &env);
-<<<<<<< HEAD
 // 	if (!env.trantor.team || !env.port)
-=======
-// 	if (!env.teamname || !env.port)
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 // 		usage(argv[0]);
 // 	if ((env.sock = connect_to_server(env.hostname, env.port)) == -1)
 // 		ft_ferror("Socket initialization error");
@@ -100,11 +96,7 @@ int				main(int argc, char **argv)
 // 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
 // 	printf("%s", buf); //print_message
 
-<<<<<<< HEAD
-// 	char *team= "toto\n";
-=======
 // 	char *team="toto\n";
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 // 	send(env.sock,team,strlen(team),0);
 
 // 	ft_strclr(buf);
@@ -117,7 +109,6 @@ int				main(int argc, char **argv)
 // 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
 // 	printf("%s", buf); //print_message
 
-<<<<<<< HEAD
 // 	char *voir= "voir\n";
 // 	send(env.sock,voir,strlen(voir),0);
 
@@ -133,8 +124,7 @@ int				main(int argc, char **argv)
 // 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
 // 	printf("%s", buf); //print_message
 
-=======
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
+
 // 	// main_loop(&env);
 // 	close(env.sock);
 // 	free_env(&env);

@@ -15,10 +15,7 @@
 int				ser_prend(t_env *env, t_fd *fd, char *cmd)
 {
 	t_square	*sq;
-<<<<<<< HEAD
 	char		*msg;
-=======
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	int			quantity_sq;
 	t_resource	res;
 

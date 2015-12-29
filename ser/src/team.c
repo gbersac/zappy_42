@@ -19,9 +19,6 @@ int			is_in_team(t_trantorian *trantor, t_team team)
 	return (strcmp(trantor->team, team) == 0);
 }
 
-<<<<<<< HEAD
-
-
 static char	*test_for_victory2(t_env *env, t_team team)
 {
 	char	*to_send;
@@ -34,8 +31,6 @@ static char	*test_for_victory2(t_env *env, t_team team)
 	return (team);
 }
 
-=======
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 t_team		test_for_victory(t_env *env)
 {
 	t_list		*iter;
@@ -58,16 +53,11 @@ t_team		test_for_victory(t_env *env)
 			++i;
 		}
 		if (winners >= NB_TRANTOR_VICTORY)
-<<<<<<< HEAD
 			return (test_for_victory2(env, team));
-=======
-			return (team);
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 		iter = iter->next;
 	}
 	return (NULL);
 }
-<<<<<<< HEAD
 
 int				available_connexion(t_env *env, t_team team)
 {
@@ -105,5 +95,4 @@ int				team_exist(t_env *env, t_team team)
 	}
 	return (0);
 }
-=======
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
+

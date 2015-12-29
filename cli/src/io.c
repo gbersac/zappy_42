@@ -36,34 +36,19 @@ void	send_buffer(t_env *env)
 
 void	read_msg(t_env *env)
 {
-<<<<<<< HEAD
-	char	buf[BUF_SIZE + 1];
-=======
 	char	*buf;
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	int		r;
 	int		j;
 	char	**split;
 
-<<<<<<< HEAD
-	bzero(buf, BUF_SIZE + 1);
-=======
 	buf = ft_strnew(BUF_SIZE);
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	r = recv(env->sock, buf, BUF_SIZE, 0);
 	if (r == 0)
 		ft_ferror("Disconnect by the server.");
 	split = ft_strsplit(buf, '\n');
 	j = 0;
 	while (split[j])
-<<<<<<< HEAD
-	{
-		// ft_putendl(split[j]);
 		ft_listpushback(&env->buf_read, split[j++]);
-	}
-=======
-		ft_listpushback(&env->buf_read, split[j++]);
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	//a faire
 	//free(split[]) et sous split;
 }
@@ -79,11 +64,7 @@ void	main_loop(t_env *env)
 	{
 		if (env->buf_read)
 		{
-<<<<<<< HEAD
-			// ft_putendl("play");
-=======
 			ft_putendl("play");
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 			play(env);
 		}
 		FD_SET(env->sock, &fds_read);
@@ -96,19 +77,10 @@ void	main_loop(t_env *env)
 		}
 		if (FD_ISSET(env->sock, &fds_read))
 		{
-<<<<<<< HEAD
 			// ft_putendl("read");
 			read_msg(env);
 		}
 		if (env->status == voir)
-=======
-			ft_putendl("read");
-			read_msg(env);
-		}
-
-		// to delete
-		if (FD_ISSET(STDIN_FILENO, &fds_read))
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 		{
 			ft_putendl("voir");
 			ft_listpushback(&env->buf_write, ft_strdup("voir"));

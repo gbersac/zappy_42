@@ -75,7 +75,6 @@ static void		grow_egg(t_env *e)
 
 static void		set_egg(t_env *e, t_trantorian *trantor)
 {
-<<<<<<< HEAD
 	t_egg	*egg;
 	t_list	*tmp;
 	int		i;
@@ -102,8 +101,6 @@ static void		set_egg(t_env *e, t_trantorian *trantor)
 
 static void	decrease_life(t_env *e)
 {
-=======
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	int				i;
 	t_trantorian	*trantor;
 
@@ -114,7 +111,6 @@ static void	decrease_life(t_env *e)
 		{
 			trantor = &e->fds[i].trantor;
 			--(trantor->health_point);
-<<<<<<< HEAD
 			if (trantor->health_point == 0)
 				trantor_dead(e, i, &e->fds[i]);
 			else if (trantor->countdown > 0){
@@ -128,14 +124,6 @@ static void	decrease_life(t_env *e)
 					}
 					printf("trantor %d is now ready to work !\n", trantor->id);
 				}
-=======
-			if (trantor->health_point <= 0)
-				trantor_dead(e, i, &e->fds[i]);
-			if (trantor->countdown > 0){
-				--trantor->countdown;
-				if (trantor->countdown == 0)
-					printf("trantor %d is now ready to work !\n", trantor->id);
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 			}
 		}
 		++i;
@@ -151,7 +139,6 @@ static void	pop_squart_resources(t_env *env, t_square *sq)
 	rdm = rand();
 	change = 0;
 	if (!(rdm % POP_STONE))
-<<<<<<< HEAD
 	{
 		change = 1;
 		add_resource(&sq->content, rdm % 6 + 1);
@@ -167,11 +154,6 @@ static void	pop_squart_resources(t_env *env, t_square *sq)
 		send_cmd_to_graphics(env, to_send);
 		free(to_send);
 	}
-=======
-		add_resource(&sq->content, rdm % 6 + 1);
-	if (!(rdm % POP_FOOD))
-		add_resource(&sq->content, FOOD);
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 }
 
 static void	pop_resources(t_env *e)
@@ -184,11 +166,7 @@ static void	pop_resources(t_env *e)
 	{
 		ttl_res = ttl_resource_in_inventory(&e->map.tartan[i].content);
 		if (ttl_res < MAX_RES_SQUARE)
-<<<<<<< HEAD
 			pop_squart_resources(e, &e->map.tartan[i]);
-=======
-			pop_squart_resources(&e->map.tartan[i]);
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 		++i;
 	}
 }

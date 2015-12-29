@@ -17,12 +17,7 @@ char	*gfx_bct_str(t_env *env, int x, int y)
 int		gfx_bct_call(t_env *env, t_fd *fd, int x, int y)
 {
 	char		*to_send;
-<<<<<<< HEAD
 
-	to_send = gfx_bct_str(env, x, y);
-	send_cmd_to_client(fd, to_send);
-	free(to_send);
-=======
 	t_inventory	*inventory;
 	t_square	*sq;
 
@@ -39,7 +34,6 @@ int		gfx_bct_call(t_env *env, t_fd *fd, int x, int y)
 
 	printf("%s\n", to_send);
 	send_cmd_to_client(fd, to_send);
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	return (1);
 }
 

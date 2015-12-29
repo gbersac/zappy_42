@@ -98,11 +98,6 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		}
 		lst_cmd = lst_cmd->next;
 	}
-<<<<<<< HEAD
 	unknow_cmd(lst_cmd, cmd, fd);
-=======
-	if (lst_cmd == NULL)
-		printf("unknow command %s\n", cmd);
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	return (0);
 }

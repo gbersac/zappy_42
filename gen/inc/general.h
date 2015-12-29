@@ -6,11 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 19:02:16 by gbersac           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2015/12/16 17:01:22 by gbersac          ###   ########.fr       */
-=======
 /*   Updated: 2015/12/06 21:00:10 by gbersac          ###   ########.fr       */
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,15 +126,12 @@ typedef struct	s_trantorian
 	int			countdown;
 
 	/*
-<<<<<<< HEAD
 	** Boolean value for trantorian laying an egg
 	** 1 : he is laying, 0 : he isn't
 	*/
 	int			laying;
 
 	/*
-=======
->>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	** This is the number of the trantorian. It correspond to the fd num of
 	** the client.
 	** If trantorian is not associated to a fd, its id is -1
