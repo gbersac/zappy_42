@@ -36,7 +36,7 @@ void broadcast_inventaire(t_env *env)
 {
 	char *str;
 
-	str = ft_strjoin("INVENTAIRE,", inventory_to_str(env->inventory));
+	str = ft_strjoin("INVENTAIRE,", inventory_to_str(&env->inventory));
 	cmd(env, CMD_BROADCAST, ft_strjoin(broadcast_from(env), str));
 }
 
@@ -56,5 +56,5 @@ void broadcast_besoin(t_env *env)
 
 void broadcast_grade_up(t_env *env)
 {
-	cmd(env, CMD_BROADCAST, ft_strjoin(broadcast_from(env), "GRAD_UP"));
+	cmd(env, CMD_BROADCAST, ft_strjoin(broadcast_from(env), "GRADE_UP"));
 }

@@ -39,7 +39,11 @@ typedef enum		e_status
 	status_prend,
 	status_pose,
 	// status_expulse,
-	status_broadcast,
+	status_broadcast_bonjour,
+	status_broadcast_inventaire,
+	status_broadcast_reunion,
+	status_broadcast_besoin,
+	status_broadcast_grade_up,
 	status_incantation,
 	status_fork,
 	status_connect_nbr
@@ -85,5 +89,9 @@ void				interpret_msg(t_env *env, char *get);
 void				ia(t_env *env);
 void				interpret_broadcast(t_env *env, char *get);
 void				broadcast_bonjour(t_env *env);
+void				broadcast_inventaire(t_env *env);
+void				broadcast_reunion(t_env *env);
+void				broadcast_besoin(t_env *env);
+void				broadcast_grade_up(t_env *env);
 
 #endif
