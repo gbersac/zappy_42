@@ -62,7 +62,6 @@ void		main_loop(t_env *e)
 	current_turn = get_num_turn(e);
 	while (42)
 	{
-		// ft_putendl("init");
 		init_fd(e);
 		e->r = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &tv);
 		check_fd(e);

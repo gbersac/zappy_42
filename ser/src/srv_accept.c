@@ -118,9 +118,6 @@ void		srv_accept(t_env *e, int s)
 	csin_len = sizeof(csin);
 	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
 		ft_ferror("accept error");
-
-	printf("srv_accept\n");
-
 	// a mettre autre part, le serveur ne doit pas attendre reception
 	char *message="BIENVENUE\n";
 	send(cs,message,strlen(message),0);
