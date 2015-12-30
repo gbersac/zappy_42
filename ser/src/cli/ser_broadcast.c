@@ -16,12 +16,9 @@ void		send_msg_to_all_excpt_src(t_env *env, t_fd *fd, char *msg)
 			trant->pos_y,
 			trant->team,
 			msg);*/
-	asprintf(&str, "%s %d %d %d %s %s",
+	asprintf(&str, "%s %d %s",
 			"message",
 			get_sound_dir(fd->trantor, *trant, env->map),
-			trant->pos_x,
-			trant->pos_y,
-			trant->team,
 			msg);
 	while (i < env->maxfd)
 	{
