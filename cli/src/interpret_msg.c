@@ -92,6 +92,7 @@ static int	interpret_msg_return(t_env *env, char *get)
 		parse_inventaire(env, get);
 	else
 		return (0);
+	env->n_request--;
 	return (1);
 }
 
@@ -100,7 +101,7 @@ void		interpret_msg(t_env *env, char *get)
 	if (interpret_msg_return(env, get))
 		env->status++;
 	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
-		env->n_request++;
+		;
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST)))
 		interpret_broadcast(env, get);
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
@@ -109,7 +110,6 @@ void		interpret_msg(t_env *env, char *get)
 		;
 	else
 		ft_printf("message %s not implemented");
-	env->n_request--;
 	ft_printf("n_request: %d\n", env->n_request);
 	ft_printf("status: %d\n", env->status);
 }
