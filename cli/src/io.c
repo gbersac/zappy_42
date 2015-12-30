@@ -30,6 +30,7 @@ void	send_buffer(t_env *env)
 		send(env->sock, tmp, ft_strlen(tmp) + 1, 0);
 		env->n_request++;
 		ft_printf("\e[0;32m[client]: \e[0m %s\n", tmp);
+		ft_printf("n_request: %d\n", env->n_request);
 	}
 }
 

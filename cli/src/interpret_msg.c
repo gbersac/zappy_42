@@ -47,7 +47,6 @@ static void	get_xy(t_env *env, char *get)
 		env->pos_x = ft_atoi(pos[0]);
 		env->pos_y = ft_atoi(pos[1]);
 		ft_printf("[coords]: %d, %d\n", env->pos_x, env->pos_y);
-		env->n_request++;
 	}
 	else
 	{
@@ -75,7 +74,10 @@ static int	interpret_msg_return(t_env *env, char *get)
 			ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 		cmd(env, env->trantor.team, "");
 	else if (env->status == status_nb_client && ft_isdigit(get[0]))
+	{
 		get_nb_client(env, get);
+		env->n_request++;
+	}
 	else if (env->status == status_xy && ft_isdigit(get[0]))
 		get_xy(env, get);
 	else if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
