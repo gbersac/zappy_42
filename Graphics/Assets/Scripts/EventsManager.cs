@@ -54,29 +54,47 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_team_name(string s)
 	{
-		Player newPlayer = Instantiate<Player> (playerPrefab);
-		newPlayer.Init (s);
-		newPlayer.playerNo = playerCounter;
-		players.Add (playerCounter, newPlayer);
-		newPlayer.transform.parent = GameObject.Find("World").transform;
-
-		//Connection.con.writeSocket ("ppo " + playerCounter);
-		//call pos or given ?
-
-
-		//faking
-		int x = UnityEngine.Random.Range (0, 20);
-		int z = UnityEngine.Random.Range (0, 10);
-		int or = UnityEngine.Random.Range (1, 5);
-		string str = playerCounter + " " + x + " " + z + " " + or;
-		ft_player_position (str);
-		//end
-
-		playerCounter++;
+		
+		Debug.Log ("team name " + s);
+//		Player newPlayer = Instantiate<Player> (playerPrefab);
+////		newPlayer.Init (s);
+////		newPlayer.playerNo = playerCounter;
+////		players.Add (playerCounter, newPlayer);
+//
+//		//Connection.con.writeSocket ("ppo " + playerCounter);
+//		//call pos or given ?
+//
+//
+//		//faking
+//		int x = UnityEngine.Random.Range (0, 20);
+//		int z = UnityEngine.Random.Range (0, 10);
+//		int or = UnityEngine.Random.Range (1, 5);
+//		string str = playerCounter + " " + x + " " + z + " " + or;
+//		ft_player_position (str);
+//		//end
+//
+//		playerCounter++;
 	}
 	
 	void	ft_new_player(string s)
 	{
+		Player newPlayer = Instantiate<Player> (playerPrefab);
+		Debug.Log ("new player " + s);
+		string [] split = s.Split (' ');
+		// pnw #n X Y O L N
+		int orientation = int.Parse (split [4]);
+		newPlayer.Initnew (split[1], int.Parse(split[2]), int.Parse(split[3]), orientation, int.Parse(split[5]), split[6]);
+		
+		newPlayer.transform.parent = GameObject.Find("World").transform;
+		if (orientation == 1)
+			newPlayer.transform.LookAt (Vector3.forward);
+		else if (orientation == 2) {
+			newPlayer.transform.LookAt (Vector3.right);
+		} else if (orientation == 3) {
+			newPlayer.transform.LookAt (Vector3.back);
+		} else if (orientation == 4) {
+			newPlayer.transform.LookAt (Vector3.left);
+		}
 		return;
 	}
 	

@@ -78,6 +78,12 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	free(width);
 	free(height);
 	free(xy);
+
+	char	*to_send;
+
+	asprintf(&to_send, "pnw %d %d %d %d %d %s\n", e->fds[cs].trantor.id, e->fds[cs].trantor.pos_x, e->fds[cs].trantor.pos_y,  e->fds[cs].trantor.direction, e->fds[cs].trantor.level, e->fds[cs].trantor.team);
+	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
+	send_cmd_to_graphics(e, to_send);
 }
 
 void		accept_graphic(t_env *e, int cs)

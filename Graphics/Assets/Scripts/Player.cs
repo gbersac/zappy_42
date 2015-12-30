@@ -190,6 +190,14 @@ public class Player : MonoBehaviour {
 		pan.GetComponent<infoPanel>().setinfo( playerName, posx, posy, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
 	}
 
+	public void Initnew(string id, int pos_x, int pos_y, int direction, int level, string team)
+	{
+		playerName = team+id;
+		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
+		pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
+
+	}
+
 	void OnMouseDown () {
 		// change the target of the LookAtTarget script to be this gameobject.
 		if (info == false) {
