@@ -16,7 +16,7 @@
 #include "general.h"
 #include "client.h"
 
-static void get_nb_client(char *get, t_env *env)
+static void get_nb_client(t_env *env, char *get)
 {
 	char	**pos;
 	int		len;
@@ -35,7 +35,7 @@ static void get_nb_client(char *get, t_env *env)
 	}
 }
 
-static void get_xy(char *get, t_env *env)
+static void get_xy(t_env *env, char *get)
 {
 	char	**pos;
 	int		len;
@@ -61,9 +61,10 @@ void		interpret_msg_init(t_env *env, char *get)
 	if (env->status == status_welcome && ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 		cmd(env, env->trantor.team, "");
 	else if (env->status == status_nb_client)
-		get_nb_client(get, env);
+		get_nb_client(env, get);
 	else if (env->status == status_xy)
-		get_xy(get, env);
+		get_xy(env, get);
+	env->status++;
 }
 
 static void	player_dies(t_env *env, char *get)
@@ -78,6 +79,11 @@ static void	player_dies(t_env *env, char *get)
 void		interpret_broadcast()
 {
 	ft_putendl("interpret_broadcast");
+}
+
+void		interpret_expulse()
+{
+	ft_putendl("interpret_expulse");
 }
 
 
@@ -105,25 +111,29 @@ static int	interpret_msg_okko(t_env *env, char *get)
 void ia(t_env *env)
 {
 	if (env->status == status_avance)
-		cmd(env, "avance", "");
+		cmd(env, CMD_AVANCE, "");
 	else if (env->status == status_droite)
-		cmd(env, "droite", "");
+		cmd(env, CMD_DROITE, "");
 	else if (env->status == status_gauche)
-		cmd(env, "gauche", "");
+		cmd(env, CMD_GAUCHE, "");
 	else if (env->status == status_voir)
-		cmd(env, "voir", "");
+		cmd(env, CMD_VOIR, "");
 	else if (env->status == status_inventaire)
-		cmd(env, "inventaire", "");
+		cmd(env, CMD_INVENTAIRE, "");
 	else if (env->status == status_prend)
-		cmd(env, "prend ", "0");
+		cmd(env, CMD_PREND, " 0");
 	else if (env->status == status_pose)
-		cmd(env, "pose", "");
-	else if (env->status == status_expulse)
-		cmd(env, "expulse", "");
+		cmd(env, CMD_POSE, " 0");
+	// else if (env->status == status_expulse) //manque le retour ok???
+	// 	cmd(env, CMD_EXPULSE, "");
 	else if (env->status == status_broadcast)
-		cmd(env, (char *)"broadcast ", (char *)"Je suis là");
+		cmd(env, CMD_BROADCAST, " Je suis là");
 	else if (env->status == status_incantation)
-		cmd(env, "incantation", "");
+		cmd(env, CMD_INCANTATION, "");
+	else if (env->status == status_fork)
+		cmd(env, CMD_FORK, "");
+	else if (env->status == status_connect_nbr)
+		cmd(env, CMD_CONNECT_NBR, "");
 }
 
 void		interpret_msg(t_env *env, char *get)
@@ -136,36 +146,35 @@ void		interpret_msg(t_env *env, char *get)
 	if (interpret_msg_okko(env, get))
 	{
 		ft_putendl("ok/ko");
-		// if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
-		// {
-		// 	ft_putendl("in");
-		// 	// cmd(env, "voir", "");
-		// 		exit(0);
-		// }
-		// else
-		// 	exit(0);
-		// tmp = (char *)ft_listpop(&env->buf_pending);
-		// ft_putstr("okko pop : ");
-		// ft_putendl(tmp);
-		// if (env->n_request == 1)
-		// 	env->n_request = 0;
-// =======
-// 		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
-// 		env->last_cmd = MSG_WELCOME;
-// >>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
+		env->status++;
 	}
 	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
-		;
+		env->status++;
 	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
 		;
+	else if (ft_isdigit(get[0]))
+	{
+		get_nb_client(env, get);
+		env->status++;
+	}
 	else if (get[0] == '{' && ft_isdigit(get[1]))
+	{
 		parse_voir(env, get);
-	else if (ft_strnequ(get, "inventaire", ft_strlen("inventaire")))
+		env->status++;
+	}
+	else if (ft_strnequ(get, CMD_INVENTAIRE, ft_strlen(CMD_INVENTAIRE)))
+	{
 		parse_inventaire(env, get);
+		env->status++;
+	}
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
+	{
 		interpret_broadcast();
+	}
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
 		player_dies(env, get);
+	else if (ft_strnequ(get, MSG_EXPULSE, ft_strlen(MSG_EXPULSE)))
+		interpret_expulse();
 	else
 		ft_printf("message %s not implemented");
 
@@ -184,7 +193,7 @@ void		play(t_env *env)
 		interpret_msg_init(env, get);
 	else
 		interpret_msg(env, get);
-	env->status++;
+	
 	ia(env);
 	free(get);
 }

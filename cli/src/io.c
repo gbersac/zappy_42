@@ -74,6 +74,8 @@ void	main_loop(t_env *env)
 			send_buffer(env);
 		if (FD_ISSET(env->sock, &fds_read))
 			read_msg(env);
+		ft_putendl("loop");
+		sleep(1);
 		// if (env->status == voir)
 		// {
 		// 	ft_putendl("voir");

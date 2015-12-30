@@ -38,7 +38,7 @@ typedef enum		e_status
 	status_inventaire,
 	status_prend,
 	status_pose,
-	status_expulse,
+	// status_expulse,
 	status_broadcast,
 	status_incantation,
 	status_fork,
