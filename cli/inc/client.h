@@ -84,5 +84,6 @@ void				parse_voir(t_env *env, char *str);
 void				interpret_msg(t_env *env, char *get);
 void				ia(t_env *env);
 void				interpret_broadcast(t_env *env, char *get);
+void				broadcast_bonjour(t_env *env);
 
 #endif
