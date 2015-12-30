@@ -58,7 +58,7 @@ int				main(int argc, char **argv)
 	t_env	env;
 
 	init_env(&env);
-	env.status = init;
+	env.status = status_init;
 	set_args(argc, argv, &env);
 	env.n_request = 0;
 	env.role = valet;
@@ -68,6 +68,7 @@ int				main(int argc, char **argv)
 		ft_ferror("Socket initialization error");
 	env.n_request++;
 	ft_printf("Connection etablished at %s:%d\n", env.hostname, env.port);
+	env.status++;
 	//printf("%s\n", env.teamname);
 	main_loop(&env);
 	close(env.sock);

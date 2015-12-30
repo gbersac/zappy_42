@@ -16,7 +16,7 @@
 #include "general.h"
 #include "client.h"
 
-static int	get_server_param(char *get, t_env *env)
+static void get_nb_client(char *get, t_env *env)
 {
 	char	**pos;
 	int		len;
@@ -27,22 +27,43 @@ static int	get_server_param(char *get, t_env *env)
 	{
 		env->n_client = ft_atoi(get);
 		ft_printf("[nclient]: %d\n", env->n_client);
-		return (1);
 	}
-	else if (pos && len == 2 && ft_strisdigit(pos[0]) && ft_strisdigit(pos[1]))
+	else
+	{
+		ft_ferror("error: get_nb_client()");
+		exit(0);
+	}
+}
+
+static void get_xy(char *get, t_env *env)
+{
+	char	**pos;
+	int		len;
+
+	pos = ft_strsplit(get, ' ');
+	len = ft_strtabsize(pos);
+	if (pos && len == 2 && ft_strisdigit(pos[0]) && ft_strisdigit(pos[1]))
 	{
 		env->pos_x = ft_atoi(pos[0]);
 		env->pos_y = ft_atoi(pos[1]);
 		ft_printf("[coords]: %d, %d\n", env->pos_x, env->pos_y);
 		env->n_request++;
-		env->status = voir;
-		return (2);
 	}
 	else
 	{
-		ft_ferror("error: get_server_param()");
-		return (0);
+		ft_ferror("error: get_xy()");
+		exit(0);
 	}
+}
+
+void		interpret_msg_init(t_env *env, char *get)
+{
+	if (env->status == status_welcome && ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
+		cmd(env, env->trantor.team, "");
+	else if (env->status == status_nb_client)
+		get_nb_client(get, env);
+	else if (env->status == status_xy)
+		get_xy(get, env);
 }
 
 static void	player_dies(t_env *env, char *get)
@@ -54,10 +75,9 @@ static void	player_dies(t_env *env, char *get)
 	exit(EXIT_SUCCESS);
 }
 
-void		interpret_broadcast(t_env *env, char *get)
+void		interpret_broadcast()
 {
-	(void)env;
-	(void)get;
+	ft_putendl("interpret_broadcast");
 }
 
 
@@ -80,22 +100,50 @@ static int	interpret_msg_okko(t_env *env, char *get)
 	return (0);
 }
 
+
+
+void ia(t_env *env)
+{
+	if (env->status == status_avance)
+		cmd(env, "avance", "");
+	else if (env->status == status_droite)
+		cmd(env, "droite", "");
+	else if (env->status == status_gauche)
+		cmd(env, "gauche", "");
+	else if (env->status == status_voir)
+		cmd(env, "voir", "");
+	else if (env->status == status_inventaire)
+		cmd(env, "inventaire", "");
+	else if (env->status == status_prend)
+		cmd(env, "prend ", "0");
+	else if (env->status == status_pose)
+		cmd(env, "pose", "");
+	else if (env->status == status_expulse)
+		cmd(env, "expulse", "");
+	else if (env->status == status_broadcast)
+		cmd(env, (char *)"broadcast ", (char *)"Je suis là");
+	else if (env->status == status_incantation)
+		cmd(env, "incantation", "");
+}
+
 void		interpret_msg(t_env *env, char *get)
 {
-	char	*tmp;
+	// char	*tmp;
 
 	ft_putstr("interpret_msg: ");
 	ft_putendl(get);
+
 	if (interpret_msg_okko(env, get))
 	{
-		ft_putendl("okko");
-		if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
-		{
-			ft_putendl("in");
-			cmd(env, "voir", "");
-		}
-		else
-			exit(0);
+		ft_putendl("ok/ko");
+		// if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)))
+		// {
+		// 	ft_putendl("in");
+		// 	// cmd(env, "voir", "");
+		// 		exit(0);
+		// }
+		// else
+		// 	exit(0);
 		// tmp = (char *)ft_listpop(&env->buf_pending);
 		// ft_putstr("okko pop : ");
 		// ft_putendl(tmp);
@@ -107,36 +155,20 @@ void		interpret_msg(t_env *env, char *get)
 // >>>>>>> bd513116d8b551ceee607b7df53a94940d50e019
 	}
 	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
-		tmp = (char *)ft_listpop(&env->buf_pending);
+		;
 	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
-	{
-		tmp = (char *)ft_listpop(&env->buf_pending);
-		env->n_request++;
-	}
+		;
 	else if (get[0] == '{' && ft_isdigit(get[1]))
-	{
-		ft_putendl("{");
 		parse_voir(env, get);
-	}
-	else if (env->status > 0 && ft_isdigit(get[0]))
+	else if (ft_strnequ(get, "inventaire", ft_strlen("inventaire")))
 		parse_inventaire(env, get);
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST))) //msg should never start with a number
-	{
-		interpret_broadcast(env, get);
-		ft_printf("[broadcast]: <%s>\n", get);
-		// env->n_request++;
-	}
+		interpret_broadcast();
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
 		player_dies(env, get);
-	else if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
-	{
-		ft_listpushback(&env->buf_write, ft_strjoin(env->teamname, "\n"));
-		cmd(env, (char *)"broadcast ", (char *)"Je suis là");
-	}
-	else if (get[0] != '{' && get_server_param(get, env))//digit
-		;
 	else
 		ft_printf("message %s not implemented");
+
 	env->n_request--;
 	ft_printf("n_request: %d\n", env->n_request);
 	ft_printf("status: %d\n", env->status);
@@ -148,6 +180,11 @@ void		play(t_env *env)
 
 	get = (char*)ft_listpop(&env->buf_read);
 	ft_putendl(get);
-	interpret_msg(env, get);
+	if (env->status <= status_xy)
+		interpret_msg_init(env, get);
+	else
+		interpret_msg(env, get);
+	env->status++;
+	ia(env);
 	free(get);
 }

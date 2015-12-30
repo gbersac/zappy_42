@@ -71,21 +71,15 @@ void	main_loop(t_env *env)
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
-		{
-			ft_putendl("send");
 			send_buffer(env);
-		}
 		if (FD_ISSET(env->sock, &fds_read))
-		{
-			// ft_putendl("read");
 			read_msg(env);
-		}
-		if (env->status == voir)
-		{
-			ft_putendl("voir");
-			ft_listpushback(&env->buf_write, ft_strdup("voir"));
-			env->status++;
-		}
+		// if (env->status == voir)
+		// {
+		// 	ft_putendl("voir");
+		// 	ft_listpushback(&env->buf_write, ft_strdup("voir"));
+		// 	env->status++;
+		// }
 		// to delete/>
 	}
 }

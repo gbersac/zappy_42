@@ -20,6 +20,8 @@ void	parse_voir(t_env *env, char *str)
 	char	**case_astr;
 	int		i;
 
+	(void)env;
+
 	ft_putendl("parse_voir()");
 
 	// ft_putendl(str);
@@ -37,7 +39,7 @@ void	parse_voir(t_env *env, char *str)
 	i = 0;
 	// while (case_astr[i])
 	// {
-		cmd(env, "prend ", "1 0 0 0 0 0 0");
+		// cmd(env, "prend ", "1 0 0 0 0 0 0");
 	// 	i++;
 	// }
 	// env->status = voir;

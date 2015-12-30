@@ -27,10 +27,22 @@ typedef enum		e_bool
 
 typedef enum		e_status
 {
-	init,
-	voir,
-	take,
-	poser,
+	status_init,
+	status_welcome,
+	status_nb_client,
+	status_xy,
+	status_avance,
+	status_droite,
+	status_gauche,
+	status_voir,
+	status_inventaire,
+	status_prend,
+	status_pose,
+	status_expulse,
+	status_broadcast,
+	status_incantation,
+	status_fork,
+	status_connect_nbr
 }					t_status;
 
 typedef enum		e_role

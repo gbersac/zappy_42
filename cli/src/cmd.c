@@ -17,7 +17,6 @@ void	cmd(t_env *env, char *cmd, char *str)
 {
 	char	*ret;
 
-	ft_putendl(cmd);
 	if (str)
 		ret = ft_strjoin(cmd, str);
 	else
