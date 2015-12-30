@@ -37,5 +37,11 @@ void		interpret_broadcast(t_env *env, char *get)
 	else if (!ft_strcmp(split[3], "BESOIN"))
 		ft_putendl("BESOIN");
 	else if (!ft_strcmp(split[3], "GRADE_UP"))
+	{
 		ft_putendl("GRADE_UP");
+		env->n_client++;
+		ft_putstr("grade: ");
+		ft_putnbr(env->n_client);
+		ft_putendl("");
+	}
 }

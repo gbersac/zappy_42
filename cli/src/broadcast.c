@@ -57,4 +57,8 @@ void broadcast_besoin(t_env *env)
 void broadcast_grade_up(t_env *env)
 {
 	cmd(env, CMD_BROADCAST, ft_strjoin(broadcast_from(env), "GRADE_UP"));
+	env->n_client++;
+	ft_putstr("grade: ");
+	ft_putnbr(env->n_client);
+	ft_putendl("");
 }

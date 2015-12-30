@@ -71,6 +71,7 @@ typedef struct		s_env
 	int				status;
 	int				role;
 	t_inventory		inventory;
+	t_inventory		need;
 	t_trantorian	trantor;
 }				t_env;
 
