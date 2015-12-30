@@ -109,21 +109,18 @@ void		srv_accept(t_env *e, int s)
 {
 	int		r;
 	char	buf[BUF_SIZE + 1];
-
 	int		cs;
-
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
 	csin_len = sizeof(csin);
 	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
 		ft_ferror("accept error");
-
-	printf("srv_accept\n");
-
 	// a mettre autre part, le serveur ne doit pas attendre reception
 	char *message="BIENVENUE\n";
 	send(cs,message,strlen(message),0);
+
+	ft_bzero(buf, sizeof(buf));
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)

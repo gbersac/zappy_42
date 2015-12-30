@@ -104,11 +104,6 @@ int				main(int argc, char **argv)
 // 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
 // 	printf("%s", buf); //print_message
 
-// 	ft_strclr(buf);
-// 	buf_len = 0;
-// 	recv(env.sock, &buf[buf_len], BUF_SIZE - buf_len, 0);
-// 	printf("%s", buf); //print_message
-
 // 	char *voir= "voir\n";
 // 	send(env.sock,voir,strlen(voir),0);
 
