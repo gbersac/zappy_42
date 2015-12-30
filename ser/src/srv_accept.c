@@ -18,14 +18,14 @@
 #include "bircd.h"
 #include "libft.h"
 
-char			*get_dfl_nickname(void)
+char			*get_dfl_nickname(char *teamname)
 {
 	static int	n = 1;
 	char		*number;
 	char		*nickname;
 
 	number = ft_itoa(n);
-	nickname = ft_strjoin("Timmy", number);
+	nickname = ft_strjoin(teamname, number);
 	free(number);
 	++n;
 	return (nickname);
@@ -47,7 +47,7 @@ static void		client_write(t_env *e, int cs)
 	e->fds[cs].to_send = 0;
 }
 
-void		accept_player(t_env *e, int cs)
+void		accept_player(t_env *e, int cs, char *teamname)
 {
 	// int					cs;
 	struct sockaddr_in	csin;
@@ -63,9 +63,10 @@ void		accept_player(t_env *e, int cs)
 	e->fds[cs].fct_read = client_read;
 	e->fds[cs].fct_write = client_write;
 	e->fds[cs].to_send = NULL;
-	e->fds[cs].nickname = get_dfl_nickname();
+	e->fds[cs].nickname = get_dfl_nickname(teamname);
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
+	e->fds[cs].trantor.team = ft_strdup(teamname);
 	//	interpret_cmd(e, &e->fds[cs], "msz");
 	char *nbclient= ft_strjoin(ft_itoa(e->map.max_client), "\n");
 	send(cs,nbclient,strlen(nbclient),0);
@@ -97,11 +98,30 @@ void		accept_graphic(t_env *e, int cs)
 	e->fds[cs].fct_read = client_read;
 	e->fds[cs].fct_write = client_write;
 	e->fds[cs].to_send = NULL;
-	e->fds[cs].nickname = get_dfl_nickname();
+//	e->fds[cs].nickname = get_dfl_nickname();
 	e->fds[cs].buf_read_len = 0;
 	interpret_cmd(e, &e->fds[cs], "msz");
 	interpret_cmd(e, &e->fds[cs], "mct");
 	interpret_cmd(e, &e->fds[cs], "tna");
+
+	// recuperer les joueur déjà present sur le plateau
+
+	int i;
+	char	*to_send;
+
+	i = 0;
+	while (i < e->maxfd)
+	{
+		if (e->fds[i].type == FD_CLIENT)
+		{
+			// "pnw #n X Y O L N\n"
+			asprintf(&to_send, "pnw %d %d %d %d %d %s\n", e->fds[i].trantor.id, e->fds[i].trantor.pos_x, e->fds[i].trantor.pos_y,  e->fds[i].trantor.direction, e->fds[i].trantor.level, e->fds[i].trantor.team);
+			printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
+			send_cmd_to_client(&e->fds[cs], to_send);
+		}
+		i++;
+	}
+
 	init_trantorian(&e->fds[cs].trantor, cs);
 }
 
@@ -125,6 +145,6 @@ void		srv_accept(t_env *e, int s)
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
-	else //carte???
-	 	accept_player(e, cs);
+	else //carte??? no team name
+	 	accept_player(e, cs, buf);
 }

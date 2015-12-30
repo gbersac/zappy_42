@@ -34,6 +34,7 @@ int			gfx_pic(t_env *env, t_list *trantors)
 			first->level,
 			ids);
 	free(ids);
+	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
 	send_cmd_to_graphics(env, to_send);
 	return (1);
 }
