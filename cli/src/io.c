@@ -29,8 +29,8 @@ void	send_buffer(t_env *env)
 		ft_listpushback(&env->buf_pending, tmp);
 		send(env->sock, tmp, ft_strlen(tmp) + 1, 0);
 		env->n_request++;
-		ft_printf("send: %s\n", tmp);
-		ft_printf("n_request: %d\n", env->n_request);
+		ft_printf("\e[0;32m[client]: \e[0m %s\n", tmp);
+		// ft_printf("n_request: %d\n", env->n_request);
 	}
 }
 
@@ -63,10 +63,7 @@ void	main_loop(t_env *env)
 	while (42)
 	{
 		if (env->buf_read)
-		{
-			ft_putendl("play");
 			play(env);
-		}
 		FD_SET(env->sock, &fds_read);
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
@@ -74,14 +71,6 @@ void	main_loop(t_env *env)
 			send_buffer(env);
 		if (FD_ISSET(env->sock, &fds_read))
 			read_msg(env);
-		ft_putendl("loop");
-		sleep(1);
-		// if (env->status == voir)
-		// {
-		// 	ft_putendl("voir");
-		// 	ft_listpushback(&env->buf_write, ft_strdup("voir"));
-		// 	env->status++;
-		// }
-		// to delete/>
+		//sleep(1);
 	}
 }

@@ -81,5 +81,8 @@ void 				cmd(t_env *env, char *cmd, char *str);
 void 				parse_inventaire(t_env *env, char *str);
 void 				print_inventaire(t_env *env);
 void				parse_voir(t_env *env, char *str);
+void				interpret_msg(t_env *env, char *get);
+void				ia(t_env *env);
+void				interpret_broadcast(t_env *env, char *get);
 
 #endif

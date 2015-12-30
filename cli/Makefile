@@ -15,7 +15,8 @@
 ################################################################################
 
 SRCS				:=  main.c io.c connect.c ia.c env.c cmd.c \
-						parse_inventaire.c print_inventaire.c parse_voir.c
+						parse_inventaire.c print_inventaire.c parse_voir.c \
+						play.c interpret_msg.c interpret_broadcast.c
 
 PATH_OBJ			:= obj
 PATH_SRC			:= src
