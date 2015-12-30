@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   interpret_broadcast.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: flime <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/23 23:15:24 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 21:48:21 by flime            ###   ########.fr       */
+/*   Created: 2015/12/30 08:18:17 by flime             #+#    #+#             */
+/*   Updated: 2015/12/30 08:18:20 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/client.h"
-#include "../../libft/inc/libft.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include "libft.h"
+#include "general.h"
+#include "client.h"
 
-void	cmd(t_env *env, char *cmd, char *str)
+void		interpret_broadcast(t_env *env, char *get)
 {
-	char	*ret;
-
-	if (str)
-		ret = ft_strjoin(cmd, str);
-	else
-		ret = cmd;
-	ft_listpushback(&env->buf_write, ret);
+	(void)env;
+	(void)get;
+	ft_putendl("interpret_broadcast");
 }

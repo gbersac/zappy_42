@@ -27,10 +27,22 @@ typedef enum		e_bool
 
 typedef enum		e_status
 {
-	init,
-	voir,
-	take,
-	poser,
+	status_init,
+	status_welcome,
+	status_nb_client,
+	status_xy,
+	status_avance,
+	status_droite,
+	status_gauche,
+	status_voir,
+	status_inventaire,
+	status_prend,
+	status_pose,
+	// status_expulse,
+	status_broadcast,
+	status_incantation,
+	status_fork,
+	status_connect_nbr
 }					t_status;
 
 typedef enum		e_role
@@ -69,5 +81,8 @@ void 				cmd(t_env *env, char *cmd, char *str);
 void 				parse_inventaire(t_env *env, char *str);
 void 				print_inventaire(t_env *env);
 void				parse_voir(t_env *env, char *str);
+void				interpret_msg(t_env *env, char *get);
+void				ia(t_env *env);
+void				interpret_broadcast(t_env *env, char *get);
 
 #endif

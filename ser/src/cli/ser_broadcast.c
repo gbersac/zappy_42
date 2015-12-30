@@ -17,7 +17,7 @@ void		send_msg_to_all_excpt_src(t_env *env, t_fd *fd, char *msg)
 			trant->team,
 			msg);*/
 	asprintf(&str, "%s %d %d %d %s %s",
-			CMD_BROADCAST,
+			"message",
 			get_sound_dir(fd->trantor, *trant, env->map),
 			trant->pos_x,
 			trant->pos_y,

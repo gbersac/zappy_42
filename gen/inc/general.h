@@ -50,6 +50,7 @@
 # define MSG_WELCOME		"BIENVENUE"
 # define MSG_DEAD			"mort"
 # define MSG_BROADCAST		"message"
+# define MSG_EXPULSE		"deplacement"
 # define MSG_OK				"ok"
 # define MSG_KO				"ko"
 # define MSG_INCANTATION_1	"elevation en cours"
