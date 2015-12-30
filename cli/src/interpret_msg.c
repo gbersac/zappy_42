@@ -99,7 +99,11 @@ static int	interpret_msg_return(t_env *env, char *get)
 void		interpret_msg(t_env *env, char *get)
 {
 	if (interpret_msg_return(env, get))
-		env->status++;
+	{
+		if (env->status <= status_xy ||
+			(env->status > status_xy && env->n_request == 0))
+			env->status++;
+	}
 	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
 		;
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST)))
