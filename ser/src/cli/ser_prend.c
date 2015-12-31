@@ -15,27 +15,42 @@
 int				ser_prend(t_env *env, t_fd *fd, char *cmd)
 {
 	t_square	*sq;
-	char		*msg;
 	int			quantity_sq;
 	t_resource	res;
 
 	sq = get_square(env, fd->trantor.pos_x, fd->trantor.pos_y);
-	res = str_to_resource(cmd + 6);
+	res = atoi(cmd + 6);
 	quantity_sq = nb_res_in_inventory(&sq->content, res);
 	if (quantity_sq < 1)
 	{
 		send_cmd_to_client(fd, MSG_KO);
 		return (-1);
 	}
-	if (res == FOOD)
-		fd->trantor.health_point += LIFE_LONG;
-	else
-		add_resource(&fd->trantor.inventory, res);
+//	if (res == FOOD)
+//		fd->trantor.health_point += LIFE_LONG;
+//	else
+	add_resource(&fd->trantor.inventory, res);
 	del_resource(&sq->content, res);
 	send_cmd_to_client(fd, MSG_OK);
-	asprintf(&msg, "pgt %d %d", fd->trantor.id, res);
-	send_cmd_to_graphics(env, msg);
-	free(msg);
+//	gfx client communication;
+	int 		i;
+	char		*to_send_pin;
+	char		*to_send_bct;
+
+	gfx_pgt(env, fd->trantor.id, res);
+	asprintf(&to_send_pin, "pin %d\n", fd->trantor.id);
+	asprintf(&to_send_bct, "bct %d %d\n", fd->trantor.pos_x, fd->trantor.pos_y);
+	i = 0;
+	while (i < env->maxfd)
+	{
+		if (env->fds[i].type == FD_GRAPHIC)
+		{
+			gfx_pin(env, fd, to_send_pin);
+			gfx_bct(env, fd, to_send_bct);
+		}
+		i++;
+	}
+	free(to_send_pin);
+	free(to_send_bct);
 	return (0);
-	env = NULL;
 }
