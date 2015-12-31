@@ -14,13 +14,13 @@
 
 int     gfx_sst(t_env *env, t_fd *fd, char *cmd)
 {
-    char    *to_send;
+	char	*to_send;
 
-    sscanf(cmd, "sst %d\n", &env->map.time_d);
-    asprintf(&to_send, "sgt %d\n", env->map.time_d);
- 	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
-   send_cmd_to_graphics(env, to_send);
-    free(to_send);
-    return (1);
-    fd = NULL;
+	sscanf(cmd, "sst %d\n", &env->map.time_d);
+	asprintf(&to_send, "sgt %d\n", env->map.time_d);
+	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
+	send_cmd_to_graphics(env, to_send);
+	free(to_send);
+	return (1);
+	fd = NULL;
 }

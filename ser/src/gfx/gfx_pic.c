@@ -10,7 +10,8 @@ static char	*trantors_id_to_str(t_list *trantors)
 	while (trantors != NULL)
 	{
 		trantor = (t_trantorian*) trantors->data;
-		asprintf(&buf, "%s %d", to_return, trantor->id);
+		printf("trantor->id [%s][%d]\n",to_return, trantor->id);
+		asprintf(&buf, "%s %d ", to_return, trantor->id);
 		to_return = buf;
 		free(buf);
 		trantors = trantors->next;
