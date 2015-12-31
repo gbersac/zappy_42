@@ -34,48 +34,48 @@ static char	*explore_vert(t_env *env, t_fd *fd, int inc)
 {
 	int				x;
 	int				y;
+	int				lv;
 	char			*to_return;
 	t_trantorian	*t;
 
 	t = &fd->trantor;
 	to_return = NULL;
-	y = 0;
-	printf("vertival trantorpos (%d,%d) orientation %d\n", t->pos_x, t->pos_y, inc);
-	while (y <= t->level)
+	lv = 0;
+	while (lv <= t->level)
 	{
-		x = -y;
-		while (x <= y)
+		y = lv * inc;
+		x = (y > 0) ? (y * -1) : y;
+		while (x <= lv)
 		{
-			printf("\tregard pos (%d,%d)\n", t->pos_x + x, t->pos_y + y);
 			add_sq_str(env, t->pos_x + x, t->pos_y + y, &to_return);
-			++x;
+			x++;
 		}
-		y += inc;
+		lv ++;
 	}
 	return (to_return);
 }
 
 static char	*explore_hori(t_env *env, t_fd *fd, int inc)
 {
-	int		x;
-	int		y;
-	char	*to_return;
+	int				x;
+	int				y;
+	int				lv;
+	char			*to_return;
 	t_trantorian	*t;
 
-	x = 0;
 	t = &fd->trantor;
 	to_return = NULL;
-	printf("horizontal trantorpos (%d,%d) orientation %d\n", t->pos_x, t->pos_y, inc);
-	while (x < t->level)
+	lv = 0;
+	while (lv <= t->level)
 	{
-		y = -x;
-		while (y <= x)
+		x = lv * inc;
+		y = (x > 0) ? (x * -1) : x;
+		while (y <= lv)
 		{
-			printf("\tregard pos (%d,%d)\n", t->pos_x + x, t->pos_y + y);
 			add_sq_str(env, t->pos_x + x, t->pos_y + y, &to_return);
-			++y;
+			y++;
 		}
-		x += inc;
+		lv ++;
 	}
 	return (to_return);
 }
