@@ -80,10 +80,11 @@ typedef struct	s_resourcd_lst
 */
 typedef enum	e_direction
 {
-	UP,
-	RIGHT,
-	DOWN,
-	LEFT
+	NONEDIR,
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST
 }				t_direction;
 
 typedef enum	e_sound_dir

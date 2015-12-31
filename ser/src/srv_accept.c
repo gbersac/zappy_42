@@ -80,7 +80,10 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	free(xy);
 
 	char	*to_send;
-
+	e->fds[cs].trantor.pos_x = rand() % e->map.width;
+	e->fds[cs].trantor.pos_y = rand() % e->map.height;
+	e->fds[cs].trantor.direction = rand() % 4;
+	e->fds[cs].trantor.direction = (e->fds[cs].trantor.direction == 0) ? 4 : e->fds[cs].trantor.direction; 
 	asprintf(&to_send, "pnw %d %d %d %d %d %s\n", e->fds[cs].trantor.id, e->fds[cs].trantor.pos_x, e->fds[cs].trantor.pos_y,  e->fds[cs].trantor.direction, e->fds[cs].trantor.level, e->fds[cs].trantor.team);
 	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
 	send_cmd_to_graphics(e, to_send);

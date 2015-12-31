@@ -95,11 +95,13 @@ public class EventsManager : MonoBehaviour {
 		} else if (orientation == 4) {
 			newPlayer.transform.LookAt (Vector3.left);
 		}
+		players.Add (int.Parse (split[1]), newPlayer);
 		return;
 	}
 	
 	void	ft_player_position(string s)
 	{
+		Debug.Log (s);
 		int playerNo = int.Parse (s.Split (' ') [0]);
 		if (players.ContainsKey (playerNo))
 		{

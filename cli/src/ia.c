@@ -27,7 +27,11 @@ void ia(t_env *env)
 	else if (env->status == status_voir)
 		cmd(env, CMD_VOIR, "");
 	else if (env->status == status_inventaire)
+	{
+	
 		cmd(env, CMD_INVENTAIRE, "");
+	
+	}
 	else if (env->status == status_prend)
 		cmd(env, CMD_PREND, " 0");
 	else if (env->status == status_pose)

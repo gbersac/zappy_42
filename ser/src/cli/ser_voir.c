@@ -40,11 +40,13 @@ static char	*explore_vert(t_env *env, t_fd *fd, int inc)
 	t = &fd->trantor;
 	to_return = NULL;
 	y = 0;
+	printf("vertival trantorpos (%d,%d) orientation %d\n", t->pos_x, t->pos_y, inc);
 	while (y <= t->level)
 	{
-		x = -y + t->pos_x;
+		x = -y;
 		while (x <= y)
 		{
+			printf("\tregard pos (%d,%d)\n", t->pos_x + x, t->pos_y + y);
 			add_sq_str(env, t->pos_x + x, t->pos_y + y, &to_return);
 			++x;
 		}
@@ -63,11 +65,13 @@ static char	*explore_hori(t_env *env, t_fd *fd, int inc)
 	x = 0;
 	t = &fd->trantor;
 	to_return = NULL;
+	printf("horizontal trantorpos (%d,%d) orientation %d\n", t->pos_x, t->pos_y, inc);
 	while (x < t->level)
 	{
 		y = -x;
 		while (y <= x)
 		{
+			printf("\tregard pos (%d,%d)\n", t->pos_x + x, t->pos_y + y);
 			add_sq_str(env, t->pos_x + x, t->pos_y + y, &to_return);
 			++y;
 		}
@@ -86,6 +90,7 @@ static void	end_ser_voir(t_fd *fd, char *str)
 	memcpy(str, buf, strlen(buf) + 1);
 	ret = ft_strsub(str, 0, strlen(buf) - 2);
 	strcat(ret, "}");
+	printf("\e[0;33mto->[client_%d]\e[0m %s\n", fd->fd, ret);
 	send_cmd_to_client(fd, ret);
 }
 
@@ -97,18 +102,21 @@ int			ser_voir(t_env *env, t_fd *fd, char *cmd)
 	trantor = &(fd->trantor);
 	switch (trantor->direction)
 	{
-		case LEFT:
-			str = explore_hori(env, fd, -1);
-			break ;
-		case RIGHT:
-			str = explore_hori(env, fd, +1);
-			break ;
-		case UP:
-			str = explore_vert(env, fd, -1);
-			break ;
-		case DOWN:
+		case NORTH:
 			str = explore_vert(env, fd, +1);
 			break ;
+		case EAST:
+			str = explore_hori(env, fd, +1);
+			break ;
+		case SOUTH:
+			str = explore_vert(env, fd, -1);
+			break ;
+		case WEST:
+			str = explore_hori(env, fd, -1);
+			break ;
+		default:
+			return (0);
+			break;
 	}
 	end_ser_voir(fd, str);
 	cmd = NULL;
