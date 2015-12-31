@@ -152,11 +152,6 @@ public class Player : MonoBehaviour {
 		animator.SetBool ("laying", false);
 	}
 
-	void Start()
-	{
-		animator = GetComponent<Animator> ();
-	}
-
 	public void SetLevel(int lvl)
 	{
 		this.level = lvl;
@@ -176,26 +171,22 @@ public class Player : MonoBehaviour {
 		else if (or == 4)
 			xOffset = 0.8f;
 		Vector3 pos = new Vector3 (x + xOffset, 0.1f, z + zOffset);
-
 		transform.Rotate (Vector3.up, -90f * (or - 1));
 		transform.position = pos;
-		gameObject.SetActive (true);
-		isAlive = true;
+
 	}
 
-	public void Init(string s)
+	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team)
 	{
-		playerName = s;
+		this.playerNo = id;
+		this.playerName = team+id;
+		this.level = level;
 		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
-		pan.GetComponent<infoPanel>().setinfo( playerName, posx, posy, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
-	}
-
-	public void Initnew(string id, int pos_x, int pos_y, int direction, int level, string team)
-	{
-		playerName = team+id;
-		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
+		animator = GetComponent<Animator> ();
 		pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
-
+		InitPos (pos_x, pos_y, direction);
+		gameObject.SetActive (true);
+		this.isAlive = true;
 	}
 
 	void OnMouseDown () {
@@ -226,16 +217,19 @@ public class Player : MonoBehaviour {
 	}
 
 	void	Avance() {
+		Debug.Log ("A " + this.isAlive);
 		animator.SetBool ("walking", true);
 		toMove += 1f;
 	}
 
 	void	Droite() {
+		Debug.Log ("D " + this.isAlive);
 		animator.SetTrigger ("rturn");
 		transform.Rotate (new Vector3 (0, 14.69f, 0));
 	}
 	
 	void	Gauche() {
+		Debug.Log ("G " + this.isAlive);
 		animator.SetTrigger ("lturn");
 		transform.Rotate (new Vector3 (0, -20.4f, 0));
 	}

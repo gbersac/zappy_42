@@ -17,7 +17,6 @@ public class EventsManager : MonoBehaviour {
 	static public EventsManager em;
 
 	Dictionary<int, Player> players = new Dictionary<int, Player>();
-	int playerCounter = 0;
 
     void    recMessage(string s)
     {
@@ -82,20 +81,15 @@ public class EventsManager : MonoBehaviour {
 		Debug.Log ("new player " + s);
 		string [] split = s.Split (' ');
 		// pnw #n X Y O L N
-		int orientation = int.Parse (split [4]);
-		newPlayer.Initnew (split[1], int.Parse(split[2]), int.Parse(split[3]), orientation, int.Parse(split[5]), split[6]);
-		
-		newPlayer.transform.parent = GameObject.Find("World").transform;
-		if (orientation == 1)
-			newPlayer.transform.LookAt (Vector3.forward);
-		else if (orientation == 2) {
-			newPlayer.transform.LookAt (Vector3.right);
-		} else if (orientation == 3) {
-			newPlayer.transform.LookAt (Vector3.back);
-		} else if (orientation == 4) {
-			newPlayer.transform.LookAt (Vector3.left);
+		try
+		{
+			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5]);
+			newPlayer.transform.parent = GameObject.Find("World").transform;
+			players.Add (int.Parse (split[0]), newPlayer);
 		}
-		players.Add (int.Parse (split[1]), newPlayer);
+		catch{
+			Debug.Log("Bad parameters in ft_new_player. " + s);
+		}
 		return;
 	}
 	
@@ -112,6 +106,8 @@ public class EventsManager : MonoBehaviour {
 		}
 		else
 			Debug.Log ("Player no " + playerNo + " not found.");
+		//TODO
+		//else it should create new player without borning animation
 	}
 	
 	void	ft_player_level(string s)
@@ -372,6 +368,8 @@ public class EventsManager : MonoBehaviour {
 		int index = line.IndexOf(' ');
 		string f_key = line.Split(' ')[0];
 		string f_arg = line.Substring(index + 1, line.Length - index - 1);
+		if (f_key != "bct")
+			Debug.Log (line);
         if (functions.ContainsKey (f_key))
 			functions [f_key] (f_arg);
 		else if (f_key != "newturn")
