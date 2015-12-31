@@ -37,7 +37,6 @@ public class Connection : MonoBehaviour {
 			theReader.BaseStream.ReadTimeout = 1000;
 			socketReady = true;
 			Debug.Log ("Connected");
-			Debug.Log(mySocket.Connected);
 			menu.SetActive(false);
 			world.SetActive(true);
 			EventsManager.em.speedController.SetActive (true);
@@ -96,8 +95,6 @@ public class Connection : MonoBehaviour {
 		setupSocket ();
 
 	}
-
-	private int eggCounter = 0;//
 
 	void	Update()
 	{
