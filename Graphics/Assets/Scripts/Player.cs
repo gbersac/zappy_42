@@ -219,19 +219,16 @@ public class Player : MonoBehaviour {
 	}
 
 	void	Avance() {
-		Debug.Log ("A " + this.isAlive);
 		animator.SetBool ("walking", true);
 		toMove += 1f;
 	}
 
 	void	Droite() {
-		Debug.Log ("D " + this.isAlive);
 		animator.SetTrigger ("rturn");
 		transform.Rotate (new Vector3 (0, 14.69f, 0));
 	}
 	
 	void	Gauche() {
-		Debug.Log ("G " + this.isAlive);
 		animator.SetTrigger ("lturn");
 		transform.Rotate (new Vector3 (0, -20.4f, 0));
 	}
