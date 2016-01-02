@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 22:29:55 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/02 02:32:58 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void ia(t_env *env)
 	else if (env->status == status_inventaire)
 		cmd(env, CMD_INVENTAIRE, "");
 	else if (env->status == status_prend)
-		cmd(env, CMD_PREND, " 0");
+		cmd(env, CMD_PREND, " linemate");
 	else if (env->status == status_pose)
-		cmd(env, CMD_POSE, " 0");
+		cmd(env, CMD_POSE, " linemate");
 	// else if (env->status == status_expulse) //manque le retour ok???
 	// 	cmd(env, CMD_EXPULSE, "");
 	else if (env->status == status_broadcast_bonjour)
