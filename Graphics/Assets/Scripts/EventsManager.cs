@@ -83,33 +83,33 @@ public class EventsManager : MonoBehaviour {
 		// pnw #n X Y O L N
 		try
 		{
-			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5]);
+			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true);
 			newPlayer.transform.parent = GameObject.Find("World").transform;
-
-			players.Add(newPlayer);//
+			players.Add(newPlayer);
 		}
 		catch{
 			Debug.Log("Bad parameters in ft_new_player. " + s);
 		}
-		return;
 	}
 	
 	void	ft_player_position(string s)
 	{
 		Debug.Log (s);
 		int playerNo = int.Parse (s.Split (' ') [0]);
-		if (players.Exists(x => x.playerNo == playerNo))
-		{
+		if (players.Exists (x => x.playerNo == playerNo)) {
 			int x = int.Parse (s.Split (' ') [1]);
 			int z = int.Parse (s.Split (' ') [2]);
 			int or = int.Parse (s.Split (' ') [3]);
-			players.Find(p => p.playerNo == playerNo).MoveOrTurn(x, z ,or);
+			players.Find (p => p.playerNo == playerNo).MoveOrTurn (x, z, or);
+		} else {
+			int x = int.Parse (s.Split (' ') [1]);
+			int z = int.Parse (s.Split (' ') [2]);
+			int or = int.Parse (s.Split (' ') [3]);
+			Player newPlayer = Instantiate<Player> (playerPrefab);
+			newPlayer.Initnew(playerNo, x, z, or, 1, string.Empty, false);//team name ? lvl == 0 or 1 ?
+			newPlayer.transform.parent = GameObject.Find("World").transform;
+			players.Add(newPlayer);
 		}
-		else
-			Debug.Log ("Player no " + playerNo + " not found.");
-
-		//TODO
-		//else it should create new player without borning animation
 	}
 	
 	void	ft_player_level(string s)
@@ -419,6 +419,13 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("smg", recMessage);
 		functions.Add("suc", unknownCommand);
 		functions.Add("sbp", badArgs);
+	}
 
+	void Update()
+	{
+		if (Input.GetKeyDown (KeyCode.Z))
+			Parse ("pnw 8 4 7 1 1 bleu");
+		if (Input.GetKeyDown(KeyCode.X))
+			Parse ("ppo 9 5 5 4");
 	}
 }

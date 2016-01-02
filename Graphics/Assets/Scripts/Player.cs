@@ -49,10 +49,8 @@ public class Player : MonoBehaviour {
 
 	public void MoveOrTurn(int x, int z, int or)
 	{
-		if (isAlive == false) {
-			InitPos (x, z, or);
+		if (isAlive == false)
 			return ;
-		}
 		if (or != orientation)
 		{
 			if (or > orientation || (or == 1 && orientation == 4))
@@ -157,26 +155,28 @@ public class Player : MonoBehaviour {
 		this.level = lvl;
 	}
 
-	public void InitPos(int x, int z, int or)
+	public void InitPos(int x, int z, int or, bool borning)
 	{
 		float xOffset = 0f;
 		float zOffset = 0f;
 
-		if (or == 1)
-			zOffset = 0.8f;
-		else if (or == 2)
-			xOffset = -0.8f;
-		else if (or == 3)
-			zOffset = -0.8f;
-		else if (or == 4)
-			xOffset = 0.8f;
+		if (borning == true) {
+			if (or == 1)
+				zOffset = 0.3f;
+			else if (or == 2)
+				xOffset = -0.3f;
+			else if (or == 3)
+				zOffset = -0.3f;
+			else if (or == 4)
+				xOffset = 0.3f;
+		}
 		Vector3 pos = new Vector3 (x + xOffset, 0.1f, z + zOffset);
 		transform.Rotate (Vector3.up, -90f * (or - 1));
 		transform.position = pos;
 
 	}
 
-	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team)
+	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team, bool borning)
 	{
 		this.playerNo = id;
 		this.playerName = team+id;
@@ -184,9 +184,11 @@ public class Player : MonoBehaviour {
 		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
 		animator = GetComponent<Animator> ();
 		pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
-		InitPos (pos_x, pos_y, direction);
+		InitPos (pos_x, pos_y, direction, borning);
 		gameObject.SetActive (true);
 		this.isAlive = true;
+		if (borning == true)
+			animator.SetTrigger ("borning");
 	}
 
 	void OnMouseDown () {
