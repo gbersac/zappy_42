@@ -53,26 +53,7 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_team_name(string s)
 	{
-		
 		Debug.Log ("team name " + s);
-//		Player newPlayer = Instantiate<Player> (playerPrefab);
-////		newPlayer.Init (s);
-////		newPlayer.playerNo = playerCounter;
-////		players.Add (playerCounter, newPlayer);
-//
-//		//Connection.con.writeSocket ("ppo " + playerCounter);
-//		//call pos or given ?
-//
-//
-//		//faking
-//		int x = UnityEngine.Random.Range (0, 20);
-//		int z = UnityEngine.Random.Range (0, 10);
-//		int or = UnityEngine.Random.Range (1, 5);
-//		string str = playerCounter + " " + x + " " + z + " " + or;
-//		ft_player_position (str);
-//		//end
-//
-//		playerCounter++;
 	}
 	
 	void	ft_new_player(string s)

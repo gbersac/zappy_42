@@ -273,6 +273,20 @@ public class Player : MonoBehaviour {
 
 
 		//DEBUG
+		if (Input.GetKeyDown (KeyCode.M)) {
+			System.Collections.Generic.List<Color> lCol = new System.Collections.Generic.List<Color>();
+			lCol.Add(Color.red);
+			lCol.Add(Color.blue);
+			lCol.Add(Color.green);
+			lCol.Add(Color.black);
+			lCol.Add(Color.white);//this seems to be default
+			lCol.Add(Color.yellow);
+			lCol.Add(Color.cyan);
+			lCol.Add(Color.magenta);
+			int i = UnityEngine.Random.Range(0, lCol.Count);
+			GetComponentInChildren<Renderer>().material.color = lCol[i];
+			Debug.Log(lCol[i]);
+		}
 		if(Input.GetKeyDown(KeyCode.UpArrow)){
 			Avance();
 		}
