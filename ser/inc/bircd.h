@@ -133,7 +133,7 @@ void			do_select(t_env *e);
 int				send_private_msg(t_env *e, int cs, char *cmd);
 int				cmd_msg_error(t_env *e, int cs, char *error);
 int				update_env(t_env *e, char **av);
-int				get_num_turn(t_env *env);
+int				is_new_turn(t_env *env);
 long long		get_time_now(void);
 void			new_turn(t_env *e);
 void			close_connection(t_env *e, int cs);

@@ -20,20 +20,23 @@ long long	get_time_now(void)
 
 	res = ftime(&tp);
 	to_return = 1000.0 * tp.time + tp.millitm;
-	// printf("%lld\n", to_return);
 	return (to_return);
 }
 
-int			get_num_turn(t_env *env)
+int			is_new_turn(t_env *env)
 {
-	static long long	begin = 0;
+	static long long	last = 0;
 	long long			elapsed;
-	int					to_return;
+	long long			now;
 
-	if (begin == 0)
-		begin = get_time_now();
-	elapsed = get_time_now() - begin;
-	to_return = elapsed * env->map.time_d / 1000.0;
-	// printf("calc num turn %lld / %lld\n", elapsed, (long long) (env->map.time_d * 1000.0));
-	return (to_return);
+	now = get_time_now();
+	if (last == 0)
+		last = now;
+	elapsed = now - last;
+	if (elapsed > (long long)(1000.0 / env->map.time_d))
+	{
+		last = now;
+		return (1);
+	}
+	return (0);
 }

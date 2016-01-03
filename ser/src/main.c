@@ -14,37 +14,6 @@
 #include "libft.h"
 #include "bircd.h"
 
-/*
-**static void	test_timer(t_env *e)
-**{
-**	int current_turn = 0;
-**	int current_sec = time(NULL);
-**	int	nb_turn_in_sec = 0;
-**	int	nb_error = -1;
-**
-**	while (42)
-**	{
-**		if (current_sec != time(NULL))
-**		{
-**			printf("@@@@@@new seconde nb_error %d\n", nb_error);
-**			current_sec = time(NULL);
-**			if (nb_turn_in_sec != e->map.time_d)
-**			{
-**				printf("!!!!!!!!!!!!!!!!!!!!!Error!!!!!!!!!!!!!!!!!!!!!\n");
-**				++nb_error;
-**			}
-**			nb_turn_in_sec = 0;
-**		}
-**		if (current_turn != get_num_turn(e))
-**		{
-**			++nb_turn_in_sec;
-**			printf("new turn %d\n", nb_turn_in_sec);
-**			current_turn = get_num_turn(e);
-**		}
-**	}
-**}
-*/
-
 int			main(int ac, char **av)
 {
 	t_env	e;
@@ -55,11 +24,6 @@ int			main(int ac, char **av)
 	srv_create(&e, e.port);
 	srand(time(NULL));
 	printf("Server ready on port %d\n", e.port);
-	// int i = 0;
-	// while (i < e.maxfd) {
-	// 	if (e.fds[i].type != FD_FREE)
-	// 		printf("is free %d\n", i);
-	// }
 	main_loop(&e);
 	return (EXIT_SUCCESS);
 	ac = 0;

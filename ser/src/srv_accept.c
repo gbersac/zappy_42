@@ -47,9 +47,8 @@ static void		client_write(t_env *e, int cs)
 	e->fds[cs].to_send = 0;
 }
 
-void		accept_player(t_env *e, int cs)
+void		accept_player(t_env *e, int cs, char *team)
 {
-	// int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
@@ -64,6 +63,7 @@ void		accept_player(t_env *e, int cs)
 	e->fds[cs].fct_write = client_write;
 	e->fds[cs].to_send = NULL;
 	e->fds[cs].nickname = get_dfl_nickname();
+	e->fds[cs].trantor.team = team;
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
 	//	interpret_cmd(e, &e->fds[cs], "msz");
@@ -119,12 +119,11 @@ void		srv_accept(t_env *e, int s)
 	// a mettre autre part, le serveur ne doit pas attendre reception
 	char *message="BIENVENUE\n";
 	send(cs,message,strlen(message),0);
-
 	ft_bzero(buf, sizeof(buf));
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
-	else //carte???
-	 	accept_player(e, cs);
+	else
+	 	accept_player(e, cs, buf);
 }
