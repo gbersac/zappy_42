@@ -53,6 +53,29 @@ void	read_msg(t_env *env)
 	//free(split[]) et sous split;
 }
 
+// void	main_loop(t_env *env)
+// {
+// 	fd_set	fds_read;
+// 	fd_set	fds_write;
+
+// 	FD_ZERO(&fds_read);
+// 	FD_ZERO(&fds_write);
+// 	while (42)
+// 	{
+// 		if (env->buf_read)
+// 			play(env);
+// 		FD_SET(env->sock, &fds_read);
+// 		FD_SET(env->sock, &fds_write);
+// 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
+// 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
+// 			send_buffer(env);
+// 		if (FD_ISSET(env->sock, &fds_read))
+// 			read_msg(env);
+// 	}
+// }
+
+
+// old source
 void	main_loop(t_env *env)
 {
 	fd_set	fds_read;
@@ -65,11 +88,25 @@ void	main_loop(t_env *env)
 		if (env->buf_read)
 			play(env);
 		FD_SET(env->sock, &fds_read);
+		//to delete
+		FD_SET(0, &fds_read);
+		//to delete
 		FD_SET(env->sock, &fds_write);
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
 			send_buffer(env);
 		if (FD_ISSET(env->sock, &fds_read))
 			read_msg(env);
+
+		// to delete
+		if (FD_ISSET(0, &fds_read))
+		{
+			char	buf[1];
+
+			read(STDIN_FILENO, buf, 1);
+			write(env->sock, buf, 1);
+			// printf("send %s\n", buf);
+		}
+		// to delete
 	}
 }
