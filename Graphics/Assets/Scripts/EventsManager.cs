@@ -225,7 +225,10 @@ public class EventsManager : MonoBehaviour {
 		try
 		{
 			playerNo = int.Parse(s);
-			players.Find(p => p.playerNo == playerNo).Die();
+			Player p = players.Find(pp => pp.playerNo == playerNo);
+			players.Remove(p);
+			teams.Find(t => t.teamName == p.teamName).players.Remove(p);
+			p.Die();
 		}
 		catch
 		{
