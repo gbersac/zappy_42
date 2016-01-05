@@ -41,12 +41,16 @@ void	close_connection(t_env *e, int cs)
 	printf("client #%d gone away\n", cs);
 }
 
+/*
+** TODO : may interpret multiple command at once (then only interpreting the first).
+*/
 void	client_read(t_env *e, int cs)
 {
 	int		r;
 	char	buf[BUF_SIZE + 1];
 	int		res;
 
+	bzero(buf, BUF_SIZE + 1);
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("--[read]> %s\n", buf);
 	if (r <= 0)
@@ -55,8 +59,8 @@ void	client_read(t_env *e, int cs)
 	{
 		ft_memcpy(&(e->fds[cs].buf_read[e->fds[cs].buf_read_len]), buf, r);
 		e->fds[cs].buf_read_len += r;
-		// if (e->fds[cs].buf_read[e->fds[cs].buf_read_len - 1] == '\n')
-		// {
+		if (e->fds[cs].buf_read[e->fds[cs].buf_read_len - 1] == '\n')
+		{
 			res = interpret_cmd(e, &e->fds[cs], e->fds[cs].buf_read);
 			if (res == 1)
 				close_connection(e, cs);
@@ -65,6 +69,6 @@ void	client_read(t_env *e, int cs)
 				bzero(e->fds[cs].buf_read, BUF_SIZE);
 				e->fds[cs].buf_read_len = 0;
 			}
-		// }
+		}
 	}
 }

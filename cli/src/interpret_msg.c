@@ -74,6 +74,17 @@ static int	interpret_msg_return(t_env *env, char *get)
 	if (env->status == status_welcome &&
 			ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 		cmd(env, env->trantor.team, "");
+	else if (ft_strnequ(get, CMD_BEGIN_INFO, ft_strlen(CMD_BEGIN_INFO)))
+	{
+		int ret = sscanf(get, "begin_info %d %d %d\n",
+				&env->n_client,
+				&env->trantor.pos_x,
+				&env->trantor.pos_x);
+		if (ret < 3)
+		{
+			printf("Team error: %s\n", get + 11);
+		}
+	}
 	else if (env->status == status_nb_client && ft_isdigit(get[0]))
 		get_nb_client(env, get);
 	else if (env->status == status_xy && ft_isdigit(get[0]))

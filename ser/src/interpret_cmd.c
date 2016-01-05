@@ -78,13 +78,6 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 	int		res;
 	t_cmd	*command;
 
-	ft_putendl("interpret_cmd");
-	// CA SERT A QUOI???
-	// if (fd->trantor.countdown > 0)
-	// {
-	// 	ft_listpushback(&fd->to_send, strdup(MSG_KO));
-	// 	return (0);
-	// }
 	lst_cmd = get_lst_cmd();
 	while (lst_cmd != NULL)
 	{
