@@ -98,7 +98,6 @@ void		srv_accept(t_env *e, int cs)
 	int		r;
 	char	buf[BUF_SIZE + 1];
 
-	printf("srv_accept\n");
 	r = recv(cs, buf, BUF_SIZE, 0);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);

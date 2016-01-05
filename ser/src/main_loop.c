@@ -55,19 +55,17 @@ static void	check_fd(t_env *e)
 void		main_loop(t_env *e)
 {
 	struct timeval	tv;
-	int				current_turn;
 
 	tv.tv_sec = 0;
 	tv.tv_usec = 1000;
-	current_turn = get_num_turn(e);
+	is_new_turn(e);
 	while (42)
 	{
 		init_fd(e);
 		e->r = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &tv);
 		check_fd(e);
-		if (current_turn != get_num_turn(e))
+		if (is_new_turn(e))
 		{
-			current_turn = get_num_turn(e);
 			new_turn(e);
 		}
 	}
