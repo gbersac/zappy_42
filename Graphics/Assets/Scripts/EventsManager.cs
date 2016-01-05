@@ -8,6 +8,7 @@ public class EventsManager : MonoBehaviour {
 	
 	private Dictionary<string, System.Action<string>> functions;
 	private List<Egg> eggs;
+	private List<Team> teams;
 	public GameObject ground;
 	public GameObject speedController;
     public MessagesBox msgBox;
@@ -50,10 +51,12 @@ public class EventsManager : MonoBehaviour {
 		return;
 	}
 
-
 	void	ft_team_name(string s)
 	{
-		Debug.Log ("team name " + s);
+		Team newTeam = new Team ();
+
+		newTeam.InitTeam (s, teams.Count);
+		teams.Add (newTeam);
 	}
 	
 	void	ft_new_player(string s)
@@ -67,6 +70,7 @@ public class EventsManager : MonoBehaviour {
 			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true);
 			newPlayer.transform.parent = GameObject.Find("World").transform;
 			players.Add(newPlayer);
+			teams.Find(t => t.teamName == split[5]).AddPlayer(newPlayer);
 		}
 		catch{
 			Debug.Log("Bad parameters in ft_new_player. " + s);
@@ -299,20 +303,14 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_end(string s)
 	{
-		Player winner;
-
 		try
 		{
-			int playerNo = int.Parse(s);
-			foreach (Player p in players)
+			foreach (var p in players.FindAll(p => p.teamName != s))
 			{
-				if (p.playerNo != playerNo)
-					p.Die();
+				p.Die();
 			}
-			if (players.Exists(p => p.playerNo == playerNo))
-				players.Find(p => p.playerNo == playerNo).Celebrate();
-			else
-				Debug.Log ("Player no " + playerNo + " not found.");
+			if (players.Exists(p => p.teamName == s))
+				players.Find(p => p.teamName == s).Celebrate();
 		}
 		catch
 		{
@@ -324,6 +322,7 @@ public class EventsManager : MonoBehaviour {
 			//quit app or game over screen ?
 		}
 	}
+
     void timeUnit(string s)
     {
 		
@@ -374,6 +373,7 @@ public class EventsManager : MonoBehaviour {
 		msgBox = Instantiate<MessagesBox>(msgBox);
 		map = ground.GetComponent<GroundGenerator> ();
 		eggs = new List<Egg> ();
+		teams = new List<Team> ();
 		functions = new Dictionary<string, System.Action<string>> ();
 		functions.Add ("BIENVENUE", ft_bienvenue);
 		functions.Add("msz", ft_mapsize);
