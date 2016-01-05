@@ -19,7 +19,7 @@ void			init_trantorian(t_trantorian *trantor, int id)
 	trantor->pos_x = 0;
 	trantor->pos_y = 0;
 	trantor->level = 1;
-	trantor->direction = DOWN;
+	trantor->direction = NORTH;
 	trantor->id = id;
 	trantor->laying = 0;
 }

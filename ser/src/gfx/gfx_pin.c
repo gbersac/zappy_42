@@ -19,7 +19,6 @@ int			gfx_pin(t_env *env, t_fd *fd, char *cmd)
 	t_trantorian	*trantor;
 	char			*inv_str;
 
-	printf("pin called\n");
 	sscanf(cmd, "pin %d\n", &num);
 	trantor = &env->fds[num].trantor;
 	if (env->fds[num].type != FD_CLIENT)
@@ -33,6 +32,7 @@ int			gfx_pin(t_env *env, t_fd *fd, char *cmd)
 			trantor->pos_x,
 			trantor->pos_y,
 			inv_str);
+	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
 	send_cmd_to_client(fd, to_send);
 	free(inv_str);
 	free(to_send);

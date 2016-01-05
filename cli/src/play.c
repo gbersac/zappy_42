@@ -24,6 +24,7 @@ void		play(t_env *env)
 	ft_putstr("\e[0;31m[server]: \e[0m");
 	ft_putendl(get);
 	interpret_msg(env, get);
-	ia(env);
+	if (env->n_request == 0)
+		ia(env);
 	free(get);
 }

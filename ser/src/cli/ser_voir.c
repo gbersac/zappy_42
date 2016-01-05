@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ser_voir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/05 19:00:22 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/05 20:05:29 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,52 +34,56 @@ static char	*explore_vert(t_env *env, t_fd *fd, int inc)
 {
 	int				x;
 	int				y;
+	int				lv;
 	char			*to_return;
 	t_trantorian	*t;
 
 	t = &fd->trantor;
 	to_return = NULL;
-	y = 0;
-	while (y <= t->level)
+	lv = 0;
+	while (lv <= t->level)
 	{
-		x = -y + t->pos_x;
-		while (x <= y)
+		y = lv * inc;
+		x = (y > 0) ? (y * -1) : y;
+		while (x <= lv)
 		{
 			add_sq_str(env, t->pos_x + x, t->pos_y + y, &to_return);
-			++x;
+			x++;
 		}
-		y += inc;
+		lv ++;
 	}
 	return (to_return);
 }
 
 static char	*explore_hori(t_env *env, t_fd *fd, int inc)
 {
-	int		x;
-	int		y;
-	char	*to_return;
+	int				x;
+	int				y;
+	int				lv;
+	char			*to_return;
 	t_trantorian	*t;
 
-	x = 0;
 	t = &fd->trantor;
 	to_return = NULL;
-	while (x < t->level)
+	lv = 0;
+	while (lv <= t->level)
 	{
-		y = -x;
-		while (y <= x)
+		x = lv * inc;
+		y = (x > 0) ? (x * -1) : x;
+		while (y <= lv)
 		{
 			add_sq_str(env, t->pos_x + x, t->pos_y + y, &to_return);
-			++y;
+			y++;
 		}
-		x += inc;
+		lv ++;
 	}
 	return (to_return);
 }
 
 static void	end_ser_voir(t_fd *fd, char *str)
 {
-	char			*buf;
-	char *ret;
+	char	*buf;
+	char	*ret;
 
 	buf = str;
 	str = (char*)malloc(sizeof(char) * strlen(str) + 3);
@@ -97,18 +101,21 @@ int			ser_voir(t_env *env, t_fd *fd, char *cmd)
 	trantor = &(fd->trantor);
 	switch (trantor->direction)
 	{
-		case LEFT:
-			str = explore_hori(env, fd, -1);
-			break ;
-		case RIGHT:
-			str = explore_hori(env, fd, +1);
-			break ;
-		case UP:
-			str = explore_vert(env, fd, -1);
-			break ;
-		case DOWN:
+		case NORTH:
 			str = explore_vert(env, fd, +1);
 			break ;
+		case EAST:
+			str = explore_hori(env, fd, +1);
+			break ;
+		case SOUTH:
+			str = explore_vert(env, fd, -1);
+			break ;
+		case WEST:
+			str = explore_hori(env, fd, -1);
+			break ;
+		default:
+			return (0);
+			break;
 	}
 	end_ser_voir(fd, str);
 	cmd = NULL;

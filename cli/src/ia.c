@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ia.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 22:29:55 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/05 19:36:43 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void ia(t_env *env)
 		cmd(env, CMD_VOIR, "");
 	}
 }
-	
+
 // 	// else if (env->status == status_droite)
 // 	// 	cmd(env, CMD_DROITE, "");
 // 	// else if (env->status == status_gauche)

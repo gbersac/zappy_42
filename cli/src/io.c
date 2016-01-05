@@ -29,18 +29,19 @@ void	send_buffer(t_env *env)
 		ft_listpushback(&env->buf_pending, tmp);
 		send(env->sock, tmp, ft_strlen(tmp) + 1, 0);
 		env->n_request++;
-		ft_printf("\e[0;32m[client]: \e[0m %s\n", tmp);
+		ft_printf("\e[0;32m[client]:\e[0m %s\n", tmp);
+		ft_printf("n_request: %d\n", env->n_request);
 	}
 }
 
 void	read_msg(t_env *env)
 {
-	char	*buf;
+	char	buf[BUF_SIZE + 1];
 	int		r;
 	int		j;
 	char	**split;
 
-	buf = ft_strnew(BUF_SIZE);
+	ft_bzero(buf, BUF_SIZE);
 	r = recv(env->sock, buf, BUF_SIZE, 0);
 	if (r == 0)
 		ft_ferror("Disconnect by the server.");
@@ -70,6 +71,5 @@ void	main_loop(t_env *env)
 			send_buffer(env);
 		if (FD_ISSET(env->sock, &fds_read))
 			read_msg(env);
-		//sleep(1);
 	}
 }

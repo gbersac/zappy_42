@@ -19,8 +19,10 @@ int			ser_inventaire(t_env *env, t_fd *fd, char *cmd)
 	char			*inventory;
 
 	trantor = &(fd->trantor);
+//	printf("bug\n");
 	inventory = inventory_to_str(&trantor->inventory);
 	asprintf(&to_send, "%s %s", CMD_INVENTAIRE, inventory);
+	printf("\e[0;33mto->[client_%d]\e[0m %s\n", fd->fd, to_send);
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
 	free(inventory);

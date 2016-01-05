@@ -49,10 +49,8 @@ public class Player : MonoBehaviour {
 
 	public void MoveOrTurn(int x, int z, int or)
 	{
-		if (isAlive == false) {
-			InitPos (x, z, or);
+		if (isAlive == false)
 			return ;
-		}
 		if (or != orientation)
 		{
 			if (or > orientation || (or == 1 && orientation == 4))
@@ -152,42 +150,45 @@ public class Player : MonoBehaviour {
 		animator.SetBool ("laying", false);
 	}
 
-	void Start()
-	{
-		animator = GetComponent<Animator> ();
-	}
-
 	public void SetLevel(int lvl)
 	{
 		this.level = lvl;
 	}
 
-	public void InitPos(int x, int z, int or)
+	public void InitPos(int x, int z, int or, bool borning)
 	{
 		float xOffset = 0f;
 		float zOffset = 0f;
 
-		if (or == 1)
-			zOffset = 0.8f;
-		else if (or == 2)
-			xOffset = -0.8f;
-		else if (or == 3)
-			zOffset = -0.8f;
-		else if (or == 4)
-			xOffset = 0.8f;
+		if (borning == true) {
+			if (or == 1)
+				zOffset = 0.3f;
+			else if (or == 2)
+				xOffset = -0.3f;
+			else if (or == 3)
+				zOffset = -0.3f;
+			else if (or == 4)
+				xOffset = 0.3f;
+		}
 		Vector3 pos = new Vector3 (x + xOffset, 0.1f, z + zOffset);
-
 		transform.Rotate (Vector3.up, -90f * (or - 1));
 		transform.position = pos;
-		gameObject.SetActive (true);
-		isAlive = true;
+
 	}
 
-	public void Init(string s)
+	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team, bool borning)
 	{
-		playerName = s;
+		this.playerNo = id;
+		this.playerName = team+id;
+		this.level = level;
 		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
-		pan.GetComponent<infoPanel>().setinfo( playerName, posx, posy, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
+		animator = GetComponent<Animator> ();
+		pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
+		InitPos (pos_x, pos_y, direction, borning);
+		gameObject.SetActive (true);
+		this.isAlive = true;
+		if (borning == true)
+			animator.SetTrigger ("borning");
 	}
 
 	void OnMouseDown () {
@@ -272,6 +273,20 @@ public class Player : MonoBehaviour {
 
 
 		//DEBUG
+		if (Input.GetKeyDown (KeyCode.M)) {
+			System.Collections.Generic.List<Color> lCol = new System.Collections.Generic.List<Color>();
+			lCol.Add(Color.red);
+			lCol.Add(Color.blue);
+			lCol.Add(Color.green);
+			lCol.Add(Color.black);
+			lCol.Add(Color.white);//this seems to be default
+			lCol.Add(Color.yellow);
+			lCol.Add(Color.cyan);
+			lCol.Add(Color.magenta);
+			int i = UnityEngine.Random.Range(0, lCol.Count);
+			GetComponentInChildren<Renderer>().material.color = lCol[i];
+			Debug.Log(lCol[i]);
+		}
 		if(Input.GetKeyDown(KeyCode.UpArrow)){
 			Avance();
 		}

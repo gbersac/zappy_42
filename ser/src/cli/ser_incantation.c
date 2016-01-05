@@ -116,6 +116,36 @@ int				ser_incantation(t_env *env, t_fd *fd, char *cmd)
 	printf("new incantation for level %d\n", incant.big_level);
 	modify_trantor(trantors, trantor);
 	send_cmd_to_client(fd, MSG_OK);
+/*
+	communication avec gfx client
+
+	t_trantorian	*t;	
+	t_list			*first;	
+	int				i;
+	char			*to_send_plv;
+	char			*to_send_mct;
+
+	gfx_pic(env, trantors); // c'est chelou ce truc là
+	i = 0;
+	asprintf(&to_send_mct, "mct\n");
+	while (i < env->maxfd)
+	{
+		if (env->fds[i].type == FD_GRAPHIC)
+		{
+			first = trantors;
+			while (first != NULL)
+			{
+				t = (t_trantorian*) first->data;
+				asprintf(&to_send_plv, "plv %d\n", t->id);
+				gfx_plv(env, env->fds[i], to_send_plv)
+				free(to_send_plv);
+			}
+			gfx_mct(env,env->fds[i], to_send_mct)
+		}
+		i++;
+	}
+
+*/
 	test_for_victory(env);
 	return (0);
 	cmd = NULL;

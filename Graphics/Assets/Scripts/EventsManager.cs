@@ -16,8 +16,7 @@ public class EventsManager : MonoBehaviour {
 	public GroundGenerator map;
 	static public EventsManager em;
 
-	Dictionary<int, Player> players = new Dictionary<int, Player>();
-	int playerCounter = 0;
+	List<Player> players = new List<Player> ();
 
     void    recMessage(string s)
     {
@@ -54,44 +53,44 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_team_name(string s)
 	{
-		Player newPlayer = Instantiate<Player> (playerPrefab);
-		newPlayer.Init (s);
-		newPlayer.playerNo = playerCounter;
-		players.Add (playerCounter, newPlayer);
-		newPlayer.transform.parent = GameObject.Find("World").transform;
-
-		//Connection.con.writeSocket ("ppo " + playerCounter);
-		//call pos or given ?
-
-
-		//faking
-		int x = UnityEngine.Random.Range (0, 20);
-		int z = UnityEngine.Random.Range (0, 10);
-		int or = UnityEngine.Random.Range (1, 5);
-		string str = playerCounter + " " + x + " " + z + " " + or;
-		ft_player_position (str);
-		//end
-
-		playerCounter++;
+		Debug.Log ("team name " + s);
 	}
 	
 	void	ft_new_player(string s)
 	{
-		return;
+		Player newPlayer = Instantiate<Player> (playerPrefab);
+		Debug.Log ("new player " + s);
+		string [] split = s.Split (' ');
+		// pnw #n X Y O L N
+		try
+		{
+			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true);
+			newPlayer.transform.parent = GameObject.Find("World").transform;
+			players.Add(newPlayer);
+		}
+		catch{
+			Debug.Log("Bad parameters in ft_new_player. " + s);
+		}
 	}
 	
 	void	ft_player_position(string s)
 	{
+		Debug.Log (s);
 		int playerNo = int.Parse (s.Split (' ') [0]);
-		if (players.ContainsKey (playerNo))
-		{
+		if (players.Exists (x => x.playerNo == playerNo)) {
 			int x = int.Parse (s.Split (' ') [1]);
 			int z = int.Parse (s.Split (' ') [2]);
 			int or = int.Parse (s.Split (' ') [3]);
-			players[playerNo].MoveOrTurn(x, z, or);
+			players.Find (p => p.playerNo == playerNo).MoveOrTurn (x, z, or);
+		} else {
+			int x = int.Parse (s.Split (' ') [1]);
+			int z = int.Parse (s.Split (' ') [2]);
+			int or = int.Parse (s.Split (' ') [3]);
+			Player newPlayer = Instantiate<Player> (playerPrefab);
+			newPlayer.Initnew(playerNo, x, z, or, 1, string.Empty, false);//team name ? lvl == 0 or 1 ?
+			newPlayer.transform.parent = GameObject.Find("World").transform;
+			players.Add(newPlayer);
 		}
-		else
-			Debug.Log ("Player no " + playerNo + " not found.");
 	}
 	
 	void	ft_player_level(string s)
@@ -100,7 +99,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			int playerNo = int.Parse (s.Split (' ') [0]);
 			int lvl = int.Parse (s.Split (' ') [1]);
-			players[playerNo].SetLevel(lvl);
+			players.Find(p => p.playerNo == playerNo).SetLevel(lvl);
 		}
 		catch
 		{
@@ -114,7 +113,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			string []ss = s.Split(' ');
 			int playerNo = int.Parse(ss[0]);
-			players[playerNo].SetStuff(ss);
+			players.Find(p => p.playerNo == playerNo).SetStuff(ss);
 		}
 		catch
 		{
@@ -139,11 +138,9 @@ public class EventsManager : MonoBehaviour {
 			int x = int.Parse (s.Split (' ') [0]);
 			int z = int.Parse (s.Split (' ') [1]);
 			bool success = (int.Parse(s.Split (' ') [2]) == 1) ? true : false;
-			foreach (Player p in players.Values)
-			{
-				if (p.posx == x && p.posy == z)
-					p.StopCasting(success);
-			}
+			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
+			foreach (Player c in casters)
+				c.StopCasting(success);
 		}
 		catch
 		{
@@ -162,11 +159,8 @@ public class EventsManager : MonoBehaviour {
 			while (i < ss.Length)
 			{
 				playerNo = int.Parse(ss[i]);
-				if (players.ContainsKey (playerNo))
-				{
-					players[playerNo].StartCasting();
-					//provide lvl ?
-				}
+				if (players.Exists(p => p.playerNo == playerNo))
+					players.Find(p => p.playerNo == playerNo).StartCasting();
 				else
 					Debug.Log ("Player no " + playerNo + " not found.");
 				i++;
@@ -182,7 +176,10 @@ public class EventsManager : MonoBehaviour {
 	{
 		int playerNo = int.Parse (s);
 
-		players [playerNo].StartLaying ();
+		if (players.Exists(p => p.playerNo == playerNo))
+		    players.Find(p => p.playerNo == playerNo).StartLaying();
+		else
+			Debug.Log ("Player no " + playerNo + " not found.");
 	}
 	
 	void	ft_player_vomit(string s)
@@ -191,7 +188,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			int playerNo = int.Parse (s.Split (' ') [0]);
 			int ressNo = int.Parse (s.Split (' ') [1]);
-			players[playerNo].ThrowRess(ressNo);
+			players.Find(p => p.playerNo == playerNo).ThrowRess(ressNo);
 		}
 		catch
 		{
@@ -205,8 +202,10 @@ public class EventsManager : MonoBehaviour {
 		{
 			int playerNo = int.Parse (s.Split (' ') [0]);
 			int ressNo = int.Parse (s.Split (' ') [1]);
-			players[playerNo].PickRess(ressNo);
-			map.RemoveStone((int)(players[playerNo].transform.position.x), (int)(players[playerNo].transform.position.z), ressNo);
+			Player play = players.Find(p => p.playerNo == playerNo);
+
+			play.PickRess(ressNo);
+			map.RemoveStone((int)(play.transform.position.x), (int)(play.transform.position.z), ressNo);
 		}
 		catch
 		{
@@ -222,7 +221,7 @@ public class EventsManager : MonoBehaviour {
 		try
 		{
 			playerNo = int.Parse(s);
-			players[playerNo].Die();
+			players.Find(p => p.playerNo == playerNo).Die();
 		}
 		catch
 		{
@@ -248,14 +247,14 @@ public class EventsManager : MonoBehaviour {
 			playerNo = int.Parse(split [1]);
 			x = int.Parse(split [2]);
 			y = int.Parse(split [3]);
+			players.Find(p => p.playerNo == playerNo).StopLaying();
+			eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo));
 		}
 		catch
 		{
 			Debug.Log("Error: bad parameters in ft_new_egg_pos.");
 			return ;
 		}
-		players [playerNo].StopLaying ();
-		eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo));
 	}
 	
 	void	ft_egg_born(string s)
@@ -305,13 +304,15 @@ public class EventsManager : MonoBehaviour {
 		try
 		{
 			int playerNo = int.Parse(s);
-			winner = players[playerNo];
-			foreach (int pNo in players.Keys)
+			foreach (Player p in players)
 			{
-				if (pNo != playerNo)
-					players[pNo].Die();
+				if (p.playerNo != playerNo)
+					p.Die();
 			}
-			winner.Celebrate();
+			if (players.Exists(p => p.playerNo == playerNo))
+				players.Find(p => p.playerNo == playerNo).Celebrate();
+			else
+				Debug.Log ("Player no " + playerNo + " not found.");
 		}
 		catch
 		{
@@ -352,6 +353,8 @@ public class EventsManager : MonoBehaviour {
 		int index = line.IndexOf(' ');
 		string f_key = line.Split(' ')[0];
 		string f_arg = line.Substring(index + 1, line.Length - index - 1);
+		if (f_key != "bct")
+			Debug.Log (line);
         if (functions.ContainsKey (f_key))
 			functions [f_key] (f_arg);
 		else if (f_key != "newturn")
@@ -397,32 +400,13 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("smg", recMessage);
 		functions.Add("suc", unknownCommand);
 		functions.Add("sbp", badArgs);
-
 	}
 
 	void Update()
 	{
 		if (Input.GetKeyDown (KeyCode.Z))
-			Parse ("pfk 0");
-		else if (Input.GetKeyDown (KeyCode.X))
-			Parse ("enw 8 0 2 2");
-		else if (Input.GetKeyDown (KeyCode.C))
-			Parse ("pdr 0 1");
-		else if (Input.GetKeyDown (KeyCode.V))
-			Parse ("pgt 0 1");
-		else if (Input.GetKeyDown (KeyCode.B))
-			Parse ("seg 0");
-		else if (Input.GetKeyDown (KeyCode.N))
-			Parse ("eht 8");
-		else if (Input.GetKeyDown (KeyCode.M))
-			Parse ("edi 8");
-		else if (Input.GetKeyDown (KeyCode.Comma))
-			Parse ("pic " + players [0].posx + " " + players [0].posy + " 1 0");
-		else if (Input.GetKeyDown (KeyCode.Slash))
-			Parse ("pie " + players [0].posx + " " + players [0].posy + " " + UnityEngine.Random.Range (0, 2));
-		else if (Input.GetKeyDown (KeyCode.Semicolon))
-			Parse ("pbc 0 asdisdgjodfgifodgj OK salut");
-		else if (Input.GetKeyDown (KeyCode.Quote))
-			Parse ("pin 0 0 0 2 3 4 5 6 7 8");
+			Parse ("pnw 8 4 7 1 1 bleu");
+		if (Input.GetKeyDown(KeyCode.X))
+			Parse ("ppo 9 5 5 4");
 	}
 }

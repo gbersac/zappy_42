@@ -6,7 +6,7 @@ int		gfx_ppo(t_env *env, t_fd *fd, char *cmd)
 	int				num;
 	t_trantorian	*trantor;
 
-	printf("ppo called\n");
+//	printf("ppo called\n");
 	sscanf(cmd, "ppo %d\n", &num);
 	trantor = &env->fds[num].trantor;
 	if (env->fds[num].type != FD_CLIENT)
@@ -19,6 +19,7 @@ int		gfx_ppo(t_env *env, t_fd *fd, char *cmd)
 			trantor->pos_x,
 			trantor->pos_y,
 			direction_to_nbr(trantor->direction));
+	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
 	return (1);

@@ -46,8 +46,6 @@ static void	get_xy(t_env *env, char *get)
 	{
 		env->pos_x = ft_atoi(pos[0]);
 		env->pos_y = ft_atoi(pos[1]);
-		ft_printf("[coords]: %d, %d\n", env->pos_x, env->pos_y);
-		env->n_request++;
 	}
 	else
 	{
@@ -86,14 +84,17 @@ static int	interpret_msg_return(t_env *env, char *get)
 		}
 	}
 	else if (env->status == status_nb_client && ft_isdigit(get[0]))
+	{
 		get_nb_client(env, get);
+		env->n_request++;
+	}
 	else if (env->status == status_xy && ft_isdigit(get[0]))
 		get_xy(env, get);
 	else if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
 				ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
-		ft_putendl("ok/ko");
+		;
 	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
-		ft_putendl("incantation 2");
+		;
 	else if (ft_isdigit(get[0]))
 		get_nb_client(env, get);
 	else if (get[0] == '{' && ft_isdigit(get[1]))
@@ -102,15 +103,20 @@ static int	interpret_msg_return(t_env *env, char *get)
 		parse_inventaire(env, get);
 	else
 		return (0);
+	env->n_request--;
 	return (1);
 }
 
 void		interpret_msg(t_env *env, char *get)
 {
 	if (interpret_msg_return(env, get))
-		env->status++;
+	{
+		if (env->status <= status_xy ||
+			(env->status > status_xy && env->n_request == 0))
+			env->status++;
+	}
 	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
-		ft_putendl("incantation 1");
+		;
 	else if (ft_strnequ(get, MSG_BROADCAST, ft_strlen(MSG_BROADCAST)))
 		interpret_broadcast(env, get);
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
@@ -119,7 +125,6 @@ void		interpret_msg(t_env *env, char *get)
 		;
 	else
 		ft_printf("message %s not implemented");
-	env->n_request--;
 	ft_printf("n_request: %d\n", env->n_request);
 	ft_printf("status: %d\n", env->status);
 }

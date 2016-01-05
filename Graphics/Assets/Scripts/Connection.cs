@@ -9,7 +9,8 @@ public class Connection : MonoBehaviour {
 
 	public	GameObject 		menu;
 	public	GameObject		world;
-	public	InputField 		field;
+	public	InputField 		portField;
+	public	InputField 		hostField;
 
 	string					host;
 	int						port;
@@ -29,22 +30,47 @@ public class Connection : MonoBehaviour {
 
 	public void setupSocket()
 	{
+//		try {
+//			host = hostField.text;
+//			if (string.IsNullOrEmpty(host))
+//				host = "localhost";
+//			port = int.Parse(portField.text);
+//			mySocket = new TcpClient(host, port);
+//			theStream = mySocket.GetStream();
+//			theWriter = new StreamWriter(theStream);
+//			theReader = new StreamReader(theStream);
+//			theReader.BaseStream.ReadTimeout = 1000;
+//			socketReady = true;
+//			Debug.Log ("Connected");
+//			menu.SetActive(false);
+//			world.SetActive(true);
+//			EventsManager.em.speedController.SetActive (true);
+//		}
 		try {
-			mySocket = new TcpClient(host, port);
+			host = hostField.text;
+			if (string.IsNullOrEmpty(host))
+				host = "localhost";
+			port = int.Parse(portField.text);
+			mySocket = new TcpClient();
+			var result = mySocket.BeginConnect(host, port, null, null);
+			bool success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(2));
+			if (!success)
+				throw new Exception("Connection timed out.");
+			mySocket.EndConnect(result);
 			theStream = mySocket.GetStream();
 			theWriter = new StreamWriter(theStream);
 			theReader = new StreamReader(theStream);
 			theReader.BaseStream.ReadTimeout = 1000;
 			socketReady = true;
 			Debug.Log ("Connected");
-			Debug.Log(mySocket.Connected);
 			menu.SetActive(false);
 			world.SetActive(true);
 			EventsManager.em.speedController.SetActive (true);
 		}
 		catch (Exception e) {
 			Debug.Log("Socket error: " + e);
-			Application.LoadLevel(0);
+			EventsManager.em.msgBox.ServerMessage("Connection failed: " + e.Message, Color.red);
+			//Application.LoadLevel(0);
 		}
 	}
 	
@@ -91,13 +117,8 @@ public class Connection : MonoBehaviour {
 
 	public void	StartConnection()
 	{
-		host = "127.0.0.1";
-		port = int.Parse (field.text);
 		setupSocket ();
-
 	}
-
-	private int eggCounter = 0;//
 
 	void	Update()
 	{
