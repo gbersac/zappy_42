@@ -206,7 +206,8 @@ public class Player : MonoBehaviour {
 			//Active PlayerCam
 			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(true);
 			//Desactiv MapCam
-			CamManagement.cmgnt.MapCam.gameObject.SetActive(false);
+			//			CamManagement.cmgnt.MapCam.gameObject.SetActive(false);
+			CamManagement.cmgnt.MapCam.rect = new Rect(0f, 0f, 0.10f, 0.10f);
 			//put PlayerCam in Player environment
 			CamManagement.cmgnt.PlayerCam.transform.parent = gameObject.transform;
 			//set position PlayerCam in Player environment
@@ -219,7 +220,8 @@ public class Player : MonoBehaviour {
 		} else {
 			pan.SetActive (false);
 			//Activ MapCam
-			CamManagement.cmgnt.MapCam.gameObject.SetActive(true);
+		//	CamManagement.cmgnt.MapCam.gameObject.SetActive(true);
+			CamManagement.cmgnt.MapCam.rect = new Rect(0f, 0f, 1f, 1f);
 			//Desactive PlayerCam
 			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(false);
 			info = false;
