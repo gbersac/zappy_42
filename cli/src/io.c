@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 21:56:17 by flime             #+#    #+#             */
-/*   Updated: 2016/01/06 15:48:21 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/06 18:50:36 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	send_buffer(t_env *env)
 	}
 }
 
+/*
+** Probably not good. Why not interpreting commands each after another ?
+*/
 void	read_msg(t_env *env)
 {
 	char	buf[BUF_SIZE + 1];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret_msg.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/30 06:49:19 by flime             #+#    #+#             */
-/*   Updated: 2015/12/30 06:49:23 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/06 19:19:18 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ static void	player_dies(t_env *env, char *get)
 
 static int	interpret_msg_return(t_env *env, char *get)
 {
-	if (env->status == status_welcome &&
-			ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
-		cmd(env, env->trantor.team, "");
-	else if (ft_strnequ(get, CMD_BEGIN_INFO, ft_strlen(CMD_BEGIN_INFO)))
+	// if (env->status == status_welcome &&
+	// 		ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
+	// 	cmd(env, env->trantor.team, "");
+	if (ft_strnequ(get, CMD_BEGIN_INFO, ft_strlen(CMD_BEGIN_INFO)))
 	{
 		int ret = sscanf(get, "begin_info %d %d %d\n",
 				&env->n_client,
@@ -121,6 +121,13 @@ void		interpret_msg(t_env *env, char *get)
 		interpret_broadcast(env, get);
 	else if (ft_strnequ(get, MSG_DEAD, ft_strlen(MSG_DEAD)))
 		player_dies(env, get);
+	else if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
+	{
+		char *to_send;
+		asprintf(&to_send, "begin_info %s", env->trantor.team);
+		cmd(env, to_send, NULL);
+		free(to_send);
+	}
 	else if (ft_strnequ(get, MSG_EXPULSE, ft_strlen(MSG_EXPULSE)))
 		;
 	else

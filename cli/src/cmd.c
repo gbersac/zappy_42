@@ -14,7 +14,8 @@
 #include "../../libft/inc/libft.h"
 
 /*
-** Guillaume: when you send cmd end it with a '\n'
+** str: must not end with a '\n'
+** Guillaume: when you send a cmd, end it with a '\n'
 */
 void	cmd(t_env *env, char *cmd, char *str)
 {

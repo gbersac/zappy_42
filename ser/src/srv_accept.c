@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2016/01/06 18:26:56 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/06 19:01:19 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	e->fds[cs].trantor.pos_x = rand() % e->map.width;
 	e->fds[cs].trantor.pos_y = rand() % e->map.height;
 	e->fds[cs].trantor.direction = rand() % 4 + 1;
-	interpret_cmd(e, &e->fds[cs], "msz");
 	send_cmd_to_graphics(e, gfx_pnw_str(&e->fds[cs].trantor));
 }
 
@@ -108,15 +107,13 @@ void		srv_accept(t_env *e, int s)
 	csin_len = sizeof(csin);
 	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
 		ft_ferror("accept error");
-	// a mettre autre part, le serveur ne doit pas attendre reception
 	char *message="BIENVENUE\n";
 	send(cs,message,strlen(message),0);
-
 	ft_bzero(buf, sizeof(buf));
 	r = recv(cs, buf, BUF_SIZE, 0);
 	printf("-->%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
-	else //carte??? no team name
+	else
 	 	accept_player(e, cs, buf);
 }

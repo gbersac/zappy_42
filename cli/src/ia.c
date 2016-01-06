@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2016/01/06 15:48:36 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/06 18:41:04 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@
 
 void ia(t_env *env)
 {
-
 	if (env->status == status_avance)
 	{
 		cmd(env, "voir\nfork\nprend linemate", NULL);
