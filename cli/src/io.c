@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 21:56:17 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 20:22:46 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/06 15:48:21 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,14 @@ void	send_buffer(t_env *env)
 	{
 		tmp = (char *)ft_listpop(&env->buf_write);
 		ft_listpushback(&env->buf_pending, tmp);
-		send(env->sock, tmp, ft_strlen(tmp) + 1, 0);
+		send(env->sock, tmp, ft_strlen(tmp), 0);
 		env->n_request++;
 		ft_printf("\e[0;32m[client]:\e[0m %s\n", tmp);
-		ft_printf("n_request: %d\n", env->n_request);
+		// ft_printf("n_request: %d\n", env->n_request);
+		if (env->buf_write != NULL)
+			printf("error still to write\n");
+		else
+			printf("ok\n");
 	}
 }
 
@@ -66,10 +70,24 @@ void	main_loop(t_env *env)
 			play(env);
 		FD_SET(env->sock, &fds_read);
 		FD_SET(env->sock, &fds_write);
+		//<to delete
+		FD_SET(STDIN_FILENO, &fds_read);
+		//to delete/>
 		select(env->sock + 1, &fds_read, &fds_write, NULL, NULL);
 		if (env->buf_write && FD_ISSET(env->sock, &fds_write))
 			send_buffer(env);
 		if (FD_ISSET(env->sock, &fds_read))
 			read_msg(env);
+
+		// <to delete
+		if (FD_ISSET(STDIN_FILENO, &fds_read))
+		{
+			char	buf[1];
+
+			read(STDIN_FILENO, buf, 1);
+			write(env->sock, buf, 1);
+			// printf("send %s\n", buf);
+		}
+		// to delete/>
 	}
 }

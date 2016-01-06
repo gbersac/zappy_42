@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client_read.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:53:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/24 21:53:53 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/06 16:35:19 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,34 +41,59 @@ void	close_connection(t_env *e, int cs)
 	printf("client #%d gone away\n", cs);
 }
 
-/*
-** TODO : may interpret multiple command at once (then only interpreting the first).
-*/
-void	client_read(t_env *e, int cs)
+static void	send_cmd(t_env *e, char *buf, int i, int cs)
+{
+	char	*cmd;
+	int		res;
+
+	cmd = (char*)malloc((i + 2) * sizeof(char));
+	memcpy(cmd, buf, i + 1);
+	cmd[i + 1] = '\0';
+	res = interpret_cmd(e, &e->fds[cs], buf);
+	free(cmd);
+	if (res == 1)
+		close_connection(e, cs);
+	else
+	{
+		memcpy(buf, buf + i + 1, strlen(buf) - i);
+		e->fds[cs].buf_read_len = strlen(buf);
+		buf[e->fds[cs].buf_read_len] = '\0';
+	}
+}
+
+void		extract_cmd_from_buffer(t_env *e, int cs)
+{
+	int		i;
+	char	*buf;
+
+	buf = e->fds[cs].buf_read;
+	i = 0;
+	while (buf[i] != '\0')
+	{
+		if (buf[i] == '\n')
+		{
+			send_cmd(e, buf, i, cs);
+			i = 0;
+		}
+		else
+			++i;
+	}
+}
+
+void		client_read(t_env *e, int cs)
 {
 	int		r;
 	char	buf[BUF_SIZE + 1];
-	int		res;
 
-	bzero(buf, BUF_SIZE + 1);
 	r = recv(cs, buf, BUF_SIZE, 0);
+	buf[r] = '\0';
 	printf("--[read]> %s\n", buf);
 	if (r <= 0)
 		close_connection(e, cs);
 	else
 	{
-		ft_memcpy(&(e->fds[cs].buf_read[e->fds[cs].buf_read_len]), buf, r);
+		ft_memcpy(&(e->fds[cs].buf_read[e->fds[cs].buf_read_len]), buf, r + 1);
 		e->fds[cs].buf_read_len += r;
-		if (e->fds[cs].buf_read[e->fds[cs].buf_read_len - 1] == '\n')
-		{
-			res = interpret_cmd(e, &e->fds[cs], e->fds[cs].buf_read);
-			if (res == 1)
-				close_connection(e, cs);
-			else
-			{
-				bzero(e->fds[cs].buf_read, BUF_SIZE);
-				e->fds[cs].buf_read_len = 0;
-			}
-		}
+		extract_cmd_from_buffer(e, cs);
 	}
 }
