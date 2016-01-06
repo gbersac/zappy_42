@@ -7,11 +7,13 @@ public class Player : MonoBehaviour {
 	public bool info = false;
 	public int	playerNo;
 	public bool isAlive = false;
+	public Color teamColor = Color.white;
 	GameObject pan;
 	float toMove = 0;
 	string	playerName;
 	public int		posx = 0;
 	public int		posy = 0;
+	public string	teamName;
 	int		orientation = 1;
 	int		level = 1;
 	int		nourriture = 0;
@@ -28,7 +30,12 @@ public class Player : MonoBehaviour {
 		animator.SetBool ("casting", false);
 		if (success == true)
 			level++;
-		
+	}
+
+	public void SetColor(Color col)
+	{
+		teamColor = col;
+		GetComponentInChildren<Renderer> ().material.color = col;
 	}
 
 	public void SetStuff(string []stuff)
@@ -180,6 +187,7 @@ public class Player : MonoBehaviour {
 	{
 		this.playerNo = id;
 		this.playerName = team+id;
+		this.teamName = team;
 		this.level = level;
 		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
 		animator = GetComponent<Animator> ();
