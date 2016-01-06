@@ -65,7 +65,6 @@ public class EventsManager : MonoBehaviour {
 		Player newPlayer = Instantiate<Player> (playerPrefab);
 		Debug.Log ("new player " + s);
 		string [] split = s.Split (' ');
-		// pnw #n X Y O L N
 		try
 		{
 			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true);
