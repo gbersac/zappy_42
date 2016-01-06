@@ -99,6 +99,7 @@ typedef struct		s_egg
 ** fd_read, fd_write: for the select function.
 ** maxfd: the highest fd (usefull for select). Number of t_fd in fds.
 ** idle_trant:	list of all available trantor.
+** id_egg:	the max id that has been gave to an egg
 */
 typedef struct		s_env
 {

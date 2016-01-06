@@ -1,13 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gfx_enw.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/01/06 17:53:45 by gbersac           #+#    #+#             */
+/*   Updated: 2016/01/06 18:27:15 by gbersac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cmd.h"
 
 int	gfx_enw(t_env *env)
 {
 	char	*to_send;
+	t_egg	*egg;
+	t_list	*iter;
 
-	to_send = (char*)malloc(4);
-	memcpy(to_send, "enw ", 4);
-	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
-	send_cmd_to_graphics(env, to_send);
+	iter = env->egg;
+	while (iter != NULL)
+	{
+		egg = (t_egg*)iter->data;
+		asprintf(&to_send, "enw %d %d %d %d\n", egg->id, egg->id_trantor,
+				egg->x, egg->y);
+		send_cmd_to_graphics(env, to_send);
+		free(to_send);
+		iter = iter->next;
+	}
 	return 1;
 }
-
