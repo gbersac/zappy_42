@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 22:22:49 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 22:53:27 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/06 17:20:29 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,34 @@ static void		set_egg(t_env *e, t_trantorian *trantor)
 	}
 }
 
+static void	decrease_countdown(t_env *e)
+{
+	int				i;
+	t_trantorian	*trantor;
+
+	i = 0;
+	while (i < e->maxfd)
+	{
+		if (e->fds[i].type == FD_CLIENT)
+		{
+			trantor = &e->fds[i].trantor;
+			if (trantor->countdown > 0){
+				--trantor->countdown;
+				if (trantor->countdown == 0)
+				{
+					if (trantor->laying == 1)
+					{
+						trantor->laying = 0;
+						set_egg(e, trantor);
+					}
+					printf("trantor %d is now ready to work !\n", trantor->id);
+				}
+			}
+		}
+		++i;
+	}
+}
+
 static void	decrease_life(t_env *e)
 {
 	int				i;
@@ -112,18 +140,15 @@ static void	decrease_life(t_env *e)
 			trantor = &e->fds[i].trantor;
 			--(trantor->health_point);
 			if (trantor->health_point == 0)
-				trantor_dead(e, i, &e->fds[i]);
-			else if (trantor->countdown > 0){
-				--trantor->countdown;
-				if (trantor->countdown == 0)
+			{
+				if (trantor->inventory.nb_food > 1)
 				{
-					if (trantor->laying == 1)
-					{
-						trantor->laying = 0;
-						set_egg(e, trantor);
-					}
-					printf("trantor %d is now ready to work !\n", trantor->id);
+					--trantor->inventory.nb_food;
+					trantor->health_point += LIFE_LONG * INIT_LIFE;
+					printf("eat food ! %d\n", trantor->health_point);
 				}
+				else
+					trantor_dead(e, i, &e->fds[i]);
 			}
 		}
 		++i;
@@ -175,6 +200,7 @@ void		new_turn(t_env *e)
 {
 	// send_cmd_to_clients(e, "newturn");
 	decrease_life(e);
+	decrease_countdown(e);
 	grow_egg(e);
 	pop_resources(e);
 }
