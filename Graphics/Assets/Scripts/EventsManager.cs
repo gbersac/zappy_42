@@ -36,6 +36,7 @@ public class EventsManager : MonoBehaviour {
 		map.width = x;
 		map.height = y;
 		map.Initialize ();
+		map.scalecamera ();
 	}
 	
 	void	ft_content_map(string s)
@@ -48,7 +49,7 @@ public class EventsManager : MonoBehaviour {
 		y = int.Parse(split [1]);
 		map.dalles [x, y].GetComponent<Content> ().deleteStone ();
 		map.dalles[x,y].GetComponent<Content>().createStone("bct " + s);
-		return;
+		return ;
 	}
 
 	void	ft_team_name(string s)
