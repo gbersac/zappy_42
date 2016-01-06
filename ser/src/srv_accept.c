@@ -89,7 +89,7 @@ void		accept_graphic(t_env *e, int cs)
 	e->fds[cs].buf_read_len = 0;
 	interpret_cmd(e, &e->fds[cs], "msz");
 	interpret_cmd(e, &e->fds[cs], "sgt");
-	interpret_cmd(e, &e->fds[cs], "bct");
+	interpret_cmd(e, &e->fds[cs], "mct");
 	interpret_cmd(e, &e->fds[cs], "tna");
 	interpret_cmd(e, &e->fds[cs], "pnw");
 	interpret_cmd(e, &e->fds[cs], "enw");
