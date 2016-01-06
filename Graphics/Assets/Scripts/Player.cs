@@ -207,7 +207,7 @@ public class Player : MonoBehaviour {
 			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(true);
 			//Desactiv MapCam
 			//			CamManagement.cmgnt.MapCam.gameObject.SetActive(false);
-			CamManagement.cmgnt.MapCam.rect = new Rect(0f, 0f, 0.10f, 0.10f);
+			CamManagement.cmgnt.MapCam.rect = new Rect(0f, 0f, 0.15f, 0.15f);
 			//put PlayerCam in Player environment
 			CamManagement.cmgnt.PlayerCam.transform.parent = gameObject.transform;
 			//set position PlayerCam in Player environment

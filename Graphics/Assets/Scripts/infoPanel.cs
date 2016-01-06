@@ -16,6 +16,9 @@ public class infoPanel : MonoBehaviour {
 	{
 		transform.FindChild ("Panel/Main/Name").GetComponent<Text> ().text = name;
 		transform.FindChild ("Panel/Main/Position").GetComponent<Text> ().text = "x = " + posx.ToString() + " y = " + posy.ToString();
+		transform.FindChild ("Panel/Level/Value").GetComponent<Text> ().text = level.ToString();
+		transform.FindChild ("Panel/Food/Value").GetComponent<Text> ().text = nourriture.ToString();
+		Debug.Log (nourriture);
 		transform.FindChild ("Panel/Stone deraumere/Value").GetComponent<Text> ().text = deraumere.ToString() + " / " + tab_deraumere[level-1].ToString();
 		transform.FindChild ("Panel/Stone linemate/Value").GetComponent<Text> ().text = linemate.ToString() + " / " + tab_linemate[level-1].ToString();
 		transform.FindChild ("Panel/Stone mediane/Value").GetComponent<Text> ().text = mediane.ToString() + " / " + tab_mediane[level-1].ToString();
