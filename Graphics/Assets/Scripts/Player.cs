@@ -193,10 +193,10 @@ public class Player : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 		pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
 		InitPos (pos_x, pos_y, direction, borning);
-		gameObject.SetActive (true);
 		this.isAlive = true;
+		gameObject.SetActive (true);
 		if (borning == true)
-			animator.SetTrigger ("borning");
+			animator.Play ("Raising");
 	}
 
 	void OnMouseDown () {
