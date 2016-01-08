@@ -11,6 +11,7 @@ public class EventsManager : MonoBehaviour {
 	private List<Team> teams;
 	public GameObject ground;
 	public GameObject speedController;
+	public GameObject dallesPanels;
     public MessagesBox msgBox;
 	public Player playerPrefab;
 
@@ -336,7 +337,6 @@ public class EventsManager : MonoBehaviour {
 
 		tpanel.setTime (t);
 		msgBox.ServerMessage("Server time unit: " + s, Color.green);
-	//	Debug.Log ("ici");
     }
 
     void badArgs(string s)
