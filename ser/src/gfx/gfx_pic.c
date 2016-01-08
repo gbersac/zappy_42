@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gfx_pic.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/12/02 19:34:39 by gbersac           #+#    #+#             */
+/*   Updated: 2016/01/08 12:39:29 by gbersac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cmd.h"
 
 static char	*trantors_id_to_str(t_list *trantors)
@@ -39,4 +51,3 @@ int			gfx_pic(t_env *env, t_list *trantors)
 	send_cmd_to_graphics(env, to_send);
 	return (1);
 }
-

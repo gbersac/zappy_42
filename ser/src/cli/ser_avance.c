@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 22:09:30 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 22:12:13 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:19:49 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,10 @@ int				ser_avance(t_env *env, t_fd *fd, char *cmd)
 
 	trantor = &fd->trantor;
 	move_trantor(env, trantor, trantor->direction);
-	send_cmd_to_client(fd, MSG_OK);
+	add_differed_msg(env, CMD_AVANCE_TIME, fd, MSG_OK);
 	i = 0;
 	asprintf(&to_send, "ppo %d\n", trantor->id);
-	while (i < env->maxfd)
-	{
-		if (env->fds[i].type == FD_GRAPHIC)
-			gfx_ppo(env, &env->fds[i], to_send);
-		i++;
-	}
+	send_cmd_to_graphics(env, to_send);
 	free(to_send);
 	cmd = NULL;
 	return (0);

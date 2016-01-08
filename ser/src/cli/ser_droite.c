@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/11/30 19:47:21 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:22:52 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int			ser_droite(t_env *env, t_fd *fd, char *cmd)
 		default:
 			break;
 	}
-	send_cmd_to_client(fd, MSG_OK);
-	i = 0;
+	add_differed_msg(env, CMD_DROITE_TIME, fd, MSG_OK);
 	asprintf(&to_send, "ppo %d\n", trantor->id);
+	i = 0;
 	while (i < env->maxfd)
 	{
 		if (env->fds[i].type == FD_GRAPHIC)

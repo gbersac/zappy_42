@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/22 17:11:27 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/18 17:19:51 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:57:37 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,4 +164,15 @@ void	send_cmd_to_all(t_env *env, char *str)
 			ft_listpushback(&client->to_send, to_send);
 		++i;
 	}
+}
+
+void	add_differed_msg(t_env *env, int countdown, t_fd *recipient, char *msg)
+{
+	t_differed_msg	*dmsg;
+
+	dmsg = (t_differed_msg*)malloc(sizeof(t_differed_msg));
+	dmsg->countdown = countdown;
+	dmsg->recipient = recipient;
+	dmsg->msg = strdup(msg);
+	ft_listpushback(&env->differed_msg, dmsg);
 }

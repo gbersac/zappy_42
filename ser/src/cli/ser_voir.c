@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/05 20:05:29 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:58:03 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static char	*explore_hori(t_env *env, t_fd *fd, int inc)
 	return (to_return);
 }
 
-static void	end_ser_voir(t_fd *fd, char *str)
+static void	end_ser_voir(t_env *env, t_fd *fd, char *str)
 {
 	char	*buf;
 	char	*ret;
@@ -91,6 +91,7 @@ static void	end_ser_voir(t_fd *fd, char *str)
 	ret = ft_strsub(str, 0, strlen(buf) - 2);
 	strcat(ret, "}");
 	send_cmd_to_client(fd, ret);
+	add_differed_msg(env, CMD_VOIR_TIME, fd, MSG_OK);
 }
 
 int			ser_voir(t_env *env, t_fd *fd, char *cmd)
@@ -117,7 +118,7 @@ int			ser_voir(t_env *env, t_fd *fd, char *cmd)
 			return (0);
 			break;
 	}
-	end_ser_voir(fd, str);
+	end_ser_voir(env, fd, str);
 	cmd = NULL;
 	return (0);
 }

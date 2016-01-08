@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 22:22:49 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/06 17:20:29 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:57:14 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,30 @@ static void	pop_resources(t_env *e)
 	}
 }
 
+void		dicrease_differed_messages(t_env *e)
+{
+	t_list			*iter;
+	t_differed_msg	*dmsg;
+	int				i;
+
+	iter = e->differed_msg;
+	i = 0;
+	while (iter != NULL)
+	{
+		dmsg = (t_differed_msg*) iter->data;
+		--dmsg->countdown;
+		if (dmsg->countdown == 0 && dmsg->recipient->type != FD_FREE)
+		{
+			send_cmd_to_client(dmsg->recipient, dmsg->msg);
+			free(dmsg->msg);
+			free(dmsg);
+		}
+		ft_listpop_n(&e->differed_msg, i);
+		++i;
+		iter = iter->next;
+	}
+}
+
 void		new_turn(t_env *e)
 {
 	// send_cmd_to_clients(e, "newturn");
@@ -203,4 +227,5 @@ void		new_turn(t_env *e)
 	decrease_countdown(e);
 	grow_egg(e);
 	pop_resources(e);
+	dicrease_differed_messages(e);
 }

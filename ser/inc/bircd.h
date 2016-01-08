@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/06 22:14:04 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:56:15 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct		s_fd
 /*
 ** id_trantor: the id of the trantor which created it.
 */
-
 typedef struct		s_egg
 {
 	int				countdown;
@@ -88,6 +87,18 @@ typedef struct		s_egg
 	int				id_trantor;
 	int				id;
 }					t_egg;
+
+/*
+** A message that will be send in countdown turn.
+**
+** msg:	must be allocated on the heap because is going to be freed.
+*/
+typedef struct	s_differed_msg
+{
+	int			countdown;
+	t_fd		*recipient;
+	char		*msg;
+}				t_differed_msg;
 
 /*
 ** Global vars of the program.
@@ -114,6 +125,7 @@ typedef struct		s_env
 	t_list			*egg;
 	int				id_egg;
 	t_list			*idle_trant;
+	t_list			*differed_msg;
 }					t_env;
 
 
@@ -139,7 +151,7 @@ long long		get_time_now(void);
 void			new_turn(t_env *e);
 void			close_connection(t_env *e, int cs);
 void			avance_trantor(t_env *env,
-								t_trantorian	*trantor,
+								t_trantorian *trantor,
 								t_direction dir);
 
 /*
@@ -154,6 +166,8 @@ void			send_cmd_to_client(t_fd *fd, char *str);
 void			send_cmd_to_graphics(t_env *env, char *str);
 void			send_cmd_to_all(t_env *env, char *str);
 void			send_cmd_to_clients(t_env *env, char *str);
+void			add_differed_msg(t_env *env, int countdown,
+						t_fd *recipient, char *msg);
 
 int				is_in_team(t_trantorian *trantor, t_team team);
 t_team			test_for_victory(t_env *env);

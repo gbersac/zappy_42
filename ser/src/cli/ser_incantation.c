@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 22:47:52 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:59:15 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int		trantor_has_resources(t_trantorian *trantor,
 /*
 ** up each level trantor and countdown.
 */
-static void		modify_trantor(t_list *trantors, t_trantorian *initiator)
+static void		modify_trantor(t_env *env, t_list *trantors, t_trantorian *initiator)
 {
 	t_trantorian	*trantor;
 	t_list			*iter;
@@ -76,6 +76,9 @@ static void		modify_trantor(t_list *trantors, t_trantorian *initiator)
 		/* the initiator will have its countdown increased at the end */
 		if (trantor->id != initiator->id)
 			trantor->countdown += CMD_INCANTATION_TIME;
+		/* TODO add msg to get a trantor to know he is going to have it */
+		add_differed_msg(env, CMD_INCANTATION_TIME, &env->fds[trantor->id],
+				MSG_OK);
 		iter = iter->next;
 	}
 }
@@ -113,39 +116,9 @@ int				ser_incantation(t_env *env, t_fd *fd, char *cmd)
 	incant = incantation_to_evolve(trantor->level);
 	if (test_incantation_feasability(trantor, &incant, fd, trantors) == -1)
 		return (-1);
+	gfx_pic(env, trantors);
 	printf("new incantation for level %d\n", incant.big_level);
-	modify_trantor(trantors, trantor);
-	send_cmd_to_client(fd, MSG_OK);
-/*
-	communication avec gfx client
-
-	t_trantorian	*t;	
-	t_list			*first;	
-	int				i;
-	char			*to_send_plv;
-	char			*to_send_mct;
-
-	gfx_pic(env, trantors); // c'est chelou ce truc là
-	i = 0;
-	asprintf(&to_send_mct, "mct\n");
-	while (i < env->maxfd)
-	{
-		if (env->fds[i].type == FD_GRAPHIC)
-		{
-			first = trantors;
-			while (first != NULL)
-			{
-				t = (t_trantorian*) first->data;
-				asprintf(&to_send_plv, "plv %d\n", t->id);
-				gfx_plv(env, env->fds[i], to_send_plv)
-				free(to_send_plv);
-			}
-			gfx_mct(env,env->fds[i], to_send_mct)
-		}
-		i++;
-	}
-
-*/
+	modify_trantor(env, trantors, trantor);
 	test_for_victory(env);
 	return (0);
 	cmd = NULL;

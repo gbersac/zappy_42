@@ -46,6 +46,8 @@
 # define CMD_CONNECT_NBR_TIME	0
 # define CMD_BEGIN_INFO			"begin_info"
 # define CMD_BEGIN_INFO_TIME	0
+# define CMD_INVENTORY			"inventaire"
+# define CMD_INVENTORY_TIME		1
 
 # define MSG_WELCOME		"BIENVENUE"
 # define MSG_DEAD			"mort"

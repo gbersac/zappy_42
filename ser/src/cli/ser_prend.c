@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/06 19:17:14 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:54:19 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				ser_prend(t_env *env, t_fd *fd, char *cmd)
 	}
 	add_resource(&fd->trantor.inventory, res);
 	del_resource(&sq->content, res);
-	send_cmd_to_client(fd, MSG_OK);
+	add_differed_msg(env, CMD_PREND_TIME, fd, MSG_OK);
 	asprintf(&msg, "bct %d %d\n", fd->trantor.pos_x, fd->trantor.pos_y);
 	send_cmd_to_graphics(env, msg);
 	return (0);

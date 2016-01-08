@@ -16,7 +16,7 @@ int			ser_fork(t_env *env, t_fd *fd, char *cmd)
 	new_egg->id_trantor = fd->fd;
 	fd->trantor.laying = 1;
 	ft_listpushback(&env->egg, new_egg);
-	send_cmd_to_client(fd, MSG_OK);
+	add_differed_msg(env, CMD_FORK_TIME, fd, MSG_OK);
 	asprintf(&msg, "pfk %d", fd->trantor.id);
 	send_cmd_to_graphics(env, msg);
 	free(msg);

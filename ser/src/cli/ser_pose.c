@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/05 20:08:12 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 12:54:08 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	send_infos(t_env *env, t_fd *fd, t_resource res)
 {
 	char			*msg;
 
-	send_cmd_to_client(fd, MSG_OK);
+	add_differed_msg(env, CMD_POSE_TIME, fd, MSG_OK);
 	asprintf(&msg, "pdr %d %d", fd->trantor.id, res);
 	send_cmd_to_graphics(env, msg);
 	free(msg);
