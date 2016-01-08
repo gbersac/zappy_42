@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mdebelle <mdebelle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/06 18:20:50 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 16:23:24 by mdebelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int				gfx_sst(t_env *env, t_fd *fd, char *cmd);
 */
 int				gfx_bct_call(t_env *env, t_fd *fd, int x, int y);
 char			*gfx_bct_str(t_env *env, int x, int y);
+char			*gfx_pin_str(t_trantorian *trantor);
 char			*gfx_pnw_str(t_trantorian *trantor);
 void			gfx_pnw_all(t_env *env, t_fd *recipient);
 
