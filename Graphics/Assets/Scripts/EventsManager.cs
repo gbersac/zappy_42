@@ -12,6 +12,7 @@ public class EventsManager : MonoBehaviour {
 	public GameObject ground;
 	public GameObject speedController;
 	public GameObject dallesPanels;
+	public GameObject playerPanels;
     public MessagesBox msgBox;
 	public Player playerPrefab;
 

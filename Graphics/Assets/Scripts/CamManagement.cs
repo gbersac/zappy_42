@@ -5,6 +5,7 @@ public class CamManagement : MonoBehaviour {
 
 	public Camera	MapCam;
 	public Camera	PlayerCam;
+	public int		CamNo = 0;
 
 	static public CamManagement cmgnt;
 

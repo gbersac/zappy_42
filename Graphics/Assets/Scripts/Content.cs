@@ -9,7 +9,7 @@ public class Content : MonoBehaviour {
 	public List<int>			quantity = new List<int>();
 	public Egg					eggPrefab;
 	bool						displayInfo = false;
-	public GameObject			infoPanel;
+//	public GameObject			infoPanel;
 	GameObject					pan;
 	bool						initialized = false;
 

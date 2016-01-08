@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   srv_accept.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mdebelle <mdebelle@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2016/01/06 19:01:19 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/08 17:19:19 by mdebelle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	e->fds[cs].nickname = get_dfl_nickname(teamname);
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
-	e->fds[cs].trantor.team = ft_strdup(teamname);
+	e->fds[cs].trantor.team = ft_strdup(teamname+11);
 	e->fds[cs].trantor.pos_x = rand() % e->map.width;
 	e->fds[cs].trantor.pos_y = rand() % e->map.height;
 	e->fds[cs].trantor.direction = rand() % 4 + 1;
