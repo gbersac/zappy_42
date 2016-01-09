@@ -9,7 +9,7 @@ public class Content : MonoBehaviour {
 	public List<int>			quantity = new List<int>();
 	public Egg					eggPrefab;
 	bool						displayInfo = false;
-	public GameObject			infoPanel;
+//	public GameObject			infoPanel;
 	GameObject					pan;
 	bool						initialized = false;
 
@@ -48,14 +48,12 @@ public class Content : MonoBehaviour {
 				}
 			}
 			if (initialized == false) {
-				pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
+				pan = GameObject.Find ("Panels/dalleInfoPanel");
 				initialized = true;
-				pan.transform.SetParent(GameObject.Find("Panels").GetComponent<Transform>());
-				pan.SetActive (false);
 			}
 			if (displayInfo == true) {
-				pan.GetComponent<dallesInfoPanel> ().setinfo (transform.position.x, transform.position.z, quantity[0], quantity[1], quantity[2], quantity[3], quantity[4], quantity[5], quantity[6]);
-				pan.SetActive (true);
+				pan.GetComponent<dallesInfoPanel> ().setinfo (transform.position.x, transform.position.z,
+				                                              quantity[0], quantity[1], quantity[2], quantity[3], quantity[4], quantity[5], quantity[6]);
 				Invoke ("hidePanel", 2);
 			}
 		}
@@ -86,7 +84,6 @@ public class Content : MonoBehaviour {
 	}
 
 	void hidePanel(){
-		pan.SetActive (false);
 		displayInfo = false;
 	}
 	

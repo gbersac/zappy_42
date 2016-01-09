@@ -3,27 +3,29 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 	
-	public GameObject infoPanel;
-	public bool info = false;
-	public int	playerNo;
-	public bool isAlive = false;
-	public Color teamColor = Color.white;
-	GameObject pan;
-	float toMove = 0;
-	string	playerName;
-	public int		posx = 0;
-	public int		posy = 0;
-	public string	teamName;
-	int		orientation = 1;
-	int		level = 1;
-	int		nourriture = 0;
-	int		deraumere = 0;
-	int		linemate = 0;
-	int		mendiane = 0;
-	int		phiras = 0;
-	int		sibur = 0;
-	int		thystame = 0;
-	Animator animator;
+//	public GameObject infoPanel;
+	public bool			info = false;
+	public int			playerNo;
+	public bool			isAlive = false;
+	public Color		teamColor = Color.white;
+
+	GameObject			pan;
+
+	float				toMove = 0;
+	string				playerName;
+	public int			posx = 0;
+	public int			posy = 0;
+	public string		teamName;
+	int					orientation = 1;
+	int					level = 1;
+	int					nourriture = 0;
+	int					deraumere = 0;
+	int					linemate = 0;
+	int					mendiane = 0;
+	int					phiras = 0;
+	int					sibur = 0;
+	int					thystame = 0;
+	Animator			animator;
 
 	public void StopCasting(bool success)
 	{
@@ -189,9 +191,11 @@ public class Player : MonoBehaviour {
 		this.playerName = team+id;
 		this.teamName = team;
 		this.level = level;
-		pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
+	//	pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
+		
+		pan = GameObject.Find ("Panels/infoPanel");
 		animator = GetComponent<Animator> ();
-		pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
+		//pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
 		InitPos (pos_x, pos_y, direction, borning);
 		this.isAlive = true;
 		gameObject.SetActive (true);
@@ -201,30 +205,27 @@ public class Player : MonoBehaviour {
 
 	void OnMouseDown () {
 		// change the target of the LookAtTarget script to be this gameobject.
-		if (info == false) {
-			pan.SetActive (true);
-			//Active PlayerCam
-			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(true);
-			//Desactiv MapCam
-			//			CamManagement.cmgnt.MapCam.gameObject.SetActive(false);
-			CamManagement.cmgnt.MapCam.rect = new Rect(0f, 0f, 0.15f, 0.15f);
-			//put PlayerCam in Player environment
-			CamManagement.cmgnt.PlayerCam.transform.parent = gameObject.transform;
-			//set position PlayerCam in Player environment
-			Vector3 pos = transform.position;
+		if (CamManagement.cmgnt.CamNo != playerNo) {
+			EventsManager.em.playerPanels.SetActive (true);
+		//	pan.SetActive (true);
+			EventsManager.em.playerPanels.GetComponent<infoPanel>().setinfo( playerName, posx, posy, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
+
+			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(true);					//Active PlayerCam
+			CamManagement.cmgnt.MapCam.rect = new Rect(0f, 0f, 0.15f, 0.15f);			//Minimapise MapCam
+
+			CamManagement.cmgnt.PlayerCam.transform.parent = gameObject.transform;		//put PlayerCam in Player environment
+			Vector3 pos = transform.position;											//set position PlayerCam in Player environment
 			pos.y = 1.23f;
 			pos -= 4 * transform.forward;
 			CamManagement.cmgnt.PlayerCam.transform.position = pos;
 			CamManagement.cmgnt.PlayerCam.transform.rotation = transform.rotation;
-			info = true;
+
+			CamManagement.cmgnt.CamNo = playerNo;
 		} else {
-			pan.SetActive (false);
-			//Activ MapCam
-		//	CamManagement.cmgnt.MapCam.gameObject.SetActive(true);
-			CamManagement.cmgnt.MapCam.rect = new Rect(0f, 0f, 1f, 1f);
-			//Desactive PlayerCam
-			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(false);
-			info = false;
+			EventsManager.em.playerPanels.SetActive (false);
+			CamManagement.cmgnt.MapCam.rect = new Rect(0f, 0f, 1f, 1f);					//FullScreenise MapCam
+			CamManagement.cmgnt.PlayerCam.gameObject.SetActive(false);					//Desactive PlayerCam
+			CamManagement.cmgnt.CamNo = 0;
 		}
 	}
 

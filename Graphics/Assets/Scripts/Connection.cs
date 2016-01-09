@@ -66,6 +66,7 @@ public class Connection : MonoBehaviour {
 			menu.SetActive(false);
 			world.SetActive(true);
 			EventsManager.em.speedController.SetActive (true);
+			EventsManager.em.dallesPanels.SetActive (true);
 		}
 		catch (Exception e) {
 			Debug.Log("Socket error: " + e);
@@ -132,6 +133,7 @@ public class Connection : MonoBehaviour {
 			world.SetActive (false);
 			menu.SetActive(true);
 			EventsManager.em.speedController.SetActive (false);
+			EventsManager.em.dallesPanels.SetActive (false);
 		}
 	}
 
