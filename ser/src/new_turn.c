@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 22:22:49 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/08 12:57:14 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/09 15:32:19 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,10 +155,11 @@ static void	decrease_life(t_env *e)
 	}
 }
 
-static void	pop_squart_resources(t_env *env, t_square *sq)
+static void	pop_squar_resources(t_env *env, t_square *sq)
 {
 	int		rdm;
 	int		change;
+	int		res;
 	char	*to_send;
 
 	rdm = rand();
@@ -166,7 +167,8 @@ static void	pop_squart_resources(t_env *env, t_square *sq)
 	if (!(rdm % POP_STONE))
 	{
 		change = 1;
-		add_resource(&sq->content, rdm % 6 + 1);
+		res = rdm % 7 + 1;
+		add_resource(&sq->content, res);
 	}
 	if (!(rdm % POP_FOOD))
 	{
@@ -191,7 +193,7 @@ static void	pop_resources(t_env *e)
 	{
 		ttl_res = ttl_resource_in_inventory(&e->map.tartan[i].content);
 		if (ttl_res < MAX_RES_SQUARE)
-			pop_squart_resources(e, &e->map.tartan[i]);
+			pop_squar_resources(e, &e->map.tartan[i]);
 		++i;
 	}
 }
