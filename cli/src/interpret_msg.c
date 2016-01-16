@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret_msg.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/30 06:49:19 by flime             #+#    #+#             */
-/*   Updated: 2016/01/06 19:19:18 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/17 00:04:36 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,24 @@ static void	get_nb_client(t_env *env, char *get)
 	}
 }
 
-static void	get_xy(t_env *env, char *get)
-{
-	char	**pos;
-	int		len;
+// static void	get_xy(t_env *env, char *get)
+// {
+// 	char	**pos;
+// 	int		len;
 
-	pos = ft_strsplit(get, ' ');
-	len = ft_strtabsize(pos);
-	if (pos && len == 2 && ft_strisdigit(pos[0]) && ft_strisdigit(pos[1]))
-	{
-		env->pos_x = ft_atoi(pos[0]);
-		env->pos_y = ft_atoi(pos[1]);
-	}
-	else
-	{
-		ft_ferror("error: get_xy()");
-		exit(EXIT_FAILURE);
-	}
-}
+// 	pos = ft_strsplit(get, ' ');
+// 	len = ft_strtabsize(pos);
+// 	if (pos && len == 2 && ft_strisdigit(pos[0]) && ft_strisdigit(pos[1]))
+// 	{
+// 		env->pos_x = ft_atoi(pos[0]);
+// 		env->pos_y = ft_atoi(pos[1]);
+// 	}
+// 	else
+// 	{
+// 		ft_ferror("error: get_xy()");
+// 		exit(EXIT_FAILURE);
+// 	}
+// }
 
 static void	player_dies(t_env *env, char *get)
 {
@@ -72,8 +72,10 @@ static int	interpret_msg_return(t_env *env, char *get)
 	// if (env->status == status_welcome &&
 	// 		ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	// 	cmd(env, env->trantor.team, "");
+	printf("interpret_msg_return\n");
 	if (ft_strnequ(get, CMD_BEGIN_INFO, ft_strlen(CMD_BEGIN_INFO)))
 	{
+		ft_putendl("new_begin_info");
 		int ret = sscanf(get, "begin_info %d %d %d\n",
 				&env->n_client,
 				&env->trantor.pos_x,
@@ -82,17 +84,20 @@ static int	interpret_msg_return(t_env *env, char *get)
 		{
 			printf("Team error: %s\n", get + 11);
 		}
+		env->n_request--;
 	}
-	else if (env->status == status_nb_client && ft_isdigit(get[0]))
-	{
-		get_nb_client(env, get);
-		env->n_request++;
-	}
-	else if (env->status == status_xy && ft_isdigit(get[0]))
-		get_xy(env, get);
+	// else if (env->status == status_nb_client && ft_isdigit(get[0]))
+	// {
+	// 	get_nb_client(env, get);
+	// 	env->n_request++;
+	// }
+	// else if (env->status == status_xy && ft_isdigit(get[0]))
+	// 	get_xy(env, get);
 	else if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
-				ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO)))
-		;
+				ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO))) {
+		printf("OK/KO\n");
+		// env->n_request--;
+	}
 	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
 		;
 	else if (ft_isdigit(get[0]))
@@ -109,10 +114,11 @@ static int	interpret_msg_return(t_env *env, char *get)
 
 void		interpret_msg(t_env *env, char *get)
 {
+	printf("interpret_msg\n");
 	if (interpret_msg_return(env, get))
 	{
-		if (env->status <= status_xy ||
-			(env->status > status_xy && env->n_request == 0))
+		// if (env->status <= status_xy ||
+		// 	(env->status > status_xy && env->n_request == 0))
 			env->status++;
 	}
 	else if (ft_strnequ(get, MSG_INCANTATION_1, ft_strlen(MSG_INCANTATION_1)))
@@ -123,10 +129,12 @@ void		interpret_msg(t_env *env, char *get)
 		player_dies(env, get);
 	else if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
+
 		char *to_send;
 		asprintf(&to_send, "begin_info %s", env->trantor.team);
 		cmd(env, to_send, NULL);
 		free(to_send);
+		env->n_request--;
 	}
 	else if (ft_strnequ(get, MSG_EXPULSE, ft_strlen(MSG_EXPULSE)))
 		;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 21:56:17 by flime             #+#    #+#             */
-/*   Updated: 2016/01/06 18:50:36 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/16 23:53:15 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	send_buffer(t_env *env)
 		ft_listpushback(&env->buf_pending, tmp);
 		send(env->sock, tmp, ft_strlen(tmp), 0);
 		env->n_request++;
-		ft_printf("\e[0;32m[client]:\e[0m %s\n", tmp);
+		ft_printf("\e[0;32m[client]:\e[0m %s", tmp);
 		// ft_printf("n_request: %d\n", env->n_request);
 		if (env->buf_write != NULL)
 			printf("error still to write\n");
 		else
-			printf("ok\n");
+			printf("send_buffer: done\n");
 	}
 }
 
@@ -69,6 +69,7 @@ void	main_loop(t_env *env)
 	FD_ZERO(&fds_write);
 	while (42)
 	{
+		// printf("%d", env->status);
 		if (env->buf_read)
 			play(env);
 		FD_SET(env->sock, &fds_read);

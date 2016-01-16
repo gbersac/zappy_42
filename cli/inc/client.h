@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 17:18:40 by flime             #+#    #+#             */
-/*   Updated: 2015/11/30 17:18:52 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/16 23:56:34 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef enum		e_status
 {
 	status_init,
 	status_welcome,
-	status_nb_client,
-	status_xy,
+	// status_nb_client,
+	// status_xy,
 	status_avance,
 	status_droite,
 	status_gauche,
