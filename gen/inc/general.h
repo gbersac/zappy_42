@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 19:02:16 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 21:00:10 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/18 20:43:58 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 # define CMD_INVENTORY_TIME		1
 
 # define MSG_WELCOME		"BIENVENUE"
+# define MSG_CONNECTED		"CONNECTED\n"
 # define MSG_DEAD			"mort"
 # define MSG_BROADCAST		"message"
 # define MSG_EXPULSE		"deplacement"

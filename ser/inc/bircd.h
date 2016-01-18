@@ -128,8 +128,6 @@ typedef struct		s_env
 	t_list			*differed_msg;
 }					t_env;
 
-
-
 void			ft_ferror(char *msg);
 void			init_env(t_env *e);
 void			main_loop(t_env *e);

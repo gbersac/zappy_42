@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:28 by rfrey             #+#    #+#             */
-/*   Updated: 2015/12/06 22:43:50 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/18 19:55:10 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ static void	init_fd(t_env *e)
 		if (e->fds[i].type != FD_FREE)
 		{
 			FD_SET(i, &e->fd_read);
-			if (e->fds[i].to_send) {
+			if (e->fds[i].to_send)
 				FD_SET(i, &e->fd_write);
-			}
 			e->max = MAX(e->max, i);
 		}
 		i++;

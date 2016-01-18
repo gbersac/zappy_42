@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   srv_accept.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdebelle <mdebelle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2016/01/08 17:19:19 by mdebelle         ###   ########.fr       */
+/*   Updated: 2016/01/18 20:48:06 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void		client_write(t_env *e, int cs)
 	{
 		tmp = (char*)ft_listpop(&e->fds[cs].to_send);
 		send(cs, tmp, ft_strlen(tmp) + 1, 0);
+		printf("--[%d]-> %s\n", cs, tmp);
 		free(tmp);
 	}
 	e->fds[cs].to_send = 0;
@@ -49,7 +50,6 @@ static void		client_write(t_env *e, int cs)
 
 void		accept_player(t_env *e, int cs, char *teamname)
 {
-	// int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
@@ -71,6 +71,7 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	e->fds[cs].trantor.pos_y = rand() % e->map.height;
 	e->fds[cs].trantor.direction = rand() % 4 + 1;
 	send_cmd_to_graphics(e, gfx_pnw_str(&e->fds[cs].trantor));
+	send(cs, MSG_CONNECTED, strlen(MSG_CONNECTED), 0);
 }
 
 void		accept_graphic(t_env *e, int cs)
@@ -98,20 +99,19 @@ void		accept_graphic(t_env *e, int cs)
 
 void		srv_accept(t_env *e, int s)
 {
-	int		r;
-	char	buf[BUF_SIZE + 1];
-	int		cs;
+	int					r;
+	char				buf[BUF_SIZE + 1];
+	int					cs;
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
 
 	csin_len = sizeof(csin);
 	if ((cs = accept(s, (struct sockaddr*)&csin, &csin_len)) == -1)
 		ft_ferror("accept error");
-	char *message="BIENVENUE\n";
-	send(cs,message,strlen(message),0);
+	send(cs, "BIENVENUE\n", strlen("BIENVENUE\n"), 0);
 	ft_bzero(buf, sizeof(buf));
 	r = recv(cs, buf, BUF_SIZE, 0);
-	printf("-->%s\n", buf);
+	printf("%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
 	else

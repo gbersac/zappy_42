@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:16:37 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/19 19:02:36 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/18 20:02:38 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ static void		take_initial_connect(t_env *env, t_fd *fd, t_team team_name)
 int				ser_begin_info(t_env *env, t_fd *fd, char *cmd)
 {
 	char	team_name[1024];
+
+	printf("ser_begin_info\n");
 	sscanf(cmd, "begin_info %s\n", team_name);
 	if (test_client(env, fd, team_name) == -1)
 	{

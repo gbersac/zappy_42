@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 21:56:17 by flime             #+#    #+#             */
-/*   Updated: 2016/01/16 23:53:15 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/18 19:58:47 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,8 @@ void	send_buffer(t_env *env)
 		ft_listpushback(&env->buf_pending, tmp);
 		send(env->sock, tmp, ft_strlen(tmp), 0);
 		env->n_request++;
-		ft_printf("\e[0;32m[client]:\e[0m %s", tmp);
+		ft_printf("\e[0;32m[%d]:\e[0m %s", env->n_client, tmp);
 		// ft_printf("n_request: %d\n", env->n_request);
-		if (env->buf_write != NULL)
-			printf("error still to write\n");
-		else
-			printf("send_buffer: done\n");
 	}
 }
 

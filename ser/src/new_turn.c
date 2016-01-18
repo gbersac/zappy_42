@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 22:22:49 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/09 15:32:19 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/18 19:36:51 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void		set_egg(t_env *e, t_trantorian *trantor)
 	}
 }
 
-static void	decrease_countdown(t_env *e)
+static void		decrease_countdown(t_env *e)
 {
 	int				i;
 	t_trantorian	*trantor;
@@ -127,7 +127,7 @@ static void	decrease_countdown(t_env *e)
 	}
 }
 
-static void	decrease_life(t_env *e)
+static void		decrease_life(t_env *e)
 {
 	int				i;
 	t_trantorian	*trantor;
@@ -208,17 +208,17 @@ void		dicrease_differed_messages(t_env *e)
 	i = 0;
 	while (iter != NULL)
 	{
-		dmsg = (t_differed_msg*) iter->data;
+		dmsg = (t_differed_msg*)iter->data;
 		--dmsg->countdown;
+		iter = iter->next;
 		if (dmsg->countdown == 0 && dmsg->recipient->type != FD_FREE)
 		{
 			send_cmd_to_client(dmsg->recipient, dmsg->msg);
+			ft_listpop_n(&e->differed_msg, i);
 			free(dmsg->msg);
 			free(dmsg);
 		}
-		ft_listpop_n(&e->differed_msg, i);
 		++i;
-		iter = iter->next;
 	}
 }
 

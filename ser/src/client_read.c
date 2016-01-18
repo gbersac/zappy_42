@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:53:59 by rfrey             #+#    #+#             */
-/*   Updated: 2016/01/06 16:35:19 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/18 20:07:55 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	send_cmd(t_env *e, char *buf, int i, int cs)
 	cmd = (char*)malloc((i + 2) * sizeof(char));
 	memcpy(cmd, buf, i + 1);
 	cmd[i + 1] = '\0';
-	res = interpret_cmd(e, &e->fds[cs], buf);
+	res = interpret_cmd(e, &e->fds[cs], cmd);
 	free(cmd);
 	if (res == 1)
 		close_connection(e, cs);
@@ -68,10 +68,12 @@ void		extract_cmd_from_buffer(t_env *e, int cs)
 
 	buf = e->fds[cs].buf_read;
 	i = 0;
+	printf("extract_cmd_from_buffer\n");
 	while (buf[i] != '\0')
 	{
 		if (buf[i] == '\n')
 		{
+			printf("extract_cmd_from_buffer %s\n", buf);
 			send_cmd(e, buf, i, cs);
 			i = 0;
 		}
@@ -87,7 +89,7 @@ void		client_read(t_env *e, int cs)
 
 	r = recv(cs, buf, BUF_SIZE, 0);
 	buf[r] = '\0';
-	printf("--[read]> %s\n", buf);
+	printf("<-[%d]-- %s\n", cs, buf);
 	if (r <= 0)
 		close_connection(e, cs);
 	else

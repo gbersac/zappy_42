@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/21 22:36:03 by rfrey             #+#    #+#             */
-/*   Updated: 2016/01/06 15:44:51 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/18 20:04:43 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 	t_cmd	*command;
 
 	lst_cmd = get_lst_cmd();
+	printf("interpret_cmd %s\n", cmd);
 	while (lst_cmd != NULL)
 	{
 		command = lst_cmd->data;

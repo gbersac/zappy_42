@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret_msg.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/30 06:49:19 by flime             #+#    #+#             */
-/*   Updated: 2016/01/17 00:04:36 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/18 20:45:06 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,10 @@ void		interpret_msg(t_env *env, char *get)
 		player_dies(env, get);
 	else if (ft_strnequ(get, MSG_WELCOME, ft_strlen(MSG_WELCOME)))
 	{
-
+		cmd(env, "PLAYER", "");
+	}
+	else if (ft_strnequ(get, MSG_CONNECTED, ft_strlen(MSG_CONNECTED)))
+	{
 		char *to_send;
 		asprintf(&to_send, "begin_info %s", env->trantor.team);
 		cmd(env, to_send, NULL);
@@ -139,7 +142,7 @@ void		interpret_msg(t_env *env, char *get)
 	else if (ft_strnequ(get, MSG_EXPULSE, ft_strlen(MSG_EXPULSE)))
 		;
 	else
-		ft_printf("message %s not implemented");
-	ft_printf("n_request: %d\n", env->n_request);
-	ft_printf("status: %d\n", env->status);
+		printf("message %s not implemented", get);
+	printf("n_request: %d\n", env->n_request);
+	printf("status: %d\n", env->status);
 }

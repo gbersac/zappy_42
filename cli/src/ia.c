@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ia.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2016/01/17 00:09:35 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/18 20:38:45 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@
 void ia(t_env *env)
 {
 	printf("IA\n");
-	if (env->status == status_welcome)
-	{
-		cmd(env, "begin_info ", env->trantor.team);
-	}
-	else if (env->status == status_avance)
+	// if (env->status == status_welcome)
+	// 	cmd(env, "PLAYER", "");
+	if (env->status == status_avance)
 		cmd(env, CMD_AVANCE, "");
 	else if (env->status == status_droite)
 		cmd(env, CMD_DROITE, "");
