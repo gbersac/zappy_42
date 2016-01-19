@@ -50,7 +50,7 @@
 # define CMD_INVENTORY_TIME		1
 
 # define MSG_WELCOME		"BIENVENUE"
-# define MSG_CONNECTED		"CONNECTED\n"
+# define MSG_CONNECTED		"CONNECTED"
 # define MSG_DEAD			"mort"
 # define MSG_BROADCAST		"message"
 # define MSG_EXPULSE		"deplacement"

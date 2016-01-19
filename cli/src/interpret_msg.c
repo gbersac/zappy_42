@@ -133,6 +133,7 @@ void		interpret_msg(t_env *env, char *get)
 	}
 	else if (ft_strnequ(get, MSG_CONNECTED, ft_strlen(MSG_CONNECTED)))
 	{
+		printf("ici\n");
 		char *to_send;
 		asprintf(&to_send, "begin_info %s", env->trantor.team);
 		cmd(env, to_send, NULL);
