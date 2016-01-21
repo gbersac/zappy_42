@@ -78,12 +78,13 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 	t_cmd	*command;
 
 	lst_cmd = get_lst_cmd();
-	printf("interpret_cmd %s\n", cmd);
+	printf("interpret_cmd #%s#\n", cmd);
 	while (lst_cmd != NULL)
 	{
 		command = lst_cmd->data;
 		if (ft_strnequ(command->label, cmd, strlen(command->label)))
 		{
+			// TODO test for trantor countdown before executing it.
 			res = command->fct(e, fd, cmd);
 			if (res >= 0 && command->time > 0)
 				fd->trantor.countdown = command->time;
