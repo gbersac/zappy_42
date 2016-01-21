@@ -29,14 +29,16 @@ typedef enum		e_status
 {
 	status_init,
 	status_welcome,
-	// status_nb_client,
-	// status_xy,
+	status_voir,
+	status_prend,
+	status_inventaire,
+	
 	status_avance,
 	status_droite,
 	status_gauche,
-	status_voir,
-	status_inventaire,
-	status_prend,
+	// status_voir,
+	
+	// status_prend,
 	status_pose,
 	// status_expulse,
 	status_broadcast_bonjour,

@@ -85,6 +85,7 @@ static int	interpret_msg_return(t_env *env, char *get)
 			printf("Team error: %s\n", get + 11);
 		}
 		env->n_request--;
+		env->n_request--;
 	}
 	// else if (env->status == status_nb_client && ft_isdigit(get[0]))
 	// {
@@ -96,19 +97,26 @@ static int	interpret_msg_return(t_env *env, char *get)
 	else if (ft_strnequ(get, MSG_OK, ft_strlen(MSG_OK)) ||
 				ft_strnequ(get, MSG_KO, ft_strlen(MSG_KO))) {
 		printf("OK/KO\n");
-		// env->n_request--;
+		env->n_request--;
 	}
 	else if (ft_strnequ(get, MSG_INCANTATION_2, ft_strlen(MSG_INCANTATION_2)))
 		;
 	else if (ft_isdigit(get[0]))
 		get_nb_client(env, get);
-	else if (get[0] == '{' && ft_isdigit(get[1]))
+	else if (get[0] == '{' && ft_isdigit(get[1])) {
 		parse_voir(env, get);
-	else if (ft_strnequ(get, CMD_INVENTAIRE, ft_strlen(CMD_INVENTAIRE)))
+		// env->n_request++;
+		env->status--;
+	}
+	else if (ft_strnequ(get, CMD_INVENTAIRE, ft_strlen(CMD_INVENTAIRE))) {
 		parse_inventaire(env, get);
+		// env->n_request++;
+		env->status--;
+	}
 	else
 		return (0);
-	env->n_request--;
+	if (env->n_request < 0)
+		env->n_request = 0;
 	return (1);
 }
 
