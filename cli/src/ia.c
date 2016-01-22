@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ia.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2016/01/18 20:38:45 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/01/22 15:33:37 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@
 
 void ia(t_env *env)
 {
-	// if (env->status == status_inventaire)
-	// 	cmd(env, CMD_INVENTAIRE, "");
-	// else if (env->status == status_voir)
-	// 	cmd(env, CMD_VOIR, "");
-	// else if (env->status == status_prend)
-	// 	cmd(env, CMD_PREND, "deraumere");
-	env = NULL;
+	if (env->status == status_inventaire)
+		cmd(env, CMD_INVENTAIRE, "");
+	else if (env->status == status_voir)
+		cmd(env, CMD_VOIR, "");
+	else if (env->status == status_prend)
+		cmd(env, CMD_PREND, "deraumere");
+	else if (env->status == status_avance)
+		cmd(env, CMD_INVENTAIRE, "");
 }
 
 // void ia(t_env *env)
