@@ -85,9 +85,14 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		if (ft_strnequ(command->label, cmd, strlen(command->label)))
 		{
 			// TODO test for trantor countdown before executing it.
-			res = command->fct(e, fd, cmd);
-			if (res >= 0 && command->time > 0)
-				fd->trantor.countdown = command->time;
+			if (command->time == 0 || fd->trantor.countdown == 0)
+			{
+				res = command->fct(e, fd, cmd);
+				if (res >= 0 && command->time > 0)
+					fd->trantor.countdown = command->time;
+			}
+			else
+				send_cmd_to_client(fd, MSG_KO);
 			break ;
 		}
 		lst_cmd = lst_cmd->next;
