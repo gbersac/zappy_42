@@ -68,12 +68,10 @@ void		extract_cmd_from_buffer(t_env *e, int cs)
 
 	buf = e->fds[cs].buf_read;
 	i = 0;
-	printf("extract_cmd_from_buffer\n");
 	while (buf[i] != '\0')
 	{
 		if (buf[i] == '\n')
 		{
-			printf("extract_cmd_from_buffer %s\n", buf);
 			send_cmd(e, buf, i, cs);
 			i = 0;
 		}

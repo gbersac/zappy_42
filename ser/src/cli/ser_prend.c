@@ -35,7 +35,7 @@ int				ser_prend(t_env *env, t_fd *fd, char *cmd)
 	t_resource	res;
 
 	sq = get_square(env, fd->trantor.pos_x, fd->trantor.pos_y);
-	res = atoi(cmd + 6);
+	res = str_to_resource(cmd + 6);
 	quantity_sq = nb_res_in_inventory(&sq->content, res);
 	if (quantity_sq < 1)
 	{

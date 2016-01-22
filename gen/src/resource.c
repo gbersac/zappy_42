@@ -74,7 +74,7 @@ t_resource		str_to_resource(char *res)
 	while (lst != NULL)
 	{
 		r = (t_resource_lst*)lst->data;
-		if (ft_strequ(res, r->label))
+		if (strncmp(res, r->label, strlen(r->label)) == 0)
 			return (r->type);
 		lst = lst->next;
 	}

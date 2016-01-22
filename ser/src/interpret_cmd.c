@@ -78,7 +78,6 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 	t_cmd	*command;
 
 	lst_cmd = get_lst_cmd();
-	printf("interpret_cmd #%s#\n", cmd);
 	while (lst_cmd != NULL)
 	{
 		command = lst_cmd->data;
