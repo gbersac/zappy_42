@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/04 22:35:26 by flime             #+#    #+#             */
-/*   Updated: 2016/01/22 15:33:37 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/29 07:07:19 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,60 @@ void ia(t_env *env)
 	else if (env->status == status_voir)
 		cmd(env, CMD_VOIR, "");
 	else if (env->status == status_prend)
-		cmd(env, CMD_PREND, "deraumere");
+		cmd(env, CMD_PREND, "nourriture");
 	else if (env->status == status_avance)
 		cmd(env, CMD_INVENTAIRE, "");
 }
 
+// // case actuelle
+// void ia_goto_0(t_env *env, int target)
+// {
+// 	if (env->status == 0)
+// 		cmd(env, CMD_PREND, "deraumere");
+// }
+
+// // case en face a gauche
+// void ia_goto_1(t_env *env, int target)
+// {
+// 	if (env->status == 0)
+// 		cmd(env, CMD_AVANCE, "");
+// 	else if (env->status == 1)
+// 		cmd(env, CMD_GAUCHE, "");
+// 	else if (env->status == 2)
+// 		cmd(env, CMD_AVANCE, "");
+// 	else if (env->status == 3)
+// 		cmd(env, CMD_PREND, "deraumere");
+// }
+
+// // case en face
+// void ia_goto_2(t_env *env, int target)
+// {
+// 	if (env->status == 0)
+// 		cmd(env, CMD_AVANCE, "");
+// 	else if (env->status == 1)
+// 		cmd(env, CMD_PREND, "deraumere");
+// }
+
+// // case en face a droite
+// void ia_goto_3(t_env *env, int target)
+// {
+// 	if (env->status == 0)
+// 		cmd(env, CMD_AVANCE, "");
+// 	else if (env->status == 1)
+// 		cmd(env, CMD_DROITE, "");
+// 	else if (env->status == 2)
+// 		cmd(env, CMD_AVANCE, "");
+// 	else if (env->status == 3)
+// 		cmd(env, CMD_PREND, "deraumere");
+// }
+
+// void ia_check_status(t_env *env)
+// {
+// 	if (env->status == 0)
+// 		cmd(env, CMD_INVENTAIRE, "");
+// 	else if (env->status == 1)
+// 		cmd(env, CMD_VOIR, "");
+// }
 // void ia(t_env *env)
 // {
 // 	printf("IA\n");

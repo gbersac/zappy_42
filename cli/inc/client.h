@@ -6,7 +6,7 @@
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 17:18:40 by flime             #+#    #+#             */
-/*   Updated: 2016/01/16 23:56:34 by flime            ###   ########.fr       */
+/*   Updated: 2016/01/29 07:09:49 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ typedef enum		e_bool
 	FALSE,
 	TRUE
 }					t_bool;
+
+typedef struct		s_goal_inventory
+{
+	int g_nourriture;// = 20 ou plus;
+	int g_linemate;// = 9;
+	int g_deraumere;// = 8;
+	int g_sibur;// = 10;
+	int g_mendiane;// = 5;
+	int g_phiras;// = 6;
+	int g_thystame;// = 1;
+}					t_goal_inventory;
 
 typedef enum		e_status
 {
