@@ -10,16 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-extern "C" {
-	#include <stdio.h>
-	#include <unistd.h>
-	#include <stdlib.h>
-	#include <sys/select.h>
-	#include <sys/socket.h>
-	#include "list.h"
-	#include "libft.h"
-}
-
 #include "client.hpp"
 
 void	send_buffer(t_env *env)
@@ -61,11 +51,6 @@ void	main_loop(t_env *env)
 	FD_ZERO(&fds_write);
 	while (42)
 	{
-		if (env->buf_read)
-		{
-			ft_putendl("play");
-			play(env);
-		}
 		FD_SET(env->sock, &fds_read);
 		//to delete
 		FD_SET(STDIN_FILENO, &fds_read);
@@ -83,6 +68,14 @@ void	main_loop(t_env *env)
 			read_msg(env);
 		}
 
+		// interpret message from server if needed
+		if (env->buf_read)
+		{
+			char *to_read = (char*)ft_listpop(&env->buf_read);
+			interpret_cmd(env, to_read);
+			free(to_read);
+		}
+
 		// to delete
 		if (FD_ISSET(STDIN_FILENO, &fds_read))
 		{
@@ -94,4 +87,9 @@ void	main_loop(t_env *env)
 		}
 		// to delete
 	}
+}
+
+void	cmd(t_env *env, std::string str)
+{
+	ft_listpushback(&env->buf_write, (void*)str.c_str());
 }

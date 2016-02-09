@@ -15,7 +15,16 @@
 
 # include <string>
 # include <iostream>
-# include "list.h"
+
+extern "C" {
+	# include "list.h"
+	# include "general.h"
+	#include <stdio.h>
+	#include <unistd.h>
+	#include <stdlib.h>
+	#include <sys/select.h>
+	#include <sys/socket.h>
+}
 
 # define BUF_SIZE	4096
 
@@ -44,6 +53,28 @@ void			init_env(t_env *env);
 void			free_env(t_env *env);
 int				connect_to_server(char *ip, int port);
 void			main_loop(t_env *env);
-void			play(t_env *env);
+void			send_cmd_to_server(t_env *env, std::string str);
+
+/* ************************************************************************** */
+/* Commands                                                                   */
+/* ************************************************************************** */
+
+typedef int (*t_cmd_fct)(t_env *env, char *cmd);
+
+/*
+** This is one of the command that can be executed by a player.
+**
+** label: Name of that command.
+** fct: the function to execute to execute that command.
+** time: time it take to execute that command.
+*/
+typedef struct	s_cmd
+{
+	char		*label;
+	t_cmd_fct	fct;
+	int			time;
+}				t_cmd;
+
+int				interpret_cmd(t_env *e, char *cmd);
 
 #endif

@@ -14,7 +14,8 @@
 # BASIC VARIABLES															   #
 ################################################################################
 
-SRCS				:= main.cpp io.cpp connect.cpp ia.cpp env.cpp
+SRCS				:= main.cpp io.cpp connect.cpp env.cpp interpret_cmd.cpp \
+						cmds.cpp
 
 PATH_OBJ			:= obj
 PATH_SRC			:= src

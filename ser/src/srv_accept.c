@@ -111,7 +111,6 @@ void		srv_accept(t_env *e, int s)
 	send(cs, "BIENVENUE\n", strlen("BIENVENUE\n"), 0);
 	ft_bzero(buf, sizeof(buf));
 	r = recv(cs, buf, BUF_SIZE, 0);
-	printf("%s\n", buf);
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
 	else
