@@ -214,17 +214,17 @@ void		dicrease_differed_messages(t_env *e)
 		if (dmsg->countdown == 0 && dmsg->recipient->type != FD_FREE)
 		{
 			send_cmd_to_client(dmsg->recipient, dmsg->msg);
-			ft_listpop_n(&e->differed_msg, i);
+			ft_listpop_n(&e->differed_msg, i + 1);
 			free(dmsg->msg);
 			free(dmsg);
 		}
-		++i;
+		else
+			++i;
 	}
 }
 
 void		new_turn(t_env *e)
 {
-	// send_cmd_to_clients(e, "newturn");
 	decrease_life(e);
 	decrease_countdown(e);
 	grow_egg(e);

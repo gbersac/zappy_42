@@ -15,14 +15,14 @@
 
 t_list			*ft_listcreate(void *data)
 {
-	t_list	*new;
+	t_list	*newn;
 
-	new = NULL;
-	new = (t_list *)malloc(sizeof(*new));
-	if (new != NULL)
+	newn = NULL;
+	newn = (t_list *)malloc(sizeof(*newn));
+	if (newn != NULL)
 	{
-		new->data = data;
-		new->next = NULL;
+		newn->data = data;
+		newn->next = NULL;
 	}
-	return (new);
+	return (newn);
 }

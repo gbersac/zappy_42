@@ -14,20 +14,20 @@
 
 void			ft_listpushback(t_list **list, void *data)
 {
-	t_list	*new;
+	t_list	*newn;
 	t_list	*tmp;
 
-	new = ft_listcreate(data);
-	if (list && new)
+	newn = ft_listcreate(data);
+	if (list && newn)
 	{
 		if (*list)
 		{
 			tmp = *list;
 			while (tmp->next)
 				tmp = tmp->next;
-			tmp->next = new;
+			tmp->next = newn;
 		}
 		else
-			*list = new;
+			*list = newn;
 	}
 }
