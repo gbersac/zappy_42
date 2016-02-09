@@ -25,12 +25,10 @@ export DIR_GEN		:= gen
 export LIB_LINKER	:= -L../$(DIR_GEN) -lgen -L../$(DIR_FT) -lft
 
 export NAME_SERVEUR	:= serveur
-export NAME_CLIENT	:= client
 DIR_SERVEUR			:= ser
-DIR_CLIENT			:= cli
 export DIR_LIB		:= $(DIR_FT) $(DIR_GEN)
 
-APPS				:= $(DIR_SERVEUR) $(DIR_CLIENT)
+APPS				:= $(DIR_SERVEUR)
 
 ################################################################################
 # RULES																		   #
@@ -44,14 +42,6 @@ $(DIR_LIB):
 	@echo
 	@echo \	MAKE $(RULE) in directory : $@
 	@$(MAKE) --directory=$@  $(RULE)
-
-$(DIR_CLIENT): $(DIR_LIB)
-	@echo
-	@echo \	MAKE $(RULE) in directory : $@
-	@$(MAKE) --directory=$@  $(RULE)
-	@echo
-	@rm -f $(NAME_CLIENT)
-	@cp -n $(DIR_CLIENT)/$(NAME_CLIENT) . || :
 
 $(DIR_SERVEUR): $(DIR_LIB)
 	@echo

@@ -18,7 +18,8 @@ static int		test_client(t_env *env, t_fd *fd, t_team team_name)
 
 	if (!team_exist(env, team_name))
 	{
-		asprintf(&to_send, "%s unknown team", CMD_BEGIN_INFO);
+		asprintf(&to_send, "%s unknown team %s", CMD_BEGIN_INFO, team_name);
+		printf("%s\n", to_send);
 		send_cmd_to_client(fd, to_send);
 		free(to_send);
 		return (-1);
@@ -26,6 +27,7 @@ static int		test_client(t_env *env, t_fd *fd, t_team team_name)
 	if (available_connexion(env, team_name) <= 0)
 	{
 		asprintf(&to_send, "%s no place in this team", CMD_BEGIN_INFO);
+		printf("%s\n", to_send);
 		send_cmd_to_client(fd, to_send);
 		free(to_send);
 		return (-1);
@@ -79,8 +81,8 @@ static void		take_initial_connect(t_env *env, t_fd *fd, t_team team_name)
 
 	--env->map.max_client;
 	fd->trantor.team = strdup(team_name);
-	asprintf(&to_send, "%s %d 0 0",
-			CMD_BEGIN_INFO,
+	asprintf(&to_send, "%s %d %d %d",
+			CMD_BEGIN_INFO, fd->trantor.pos_x, fd->trantor.pos_y,
 			available_connexion(env, team_name));
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
@@ -94,7 +96,6 @@ int				ser_begin_info(t_env *env, t_fd *fd, char *cmd)
 {
 	char	team_name[1024];
 
-	printf("ser_begin_info\n");
 	sscanf(cmd, "begin_info %s\n", team_name);
 	if (test_client(env, fd, team_name) == -1)
 	{
@@ -106,4 +107,5 @@ int				ser_begin_info(t_env *env, t_fd *fd, char *cmd)
 	else
 		take_idle_trantor(env, fd, team_name);
 	return (0);
+	(void)cmd;
 }

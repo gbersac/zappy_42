@@ -71,7 +71,7 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	e->fds[cs].trantor.pos_y = rand() % e->map.height;
 	e->fds[cs].trantor.direction = rand() % 4 + 1;
 	send_cmd_to_graphics(e, gfx_pnw_str(&e->fds[cs].trantor));
-	send(cs, "CONNECTED", strlen("CONNECTED"), 0);
+	send(cs, "CONNECTED\n", strlen("CONNECTED\n"), 0);
 }
 
 void		accept_graphic(t_env *e, int cs)
