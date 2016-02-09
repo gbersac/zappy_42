@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   play.c                                             :+:      :+:    :+:   */
+/*   parse_voir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/30 06:02:44 by flime             #+#    #+#             */
-/*   Updated: 2016/01/16 23:45:58 by flime            ###   ########.fr       */
+/*   Created: 2015/12/23 23:17:00 by flime             #+#    #+#             */
+/*   Updated: 2015/12/24 22:56:24 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "libft.h"
-#include "general.h"
-#include "client.h"
+#include "client.hpp"
 
-void		play(t_env *env)
+void	parse_voir(t_env *env, char *str)
 {
-	char	*get;
+	char	*without_bracket;
+	char	**astr;
+	char	**case_astr;
+	int		i;
 
-	get = (char*)ft_listpop(&env->buf_read);
-	ft_putstr("\e[0;31m[server]: \e[0m");
-	ft_putendl(get);
-	interpret_msg(env, get);
-	if (env->n_request == 0)
-		ia(env);
-	free(get);
+	(void)env;
+	without_bracket = ft_strsub(str, 1, ft_strlen(str) - 2);
+	astr = ft_strsplit(without_bracket, ',');
+	i = 0;
+	// while (astr[i])
+	// {
+		case_astr = ft_strsplit(astr[i], ' ');
+		// ft_strtabput(case_astr);
+		// i++;
+	// }
 }

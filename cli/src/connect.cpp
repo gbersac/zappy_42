@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   connect.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rfrey <rfrey@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/05/14 20:39:34 by flime             #+#    #+#             */
-/*   Updated: 2015/12/24 00:22:08 by flime            ###   ########.fr       */
+/*   Created: 2014/05/14 20:39:34 by rfrey             #+#    #+#             */
+/*   Updated: 2014/06/04 22:01:31 by rfrey            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include "libft.h"
-#include "client.h"
+extern "C" {
+	#include <stdio.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+	#include <netdb.h>
+	#include "libft.h"
+}
+
+#include "client.hpp"
 
 int		connect_to_server(char *ip, int port)
 {

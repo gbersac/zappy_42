@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include "libft.h"
 #include "general.h"
-#include "client.h"
+#include "client.hpp"
 
 void		interpret_broadcast(t_env *env, char *get)
 {

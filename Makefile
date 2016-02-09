@@ -22,7 +22,7 @@ export CC			:= clang
 
 export DIR_FT		:= libft
 export DIR_GEN		:= gen
-export LIB_LINKER	:= -L../$(DIR_FT) -lft -L../$(DIR_GEN) -lgen
+export LIB_LINKER	:= -L../$(DIR_GEN) -lgen -L../$(DIR_FT) -lft
 
 export NAME_SERVEUR	:= serveur
 export NAME_CLIENT	:= client
@@ -30,7 +30,7 @@ DIR_SERVEUR			:= ser
 DIR_CLIENT			:= cli
 export DIR_LIB		:= $(DIR_FT) $(DIR_GEN)
 
-APPS				:= $(DIR_SERVEUR) $(DIR_CLIENT) 
+APPS				:= $(DIR_SERVEUR) $(DIR_CLIENT)
 
 ################################################################################
 # RULES																		   #

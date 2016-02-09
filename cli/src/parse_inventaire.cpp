@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../libft/inc/libft.h"
-#include "client.h"
+#include "client.hpp"
 
 /*
 ** Takes a string of the inventory in the form :

@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/inc/libft.h"
-#include "../inc/client.h"
+#include "client.hpp"
 
 void print_inventaire(t_env *env)
 {

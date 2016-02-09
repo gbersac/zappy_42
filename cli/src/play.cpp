@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   play.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flime <flime@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/06/04 23:59:17 by flime             #+#    #+#             */
-/*   Updated: 2014/06/05 00:03:52 by flime            ###   ########.fr       */
+/*   Created: 2015/12/30 06:02:44 by flime             #+#    #+#             */
+/*   Updated: 2016/01/16 23:45:58 by flime            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "libft.h"
 #include "general.h"
-#include "client.h"
+#include "client.hpp"
 
-void	init_env(t_env *env)
+void		play(t_env *env)
 {
-	ft_bzero(env, sizeof(t_env));
-	env->hostname = strdup("127.0.0.1");
-}
+	char	*get;
 
-void	free_env(t_env *env)
-{
-	char	*tmp;
-
-	while (env->buf_read)
-	{
-		tmp = (char*)ft_listpop(&env->buf_read);
-		free(tmp);
-	}
-	while (env->buf_write)
-	{
-		tmp = (char*)ft_listpop(&env->buf_write);
-		free(tmp);
-	}
+	get = (char*)ft_listpop(&env->buf_read);
+	ft_putstr("\e[0;31m[server]: \e[0m");
+	ft_putendl(get);
+	interpret_msg(env, get);
+	if (env->n_request == 0)
+		ia(env);
+	free(get);
 }

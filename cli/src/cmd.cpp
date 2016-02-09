@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/client.h"
-#include "../../libft/inc/libft.h"
+#include "client.hpp"
 
 /*
 ** str: must not end with a '\n'
 ** Guillaume: when you send a cmd, end it with a '\n'
 */
-void	cmd(t_env *env, char *cmd, char *str)
+void	cmd(t_env *env, const char *cmd, const char *str)
 {
 	char	*ret;
 
