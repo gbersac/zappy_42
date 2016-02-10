@@ -53,6 +53,11 @@ class Resource(Enum):
         if 'player' in s:
             return Resource.PLAYER
 
+    def __str__(self):
+        if self.value == Resource.FOOD.value:
+            return 'nourriture'
+        return self.name.lower()
+
 class Inventory(object):
 
     def __init__(self):
@@ -79,6 +84,17 @@ class Inventory(object):
         new.nb_thystame = int(m.group(7))
         return new
 
+    def from_nbrs(a, b, c, d, e, f, g):
+        new = Inventory()
+        new.nb_food = a
+        new.nb_linemate = b
+        new.nb_deraumere = c
+        new.nb_sibur = d
+        new.nb_mendiane = e
+        new.nb_phiras = f
+        new.nb_thystame = g
+        return new
+
     def add(self, res, qt):
         if res == Resource.FOOD:
             self.nb_food += qt
@@ -100,24 +116,22 @@ class Inventory(object):
             self.nb_player += qt
 
     def get_qt(self, res):
-        if res == FOOD:
+        if res == Resource.FOOD:
             return self.nb_food
-        if res == LINEMATE:
+        if res == Resource.LINEMATE:
             return self.nb_linemate
-        if res == DERAUMERE:
+        if res == Resource.DERAUMERE:
             return self.nb_deraumere
-        if res == SIBUR:
+        if res == Resource.SIBUR:
             return self.nb_sibur
-        if res == MENDIANE:
+        if res == Resource.MENDIANE:
             return self.nb_mendiane
-        if res == PHIRAS:
+        if res == Resource.PHIRAS:
             return self.nb_phiras
-        if res == THYSTAME:
+        if res == Resource.THYSTAME:
             return self.nb_thystame
-        if res == EGG:
-            return self.nb_egg
-        if res == PLAYER:
-            return self.nb_player
+        if res == Resource.EGG or res == Resource.PLAYER:
+            return -1
 
     def __str__(self):
         return "foo {} lin {} der {} sib {} men {} phi {} thy {}".format(

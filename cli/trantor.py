@@ -1,9 +1,12 @@
 from enum import Enum
 from resource import Inventory, Resource
+from incantation import Incantation
 
 class State(Enum):
     """ The state of the trantor (the action he is working on) """
     SEARCH_FOOD = 0
+    SEARCH_STONE = 1
+    START_INCANTATION = 2
 
 class Direction(Enum):
     NONEDIR = 0
@@ -36,23 +39,48 @@ class Trantor:
         self.inventory = Inventory()
         self.voir = None
         self.state = None
+        self.level = 1
 
-    def update_state(self):
-        self.state = State.SEARCH_FOOD
+    def action_to_perform(self):
+        """ define next actio to perform by the trantor """
+        print(self.inventory)
+        if self.inventory.nb_food < 4:
+            return State.SEARCH_FOOD
+
+        if Incantation.is_trantor_ready(self):
+            return State.START_INCANTATION
+
+        return State.SEARCH_STONE
+
+    def action_to_find_resource(self, res):
+        if self.voir == None:
+            return 'voir'
+        elif self.voir[0].get_qt(res) >= 1:
+            return 'prend ' + str(res)
+        else:
+            return 'avance'
+
+    def stone_to_find(self):
+        return Resource.LINEMATE
 
     def play(self):
         # define what the trantor should do
-        self.update_state()
+        self.state = self.action_to_perform()
+        print('action_to_perform: ', self.state)
 
         # if the trantor is looking for food
         if self.state == State.SEARCH_FOOD:
-            if self.voir == None:
-                return 'voir'
-            elif self.voir[0].nb_food >= 1:
-                return 'prend nourriture'
-            else:
-                return 'avance'
-        return ''
+            return self.action_to_find_resource(Resource.FOOD)
+
+        # if the trantor is looking for the stones to trigger invocation
+        if self.state == State.SEARCH_STONE:
+            res = self.stone_to_find()
+            return self.action_to_find_resource(Resource.LINEMATE)
+
+        # if it is time to start an incantation
+        if self.state == State.START_INCANTATION:
+            print('START_INCANTATION')
+            return 'incantation'
 
     def commit_cmd(self, cmd):
         if 'avance' in cmd:
@@ -76,10 +104,10 @@ class Trantor:
             self.voir.append(new)
 
     def interpret_cmd(self, prev_cmd, new_cmd):
-        if 'ko' in new_cmd:
+        if 'ko' in new_cmd[2:]:
             print('cmd ' + prev_cmd + ' is ko')
             return self.play()
-        if 'ok' in new_cmd:
+        if 'ok' in new_cmd[2:]:
             print('cmd ' + prev_cmd + ' is ok')
             self.commit_cmd(prev_cmd)
             return self.play()
