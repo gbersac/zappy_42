@@ -75,6 +75,8 @@ static void		modify_trantor(t_list *trantors, t_trantorian *initiator,
 		/* TODO add msg to get a trantor to know he is going to have it */
 		iter = iter->next;
 	}
+	initiator->level += 1;
+	printf("initiator new level %d\n", initiator->level);
 }
 
 static int		test_incantation_feasability(t_trantorian *trantor,

@@ -60,7 +60,17 @@ class Trantor:
             return 'avance'
 
     def stone_to_find(self):
-        return Resource.LINEMATE
+        if self.voir == None:
+            return None
+        resources = Incantation.missing_resources(self)
+        if resources == []:
+            return None
+
+        # first take the resources we can have imediately
+        for res in resources:
+            if self.voir[0].get_qt(res) > 0:
+                return res
+        return resources[0]
 
     def play(self):
         # define what the trantor should do
@@ -73,8 +83,13 @@ class Trantor:
 
         # if the trantor is looking for the stones to trigger invocation
         if self.state == State.SEARCH_STONE:
+            if self.voir == None:
+                return 'voir'
             res = self.stone_to_find()
-            return self.action_to_find_resource(Resource.LINEMATE)
+            # self.action_to_perform should evaluate if we have all resources
+            if res == None:
+                return 'inventory'
+            return self.action_to_find_resource(res)
 
         # if it is time to start an incantation
         if self.state == State.START_INCANTATION:

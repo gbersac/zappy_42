@@ -17,6 +17,15 @@ class Incantation:
 				return False
 		return True
 
+	def missing_resources(trantor):
+		level = trantor.level
+		incant = Incantation.incant_list[level]
+		to_return = []
+		for res in Resource:
+			if incant.prerequisites.get_qt(res) > trantor.inventory.get_qt(res):
+				to_return.append(res)
+		return to_return
+
 Incantation.incant_list = {
 	1 : Incantation(1, Inventory.from_nbrs(0, 1, 0, 0, 0, 0, 0)),
 	2 : Incantation(2, Inventory.from_nbrs(0, 1, 1, 1, 0, 0, 0)),
