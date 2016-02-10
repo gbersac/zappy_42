@@ -39,9 +39,9 @@ static void		take_idle_trantor2(t_env *env, t_fd *fd, t_team team_name)
 {
 	char			*to_send;
 
-	asprintf(&to_send, "%s %d %d %d",
+	asprintf(&to_send, "%s %d %d %d %d",
 			CMD_BEGIN_INFO, fd->trantor.pos_x, fd->trantor.pos_y,
-			available_connexion(env, team_name));
+			fd->trantor.direction, available_connexion(env, team_name));
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
 	asprintf(&to_send, "ebo %d %d %d %d %s", fd->trantor.id,
@@ -81,9 +81,9 @@ static void		take_initial_connect(t_env *env, t_fd *fd, t_team team_name)
 
 	--env->map.max_client;
 	fd->trantor.team = strdup(team_name);
-	asprintf(&to_send, "%s %d %d %d",
+	asprintf(&to_send, "%s %d %d %d %d",
 			CMD_BEGIN_INFO, fd->trantor.pos_x, fd->trantor.pos_y,
-			available_connexion(env, team_name));
+			fd->trantor.direction, available_connexion(env, team_name));
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
 	asprintf(&to_send, "pnw %d 0 0 %d 0 %s", fd->trantor.id,

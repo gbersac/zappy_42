@@ -6,29 +6,36 @@ from env import Env
 from trantor import Trantor
 
 def main_loop(env):
+    prev_cmd = env.trantor.play()
+    env.socket.send(prev_cmd.encode())
     while True:
         line = env.socket.recv(1024)
         if line == b'':
             print('Disconnected by server')
             sys.exit(0)
         else:
+            line =str(line)
             print('Received message: ', line)
+            new_cmd = env.trantor.interpret_cmd(prev_cmd, line)
+            if new_cmd != '':
+                env.socket.send(new_cmd.encode())
+                prev_cmd = new_cmd
 
 def client(opts):
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        # procedure for client connection
-        client.connect((opts.hostname, opts.port))
-        line = client.recv(1024)
-        client.send('PLAYER\n'.encode())
-        line = client.recv(1024)
+        # procedure for socket connection
+        sock.connect((opts.hostname, opts.port))
+        line = sock.recv(1024)
+        sock.send('PLAYER\n'.encode())
+        line = sock.recv(1024)
         begin_info = ('begin_info ' + opts.team + '\n').encode()
-        client.send(begin_info)
-        begin_info = str(client.recv(1024))
+        sock.send(begin_info)
+        begin_info = str(sock.recv(1024))
 
         # initialise environment
         try:
-            env = Env(begin_info, client)
+            env = Env(begin_info, sock)
         except Exception as inst :
             print(type(inst), ': ', inst)
             sys.exit(0)
