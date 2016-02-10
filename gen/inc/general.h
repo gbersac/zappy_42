@@ -155,6 +155,7 @@ char			*resource_to_str(t_resource res);
 char			*resources_to_str(t_list *lst_res);
 void			add_resource(t_inventory *inv, t_resource res);
 int				del_resource(t_inventory *inv, t_resource res);
+void			sub_inventory(t_inventory *dest, t_inventory *to_sub);
 int				ttl_resource_in_inventory(t_inventory *inv);
 
 /*

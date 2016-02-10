@@ -51,24 +51,20 @@ static int		trantor_has_resources(t_trantorian *trantor,
 		return (0);
 	if (trantor->inventory.nb_thystame < reqres.nb_thystame)
 		return (0);
-	trantor->inventory.nb_linemate -= reqres.nb_linemate;
-	trantor->inventory.nb_deraumere -= reqres.nb_deraumere;
-	trantor->inventory.nb_sibur -= reqres.nb_sibur;
-	trantor->inventory.nb_mendiane -= reqres.nb_mendiane;
-	trantor->inventory.nb_phiras -= reqres.nb_phiras;
-	trantor->inventory.nb_thystame -= reqres.nb_thystame;
 	return (1);
 }
 
 /*
 ** up each level trantor and countdown.
 */
-static void		modify_trantor(t_env *env, t_list *trantors, t_trantorian *initiator)
+static void		modify_trantor(t_list *trantors, t_trantorian *initiator,
+		t_incantation *incant)
 {
 	t_trantorian	*trantor;
 	t_list			*iter;
 
 	iter = trantors;
+	sub_inventory(&initiator->inventory, &incant->required_resources);
 	while (iter != NULL)
 	{
 		trantor = (t_trantorian*) iter->data;
@@ -77,8 +73,6 @@ static void		modify_trantor(t_env *env, t_list *trantors, t_trantorian *initiato
 		if (trantor->id != initiator->id)
 			trantor->countdown += CMD_INCANTATION_TIME;
 		/* TODO add msg to get a trantor to know he is going to have it */
-		add_differed_msg(env, CMD_INCANTATION_TIME, &env->fds[trantor->id],
-				MSG_OK);
 		iter = iter->next;
 	}
 }
@@ -118,7 +112,7 @@ int				ser_incantation(t_env *env, t_fd *fd, char *cmd)
 		return (-1);
 	gfx_pic(env, trantors);
 	printf("new incantation for level %d\n", incant.big_level);
-	modify_trantor(env, trantors, trantor);
+	modify_trantor(trantors, trantor, &incant);
 	test_for_victory(env);
 	return (0);
 	cmd = NULL;

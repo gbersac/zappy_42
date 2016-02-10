@@ -43,7 +43,6 @@ class Trantor:
 
     def action_to_perform(self):
         """ define next actio to perform by the trantor """
-        print(self.inventory)
         if self.inventory.nb_food < 4:
             return State.SEARCH_FOOD
 
@@ -79,9 +78,11 @@ class Trantor:
 
         # if it is time to start an incantation
         if self.state == State.START_INCANTATION:
-            print('START_INCANTATION')
             return 'incantation'
 
+    # depend on the fact that the trantor take something or trigger an
+    # incation often enough to have its inventory updated to match its real
+    # one (food is decreased without him being notified so)
     def commit_cmd(self, cmd):
         if 'avance' in cmd:
             self.voir = None
@@ -94,8 +95,9 @@ class Trantor:
             self.inventory.add(res, 1)
             self.voir = None
             return 'inventaire'
-        if 'incantation ' in cmd:
+        if 'incantation' in cmd:
             self.level += 1
+            print('new level: ', self.level)
             return 'inventaire'
 
     def update_vision(self, cmd):
@@ -107,9 +109,15 @@ class Trantor:
             new = Inventory.from_str(case)
             self.voir.append(new)
 
+    def update_inventaire(self, cmd):
+        cmd = cmd[cmd.index(' ') + 1:]
+        cmd = cmd[:cmd.index('\\')]
+        self.inventory = Inventory.from_str(cmd)
+
     def interpret_cmd(self, prev_cmd, new_cmd):
         if 'ko' in new_cmd[2:]:
             print('cmd ' + prev_cmd + ' is ko')
+            exit(0)
             return self.play()
         if 'ok' in new_cmd[2:]:
             print('cmd ' + prev_cmd + ' is ok')
@@ -120,4 +128,7 @@ class Trantor:
                 return self.play()
         if 'voir' in new_cmd:
             self.update_vision(new_cmd)
-            return ''
+            return None
+        if 'inventaire ' in new_cmd:
+            self.update_inventaire(new_cmd)
+            return None

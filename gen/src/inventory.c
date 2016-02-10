@@ -53,3 +53,14 @@ t_inventory		str_to_inventory(char *str)
 			&to_return.nb_thystame);
 	return (to_return);
 }
+
+void			sub_inventory(t_inventory *dest, t_inventory *to_sub)
+{
+	dest->nb_food -= to_sub->nb_food;
+	dest->nb_linemate -= to_sub->nb_linemate;
+	dest->nb_deraumere -= to_sub->nb_deraumere;
+	dest->nb_sibur -= to_sub->nb_sibur;
+	dest->nb_mendiane -= to_sub->nb_mendiane;
+	dest->nb_phiras -= to_sub->nb_phiras;
+	dest->nb_thystame -= to_sub->nb_thystame;
+}
