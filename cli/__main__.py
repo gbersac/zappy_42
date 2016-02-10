@@ -7,8 +7,9 @@ from trantor import Trantor
 
 def main_loop(env):
     prev_cmd = env.trantor.play()
-    env.socket.send(prev_cmd.encode())
+    env.socket.send((prev_cmd + '\n').encode())
     while True:
+        print('\n###New Loop')
         line = env.socket.recv(1024)
         if line == b'':
             print('Disconnected by server')
@@ -17,8 +18,9 @@ def main_loop(env):
             line =str(line)
             print('Received message: ', line)
             new_cmd = env.trantor.interpret_cmd(prev_cmd, line)
-            if new_cmd != '':
-                env.socket.send(new_cmd.encode())
+            if new_cmd != '' and new_cmd != None:
+                print("Send: " + new_cmd)
+                env.socket.send((new_cmd + '\n').encode())
                 prev_cmd = new_cmd
 
 def client(opts):

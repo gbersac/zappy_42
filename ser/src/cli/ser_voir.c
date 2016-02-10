@@ -18,15 +18,10 @@ static void	add_sq_str(t_env *env, int x, int y, char **prev)
 	char	*buf;
 
 	if (*prev == NULL)
-	{
-		*prev = (char*)malloc(sizeof(char) * 5);
-		bzero(*prev, 5);
-		*prev[0] = '{';
-	}
+		*prev = strdup("voir {");
 	str = inventory_to_str(&get_square(env, x, y)->content);
 	buf = *prev;
-	*prev = (char*)malloc(strlen(str) + strlen(buf) + 3);
-	sprintf(*prev, "%s%s, ", buf, str);
+	asprintf(prev, "%s%s, ", buf, str);
 	free(buf);
 }
 
@@ -82,16 +77,14 @@ static char	*explore_hori(t_env *env, t_fd *fd, int inc)
 
 static void	end_ser_voir(t_env *env, t_fd *fd, char *str)
 {
-	char	*buf;
 	char	*ret;
 
-	buf = str;
-	str = (char*)malloc(sizeof(char) * strlen(str) + 3);
-	memcpy(str, buf, strlen(buf) + 1);
-	ret = ft_strsub(str, 0, strlen(buf) - 2);
-	strcat(ret, "}");
+	str[strlen(str) - 2] = '\0';
+	asprintf(&ret, "%s}", str);
 	send_cmd_to_client(fd, ret);
+	free(ret);
 	add_differed_msg(env, CMD_VOIR_TIME, fd, MSG_OK);
+	(void)env;
 }
 
 int			ser_voir(t_env *env, t_fd *fd, char *cmd)

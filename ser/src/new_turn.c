@@ -119,6 +119,7 @@ static void		decrease_countdown(t_env *e)
 						trantor->laying = 0;
 						set_egg(e, trantor);
 					}
+					// send_cmd_to_client(&e->fds[i], MSG_OK);
 					printf("trantor %d is now ready to work !\n", trantor->id);
 				}
 			}

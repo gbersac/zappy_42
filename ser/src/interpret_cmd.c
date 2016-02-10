@@ -83,7 +83,6 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		command = lst_cmd->data;
 		if (ft_strnequ(command->label, cmd, strlen(command->label)))
 		{
-			// TODO test for trantor countdown before executing it.
 			if (command->time == 0 || fd->trantor.countdown == 0)
 			{
 				res = command->fct(e, fd, cmd);
@@ -91,7 +90,8 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 					fd->trantor.countdown = command->time;
 			}
 			else
-				send_cmd_to_client(fd, MSG_KO);
+				// send_cmd_to_client(fd, MSG_KO);
+				send_cmd_to_client(fd, "ko not enough time");
 			break ;
 		}
 		lst_cmd = lst_cmd->next;

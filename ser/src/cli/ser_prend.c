@@ -44,7 +44,6 @@ int				ser_prend(t_env *env, t_fd *fd, char *cmd)
 	}
 	add_resource(&fd->trantor.inventory, res);
 	del_resource(&sq->content, res);
-	add_differed_msg(env, CMD_PREND_TIME, fd, MSG_OK);
 	send_infos(env, fd, res);
 	return (0);
 }
