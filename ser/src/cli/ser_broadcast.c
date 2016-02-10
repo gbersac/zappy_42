@@ -41,6 +41,5 @@ int			ser_broadcast(t_env *env, t_fd *fd, char *cmd)
 	msg = cmd + strlen(CMD_BROADCAST) + 1;
 	send_msg_to_all_excpt_src(env, fd, msg);
 	gfx_pbc(env, fd, msg);
-	add_differed_msg(env, CMD_BROADCAST_TIME, fd, MSG_OK);
 	return (0);
 }

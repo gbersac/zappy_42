@@ -83,7 +83,6 @@ static void	end_ser_voir(t_env *env, t_fd *fd, char *str)
 	asprintf(&ret, "%s}", str);
 	send_cmd_to_client(fd, ret);
 	free(ret);
-	add_differed_msg(env, CMD_VOIR_TIME, fd, MSG_OK);
 	(void)env;
 }
 

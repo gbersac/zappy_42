@@ -93,6 +93,10 @@ class Trantor:
             res = Resource.from_str(cmd[6:])
             self.inventory.add(res, 1)
             self.voir = None
+            return 'inventaire'
+        if 'incantation ' in cmd:
+            self.level += 1
+            return 'inventaire'
 
     def update_vision(self, cmd):
         cmd = cmd[cmd.index('{') + 1:]
@@ -109,8 +113,11 @@ class Trantor:
             return self.play()
         if 'ok' in new_cmd[2:]:
             print('cmd ' + prev_cmd + ' is ok')
-            self.commit_cmd(prev_cmd)
-            return self.play()
+            cmd = self.commit_cmd(prev_cmd)
+            if cmd != None:
+                return cmd
+            else:
+                return self.play()
         if 'voir' in new_cmd:
             self.update_vision(new_cmd)
             return ''

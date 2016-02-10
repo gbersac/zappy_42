@@ -24,7 +24,6 @@ int			ser_gauche(t_env *env, t_fd *fd, char *cmd)
 		default:
 			break;
 	}
-	add_differed_msg(env, CMD_GAUCHE_TIME, fd, MSG_OK);
 	i = 0;
 	asprintf(&to_send, "ppo %d\n", trantor->id);
 	send_cmd_to_graphics(env, to_send);

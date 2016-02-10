@@ -36,7 +36,6 @@ int			ser_droite(t_env *env, t_fd *fd, char *cmd)
 		default:
 			break;
 	}
-	add_differed_msg(env, CMD_DROITE_TIME, fd, MSG_OK);
 	asprintf(&to_send, "ppo %d\n", trantor->id);
 	i = 0;
 	while (i < env->maxfd)

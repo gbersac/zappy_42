@@ -16,7 +16,6 @@ static void	send_infos(t_env *env, t_fd *fd, t_resource res)
 {
 	char			*msg;
 
-	add_differed_msg(env, CMD_POSE_TIME, fd, MSG_OK);
 	asprintf(&msg, "pdr %d %d", fd->trantor.id, res);
 	send_cmd_to_graphics(env, msg);
 	free(msg);

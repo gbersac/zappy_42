@@ -59,7 +59,6 @@ int				ser_avance(t_env *env, t_fd *fd, char *cmd)
 
 	trantor = &fd->trantor;
 	move_trantor(env, trantor, trantor->direction);
-	add_differed_msg(env, CMD_AVANCE_TIME, fd, MSG_OK);
 	i = 0;
 	asprintf(&to_send, "ppo %d\n", trantor->id);
 	send_cmd_to_graphics(env, to_send);
