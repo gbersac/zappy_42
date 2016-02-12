@@ -1,33 +1,18 @@
+import message
+import random
+
 from enum import Enum
 from resource import Inventory, Resource
 from incantation import Incantation
+from message import Message, MessageList
+from direction import Direction
 
 class State(Enum):
     """ The state of the trantor (the action he is working on) """
     SEARCH_FOOD = 0
     SEARCH_STONE = 1
     START_INCANTATION = 2
-
-class Direction(Enum):
-    NONEDIR = 0
-    NORTH = 1
-    EAST = 2
-    SOUTH = 3
-    WEST = 4
-
-    def from_str(s):
-        n = int(s[0])
-        if n == 0:
-            return Direction.NONEDIR
-        if n == 1:
-            return Direction.NORTH
-        if n == 2:
-            return Direction.EAST
-        if n == 3:
-            return Direction.SOUTH
-        if n == 4:
-            return Direction.WEST
-        return Direction.NONEDIR
+    JOIN_TRANTOR_FOR_INCANTATION = 3
 
 class Trantor:
     """ Trantorian is the player """
@@ -40,15 +25,16 @@ class Trantor:
         self.voir = None
         self.state = None
         self.level = 1
+        self.messages = MessageList()
 
     def action_to_perform(self):
         """ define next actio to perform by the trantor """
         if self.inventory.nb_food < 4:
             return State.SEARCH_FOOD
-
+        if self.messages.someone_to_join(self.level) != None:
+            return State.JOIN_TRANTOR_FOR_INCANTATION
         if Incantation.is_trantor_ready(self):
             return State.START_INCANTATION
-
         return State.SEARCH_STONE
 
     def action_to_find_resource(self, res):
@@ -72,32 +58,54 @@ class Trantor:
                 return res
         return resources[0]
 
+    def enough_trantor_for_incantation(self):
+        if self.level == 1:
+            return True
+        incant = Incantation.incantation_to_level_up(self.level)
+        trant_ready = self.messages.nb_of_trantor_ready_for_incantation(self.level) + 1
+        print('enough_trantor_for_incantation: ', incant.nb_player, '<=', trant_ready)
+        return incant.nb_player <= trant_ready
+
+    # every branch of play must return a command, if not the player freeze
+    # because the server won't send back a ok or ko command => the main_loop
+    # recv will block indefinitely
     def play(self):
         # define what the trantor should do
         self.state = self.action_to_perform()
         print('action_to_perform: ', self.state)
 
-        # if the trantor is looking for food
         if self.state == State.SEARCH_FOOD:
             return self.action_to_find_resource(Resource.FOOD)
 
-        # if the trantor is looking for the stones to trigger invocation
+        # check number of food hold by this trantor (the food will
+        # be decreased by the server without the client being notifed, refresh
+        # inventory to check current state of food)
+        if random.randint(1, 100) == 1:
+            return 'inventaire'
+
         if self.state == State.SEARCH_STONE:
             if self.voir == None:
                 return 'voir'
             res = self.stone_to_find()
-            # self.action_to_perform should evaluate if we have all resources
+            # self.action_to_perform evaluate if we have all required resources
+            # so res should not be none
             if res == None:
-                return 'inventory'
+                return 'inventaire'
             return self.action_to_find_resource(res)
 
-        # if it is time to start an incantation
-        if self.state == State.START_INCANTATION:
-            return 'incantation'
+        if self.state == State.JOIN_TRANTOR_FOR_INCANTATION:
+            msg = self.messages.someone_to_join(self.level)
+            action = msg.action_to_join_sender()
+            if action == None:
+                return message.incantation_ready(self.level)
+            else:
+                return action
 
-    # depend on the fact that the trantor take something or trigger an
-    # incation often enough to have its inventory updated to match its real
-    # one (food is decreased without him being notified so)
+        if self.state == State.START_INCANTATION:
+            if self.enough_trantor_for_incantation():
+                return 'incantation'
+            return message.incantation_call(self.level)
+
     def commit_cmd(self, cmd):
         if 'avance' in cmd:
             self.voir = None
@@ -109,10 +117,12 @@ class Trantor:
             res = Resource.from_str(cmd[6:])
             self.inventory.add(res, 1)
             self.voir = None
-            return 'inventaire'
-        if 'incantation' in cmd:
+            return None
+        if 'incantation' in cmd[:11]:
             self.level += 1
             print('new level: ', self.level)
+            if self.level == 3: # to delete
+                exit(0)
             return 'inventaire'
 
     def update_vision(self, cmd):
@@ -125,25 +135,32 @@ class Trantor:
             self.voir.append(new)
 
     def update_inventaire(self, cmd):
-        cmd = cmd[cmd.index(' ') + 1:]
-        cmd = cmd[:cmd.index('\\')]
+        cmd = cmd[11:]
+        print('#' + cmd + '#')
         self.inventory = Inventory.from_str(cmd)
 
     def interpret_cmd(self, prev_cmd, new_cmd):
-        if 'ko' in new_cmd[2:]:
+        if 'ko' in new_cmd[:2]:
             print('cmd ' + prev_cmd + ' is ko')
             exit(0)
             return self.play()
-        if 'ok' in new_cmd[2:]:
+        if 'ok' in new_cmd[:2]:
             print('cmd ' + prev_cmd + ' is ok')
             cmd = self.commit_cmd(prev_cmd)
             if cmd != None:
                 return cmd
             else:
                 return self.play()
-        if 'voir' in new_cmd:
+        if 'voir ' in new_cmd[:6]:
+            print('interpret voir')
             self.update_vision(new_cmd)
             return None
-        if 'inventaire ' in new_cmd:
+        if 'inventaire ' in new_cmd[:11]:
             self.update_inventaire(new_cmd)
+            return None
+        if 'message ' in new_cmd[:9]:
+            self.messages.add_msg(new_cmd)
+            return None
+        if 'suc' in new_cmd[:3]:
+            print('unknow command: ' + prev_cmd)
             return None

@@ -10,15 +10,18 @@ def main_loop(env):
     env.socket.send((prev_cmd + '\n').encode())
     while True:
         print('\n###New Loop')
-        line = env.socket.recv(1024)
-        if line == b'':
+        recv = env.socket.recv(1024).decode('utf-8')
+        if recv == '':
             print('Disconnected by server')
             sys.exit(0)
-        else:
-            line =str(line)
-            print('Received message: ', line)
+        lines = recv.split('\n')
+        for line in lines:
+            if line == '':
+                continue
+            print('Received message: #' + line + '#')
             new_cmd = env.trantor.interpret_cmd(prev_cmd, line)
             if new_cmd != '' and new_cmd != None:
+                env.trantor.messages.clear()
                 print("Send: " + new_cmd)
                 env.socket.send((new_cmd + '\n').encode())
                 prev_cmd = new_cmd

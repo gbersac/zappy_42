@@ -11,6 +11,9 @@ class Incantation:
 		""" Test if the trantor has all the resources needed for this """
 		""" incantation """
 		level = trantor.level
+		if level > 8:
+			print('invalid incantation level ' + str(level))
+			exit(0)
 		incant = Incantation.incant_list[level]
 		for res in Resource:
 			if incant.prerequisites.get_qt(res) > trantor.inventory.get_qt(res):
@@ -25,6 +28,9 @@ class Incantation:
 			if incant.prerequisites.get_qt(res) > trantor.inventory.get_qt(res):
 				to_return.append(res)
 		return to_return
+
+	def incantation_to_level_up(level):
+		return Incantation.incant_list[level]
 
 Incantation.incant_list = {
 	1 : Incantation(1, Inventory.from_nbrs(0, 1, 0, 0, 0, 0, 0)),

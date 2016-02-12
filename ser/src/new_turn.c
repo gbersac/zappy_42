@@ -187,14 +187,11 @@ static void	pop_squar_resources(t_env *env, t_square *sq)
 static void	pop_resources(t_env *e)
 {
 	int		i;
-	int		ttl_res;
 
 	i = 0;
 	while (i < e->map.width * e->map.height)
 	{
-		ttl_res = ttl_resource_in_inventory(&e->map.tartan[i].content);
-		if (ttl_res < MAX_RES_SQUARE)
-			pop_squar_resources(e, &e->map.tartan[i]);
+		pop_squar_resources(e, &e->map.tartan[i]);
 		++i;
 	}
 }

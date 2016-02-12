@@ -75,6 +75,8 @@ class Inventory(object):
         m = re.match(
             r"([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+)",
             s)
+        if m == None:
+            return
         new.nb_food = int(m.group(1))
         new.nb_linemate = int(m.group(2))
         new.nb_deraumere = int(m.group(3))

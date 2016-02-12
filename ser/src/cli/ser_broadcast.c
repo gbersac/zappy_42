@@ -19,19 +19,23 @@ void		send_msg_to_all_excpt_src(t_env *env, t_fd *fd, char *msg)
 	t_trantorian	*trant;
 
 	i = 0;
-	str = NULL;
 	trant = &fd->trantor;
-	asprintf(&str, "%s %d %s",
-			"message",
-			get_sound_dir(fd->trantor, *trant, env->map),
-			msg);
 	while (i < env->maxfd)
 	{
 		if (env->fds[i].type == FD_CLIENT && env->fds[i].fd != fd->fd)
+		{
+			str = NULL;
+			asprintf(&str, "%s %d %d %d %d %d %s",
+					"message",
+					trant->pos_x, trant->pos_y,
+					env->fds[i].trantor.pos_x, env->fds[i].trantor.pos_y,
+					env->fds[i].trantor.direction,
+					msg);
 			send_cmd_to_client(&env->fds[i], str);
+			free(str);
+		}
 		i++;
 	}
-	free(str);
 }
 
 int			ser_broadcast(t_env *env, t_fd *fd, char *cmd)

@@ -112,10 +112,11 @@ int				ser_incantation(t_env *env, t_fd *fd, char *cmd)
 	incant = incantation_to_evolve(trantor->level);
 	if (test_incantation_feasability(trantor, &incant, fd, trantors) == -1)
 		return (-1);
-	gfx_pic(env, trantors);
 	printf("new incantation for level %d\n", incant.big_level);
 	modify_trantor(trantors, trantor, &incant);
 	test_for_victory(env);
+	ft_listpushback(&trantors, trantor);
+	gfx_pic(env, trantors);
 	return (0);
 	cmd = NULL;
 }
