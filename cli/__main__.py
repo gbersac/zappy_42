@@ -9,7 +9,7 @@ def main_loop(env):
     prev_cmd = env.trantor.play()
     env.socket.send((prev_cmd + '\n').encode())
     while True:
-        print('\n###New Loop')
+        print('\n###New Loop level', env.trantor.level)
         recv = env.socket.recv(1024).decode('utf-8')
         if recv == '':
             print('Disconnected by server')

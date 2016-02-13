@@ -30,7 +30,7 @@ class Trantor:
     def up_level(self):
         self.level += 1
         print('new level: ', self.level)
-        if self.level == 3: # to delete
+        if self.level == 5: # to delete
             exit(0)
 
     def action_to_perform(self):
@@ -145,7 +145,6 @@ class Trantor:
     def interpret_cmd(self, prev_cmd, new_cmd):
         if 'ko' in new_cmd[:2]:
             print('cmd ' + prev_cmd + ' is ko')
-            exit(0)
             return self.play()
         if 'ok' in new_cmd[:2]:
             print('cmd ' + prev_cmd + ' is ok')

@@ -18,12 +18,12 @@ static char	*trantors_id_to_str(t_list *trantors)
 	char			*buf;
 	t_trantorian	*trantor;
 
-	to_return = "";
+	to_return = strdup("");
 	while (trantors != NULL)
 	{
 		trantor = (t_trantorian*) trantors->data;
-		asprintf(&buf, "%s %d ", to_return, trantor->id);
-		to_return = buf;
+		buf = to_return;
+		asprintf(&to_return, "%s %d ", to_return, trantor->id);
 		free(buf);
 		trantors = trantors->next;
 	}
@@ -45,6 +45,7 @@ int			gfx_pic(t_env *env, t_list *trantors)
 			first->pos_y,
 			first->level,
 			ids);
+	printf("ids #%s#\n", ids);
 	free(ids);
 	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
 	send_cmd_to_graphics(env, to_send);

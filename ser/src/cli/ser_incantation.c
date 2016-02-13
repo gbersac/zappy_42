@@ -12,7 +12,7 @@
 
 # include "cmd.h"
 
-static t_list	*get_lst_trantor(t_env *env, t_trantorian *trantor)
+static t_list	*get_lst_trantor(t_env *env, t_trantorian *trantor, int n_play)
 {
 	int		i;
 	t_list	*lst;
@@ -21,12 +21,17 @@ static t_list	*get_lst_trantor(t_env *env, t_trantorian *trantor)
 	lst = NULL;
 	while (i < env->maxfd)
 	{
+		// printf("ft_listcnt(lst) %d n_play %d => %d\n", ft_listcnt(lst), n_play, ft_listcnt(lst) <= n_play);
 		if (env->fds[i].type == FD_CLIENT &&
 				env->fds[i].trantor.pos_x == trantor->pos_x &&
 				env->fds[i].trantor.pos_y == trantor->pos_y &&
-				env->fds[i].trantor.level == trantor->level)
+ 				env->fds[i].trantor.level == trantor->level &&
+ 				strcmp(env->fds[i].trantor.team, trantor->team) == 0)
 		{
 			ft_listpushback(&lst, &env->fds[i]);
+			printf("%d == %d\n", ft_listcnt(lst), n_play);
+			if (ft_listcnt(lst) == n_play)
+				return (lst);
 		}
 		++i;
 	}
@@ -73,6 +78,7 @@ static void		modify_trantor(t_env *env,
 	{
 		fd = (t_fd*) iter->data;
 		fd->trantor.level += 1;
+		printf("trantor %d level %d\n", fd->trantor.id, fd->trantor.level);
 		/* the initiator will have its countdown increased at the end */
 		if (fd->trantor.id != initiator->id)
 		{
@@ -90,14 +96,17 @@ static int		test_incantation_feasability(t_trantorian *trantor,
 {
 	if (ft_listcnt(trantors) < incant->players)
 	{
-		printf("incantation failed because not enough players\n");
+		printf("incantation %d failed because not enough players\n",
+				trantor->level);
 		send_cmd_to_client(fd, MSG_KO);
+		printf("number of player %d, expected %d\n", ft_listcnt(trantors), incant->players);
 		exit(0);
 		return (-1);
 	}
 	if (!trantor_has_resources(trantor, incant))
 	{
-		printf("incantation failed because not enough resources\n");
+		printf("incantation %d failed because not enough resources\n",
+				trantor->level);
 		send_cmd_to_client(fd, MSG_KO);
 		exit(0);
 		return (-1);
@@ -114,15 +123,14 @@ int				ser_incantation(t_env *env, t_fd *fd, char *cmd)
 
 	trantor = &fd->trantor;
 	sq = get_square(env, trantor->pos_x, trantor->pos_y);
-	trantors_fd = get_lst_trantor(env, trantor);
 	incant = incantation_to_evolve(trantor->level);
+	trantors_fd = get_lst_trantor(env, trantor, incant.players);
 	if (test_incantation_feasability(trantor, &incant, fd, trantors_fd) == -1)
 		return (-1);
 	printf("new incantation for level %d\n", incant.beg_level);
 	modify_trantor(env, trantors_fd, trantor, &incant);
 	test_for_victory(env);
-	ft_listpushback(&trantors_fd, trantor);
 	gfx_pic(env, trantors_fd);
 	return (0);
-	cmd = NULL;
+	(void)cmd;
 }
