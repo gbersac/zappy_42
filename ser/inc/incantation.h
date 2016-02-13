@@ -26,13 +26,12 @@
 */
 # define NB_TRANTOR_VICTORY	6
 
-
 /*
 ** This structure represent the ressources required to launch an incantation.
 */
 typedef struct	s_incantation
 {
-	int		big_level;
+	int		beg_level;
 	int		end_level;
 
 	/*

@@ -17,7 +17,6 @@ class TestTrantor(unittest.TestCase):
         trantor = TestTrantor.new_trantor(2, Inventory.from_nbrs(5, 5, 5, 5, 5, 5, 5))
         trantor.messages.add_msg('message 0 0 0 0 0 ' + message.incantation_call(2)[10:])
         action = trantor.action_to_perform()
-        print('result:', action)
         self.assertTrue(action == State.JOIN_TRANTOR_FOR_INCANTATION)
 
 class TestMessage(unittest.TestCase):
@@ -27,7 +26,6 @@ class TestMessage(unittest.TestCase):
         self.assertTrue(msg.message != None)
         msg = Message("message 1 7 9 7 4 ready to launch incantation for level 2")
         self.assertTrue(msg.message != None)
-
 
 if __name__ == '__main__':
     unittest.main()

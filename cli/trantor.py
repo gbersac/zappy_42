@@ -27,6 +27,12 @@ class Trantor:
         self.level = 1
         self.messages = MessageList()
 
+    def up_level(self):
+        self.level += 1
+        print('new level: ', self.level)
+        if self.level == 3: # to delete
+            exit(0)
+
     def action_to_perform(self):
         """ define next actio to perform by the trantor """
         if self.inventory.nb_food < 4:
@@ -119,10 +125,7 @@ class Trantor:
             self.voir = None
             return None
         if 'incantation' in cmd[:11]:
-            self.level += 1
-            print('new level: ', self.level)
-            if self.level == 3: # to delete
-                exit(0)
+            self.up_level()
             return 'inventaire'
 
     def update_vision(self, cmd):
@@ -164,3 +167,5 @@ class Trantor:
         if 'suc' in new_cmd[:3]:
             print('unknow command: ' + prev_cmd)
             return None
+        if 'incantation' in new_cmd[:11]:
+            self.up_level()

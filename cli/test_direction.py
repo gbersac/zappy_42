@@ -6,15 +6,11 @@ from message import Message
 class TestDirection(unittest.TestCase):
 
     def t_one(self, dest_x, dest_y, self_x, self_y, self_dir, expected):
-        print("\nFor dest_x {} dest_y {} self_x {} self_y {} self_dir {}".format(
-            dest_x, dest_y, self_x, self_y, self_dir.name
-        ))
         s = "message {} {} {} {} {} aaa\\".format(
             dest_x, dest_y, self_x, self_y, self_dir.value
         )
         m = Message(s)
         action = m.action_to_join_sender()
-        print("Result {}, expected: {}".format(action, expected))
         self.assertTrue(expected == action)
 
     def test_action_to_join_sender(self):

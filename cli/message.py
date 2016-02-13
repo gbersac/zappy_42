@@ -12,7 +12,6 @@ def incantation_ready(level):
 class Message:
 	def __init__(self, s):
 		s = str(s)
-		print(s)
 		m = re.match(
 			r"message ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) (.+)",
 			s)
@@ -72,9 +71,7 @@ class MessageList:
 
 	def nb_same_msg(self, s):
 		to_return = 0
-		print('nb_same_msg')
 		for msg in self.list:
-			print(msg.message, '==', s)
 			if hasattr(msg, 'message') and msg.message == s:
 				to_return += 1
 		return to_return
@@ -88,5 +85,4 @@ class MessageList:
 
 	def nb_of_trantor_ready_for_incantation(self, level):
 		s = incantation_ready(level)[10:]
-		print('nb_of_trantor_ready_for_incantation #' + s + '# total', self.nb_same_msg(s))
 		return self.nb_same_msg(s)

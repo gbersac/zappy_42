@@ -86,6 +86,7 @@ static void		take_initial_connect(t_env *env, t_fd *fd, t_team team_name)
 			fd->trantor.direction, available_connexion(env, team_name));
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
+	// TODO fix it
 	asprintf(&to_send, "pnw %d 0 0 %d 0 %s", fd->trantor.id,
 			fd->trantor.direction, team_name);
 	send_cmd_to_graphics(env, to_send);

@@ -14,7 +14,7 @@
 
 static void		add_node(t_incantation *incant, char *str)
 {
-	incant->big_level = str[0] - '0';
+	incant->beg_level = str[0] - '0';
 	incant->end_level = str[0] + 1 - '0';
 	incant->players = str[1] - '0';
 	incant->required_resources = str_to_inventory(str + 3);
