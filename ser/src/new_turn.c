@@ -156,7 +156,7 @@ static void		decrease_life(t_env *e)
 	}
 }
 
-static void	pop_squar_resources(t_env *env, t_square *sq)
+static void	pop_squar_resources(t_env *env, t_square *sq, int ttl_res)
 {
 	int		rdm;
 	int		change;
@@ -165,13 +165,13 @@ static void	pop_squar_resources(t_env *env, t_square *sq)
 
 	rdm = rand();
 	change = 0;
-	if (!(rdm % POP_STONE))
+	if (!(rdm % POP_STONE) && (ttl_res - sq->content.nb_food) < MAX_RES_SQUARE)
 	{
 		change = 1;
 		res = rdm % 7 + 1;
 		add_resource(&sq->content, res);
 	}
-	if (!(rdm % POP_FOOD))
+	if (!(rdm % POP_FOOD) && sq->content.nb_food == 0)
 	{
 		change = 1;
 		add_resource(&sq->content, FOOD);
@@ -190,11 +190,10 @@ static void	pop_resources(t_env *e)
 	int		ttl_res;
 
 	i = 0;
+	ttl_res = ttl_resource_in_inventory(&e->map.tartan[i].content);
 	while (i < e->map.width * e->map.height)
 	{
-		ttl_res = ttl_resource_in_inventory(&e->map.tartan[i].content);
-		if (ttl_res < MAX_RES_SQUARE)
-			pop_squar_resources(e, &e->map.tartan[i]);
+		pop_squar_resources(e, &e->map.tartan[i], ttl_res);
 		++i;
 	}
 }

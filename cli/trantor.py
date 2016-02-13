@@ -30,7 +30,7 @@ class Trantor:
     def up_level(self):
         self.level += 1
         print('new level: ', self.level)
-        if self.level == 5: # to delete
+        if self.level == 6: # to delete
             exit(0)
 
     def action_to_perform(self):

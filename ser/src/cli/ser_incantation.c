@@ -21,7 +21,6 @@ static t_list	*get_lst_trantor(t_env *env, t_trantorian *trantor, int n_play)
 	lst = NULL;
 	while (i < env->maxfd)
 	{
-		// printf("ft_listcnt(lst) %d n_play %d => %d\n", ft_listcnt(lst), n_play, ft_listcnt(lst) <= n_play);
 		if (env->fds[i].type == FD_CLIENT &&
 				env->fds[i].trantor.pos_x == trantor->pos_x &&
 				env->fds[i].trantor.pos_y == trantor->pos_y &&
@@ -29,7 +28,6 @@ static t_list	*get_lst_trantor(t_env *env, t_trantorian *trantor, int n_play)
  				strcmp(env->fds[i].trantor.team, trantor->team) == 0)
 		{
 			ft_listpushback(&lst, &env->fds[i]);
-			printf("%d == %d\n", ft_listcnt(lst), n_play);
 			if (ft_listcnt(lst) == n_play)
 				return (lst);
 		}
@@ -44,8 +42,6 @@ static int		trantor_has_resources(t_trantorian *trantor,
 	t_inventory	reqres;
 
 	reqres = incant->required_resources;
-	printf("%s < %s\n", inventory_to_str(&reqres), inventory_to_str(&trantor->inventory));
-	printf("%d\n", trantor->inventory.nb_linemate < reqres.nb_linemate);
 	if (trantor->inventory.nb_linemate < reqres.nb_linemate)
 		return (0);
 	if (trantor->inventory.nb_deraumere < reqres.nb_deraumere)
@@ -78,7 +74,6 @@ static void		modify_trantor(t_env *env,
 	{
 		fd = (t_fd*) iter->data;
 		fd->trantor.level += 1;
-		printf("trantor %d level %d\n", fd->trantor.id, fd->trantor.level);
 		/* the initiator will have its countdown increased at the end */
 		if (fd->trantor.id != initiator->id)
 		{
@@ -99,7 +94,6 @@ static int		test_incantation_feasability(t_trantorian *trantor,
 		printf("incantation %d failed because not enough players\n",
 				trantor->level);
 		send_cmd_to_client(fd, MSG_KO);
-		printf("number of player %d, expected %d\n", ft_listcnt(trantors), incant->players);
 		exit(0);
 		return (-1);
 	}
