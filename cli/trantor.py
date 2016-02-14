@@ -48,8 +48,18 @@ class Trantor:
             return 'voir'
         elif self.voir[0].get_qt(res) >= 1:
             return 'prend ' + str(res)
-        else:
+        elif self.voir[2].get_qt(res) >= 1:
             return 'avance'
+        elif len(self.voir) > 7 and self.voir[6].get_qt(res) >= 1:
+            return 'avance'
+        else:
+            action = random.randint(1, 3)
+            if action == 1:
+                return 'gauche'
+            elif action == 2:
+                return 'droite'
+            else:
+                return 'avance'
 
     def stone_to_find(self):
         if self.voir == None:
