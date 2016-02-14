@@ -94,7 +94,6 @@ static int		test_incantation_feasability(t_trantorian *trantor,
 		printf("incantation %d failed because not enough players\n",
 				trantor->level);
 		send_cmd_to_client(fd, MSG_KO);
-		exit(0);
 		return (-1);
 	}
 	if (!trantor_has_resources(trantor, incant))
@@ -102,7 +101,6 @@ static int		test_incantation_feasability(t_trantorian *trantor,
 		printf("incantation %d failed because not enough resources\n",
 				trantor->level);
 		send_cmd_to_client(fd, MSG_KO);
-		exit(0);
 		return (-1);
 	}
 	return (0);

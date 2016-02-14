@@ -1,4 +1,5 @@
 import message
+import re
 import random
 
 from enum import Enum
@@ -98,8 +99,12 @@ class Trantor:
         # check number of food hold by this trantor (the food will
         # be decreased by the server without the client being notifed, refresh
         # inventory to check current state of food)
-        if random.randint(1, 100) == 1:
+        if random.randint(1, 30) == 1:
             return 'inventaire'
+
+        # check if there is enough connection slots for new trantors to join
+        if random.randint(1, 150) == 1:
+            return 'connect_nbr'
 
         if self.state == State.SEARCH_STONE:
             if self.voir == None:
@@ -181,6 +186,14 @@ class Trantor:
             return None
         if 'incantation' in new_cmd[:11]:
             self.up_level()
+        if 'connect_nbr ' in new_cmd[:13]:
+            m = re.match(r'connect_nbr (\d+)', new_cmd)
+            if m == None:
+                print('Error: invalid connect_nbr command', new_cmd)
+                return self.play()
+            nb_connection_slot = int(m.group(1))
+            if nb_connection_slot <= 1:
+                return 'fork'
         if 'relaunch' in new_cmd[:9]:
             print('cmd ' + prev_cmd + ' is ok [relaunch]')
             cmd = self.commit_cmd(prev_cmd)
