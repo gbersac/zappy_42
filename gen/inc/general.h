@@ -55,6 +55,7 @@
 # define MSG_BROADCAST		"message"
 # define MSG_EXPULSE		"deplacement"
 # define MSG_OK				"ok"
+# define MSG_RELAUNCH		"relaunch"
 # define MSG_KO				"ko"
 # define MSG_INCANTATION_1	"elevation en cours"
 # define MSG_INCANTATION_2  "niveau actuel : "

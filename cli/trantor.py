@@ -154,7 +154,6 @@ class Trantor:
             else:
                 return self.play()
         if 'voir ' in new_cmd[:6]:
-            print('interpret voir')
             self.update_vision(new_cmd)
             return None
         if 'inventaire ' in new_cmd[:11]:
@@ -168,3 +167,10 @@ class Trantor:
             return None
         if 'incantation' in new_cmd[:11]:
             self.up_level()
+        if 'relaunch' in new_cmd[:9]:
+            print('cmd ' + prev_cmd + ' is ok [relaunch]')
+            cmd = self.commit_cmd(prev_cmd)
+            if cmd != None:
+                return cmd
+            else:
+                return self.play()

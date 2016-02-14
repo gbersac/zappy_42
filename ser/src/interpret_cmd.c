@@ -83,7 +83,7 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 		command = lst_cmd->data;
 		if (ft_strnequ(command->label, cmd, strlen(command->label)))
 		{
-			if (command->time == 0 || fd->trantor.countdown == 0)
+			if (command->time == 0 || fd->trantor.countdown <= 0)
 			{
 				res = command->fct(e, fd, cmd);
 				if (res >= 0 && command->time > 0)

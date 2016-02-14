@@ -110,18 +110,21 @@ static void		decrease_countdown(t_env *e)
 		if (e->fds[i].type == FD_CLIENT)
 		{
 			trantor = &e->fds[i].trantor;
-			if (trantor->countdown > 0){
-				--trantor->countdown;
-				if (trantor->countdown == 0)
+			--trantor->countdown;
+			if (trantor->countdown == 0)
+			{
+				if (trantor->laying == 1)
 				{
-					if (trantor->laying == 1)
-					{
-						trantor->laying = 0;
-						set_egg(e, trantor);
-					}
-					send_cmd_to_client(&e->fds[i], MSG_OK);
-					printf("trantor %d is now ready to work !\n", trantor->id);
+					trantor->laying = 0;
+					set_egg(e, trantor);
 				}
+				send_cmd_to_client(&e->fds[i], MSG_OK);
+				printf("trantor %d is now ready to work !\n", trantor->id);
+			}
+			else if (trantor->countdown <= -NB_TURN_BEFORE_TRANTOR_CALLBACK)
+			{
+				send_cmd_to_client(&e->fds[i], MSG_RELAUNCH);
+
 			}
 		}
 		++i;

@@ -27,6 +27,13 @@
 # define NB_TRANTOR_VICTORY	6
 
 /*
+** The number of inactive client turns
+** (turns after the server send an `ok` message) before resending an `relaunch`
+** message to trigger a client response.
+*/
+# define NB_TURN_BEFORE_TRANTOR_CALLBACK	350
+
+/*
 ** This structure represent the ressources required to launch an incantation.
 */
 typedef struct	s_incantation
