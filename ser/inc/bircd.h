@@ -43,12 +43,12 @@ typedef enum	e_fd_type
 /*
 ** There is one out of POP_STONE chance that a stone pop on a square.
 */
-# define POP_STONE	10
+# define POP_STONE	50
 
 /*
 ** There is one out of POP_FOOD chance that a food pop on a square.
 */
-# define POP_FOOD	20
+# define POP_FOOD	70
 
 # define BUF_SIZE	4096
 
