@@ -17,7 +17,7 @@ class State(Enum):
 class Trantor:
     """ Trantorian is the player """
 
-    def __init__(self, x, y, direction):
+    def __init__(self, x, y, direction, team):
         self.x = x
         self.y = y
         self.direction = direction
@@ -25,6 +25,7 @@ class Trantor:
         self.voir = None
         self.state = None
         self.level = 1
+        self.team = team
         self.messages = MessageList()
 
     def up_level(self):
@@ -37,7 +38,7 @@ class Trantor:
         """ define next actio to perform by the trantor """
         if self.inventory.nb_food < 4:
             return State.SEARCH_FOOD
-        if self.messages.someone_to_join(self.level) != None:
+        if self.messages.someone_to_join(self.team, self.level) != None:
             return State.JOIN_TRANTOR_FOR_INCANTATION
         if Incantation.is_trantor_ready(self):
             return State.START_INCANTATION
@@ -78,7 +79,8 @@ class Trantor:
         if self.level == 1:
             return True
         incant = Incantation.incantation_to_level_up(self.level)
-        trant_ready = self.messages.nb_of_trantor_ready_for_incantation(self.level) + 1
+        trant_ready = self.messages.nb_of_trantor_ready_for_incantation(
+                self.team, self.level) + 1
         print('enough_trantor_for_incantation: ', incant.nb_player, '<=', trant_ready)
         return incant.nb_player <= trant_ready
 
@@ -110,17 +112,19 @@ class Trantor:
             return self.action_to_find_resource(res)
 
         if self.state == State.JOIN_TRANTOR_FOR_INCANTATION:
-            msg = self.messages.someone_to_join(self.level)
+            msg = self.messages.someone_to_join(self.team, self.level)
             action = msg.action_to_join_sender()
             if action == None:
-                return message.incantation_ready(self.level)
+                return message.message_to_cmd(
+                        message.incantation_ready(self.team, self.level))
             else:
                 return action
 
         if self.state == State.START_INCANTATION:
             if self.enough_trantor_for_incantation():
                 return 'incantation'
-            return message.incantation_call(self.level)
+            return message.message_to_cmd(
+                    message.incantation_call(self.team, self.level))
 
     def commit_cmd(self, cmd):
         if 'avance' in cmd:

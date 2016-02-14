@@ -9,7 +9,7 @@ def main_loop(env):
     prev_cmd = env.trantor.play()
     env.socket.send((prev_cmd + '\n').encode())
     while True:
-        print('\n###New Loop level', env.trantor.level)
+        print('\n###New Loop level', env.trantor.level, 'team', env.trantor.team)
         recv = env.socket.recv(1024).decode('utf-8')
         if recv == '':
             print('Disconnected by server')
@@ -40,7 +40,7 @@ def client(opts):
 
         # initialise environment
         try:
-            env = Env(begin_info, sock)
+            env = Env(begin_info, sock, opts.team)
         except Exception as inst :
             print(type(inst), ': ', inst)
             sys.exit(0)
