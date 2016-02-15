@@ -87,7 +87,7 @@ void		client_read(t_env *e, int cs)
 
 	r = recv(cs, buf, BUF_SIZE, 0);
 	buf[r] = '\0';
-	printf("<-[%d]-- %s\n", cs, buf);
+	// printf("<-[%d]-- %s\n", cs, buf);
 	if (r <= 0)
 		close_connection(e, cs);
 	else

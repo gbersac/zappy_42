@@ -28,6 +28,7 @@ void	send_cmd_to_graphics(t_env *env, char *str)
 	int		i;
 	t_fd	*client;
 
+	printf("\e[0;31mto->[gfx]\e[0m %s\n", str);
 	to_send = ft_strjoin(str, "\n");
 	i = 0;
 	while (i < env->maxfd)

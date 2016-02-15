@@ -10,7 +10,6 @@ int		gfx_tna(t_env *env, t_fd *fd, char *cmd)
 	while (iter != NULL)
 	{
 		asprintf(&to_send, "tna %s\n", iter->data);
-		printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
 		send_cmd_to_client(fd, to_send);
 		free(to_send);
 		iter = iter->next;

@@ -24,7 +24,6 @@ int			ser_inventaire(t_env *env, t_fd *fd, char *cmd)
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
 	free(inventory);
-	printf("\e[0;33mto->[client_%d]\e[0m %s\n", fd->fd, to_send);
 	return (0);
 	env = NULL;
 	cmd = NULL;

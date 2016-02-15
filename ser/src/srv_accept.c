@@ -42,7 +42,7 @@ static void		client_write(t_env *e, int cs)
 	{
 		tmp = (char*)ft_listpop(&e->fds[cs].to_send);
 		send(cs, tmp, ft_strlen(tmp) + 1, 0);
-		printf("--[%d]-> %s\n", cs, tmp);
+		// printf("--[%d]-> %s\n", cs, tmp);
 		free(tmp);
 	}
 	e->fds[cs].to_send = 0;

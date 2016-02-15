@@ -41,7 +41,6 @@ int			gfx_pin(t_env *env, t_fd *fd, char *cmd)
 		return (0);
 	}
 	to_send = gfx_pin_str(trantor);
-	printf("\e[0;31mto->[gfx]\e[0m %s\n", to_send);
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
 	return (1);

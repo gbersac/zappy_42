@@ -119,7 +119,7 @@ static void		decrease_countdown(t_env *e)
 					set_egg(e, trantor);
 				}
 				send_cmd_to_client(&e->fds[i], MSG_OK);
-				printf("trantor %d is now ready to work !\n", trantor->id);
+				// printf("trantor %d is now ready to work !\n", trantor->id);
 			}
 			else if (trantor->countdown <= -NB_TURN_BEFORE_TRANTOR_CALLBACK)
 			{
@@ -149,7 +149,7 @@ static void		decrease_life(t_env *e)
 				{
 					--trantor->inventory.nb_food;
 					trantor->health_point += LIFE_LONG * INIT_LIFE;
-					printf("eat food ! %d\n", trantor->health_point);
+					// printf("eat food ! %d\n", trantor->health_point);
 				}
 				else
 					trantor_dead(e, i, &e->fds[i]);
