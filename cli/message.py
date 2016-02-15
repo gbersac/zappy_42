@@ -22,10 +22,11 @@ def trim_team(msg):
     return split[1]
 
 msg_reg = "message ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([0-9]+) ([a-zA-Z0-9_]+) (.+)"
+regex = re.compile(msg_reg)
 
 class Message:
     def __init__(self, s):
-        m = re.match(msg_reg, s)
+        m = regex.match(s)
         if m == None:
             print('Error invalid Message: #' + s + '#')
             return
@@ -85,7 +86,6 @@ class MessageList:
     def add_msg(self, s):
         msg = Message(s)
         if msg == None or not hasattr(msg, 'message'):
-            print('Error parsing msg:', s)
             return
         self.list.append(msg)
 

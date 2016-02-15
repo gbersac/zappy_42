@@ -8,15 +8,19 @@ from trantor import Trantor
 def main_loop(env):
     prev_cmd = env.trantor.play()
     env.socket.send((prev_cmd + '\n').encode())
+    buf = ''
     while True:
         print('\n###New Loop level', env.trantor.level, 'team', env.trantor.team)
         recv = env.socket.recv(1024).decode('utf-8')
         if recv == '':
             print('Disconnected by server')
             sys.exit(0)
+        recv = buf + recv
+        recv = recv.replace('\x00', '')
         lines = recv.split('\n')
-        for line in lines:
-            if line == '':
+        for i in range(len(lines) - 1):
+            line = lines[i]
+            if line == '' or line == '\x00':
                 continue
             print('Received message: #' + line + '#')
             new_cmd = env.trantor.interpret_cmd(prev_cmd, line)
@@ -25,6 +29,10 @@ def main_loop(env):
                 print("Send: " + new_cmd)
                 env.socket.send((new_cmd + '\n').encode())
                 prev_cmd = new_cmd
+        if lines[-1] != '\x00':
+            buf = lines[-1]
+        else:
+            buf = ''
 
 def client(opts):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

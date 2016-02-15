@@ -32,8 +32,6 @@ class Trantor:
     def up_level(self):
         self.level += 1
         print('new level: ', self.level)
-        if self.level == 6: # to delete
-            exit(0)
 
     def action_to_perform(self):
         """ define next actio to perform by the trantor """
