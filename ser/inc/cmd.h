@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdebelle <mdebelle@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/08 16:23:24 by mdebelle         ###   ########.fr       */
+/*   Updated: 2016/02/16 21:19:12 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,8 @@ int				ser_begin_info(t_env *env, t_fd *fd, char *cmd);
 int				gfx_pex(t_env *env, t_fd *fd);
 int				gfx_pbc(t_env *env, t_fd *fd, char *msg);
 int				gfx_pic(t_env *env, t_list *trantors);
-int				gfx_pie(t_env *env);
 int				gfx_pfk(t_env *env);
-//int				gfx_pdr(t_env *env);
 int				gfx_pdr(t_env *env, int trantor_id, int ressource_number);
-//int				gfx_pgt(t_env *env);
 int				gfx_pgt(t_env *env, int trantor_id, int ressource_number);
 int				gfx_pdi(t_env *env);
 int				gfx_enw(t_env *env);
@@ -76,6 +73,7 @@ int				gfx_edi(t_env *env);
 int				gfx_seg(t_env *env);
 int				gfx_smg(t_env *env);
 int				gfx_pnw(t_env *env);
+int				gfx_pie(t_env *env, int x, int y);
 
 /*
 ** Commands to graphics.

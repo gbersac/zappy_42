@@ -123,6 +123,7 @@ int				ser_incantation(t_env *env, t_fd *fd, char *cmd)
 	modify_trantor(env, trantors_fd, trantor, &incant);
 	test_for_victory(env);
 	gfx_pic(env, trantors_fd);
+	gfx_pie(env, trantor->pos_x, trantor->pos_y);
 	return (0);
 	(void)cmd;
 }
