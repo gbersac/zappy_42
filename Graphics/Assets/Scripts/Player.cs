@@ -330,10 +330,10 @@ public class Player : MonoBehaviour {
 
 	void CheckAnimsQueue()
 	{
-		bool playing = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("idle");
+		bool isIdle = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("idle");
 
 		// DEBUG
-		Debug.Log ("Anim playing ? " + playing + " Qlen = " + animQueue.Count);
+		Debug.Log ("Anim idle ? " + isIdle + " Qlen = " + animQueue.Count);
 		string db = null;
 		foreach (var q in animQueue) {
 			db += q + " ";
@@ -343,13 +343,14 @@ public class Player : MonoBehaviour {
 
 		//END
 
-		if (playing == true)
+		if (isIdle == false)
 			return;
 		if (animQueue.Count == 0)
 			return;
 		string []args = animQueue[0].Split(' ');
 		string anim = args [0];
 		bool toRemove = true;
+		Debug.Log ("<color=yellow>Playing anim: " + anim + "</color>");
 		switch (anim) {
 		case "move":
 			MoveOrTurn(int.Parse(args[1]), int.Parse(args[2]), int.Parse(args[3]));

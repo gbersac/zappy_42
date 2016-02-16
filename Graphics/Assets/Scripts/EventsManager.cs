@@ -86,7 +86,7 @@ public class EventsManager : MonoBehaviour {
 		string [] split = s.Split (' ');
 		try
 		{
-			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), "t0", true);//TMP ADD REAL TEAM ! (split[5])
+			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true);
 			newPlayer.transform.parent = GameObject.Find("World").transform;
 			players.Add(newPlayer);
 			teams.Find(t => t.teamName == split[5]).AddPlayer(newPlayer);
