@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/08 12:22:52 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/16 20:53:14 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int			ser_droite(t_env *env, t_fd *fd, char *cmd)
 {
 	t_trantorian	*trantor;
-	int				i;
 	char			*to_send;
 
 	trantor = &(fd->trantor);
@@ -36,14 +35,8 @@ int			ser_droite(t_env *env, t_fd *fd, char *cmd)
 		default:
 			break;
 	}
-	asprintf(&to_send, "ppo %d\n", trantor->id);
-	i = 0;
-	while (i < env->maxfd)
-	{
-		if (env->fds[i].type == FD_GRAPHIC)
-			gfx_ppo(env, &env->fds[i], to_send);
-		i++;
-	}
+	to_send = gfx_ppo_str(trantor);
+	send_cmd_to_graphics(env, to_send);
 	free(to_send);
 	env = NULL;
 	cmd = NULL;

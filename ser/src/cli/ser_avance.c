@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 22:09:30 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/08 12:19:49 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/16 20:49:56 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,11 @@ void			avance_trantor(t_env *env,
 int				ser_avance(t_env *env, t_fd *fd, char *cmd)
 {
 	t_trantorian	*trantor;
-	int				i;
 	char			*to_send;
 
 	trantor = &fd->trantor;
 	move_trantor(env, trantor, trantor->direction);
-	i = 0;
-	asprintf(&to_send, "ppo %d\n", trantor->id);
+	to_send = gfx_ppo_str(trantor);
 	send_cmd_to_graphics(env, to_send);
 	free(to_send);
 	cmd = NULL;

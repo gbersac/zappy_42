@@ -25,7 +25,7 @@ int			ser_gauche(t_env *env, t_fd *fd, char *cmd)
 			break;
 	}
 	i = 0;
-	asprintf(&to_send, "ppo %d\n", trantor->id);
+	to_send = gfx_ppo_str(trantor);
 	send_cmd_to_graphics(env, to_send);
 	free(to_send);
 	env = NULL;

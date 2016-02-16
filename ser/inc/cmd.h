@@ -99,6 +99,7 @@ char			*gfx_bct_str(t_env *env, int x, int y);
 char			*gfx_pin_str(t_trantorian *trantor);
 char			*gfx_pnw_str(t_trantorian *trantor);
 void			gfx_pnw_all(t_env *env, t_fd *recipient);
+char			*gfx_ppo_str(t_trantorian *trantor);
 
 int				interpret_cmd(t_env *e, t_fd *fd, char *cmd);
 
