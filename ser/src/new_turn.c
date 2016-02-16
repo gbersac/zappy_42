@@ -124,7 +124,6 @@ static void		decrease_countdown(t_env *e)
 			else if (trantor->countdown <= -NB_TURN_BEFORE_TRANTOR_CALLBACK)
 			{
 				send_cmd_to_client(&e->fds[i], MSG_RELAUNCH);
-
 			}
 		}
 		++i;

@@ -30,3 +30,24 @@ int	gfx_enw(t_env *env)
 	}
 	return 1;
 }
+
+int	gfx_enw_all(t_env *env, t_fd *fd, char *cmd)
+{
+	char	*to_send;
+	t_egg	*egg;
+	t_list	*iter;
+
+	iter = env->egg;
+	while (iter != NULL)
+	{
+		egg = (t_egg*)iter->data;
+		asprintf(&to_send, "enw %d %d %d %d\n", egg->id, egg->id_trantor,
+				egg->x, egg->y);
+		send_cmd_to_graphics(env, to_send);
+		free(to_send);
+		iter = iter->next;
+	}
+	return 1;
+	(void)fd;
+	(void)cmd;
+}

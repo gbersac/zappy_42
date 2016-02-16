@@ -89,6 +89,7 @@ int				gfx_plv(t_env *env, t_fd *fd, char *cmd);
 int				gfx_pin(t_env *env, t_fd *fd, char *cmd);
 int				gfx_sgt(t_env *env, t_fd *fd, char *cmd);
 int				gfx_sst(t_env *env, t_fd *fd, char *cmd);
+int				gfx_enw_all(t_env *env, t_fd *fd, char *cmd);
 
 /*
 ** Graphics commands callable from other part of code.

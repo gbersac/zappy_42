@@ -30,16 +30,16 @@ static char	*trantors_id_to_str(t_list *trantors)
 	return (to_return);
 }
 
-int			gfx_pic(t_env *env, t_list *trantors)
+int			gfx_pic(t_env *env, t_list *fds)
 {
 	char			*to_send;
 	char			*ids;
 	t_trantorian	*first;
 
-	if (trantors == NULL)
-		printf("ERROR: gfx_pic trantors is NULL\n");
-	first = (t_trantorian*) trantors->data;
-	ids = trantors_id_to_str(trantors);
+	if (fds == NULL)
+		printf("ERROR: gfx_pic fds is NULL\n");
+	first = (t_trantorian*) fds->data;
+	ids = trantors_id_to_str(fds);
 	asprintf(&to_send, "pic %d %d %d %s\n",
 			first->pos_x,
 			first->pos_y,

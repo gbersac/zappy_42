@@ -35,6 +35,7 @@ static void		append_gfx_cmd(t_list *lst)
 	// alc(&lst, "pic", gfx_pic, 0);
 	alc(&lst, "sgt", gfx_sgt, 0);
 	alc(&lst, "sst", gfx_sst, 0);
+	alc(&lst, "enw", gfx_enw_all, 0);
 }
 
 static t_list	*get_lst_cmd(void)

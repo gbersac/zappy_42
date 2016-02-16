@@ -71,7 +71,6 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	e->fds[cs].trantor.pos_y = rand() % e->map.height;
 	e->fds[cs].trantor.direction = rand() % 4 + 1;
 	e->fds[cs].trantor.id = cs;
-	send_cmd_to_graphics(e, gfx_pnw_str(&e->fds[cs].trantor));
 	send(cs, "CONNECTED\n", strlen("CONNECTED\n"), 0);
 }
 
@@ -93,9 +92,8 @@ void		accept_graphic(t_env *e, int cs)
 	interpret_cmd(e, &e->fds[cs], "sgt");
 	interpret_cmd(e, &e->fds[cs], "mct");
 	interpret_cmd(e, &e->fds[cs], "tna");
-	interpret_cmd(e, &e->fds[cs], "pnw");
-	interpret_cmd(e, &e->fds[cs], "enw");
 	gfx_pnw_all(e, &e->fds[cs]);
+	interpret_cmd(e, &e->fds[cs], "enw");
 }
 
 void		srv_accept(t_env *e, int s)
