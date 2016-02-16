@@ -64,23 +64,29 @@ public class Content : MonoBehaviour {
 		int i = transform.childCount;
 		int j = 0;
 		while (j < i) {
-			if (transform.GetChild (j) is Egg) {
+			Transform child = transform.GetChild(j);
+			// next condition is always false ! could it delete eggs by mistake ?
+			// also does it removes correct type of stone ?
+			if (child.tag != "Stone") {
 				Debug.Log ("not deleted");
 				j++;
 				continue;
 			} else {
-				GameObject.Destroy (transform.GetChild (j).gameObject);
+				GameObject.Destroy (child.gameObject);
 				j++;
 			}
 		}
 	}
 
 	void OnMouseDown () {
-		string s = "bct " + transform.position.x + " " + transform.position.z;
-		Connection.con.writeSocket (s);
+//		string s = "bct " + transform.position.x + " " + transform.position.z;
+//		Connection.con.writeSocket (s);
 		if (displayInfo == false) {
 			displayInfo = true;
 		}
+		pan.GetComponent<dallesInfoPanel> ().setinfo (transform.position.x, transform.position.z,
+		                                              quantity[0], quantity[1], quantity[2], quantity[3], quantity[4], quantity[5], quantity[6]);
+		Invoke ("hidePanel", 2);
 	}
 
 	void hidePanel(){

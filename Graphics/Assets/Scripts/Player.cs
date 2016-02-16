@@ -10,7 +10,7 @@ public class Player : MonoBehaviour {
 	public bool			isAlive = false;
 	public Color		teamColor = Color.white;
 
-	GameObject			pan;
+	//GameObject			pan;
 
 	float				toMove = 0;
 	string				playerName;
@@ -250,7 +250,7 @@ public class Player : MonoBehaviour {
 
 		animQueue = new List<string> ();
 		casters = new List<int[]>();
-		pan = GameObject.Find ("Panels/infoPanel");
+		//pan = GameObject.Find ("Panels/infoPanel");
 		animator = GetComponent<Animator> ();
 		//pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
 		InitPos (pos_x, pos_y, direction, borning);
@@ -407,19 +407,6 @@ public class Player : MonoBehaviour {
 			int i = UnityEngine.Random.Range(0, lCol.Count);
 			GetComponentInChildren<Renderer>().material.color = lCol[i];
 			Debug.Log(lCol[i]);
-		}
-		if(Input.GetKeyDown(KeyCode.UpArrow)){
-			Avance();
-		}
-		if(Input.GetKeyDown(KeyCode.RightArrow)){
-			Droite();
-		}
-		if(Input.GetKeyDown(KeyCode.LeftArrow)){
-			Gauche();
-		}
-		if (Input.GetKey (KeyCode.Return)) {
-			level = (level < 8) ? level++ : level;
-			Debug.Log(level);
 		}
 		//END
 	}
