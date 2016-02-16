@@ -69,7 +69,7 @@ public class EventsManager : MonoBehaviour {
 		string [] split = s.Split (' ');
 		try
 		{
-			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true);
+			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), "t0", true);//TMP ADD REAL TEAM ! (split[5])
 			newPlayer.transform.parent = GameObject.Find("World").transform;
 			players.Add(newPlayer);
 			teams.Find(t => t.teamName == split[5]).AddPlayer(newPlayer);
@@ -87,7 +87,7 @@ public class EventsManager : MonoBehaviour {
 			int x = int.Parse (s.Split (' ') [1]);
 			int z = int.Parse (s.Split (' ') [2]);
 			int or = int.Parse (s.Split (' ') [3]);
-			players.Find (p => p.playerNo == playerNo).MoveOrTurn (x, z, or);
+			players.Find (p => p.playerNo == playerNo).SetMoveOrTurn (x, z, or);
 		} else {
 			int x = int.Parse (s.Split (' ') [1]);
 			int z = int.Parse (s.Split (' ') [2]);
@@ -146,7 +146,7 @@ public class EventsManager : MonoBehaviour {
 			bool success = (int.Parse(s.Split (' ') [2]) == 1) ? true : false;
 			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
 			foreach (Player c in casters)
-				c.StopCasting(success);
+				c.SetStopCasting(success);
 		}
 		catch
 		{
@@ -162,11 +162,12 @@ public class EventsManager : MonoBehaviour {
 		try
 		{
 			int i = 3;
+			int playersNbr = ss.Length - 3;
 			while (i < ss.Length)
 			{
 				playerNo = int.Parse(ss[i]);
 				if (players.Exists(p => p.playerNo == playerNo))
-					players.Find(p => p.playerNo == playerNo).StartCasting();
+					players.Find(p => p.playerNo == playerNo).SetCasting(playersNbr);
 				else
 					Debug.Log ("Player no " + playerNo + " not found.");
 				i++;
@@ -183,7 +184,7 @@ public class EventsManager : MonoBehaviour {
 		int playerNo = int.Parse (s);
 
 		if (players.Exists(p => p.playerNo == playerNo))
-		    players.Find(p => p.playerNo == playerNo).StartLaying();
+		    players.Find(p => p.playerNo == playerNo).SetStartLaying();
 		else
 			Debug.Log ("Player no " + playerNo + " not found.");
 	}
@@ -194,7 +195,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			int playerNo = int.Parse (s.Split (' ') [0]);
 			int ressNo = int.Parse (s.Split (' ') [1]);
-			players.Find(p => p.playerNo == playerNo).ThrowRess(ressNo);
+			players.Find(p => p.playerNo == playerNo).SetThrowRess(ressNo);
 		}
 		catch
 		{
@@ -210,7 +211,7 @@ public class EventsManager : MonoBehaviour {
 			int ressNo = int.Parse (s.Split (' ') [1]);
 			Player play = players.Find(p => p.playerNo == playerNo);
 
-			play.PickRess(ressNo);
+			play.SetPickRess(ressNo);
 			map.RemoveStone((int)(play.transform.position.x), (int)(play.transform.position.z), ressNo);
 		}
 		catch
@@ -256,7 +257,7 @@ public class EventsManager : MonoBehaviour {
 			playerNo = int.Parse(split [1]);
 			x = int.Parse(split [2]);
 			y = int.Parse(split [3]);
-			players.Find(p => p.playerNo == playerNo).StopLaying();
+			players.Find(p => p.playerNo == playerNo).SetStopLaying();
 			eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo));
 		}
 		catch
@@ -372,7 +373,25 @@ public class EventsManager : MonoBehaviour {
 		System.Threading.Thread.Sleep (50);
 	}
 
+	void DebugFct()
+	{
+		string s1 = "ok";
+		string s2 = "kk 2";
+		string r1 = s1.Split (' ') [0];
+		string r2 = s2.Split (' ') [0];
+		Debug.Log ("R1 = " + r1);
+		Debug.Log ("R2 = " + r2);
+	}
+
+	public void addActiveCaster(string teamName)
+	{
+		teams.Find (x => x.teamName == teamName).AddCaster ();
+	}
+
 	void Start () {
+
+		DebugFct ();
+
 		em = this.GetComponent<EventsManager> ();
 		msgBox = Instantiate<MessagesBox>(msgBox);
 		map = ground.GetComponent<GroundGenerator> ();
