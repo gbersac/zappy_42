@@ -189,7 +189,6 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_player_incantation(string s)
 	{
-		//it can be multiple players
 		int playerNo;
 		string [] ss = s.Split (' ');
 		try

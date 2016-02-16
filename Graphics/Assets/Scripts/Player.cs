@@ -95,6 +95,8 @@ public class Player : MonoBehaviour {
 			return ;
 		Debug.Log ("or != ori " + (or != orientation) + " x != posx " + (x != posx) + " y != posy " + (z != posy));
 		Debug.Log ("or " + or + " ori " + orientation + " x " + x + " posx " + posx + " y " + z + " posy " + posy);
+		if (or > 4 || or < 1)
+			Debug.Log ("<color=red>Bad orientation ! " + or + "</color>");
 		if (or != orientation)
 		{
 			if (or > orientation || (or == 1 && orientation == 4))
@@ -105,6 +107,7 @@ public class Player : MonoBehaviour {
 		}
 		if (x != posx || z != posy)
 			Avance ();
+		//can we move for more than one case at a time ? probably so tomove should be fix
 	}
 
 	//don't queue this one
@@ -340,7 +343,7 @@ public class Player : MonoBehaviour {
 		Debug.Log ("Anim idle ? " + isIdle + " cast ? " + isCasting + " Qlen = " + animQueue.Count);
 		string db = null;
 		foreach (var q in animQueue) {
-			db += q + " ";
+			db += q + " | ";
 		}
 		if (db != null)
 			Debug.Log ("Qlist: " + db);
@@ -392,11 +395,11 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if (!isAlive)
 			return;
+		CheckAnimsQueue ();
 		if (toMove > 0f)
 			Move ();
 		else
 			animator.SetBool ("walking", false);
-		CheckAnimsQueue ();
 
 		CheckBorders ();
 		posx = (int)(transform.position.x);
