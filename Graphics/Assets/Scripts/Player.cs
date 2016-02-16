@@ -331,7 +331,18 @@ public class Player : MonoBehaviour {
 	void CheckAnimsQueue()
 	{
 		bool playing = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("idle");
+
+		// DEBUG
 		Debug.Log ("Anim playing ? " + playing + " Qlen = " + animQueue.Count);
+		string db = null;
+		foreach (var q in animQueue) {
+			db += q + " ";
+		}
+		if (db != null)
+			Debug.Log ("Qlist: " + db);
+
+		//END
+
 		if (playing == true)
 			return;
 		if (animQueue.Count == 0)
