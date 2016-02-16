@@ -38,6 +38,7 @@ public class Player : MonoBehaviour {
 	//can it really fail ? if so do it even if not enought casters
 	bool StopCasting(bool success)
 	{
+		Debug.Log ("STOP CAST ! " + casters [0] [0] + " " + casters [0] [1]);
 		if (casters [0] [0] < casters [0] [1])
 			return false;
 		animator.SetBool ("casting", false);
@@ -92,6 +93,8 @@ public class Player : MonoBehaviour {
 	{
 		if (isAlive == false)
 			return ;
+		Debug.Log ("or != ori " + (or != orientation) + " x != posx " + (x != posx) + " y != posy " + (z != posy));
+		Debug.Log ("or " + or + " ori " + orientation + " x " + x + " posx " + posx + " y " + z + " posy " + posy);
 		if (or != orientation)
 		{
 			if (or > orientation || (or == 1 && orientation == 4))
@@ -331,9 +334,10 @@ public class Player : MonoBehaviour {
 	void CheckAnimsQueue()
 	{
 		bool isIdle = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("idle");
+		bool isCasting = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("cast");
 
 		// DEBUG
-		Debug.Log ("Anim idle ? " + isIdle + " Qlen = " + animQueue.Count);
+		Debug.Log ("Anim idle ? " + isIdle + " cast ? " + isCasting + " Qlen = " + animQueue.Count);
 		string db = null;
 		foreach (var q in animQueue) {
 			db += q + " ";
@@ -343,39 +347,43 @@ public class Player : MonoBehaviour {
 
 		//END
 
-		if (isIdle == false)
-			return;
+		if (isIdle == false && isCasting == false) {
+				return;
+		}
 		if (animQueue.Count == 0)
 			return;
 		string []args = animQueue[0].Split(' ');
 		string anim = args [0];
-		bool toRemove = true;
+		bool toRemove = false;
 		Debug.Log ("<color=yellow>Playing anim: " + anim + "</color>");
-		switch (anim) {
-		case "move":
-			MoveOrTurn(int.Parse(args[1]), int.Parse(args[2]), int.Parse(args[3]));
-			break;
-		case "casting":
-			StartCasting();
-			break;
-		case "stopCasting":
-			toRemove = StopCasting(bool.Parse(args[1]));//returns bool ?
-			break;
-		case "startLaying":
-			StartLaying();
-			break;
-		case "stopLaying":
-			StopLaying();
-			break;
-		case "pickRess":
-			PickRess(int.Parse(args[1]));
-			break;
-		case "throwRess":
-			ThrowRess(int.Parse(args[1]));
-			break;
-		default:
-			Debug.Log("Unknown switch case : " + anim);
-			break;
+		if (anim == "stopCasting") {
+			Debug.Log ("<color=purple>STOP CAST ! casting ? " + isCasting + "</color>");
+			toRemove = StopCasting (bool.Parse (args [1]));
+		} else if (isIdle == true) {
+			switch (anim) {
+			case "move":
+				MoveOrTurn (int.Parse (args [1]), int.Parse (args [2]), int.Parse (args [3]));
+				break;
+			case "casting":
+				StartCasting ();
+				break;
+			case "startLaying":
+				StartLaying ();
+				break;
+			case "stopLaying":
+				StopLaying ();
+				break;
+			case "pickRess":
+				PickRess (int.Parse (args [1]));
+				break;
+			case "throwRess":
+				ThrowRess (int.Parse (args [1]));
+				break;
+			default:
+				Debug.Log ("Unknown switch case : " + anim);
+				break;
+			}
+			toRemove = true;
 		}
 		if (toRemove)
 			animQueue.RemoveAt (0);
@@ -384,11 +392,12 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if (!isAlive)
 			return;
-		CheckAnimsQueue ();
 		if (toMove > 0f)
 			Move ();
 		else
 			animator.SetBool ("walking", false);
+		CheckAnimsQueue ();
+
 		CheckBorders ();
 		posx = (int)(transform.position.x);
 		posy = (int)(transform.position.z);

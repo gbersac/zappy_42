@@ -169,9 +169,17 @@ public class EventsManager : MonoBehaviour {
 			int x = int.Parse (s.Split (' ') [0]);
 			int z = int.Parse (s.Split (' ') [1]);
 			bool success = (int.Parse(s.Split (' ') [2]) == 1) ? true : false;
-			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
-			foreach (Player c in casters)
-				c.SetStopCasting(success);
+
+			// /!\ since pos are buggy, this can't work. Revert if fixed
+
+//			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
+//			foreach (Player c in casters)
+//				c.SetStopCasting(success);
+
+			// Tmp hack in the meantime
+
+			foreach (Player p in players)
+				p.SetStopCasting(success);
 		}
 		catch
 		{
