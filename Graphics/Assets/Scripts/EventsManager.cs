@@ -20,6 +20,23 @@ public class EventsManager : MonoBehaviour {
 	static public EventsManager em;
 
 	List<Player> players = new List<Player> ();
+	static readonly string[] tags = {
+		"<color=blue>",
+		"<color=yellow>",
+		"<color=red>"
+	};
+
+	enum	DebugLevel
+	{
+		Info,
+		Warning,
+		Error
+	};
+
+	void	debugMessage(DebugLevel lvl, string msg)
+	{
+		Debug.Log(tags[(int)lvl] + msg + "</color>");
+	}
 
     void    recMessage(string s)
     {
@@ -65,37 +82,45 @@ public class EventsManager : MonoBehaviour {
 	void	ft_new_player(string s)
 	{
 		Player newPlayer = Instantiate<Player> (playerPrefab);
-		Debug.Log ("new player " + s);
+		debugMessage (DebugLevel.Info, "new player " + s);
 		string [] split = s.Split (' ');
 		try
 		{
-			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true);
+			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), "t0", true);//TMP ADD REAL TEAM ! (split[5])
 			newPlayer.transform.parent = GameObject.Find("World").transform;
 			players.Add(newPlayer);
 			teams.Find(t => t.teamName == split[5]).AddPlayer(newPlayer);
 		}
 		catch{
-			Debug.Log("Bad parameters in ft_new_player. " + s);
+			debugMessage(DebugLevel.Error, "Bad parameters in ft_new_player. " + s);
 		}
 	}
 	
 	void	ft_player_position(string s)
 	{
-		Debug.Log (s);
-		int playerNo = int.Parse (s.Split (' ') [0]);
-		if (players.Exists (x => x.playerNo == playerNo)) {
-			int x = int.Parse (s.Split (' ') [1]);
-			int z = int.Parse (s.Split (' ') [2]);
-			int or = int.Parse (s.Split (' ') [3]);
-			players.Find (p => p.playerNo == playerNo).MoveOrTurn (x, z, or);
-		} else {
-			int x = int.Parse (s.Split (' ') [1]);
-			int z = int.Parse (s.Split (' ') [2]);
-			int or = int.Parse (s.Split (' ') [3]);
-			Player newPlayer = Instantiate<Player> (playerPrefab);
-			newPlayer.Initnew(playerNo, x, z, or, 1, string.Empty, false);//team name ? lvl == 0 or 1 ?
-			newPlayer.transform.parent = GameObject.Find("World").transform;
-			players.Add(newPlayer);
+		try
+		{
+			int playerNo = int.Parse (s.Split (' ') [0]);
+			if (players.Exists (x => x.playerNo == playerNo)) {
+				int x = int.Parse (s.Split (' ') [1]);
+				int z = int.Parse (s.Split (' ') [2]);
+				int or = int.Parse (s.Split (' ') [3]);
+				players.Find (p => p.playerNo == playerNo).SetMoveOrTurn (x, z, or);
+			} else {
+				// we should NOT instantiate player this way because we lack info here
+				debugMessage(DebugLevel.Error, "Unknown player moving, instantiating with insuffisant data.");
+				int x = int.Parse (s.Split (' ') [1]);
+				int z = int.Parse (s.Split (' ') [2]);
+				int or = int.Parse (s.Split (' ') [3]);
+				Player newPlayer = Instantiate<Player> (playerPrefab);
+				newPlayer.Initnew(playerNo, x, z, or, 1, string.Empty, false);//team name ? lvl == 0 or 1 ?
+				newPlayer.transform.parent = GameObject.Find("World").transform;
+				players.Add(newPlayer);
+			}
+		}
+		catch
+		{
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_position. " + s);
 		}
 	}
 	
@@ -109,7 +134,7 @@ public class EventsManager : MonoBehaviour {
 		}
 		catch
 		{
-			Debug.Log ("Error: bad parameters in ft_player_level. " + s);
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_level. " + s);
 		}
 	}
 	
@@ -123,7 +148,7 @@ public class EventsManager : MonoBehaviour {
 		}
 		catch
 		{
-			Debug.Log ("Error: bad parameters in ft_player_inventory. " + s);
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_inventory. " + s);
 		}
 	}
 	
@@ -146,11 +171,11 @@ public class EventsManager : MonoBehaviour {
 			bool success = (int.Parse(s.Split (' ') [2]) == 1) ? true : false;
 			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
 			foreach (Player c in casters)
-				c.StopCasting(success);
+				c.SetStopCasting(success);
 		}
 		catch
 		{
-			Debug.Log("Error: bad parameters in ft_player_end_incantation. " + s);
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_end_incantation. " + s);
 		}
 	}
 
@@ -162,19 +187,20 @@ public class EventsManager : MonoBehaviour {
 		try
 		{
 			int i = 3;
+			int playersNbr = ss.Length - 3;
 			while (i < ss.Length)
 			{
 				playerNo = int.Parse(ss[i]);
 				if (players.Exists(p => p.playerNo == playerNo))
-					players.Find(p => p.playerNo == playerNo).StartCasting();
+					players.Find(p => p.playerNo == playerNo).SetCasting(playersNbr);
 				else
-					Debug.Log ("Player no " + playerNo + " not found.");
+					debugMessage(DebugLevel.Error, "ft_player_incantation: Player no " + playerNo + " not found.");
 				i++;
 			}
 		}
 		catch
 		{
-			Debug.Log("Error: bad parameters in ft_player_incantation. " + s);
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_incantation. " + s);
 		}
 	}
 	
@@ -183,9 +209,9 @@ public class EventsManager : MonoBehaviour {
 		int playerNo = int.Parse (s);
 
 		if (players.Exists(p => p.playerNo == playerNo))
-		    players.Find(p => p.playerNo == playerNo).StartLaying();
+		    players.Find(p => p.playerNo == playerNo).SetStartLaying();
 		else
-			Debug.Log ("Player no " + playerNo + " not found.");
+			debugMessage(DebugLevel.Error, "ft_player_lays: Player no " + playerNo + " not found.");
 	}
 	
 	void	ft_player_vomit(string s)
@@ -194,11 +220,11 @@ public class EventsManager : MonoBehaviour {
 		{
 			int playerNo = int.Parse (s.Split (' ') [0]);
 			int ressNo = int.Parse (s.Split (' ') [1]);
-			players.Find(p => p.playerNo == playerNo).ThrowRess(ressNo);
+			players.Find(p => p.playerNo == playerNo).SetThrowRess(ressNo);
 		}
 		catch
 		{
-			Debug.Log("Error: bad parameters in ft_player_vomit.");
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_vomit. " + s);
 		}
 	}
 	
@@ -210,13 +236,12 @@ public class EventsManager : MonoBehaviour {
 			int ressNo = int.Parse (s.Split (' ') [1]);
 			Player play = players.Find(p => p.playerNo == playerNo);
 
-			play.PickRess(ressNo);
+			play.SetPickRess(ressNo);
 			map.RemoveStone((int)(play.transform.position.x), (int)(play.transform.position.z), ressNo);
 		}
 		catch
 		{
-			Debug.Log("Error: bad parameters in ft_player_picks.");
-			return ;
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_picks. " + s);
 		}
 	}
 	
@@ -234,7 +259,7 @@ public class EventsManager : MonoBehaviour {
 		}
 		catch
 		{
-			Debug.Log("Error: bad parameters in ft_player_died. " + s);
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_died. " + s);
 		}
 	}
 	
@@ -247,7 +272,7 @@ public class EventsManager : MonoBehaviour {
 		
 		string [] split = s.Split (' ');
 		if (split.Length != 4) {
-			Debug.Log("Error: bad paramaters number. Got " + s.Length + " expected 4. " + s);
+			debugMessage(DebugLevel.Error, "Error: bad parameters number in ft_new_egg_pos. " + s);
 			return ;
 		}
 		try
@@ -256,13 +281,12 @@ public class EventsManager : MonoBehaviour {
 			playerNo = int.Parse(split [1]);
 			x = int.Parse(split [2]);
 			y = int.Parse(split [3]);
-			players.Find(p => p.playerNo == playerNo).StopLaying();
+			players.Find(p => p.playerNo == playerNo).SetStopLaying();
 			eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo));
 		}
 		catch
 		{
-			Debug.Log("Error: bad parameters in ft_new_egg_pos.");
-			return ;
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_new_egg_pos. " + s);
 		}
 	}
 	
@@ -279,8 +303,7 @@ public class EventsManager : MonoBehaviour {
 		}
 		catch
 		{
-			Debug.Log("Error: bad parameters in ft_egg_born.");
-			return ;
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_egg_born. " + s);
 		}
 	}
 	void	ft_player_replaces_egg(string s)
@@ -302,7 +325,7 @@ public class EventsManager : MonoBehaviour {
 		}
 		catch
 		{
-			Debug.Log("Error: bad parameters in ft_egg_died.");
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_egg_died. " + s);
 		}
 	}
 	
@@ -319,7 +342,7 @@ public class EventsManager : MonoBehaviour {
 		}
 		catch
 		{
-			Debug.Log ("Error: bad parameters in ft_end.");
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_end. " + s);
 		}
 		finally
 		{
@@ -366,13 +389,18 @@ public class EventsManager : MonoBehaviour {
 
 	void ft_bienvenue(string s)
 	{
-		Debug.Log ("merci");
         msgBox.ServerMessage(s, Color.white);
 		Connection.con.writeSocket ("GRAPHIC");
 		System.Threading.Thread.Sleep (50);
 	}
 
+	public void addActiveCaster(string teamName)
+	{
+		teams.Find (x => x.teamName == teamName).AddCaster ();
+	}
+
 	void Start () {
+
 		em = this.GetComponent<EventsManager> ();
 		msgBox = Instantiate<MessagesBox>(msgBox);
 		map = ground.GetComponent<GroundGenerator> ();
