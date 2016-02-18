@@ -129,11 +129,12 @@ public class Connection : MonoBehaviour {
 		if (Input.GetKey(KeyCode.Escape))
 		{
 			closeSocket();
-			Debug.Log ("Disconected...");
+			Debug.Log ("Disconnected...");
 			world.SetActive (false);
 			menu.SetActive(true);
 			EventsManager.em.speedController.SetActive (false);
 			EventsManager.em.dallesPanels.SetActive (false);
+			Application.LoadLevel(0);
 		}
 	}
 

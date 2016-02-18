@@ -42,7 +42,7 @@ public class Player : MonoBehaviour {
 	//can it really fail ? if so do it even if not enought casters
 	bool StopCasting(bool success)
 	{
-		Debug.Log ("STOP CAST ! " + casters [0] [0] + " " + casters [0] [1]);
+		Debug.Log ("SC try " + casters [0] [0] + " == " + casters [0] [1]);
 		if (casters [0] [0] < casters [0] [1])
 			return false;
 		animator.SetBool ("casting", false);
@@ -72,6 +72,7 @@ public class Player : MonoBehaviour {
 	public void SetCasting(int nbr)
 	{
 		int []cast = { 0, nbr };
+		Debug.Log ("Starting cast need " + nbr + " players.");
 		casters.Add(cast);
 		animQueue.Add ("casting");
 	}
@@ -432,7 +433,7 @@ public class Player : MonoBehaviour {
 		string []args = animQueue[0].Split(' ');
 		string anim = args [0];
 		bool toRemove = false;
-		Debug.Log ("<color=yellow>Playing anim: " + anim + "</color>");
+//		Debug.Log ("<color=yellow>Playing anim: " + anim + "</color>");
 		if (anim == "stopCasting") {
 			Debug.Log ("<color=purple>STOP CAST ! casting ? " + isCasting + "</color>");
 			toRemove = StopCasting (bool.Parse (args [1]));
