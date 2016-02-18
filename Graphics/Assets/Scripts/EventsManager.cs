@@ -172,14 +172,14 @@ public class EventsManager : MonoBehaviour {
 
 			// /!\ since pos are buggy, this can't work. Revert if fixed
 
-//			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
-//			foreach (Player c in casters)
-//				c.SetStopCasting(success);
+			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
+			foreach (Player c in casters)
+				c.SetStopCasting(success);
 
 			// Tmp hack in the meantime
-
-			foreach (Player p in players)
-				p.SetStopCasting(success);
+//
+//			foreach (Player p in players)
+//				p.SetStopCasting(success);
 		}
 		catch
 		{
@@ -189,12 +189,14 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_player_incantation(string s)
 	{
+		debugMessage (DebugLevel.Info, "got pic " + s);
 		int playerNo;
 		string [] ss = s.Split (' ');
 		try
 		{
 			int i = 3;
 			int playersNbr = ss.Length - 3;
+			debugMessage (DebugLevel.Info, "nbr = " + playersNbr);
 			while (i < ss.Length)
 			{
 				playerNo = int.Parse(ss[i]);
@@ -244,6 +246,8 @@ public class EventsManager : MonoBehaviour {
 			Player play = players.Find(p => p.playerNo == playerNo);
 
 			play.SetPickRess(ressNo);
+			//should not be triggered here but we animations kicks in
+			//maybe never since bct is not in queue
 			map.RemoveStone((int)(play.transform.position.x), (int)(play.transform.position.z), ressNo);
 		}
 		catch
@@ -440,11 +444,17 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("suc", unknownCommand);
 		functions.Add("sbp", badArgs);
 	}
-
+	int debugNo = 1;
 	void Update()
 	{
-		if (Input.GetKeyDown (KeyCode.Z))
-			Parse ("pnw 8 4 7 1 1 bleu");
+		if (Input.GetKeyDown (KeyCode.Z)) {
+			Parse ("pnw " + debugNo + " 4 7 4 1 t0");
+			Parse ("ppo " + debugNo + " 4 7 3");
+			Parse ("ppo " + debugNo + " 4 7 2");
+			Parse ("ppo " + debugNo + " 5 7 2");
+			Parse ("ppo " + debugNo + " 6 7 2");
+			debugNo++;
+		}
 		if (Input.GetKeyDown(KeyCode.X))
 			Parse ("ppo 9 5 5 4");
 	}

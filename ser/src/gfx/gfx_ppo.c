@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/16 20:38:26 by gbersac           #+#    #+#             */
-/*   Updated: 2016/02/16 20:50:13 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/18 17:32:26 by jcoignet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*gfx_ppo_str(t_trantorian *trantor)
 			trantor->id,
 			trantor->pos_x,
 			trantor->pos_y,
-			direction_to_nbr(trantor->direction));
+			trantor->direction);
 	return (to_send);
 }
 

@@ -28,7 +28,11 @@ public class Player : MonoBehaviour {
 	int					thystame = 0;
 	Animator			animator;
 	List<string>		animQueue;
-	List<int[]>		casters;//[0] = current ; [1] == needed
+	List<int[]>			casters;//[0] = current ; [1] == needed
+	bool				hasMoved = false;
+	int					targetX;
+	int					targetY;
+	int					targetO;
 
 	public void SetStopCasting(bool success)
 	{
@@ -93,21 +97,43 @@ public class Player : MonoBehaviour {
 	{
 		if (isAlive == false)
 			return ;
-		Debug.Log ("or != ori " + (or != orientation) + " x != posx " + (x != posx) + " y != posy " + (z != posy));
-		Debug.Log ("or " + or + " ori " + orientation + " x " + x + " posx " + posx + " y " + z + " posy " + posy);
+
 		if (or > 4 || or < 1)
 			Debug.Log ("<color=red>Bad orientation ! " + or + "</color>");
-		if (or != orientation)
-		{
-			if (or > orientation || (or == 1 && orientation == 4))
-				Droite();
-			else
-				Gauche ();
+
+		hasMoved = true;
+		targetX = x;
+		targetY = z;
+		targetO = or;
+		if (or == orientation && x == posx && z == posy) {
+			hasMoved = false;
+			return ;
+		}
+		if (or != orientation) {
+			float y = 0f;
+			float w = 0f;
+			if (targetO == 2 || targetO == 4)
+				y = 0.7f;
+			else if (targetO == 3)
+				y = 1f;
+			if (targetO == 1)
+				w = 1f;
+			else if (targetO == 2)
+				w = 0.7f;
+			else if (targetO == 4)
+				w = -0.7f;
+			Quaternion rot = new Quaternion(0, y, 0, w);
+			transform.rotation = rot;
+//			if (or > orientation || (or == 1 && orientation == 4))
+//				Droite ();
+//			else
+//				Gauche ();
 			orientation = or;
 		}
-		if (x != posx || z != posy)
+		if (x != posx || z != posy) {
 			Avance ();
-		//can we move for more than one case at a time ? probably so tomove should be fix
+		}
+		//can we move for more than one case at a time ? if so tomove should be fixed
 	}
 
 	//don't queue this one
@@ -232,18 +258,24 @@ public class Player : MonoBehaviour {
 
 		if (borning == true) {
 			if (or == 1)
-				zOffset = 0.3f;
+				zOffset = 0.81f;
 			else if (or == 2)
-				xOffset = -0.3f;
+				xOffset = 0.81f;
 			else if (or == 3)
-				zOffset = -0.3f;
+				zOffset = -0.81f;
 			else if (or == 4)
-				xOffset = 0.3f;
+				xOffset = -0.81f;
 		}
 		Vector3 pos = new Vector3 (x + xOffset, 0.1f, z + zOffset);
-		transform.Rotate (Vector3.up, -90f * (or - 1));
+		transform.Rotate (Vector3.up, 90f * (or - 1));
 		transform.position = pos;
-
+		posx = x;
+		posy = z;
+		orientation = or;
+		hasMoved = true;
+		targetO = or;
+		targetX = x;
+		targetY = z;
 	}
 
 	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team, bool borning)
@@ -312,6 +344,7 @@ public class Player : MonoBehaviour {
 		Vector3 diff = Vector3.forward * Time.deltaTime;
 		transform.Translate (diff);
 		toMove -= (diff.x + diff.z);
+//		Debug.Log ("<color=green>Tomove = " + toMove + "</color>");
 	}
 
 	void CheckBorders()
@@ -334,25 +367,66 @@ public class Player : MonoBehaviour {
 
 	}
 
+	void ForcePosition()
+	{
+//		hasMoved = false;//
+//		return;//
+		Vector3 pos;
+//
+//		Debug.Log ("FORCE POS !");
+		pos = transform.position;
+		pos.x = targetX;
+		pos.z = targetY;
+		posx = targetX;
+		posy = targetY;
+		orientation = targetO;
+		transform.position = pos;
+//		//setrotation
+//		Debug.Log ("Rotation: ");
+//		Debug.Log (transform.rotation);
+//		float y = 0f;
+//		float w = 0f;
+//		if (targetO == 2 || targetO == 4)
+//			y = 0.7f;
+//		else if (targetO == 3)
+//			y = 1f;
+//		if (targetO == 1)
+//			w = 1f;
+//		else if (targetO == 2)
+//			w = 0.7f;
+//		else if (targetO == 4)
+//			w = -0.7f;
+//		Quaternion rot = new Quaternion(0, y, 0, w);
+//		transform.rotation = rot;
+		hasMoved = false;
+	}
+
 	void CheckAnimsQueue()
 	{
-		bool isIdle = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("idle");
+		bool isIdle = false;
+		if (toMove <= 0f && this.animator.GetCurrentAnimatorStateInfo (0).normalizedTime > 1
+		    && !this.animator.IsInTransition (0) && this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("idle")
+		    && this.animator.GetCurrentAnimatorStateInfo (0).IsName("Default")) {
+			isIdle = true;
+		}
 		bool isCasting = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("cast");
 
 		// DEBUG
-		Debug.Log ("Anim idle ? " + isIdle + " cast ? " + isCasting + " Qlen = " + animQueue.Count);
-		string db = null;
-		foreach (var q in animQueue) {
-			db += q + " | ";
-		}
-		if (db != null)
-			Debug.Log ("Qlist: " + db);
+//		Debug.Log ("Anim idle ? " + isIdle + " cast ? " + isCasting + " Qlen = " + animQueue.Count);
+//		string db = null;
+//		foreach (var q in animQueue) {
+//			db += q + " | ";
+//		}
+//		if (db != null)
+//			Debug.Log ("Qlist: " + db);
 
 		//END
 
 		if (isIdle == false && isCasting == false) {
 				return;
 		}
+		if (isIdle == true && hasMoved == true)
+			ForcePosition ();
 		if (animQueue.Count == 0)
 			return;
 		string []args = animQueue[0].Split(' ');
@@ -395,15 +469,14 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if (!isAlive)
 			return;
-		CheckAnimsQueue ();
 		if (toMove > 0f)
 			Move ();
 		else
 			animator.SetBool ("walking", false);
-
+		CheckAnimsQueue ();
 		CheckBorders ();
-		posx = (int)(transform.position.x);
-		posy = (int)(transform.position.z);
+//		posx = (int)(transform.position.x);
+//		posy = (int)(transform.position.z);
 
 
 		//DEBUG
