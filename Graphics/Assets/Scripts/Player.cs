@@ -332,7 +332,6 @@ public class Player : MonoBehaviour {
 		Vector3 diff = Vector3.forward * Time.deltaTime;
 		transform.Translate (diff);
 		toMove -= (diff.x + diff.z);
-//		Debug.Log ("<color=green>Tomove = " + toMove + "</color>");
 	}
 
 	void CheckBorders()
@@ -474,25 +473,5 @@ public class Player : MonoBehaviour {
 			animator.SetBool ("walking", false);
 		CheckAnimsQueue ();
 		CheckBorders ();
-//		posx = (int)(transform.position.x);
-//		posy = (int)(transform.position.z);
-
-
-		//DEBUG
-		if (Input.GetKeyDown (KeyCode.M)) {
-			System.Collections.Generic.List<Color> lCol = new System.Collections.Generic.List<Color>();
-			lCol.Add(Color.red);
-			lCol.Add(Color.blue);
-			lCol.Add(Color.green);
-			lCol.Add(Color.black);
-			lCol.Add(Color.white);//this seems to be default
-			lCol.Add(Color.yellow);
-			lCol.Add(Color.cyan);
-			lCol.Add(Color.magenta);
-			int i = UnityEngine.Random.Range(0, lCol.Count);
-			GetComponentInChildren<Renderer>().material.color = lCol[i];
-			Debug.Log(lCol[i]);
-		}
-		//END
 	}
 }

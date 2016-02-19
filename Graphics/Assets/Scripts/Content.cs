@@ -39,13 +39,10 @@ public class Content : MonoBehaviour {
 		castingInfo info;
 		while (i < castQueue.Count  && castQueue[i].hasEnded == true)
 			i++;
-		Debug.Log ("SIE in " + transform.position.x + " " + transform.position.z + " on index " + i);
 		info = castQueue [i];
 		info.hasEnded = true;
 		info.success = success;
 		castQueue [i] = info;
-//		castQueue [i].hasEnded = true;
-//		castQueue [i].success = success;
 	}
 
 	public void SetupIncantation(int nbrPlayers)
@@ -65,8 +62,6 @@ public class Content : MonoBehaviour {
 		while (i < castQueue.Count && castQueue[i].activeCasters.Count >= castQueue[i].neededCastersNbr)
 			i++;
 		castQueue[i].activeCasters.Add (caster);
-
-		Debug.Log ("Caster added in " + this.transform.position.x + " " + this.transform.position.z);
 	}
 
 	public Egg layEgg(int eggNo, int playerNo)

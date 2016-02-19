@@ -38,8 +38,7 @@ public class Egg : MonoBehaviour {
 
 	public void HatchEgg()
 	{
-		Debug.Log ("IM HATCHING YO");
-		//player is born so destroy egg ?
+		Debug.Log ("IM HATCHING YO THIS ISNT IMPLEMENTED");
 	}
 
 	public void Init(int eggno, int playerno)
