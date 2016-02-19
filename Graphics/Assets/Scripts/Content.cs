@@ -26,7 +26,6 @@ public class Content : MonoBehaviour {
 
 	void triggerCastingEnd()
 	{
-		Debug.Log ("TRIGGER");
 		castingInfo info = castQueue [0];
 		foreach (Player p in info.activeCasters)
 			p.SetStopCasting(info.success);
@@ -76,7 +75,6 @@ public class Content : MonoBehaviour {
 		spawnPosition.x = transform.position.x;
 		spawnPosition.z = transform.position.z;
 		spawnPosition.y = transform.position.y;
-		Debug.Log (string.Format ("Laying eggno {0} from playerno {1}", eggNo, playerNo));
 		Egg newEgg = Instantiate(eggPrefab, spawnPosition, transform.rotation) as Egg;
 		newEgg.Init (eggNo, playerNo);
 		newEgg.transform.parent = gameObject.transform;
@@ -122,10 +120,7 @@ public class Content : MonoBehaviour {
 		int j = 0;
 		while (j < i) {
 			Transform child = transform.GetChild(j);
-			// next condition is always false ! could it delete eggs by mistake ?
-			// also does it removes correct type of stone ?
 			if (child.tag != "Stone") {
-				Debug.Log ("not deleted");
 				j++;
 				continue;
 			} else {

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 public class EventsManager : MonoBehaviour {
 	
 	private Dictionary<string, System.Action<string>> functions;
-	private List<Egg> eggs;
 	private List<Team> teams;
 	public GameObject ground;
 	public GameObject speedController;
@@ -15,6 +14,7 @@ public class EventsManager : MonoBehaviour {
 	public GameObject playerPanels;
     public MessagesBox msgBox;
 	public Player playerPrefab;
+	public List<Egg> eggs;
 
 	public GroundGenerator map;
 	static public EventsManager em;
@@ -159,7 +159,6 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_player_broadcast(string s)
 	{
-		Debug.Log ("BROADCAST");
 		msgBox.ServerMessage ("Player No: " + s, Color.cyan);
 	}
 	
@@ -170,18 +169,7 @@ public class EventsManager : MonoBehaviour {
 			int x = int.Parse (s.Split (' ') [0]);
 			int y = int.Parse (s.Split (' ') [1]);
 			bool success = (int.Parse(s.Split (' ') [2]) == 1) ? true : false;
-			debugMessage(DebugLevel.Info, "PIE! " + x + " " + y + " " + success);
 			map.dalles [x, y].GetComponent<Content> ().SetIncantionEnd(success);
-			// /!\ since pos are buggy, this can't work. Revert if fixed
-
-//			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
-//			foreach (Player c in casters)
-//				c.SetStopCasting(success);
-
-			// Tmp hack in the meantime
-//
-//			foreach (Player p in players)
-//				p.SetStopCasting(success);
 		}
 		catch
 		{
@@ -191,7 +179,6 @@ public class EventsManager : MonoBehaviour {
 
 	void	ft_player_incantation(string s)
 	{
-		debugMessage (DebugLevel.Info, "got pic " + s);
 		int playerNo;
 		string [] ss = s.Split (' ');
 		try
@@ -271,7 +258,7 @@ public class EventsManager : MonoBehaviour {
 			Player p = players.Find(pp => pp.playerNo == playerNo);
 			players.Remove(p);
 			teams.Find(t => t.teamName == p.teamName).players.Remove(p);
-			p.Die();
+			p.SetDie();
 		}
 		catch
 		{
@@ -297,8 +284,8 @@ public class EventsManager : MonoBehaviour {
 			playerNo = int.Parse(split [1]);
 			x = int.Parse(split [2]);
 			y = int.Parse(split [3]);
-			players.Find(p => p.playerNo == playerNo).SetStopLaying();
 			eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo));
+			players.Find(p => p.playerNo == playerNo).SetStopLaying(eggNo);
 		}
 		catch
 		{
@@ -315,7 +302,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			eggNo = int.Parse(s);
 			egg = eggs.Find(x => x.eggNo == eggNo);
-			egg.EggReady();
+			players.Find(x => x.playerNo == egg.playerNo).SetEggReady(eggNo);
 		}
 		catch
 		{
@@ -324,7 +311,8 @@ public class EventsManager : MonoBehaviour {
 	}
 	void	ft_player_replaces_egg(string s)
 	{
-		ft_egg_died (s);
+		debugMessage (DebugLevel.Error, "EBO NOT IMPLEMENTED");
+//		ft_egg_died (s);
 	}
 
 	void	ft_egg_died(string s)
@@ -336,8 +324,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			eggNo = int.Parse(s);
 			egg = eggs.Find (x => x.eggNo == eggNo);
-			eggs.Remove(egg);
-			egg.DestroyEgg();
+			players.Find(x => x.playerNo == egg.playerNo).SetEggDie(eggNo);
 		}
 		catch
 		{
@@ -351,7 +338,7 @@ public class EventsManager : MonoBehaviour {
 		{
 			foreach (var p in players.FindAll(p => p.teamName != s))
 			{
-				p.Die();
+				p.SetDie();
 			}
 			if (players.Exists(p => p.teamName == s))
 				players.Find(p => p.teamName == s).Celebrate();

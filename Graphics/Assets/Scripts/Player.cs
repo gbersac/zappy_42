@@ -117,8 +117,13 @@ public class Player : MonoBehaviour {
 		//can we move for more than one case at a time ? if so tomove should be fixed
 	}
 
+	public void SetDie()
+	{
+		animQueue.Add ("die");
+	}
+
 	//don't queue this one
-	public void Die()
+	public void ForceDie()
 	{
 		isAlive = false;
 		animator.SetBool ("casting", false);
@@ -218,14 +223,16 @@ public class Player : MonoBehaviour {
 		animator.SetBool ("laying", true);
 	}
 
-	public void SetStopLaying()
+	public void SetStopLaying(int eggNo)
 	{
-		animQueue.Add ("removeLaying");
+		animQueue.Add ("stopLaying " + eggNo);
 	}
 
-	void StopLaying()
+	void StopLaying(int eggNo)
 	{
 		animator.SetBool ("laying", false);
+		Egg egg = EventsManager.em.eggs.Find (x => x.eggNo == eggNo);
+		egg.gameObject.GetComponentInChildren <MeshRenderer> ().enabled = true;
 	}
 
 	public void SetLevel(int lvl)
@@ -362,6 +369,28 @@ public class Player : MonoBehaviour {
 		hasMoved = false;
 	}
 
+	void EggReady(int eggNo)
+	{
+		Egg egg = EventsManager.em.eggs.Find (x => x.eggNo == eggNo);
+		egg.SetEggReady ();
+	}
+
+	void EggDie(int eggNo)
+	{
+		Egg egg = EventsManager.em.eggs.Find (x => x.eggNo == eggNo);
+		egg.SetDestroyEgg ();
+	}
+
+	public void SetEggDie(int eggNo)
+	{
+		animQueue.Add ("eggdie " + eggNo);
+	}
+
+	public void SetEggReady(int eggNo)
+	{
+		animQueue.Add ("eggready " + eggNo);
+	}
+
 	void CheckAnimsQueue()
 	{
 		bool isIdle = false;
@@ -371,6 +400,7 @@ public class Player : MonoBehaviour {
 			isIdle = true;
 		}
 		bool isCasting = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("cast");
+		bool isLaying = this.animator.GetCurrentAnimatorStateInfo (0).IsTag ("lay");
 
 		// DEBUG
 //		Debug.Log ("Anim idle ? " + isIdle + " cast ? " + isCasting + " Qlen = " + animQueue.Count);
@@ -380,11 +410,18 @@ public class Player : MonoBehaviour {
 //		}
 //		if (db != null)
 //			Debug.Log ("Qlist: " + db);
-
 		//END
 
+		if (isCasting == true && animQueue [0].Split (' ') [0] == "die") {
+			ForceDie ();
+			return;
+		}
+		else if (isLaying == true && animQueue [0].Split (' ') [0] == "stopLaying") {
+			StopLaying(int.Parse(animQueue [0].Split (' ') [1]));
+			return;
+		}
 		if (isIdle == false)
-				return;
+			return;
 		else if (hasMoved == true)
 			ForcePosition ();
 		if (animQueue.Count == 0)
@@ -396,6 +433,15 @@ public class Player : MonoBehaviour {
 			case "move":
 				MoveOrTurn (int.Parse (args [1]), int.Parse (args [2]), int.Parse (args [3]));
 				break;
+			case "die":
+				ForceDie();
+				return;
+			case "eggdie":
+				EggDie (int.Parse (args [1]));
+				break;
+			case "eggready":
+				EggReady(int.Parse(animQueue [0].Split (' ') [1]));
+				break;
 			case "casting":
 				StartCasting ();
 				break;
@@ -403,7 +449,7 @@ public class Player : MonoBehaviour {
 				StartLaying ();
 				break;
 			case "stopLaying":
-				StopLaying ();
+				StopLaying (int.Parse (args [1]));
 				break;
 			case "pickRess":
 				PickRess (int.Parse (args [1]));
