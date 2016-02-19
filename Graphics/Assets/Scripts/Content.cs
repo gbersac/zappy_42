@@ -8,8 +8,8 @@ public class Content : MonoBehaviour {
 	public List<GameObject>		stones = new List<GameObject>();
 	public List<int>			quantity = new List<int>();
 	public Egg					eggPrefab;
+	AudioSource			levelUpManager;
 	bool						displayInfo = false;
-//	public GameObject			infoPanel;
 	GameObject					pan;
 	bool						initialized = false;
 	bool						castEnded = false;
@@ -21,8 +21,10 @@ public class Content : MonoBehaviour {
 	{
 		foreach (Player p in activeCasters)
 			p.SetStopCasting(success);
+		levelUpManager.Play ();
 		castEnded = false;
 		neededCastersNbr = 0;
+		activeCasters = new List<Player> ();
 	}
 
 	public void SetIncantionEnd(bool success)
@@ -107,8 +109,6 @@ public class Content : MonoBehaviour {
 	}
 
 	void OnMouseDown () {
-//		string s = "bct " + transform.position.x + " " + transform.position.z;
-//		Connection.con.writeSocket (s);
 		if (displayInfo == false) {
 			displayInfo = true;
 		}
@@ -125,10 +125,13 @@ public class Content : MonoBehaviour {
 	{
 		if (castEnded && neededCastersNbr > 0 && activeCasters.Count >= neededCastersNbr)
 			triggerCastingEnd();
+		if (neededCastersNbr > 0)
+			Debug.Log (castEnded + " " + neededCastersNbr + " " + activeCasters.Count);
 	}
 
 	void Start()
 	{
 		activeCasters = new List<Player> ();
+		this.levelUpManager = GetComponent<AudioSource> ();
 	}
 }

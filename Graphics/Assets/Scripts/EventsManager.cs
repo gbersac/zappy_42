@@ -169,7 +169,7 @@ public class EventsManager : MonoBehaviour {
 			int x = int.Parse (s.Split (' ') [0]);
 			int y = int.Parse (s.Split (' ') [1]);
 			bool success = (int.Parse(s.Split (' ') [2]) == 1) ? true : false;
-
+			debugMessage(DebugLevel.Info, "PIE! " + x + " " + y + " " + success);
 			map.dalles [x, y].GetComponent<Content> ().SetIncantionEnd(success);
 			// /!\ since pos are buggy, this can't work. Revert if fixed
 
@@ -394,8 +394,6 @@ public class EventsManager : MonoBehaviour {
 		int index = line.IndexOf(' ');
 		string f_key = line.Split(' ')[0];
 		string f_arg = line.Substring(index + 1, line.Length - index - 1);
-		if (f_key != "bct")
-			Debug.Log (line);
         if (functions.ContainsKey (f_key))
 			functions [f_key] (f_arg);
 		else if (f_key != "newturn")

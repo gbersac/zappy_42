@@ -35,6 +35,7 @@ public class Player : MonoBehaviour {
 
 	public void SetStopCasting(bool success)
 	{
+		Debug.Log("<color=green>Casting done for " + playerNo + "</color>");
 		animator.SetBool ("casting", false);
 		if (success == true)
 			level++;
@@ -65,6 +66,7 @@ public class Player : MonoBehaviour {
 	void StartCasting()
 	{
 		animator.SetBool ("casting", true);
+		EventsManager.em.map.dalles [posx, posy].GetComponent<Content> ().AddCaster (this);
 	}
 
 	public void SetMoveOrTurn(int x, int z, int or)
@@ -119,6 +121,7 @@ public class Player : MonoBehaviour {
 	public void Die()
 	{
 		isAlive = false;
+		animator.SetBool ("casting", false);
 		animator.SetTrigger ("die");
 	}
 
