@@ -12,6 +12,34 @@ public class Content : MonoBehaviour {
 //	public GameObject			infoPanel;
 	GameObject					pan;
 	bool						initialized = false;
+	bool						castEnded = false;
+	int							neededCastersNbr;
+	bool						success;
+	List<Player>				activeCasters;
+
+	void triggerCastingEnd()
+	{
+		foreach (Player p in activeCasters)
+			p.SetStopCasting(success);
+		castEnded = false;
+		neededCastersNbr = 0;
+	}
+
+	public void SetIncantionEnd(bool success)
+	{
+		castEnded = true;
+		this.success = success;
+	}
+
+	public void SetupIncantation(int nbrPlayers)
+	{
+		neededCastersNbr = nbrPlayers;
+	}
+
+	public void AddCaster(Player caster)
+	{
+		activeCasters.Add (caster);
+	}
 
 	public Egg layEgg(int eggNo, int playerNo)
 	{
@@ -92,5 +120,15 @@ public class Content : MonoBehaviour {
 	void hidePanel(){
 		displayInfo = false;
 	}
-	
+
+	void Update()
+	{
+		if (castEnded && neededCastersNbr > 0 && activeCasters.Count >= neededCastersNbr)
+			triggerCastingEnd();
+	}
+
+	void Start()
+	{
+		activeCasters = new List<Player> ();
+	}
 }

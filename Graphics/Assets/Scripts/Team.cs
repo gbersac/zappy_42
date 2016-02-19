@@ -22,11 +22,4 @@ public class Team {
 		this.players.Add (p);
 		p.SetColor (teamColor);
 	}
-
-	public void AddCaster()
-	{
-		foreach (Player p in players) {
-			p.AddCaster();
-		}
-	}
 }

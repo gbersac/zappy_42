@@ -167,14 +167,15 @@ public class EventsManager : MonoBehaviour {
 		try
 		{
 			int x = int.Parse (s.Split (' ') [0]);
-			int z = int.Parse (s.Split (' ') [1]);
+			int y = int.Parse (s.Split (' ') [1]);
 			bool success = (int.Parse(s.Split (' ') [2]) == 1) ? true : false;
 
+			map.dalles [x, y].GetComponent<Content> ().SetIncantionEnd(success);
 			// /!\ since pos are buggy, this can't work. Revert if fixed
 
-			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
-			foreach (Player c in casters)
-				c.SetStopCasting(success);
+//			List<Player> casters = players.FindAll(p => p.posx == x && p.posy == z);
+//			foreach (Player c in casters)
+//				c.SetStopCasting(success);
 
 			// Tmp hack in the meantime
 //
@@ -194,14 +195,17 @@ public class EventsManager : MonoBehaviour {
 		string [] ss = s.Split (' ');
 		try
 		{
+			int x = int.Parse(ss[0]);
+			int y = int.Parse(ss[1]);
 			int i = 3;
 			int playersNbr = ss.Length - 3;
-			debugMessage (DebugLevel.Info, "nbr = " + playersNbr);
+
+			map.dalles [x, y].GetComponent<Content> ().SetupIncantation(playersNbr);
 			while (i < ss.Length)
 			{
 				playerNo = int.Parse(ss[i]);
 				if (players.Exists(p => p.playerNo == playerNo))
-					players.Find(p => p.playerNo == playerNo).SetCasting(playersNbr);
+					players.Find(p => p.playerNo == playerNo).SetCasting();
 				else
 					debugMessage(DebugLevel.Error, "ft_player_incantation: Player no " + playerNo + " not found.");
 				i++;
@@ -403,11 +407,6 @@ public class EventsManager : MonoBehaviour {
         msgBox.ServerMessage(s, Color.white);
 		Connection.con.writeSocket ("GRAPHIC");
 		System.Threading.Thread.Sleep (50);
-	}
-
-	public void addActiveCaster(string teamName)
-	{
-		teams.Find (x => x.teamName == teamName).AddCaster ();
 	}
 
 	void Start () {

@@ -28,7 +28,6 @@ public class Player : MonoBehaviour {
 	int					thystame = 0;
 	Animator			animator;
 	List<string>		animQueue;
-	List<int[]>			casters;//[0] = current ; [1] == needed
 	bool				hasMoved = false;
 	int					targetX;
 	int					targetY;
@@ -36,20 +35,9 @@ public class Player : MonoBehaviour {
 
 	public void SetStopCasting(bool success)
 	{
-		animQueue.Add ("stopCasting " + success);
-	}
-
-	//can it really fail ? if so do it even if not enought casters
-	bool StopCasting(bool success)
-	{
-		Debug.Log ("SC try " + casters [0] [0] + " == " + casters [0] [1]);
-		if (casters [0] [0] < casters [0] [1])
-			return false;
 		animator.SetBool ("casting", false);
 		if (success == true)
 			level++;
-		casters.RemoveAt (0);
-		return true;
 	}
 
 	public void SetColor(Color col)
@@ -69,23 +57,13 @@ public class Player : MonoBehaviour {
 		thystame = int.Parse (stuff [9]);
 	}
 
-	public void SetCasting(int nbr)
+	public void SetCasting()
 	{
-		int []cast = { 0, nbr };
-		Debug.Log ("Starting cast need " + nbr + " players.");
-		casters.Add(cast);
 		animQueue.Add ("casting");
-	}
-
-	public void AddCaster()
-	{
-		casters [0] [0]++;
 	}
 
 	void StartCasting()
 	{
-		EventsManager.em.addActiveCaster(this.teamName);
-		//broadcast castersCount++;
 		animator.SetBool ("casting", true);
 	}
 
@@ -288,7 +266,6 @@ public class Player : MonoBehaviour {
 	//	pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
 
 		animQueue = new List<string> ();
-		casters = new List<int[]>();
 		//pan = GameObject.Find ("Panels/infoPanel");
 		animator = GetComponent<Animator> ();
 		//pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
@@ -370,11 +347,8 @@ public class Player : MonoBehaviour {
 
 	void ForcePosition()
 	{
-//		hasMoved = false;//
-//		return;//
 		Vector3 pos;
 //
-//		Debug.Log ("FORCE POS !");
 		pos = transform.position;
 		pos.x = targetX;
 		pos.z = targetY;
@@ -382,23 +356,6 @@ public class Player : MonoBehaviour {
 		posy = targetY;
 		orientation = targetO;
 		transform.position = pos;
-//		//setrotation
-//		Debug.Log ("Rotation: ");
-//		Debug.Log (transform.rotation);
-//		float y = 0f;
-//		float w = 0f;
-//		if (targetO == 2 || targetO == 4)
-//			y = 0.7f;
-//		else if (targetO == 3)
-//			y = 1f;
-//		if (targetO == 1)
-//			w = 1f;
-//		else if (targetO == 2)
-//			w = 0.7f;
-//		else if (targetO == 4)
-//			w = -0.7f;
-//		Quaternion rot = new Quaternion(0, y, 0, w);
-//		transform.rotation = rot;
 		hasMoved = false;
 	}
 
@@ -423,21 +380,15 @@ public class Player : MonoBehaviour {
 
 		//END
 
-		if (isIdle == false && isCasting == false) {
+		if (isIdle == false)
 				return;
-		}
-		if (isIdle == true && hasMoved == true)
+		else if (hasMoved == true)
 			ForcePosition ();
 		if (animQueue.Count == 0)
 			return;
 		string []args = animQueue[0].Split(' ');
 		string anim = args [0];
-		bool toRemove = false;
-//		Debug.Log ("<color=yellow>Playing anim: " + anim + "</color>");
-		if (anim == "stopCasting") {
-			Debug.Log ("<color=purple>STOP CAST ! casting ? " + isCasting + "</color>");
-			toRemove = StopCasting (bool.Parse (args [1]));
-		} else if (isIdle == true) {
+		if (isIdle == true) {
 			switch (anim) {
 			case "move":
 				MoveOrTurn (int.Parse (args [1]), int.Parse (args [2]), int.Parse (args [3]));
@@ -461,10 +412,8 @@ public class Player : MonoBehaviour {
 				Debug.Log ("Unknown switch case : " + anim);
 				break;
 			}
-			toRemove = true;
 		}
-		if (toRemove)
-			animQueue.RemoveAt (0);
+		animQueue.RemoveAt (0);
 	}
 
 	void Update () {
