@@ -159,6 +159,7 @@ public class EventsManager : MonoBehaviour {
 	
 	void	ft_player_broadcast(string s)
 	{
+		Debug.Log ("BROADCAST");
 		msgBox.ServerMessage ("Player No: " + s, Color.cyan);
 	}
 	
@@ -252,7 +253,7 @@ public class EventsManager : MonoBehaviour {
 			play.SetPickRess(ressNo);
 			//should not be triggered here but we animations kicks in
 			//maybe never since bct is not in queue
-			map.RemoveStone((int)(play.transform.position.x), (int)(play.transform.position.z), ressNo);
+//			map.RemoveStone((int)(play.transform.position.x), (int)(play.transform.position.z), ressNo);
 		}
 		catch
 		{

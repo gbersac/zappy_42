@@ -3,6 +3,13 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
+struct castingInfo{
+	public int						neededCastersNbr;
+	public bool						success;
+	public List<Player>				activeCasters;
+	public bool						hasEnded;
+};
+
 public class Content : MonoBehaviour {
 	
 	public List<GameObject>		stones = new List<GameObject>();
@@ -12,35 +19,55 @@ public class Content : MonoBehaviour {
 	bool						displayInfo = false;
 	GameObject					pan;
 	bool						initialized = false;
-	bool						castEnded = false;
-	int							neededCastersNbr;
-	bool						success;
-	List<Player>				activeCasters;
+//	bool						castEnded = false;
+
+
+	List<castingInfo>			castQueue;
 
 	void triggerCastingEnd()
 	{
-		foreach (Player p in activeCasters)
-			p.SetStopCasting(success);
+		Debug.Log ("TRIGGER");
+		castingInfo info = castQueue [0];
+		foreach (Player p in info.activeCasters)
+			p.SetStopCasting(info.success);
 		levelUpManager.Play ();
-		castEnded = false;
-		neededCastersNbr = 0;
-		activeCasters = new List<Player> ();
+		castQueue.RemoveAt (0);
 	}
 
 	public void SetIncantionEnd(bool success)
 	{
-		castEnded = true;
-		this.success = success;
+		int i = 0;
+		castingInfo info;
+		while (i < castQueue.Count  && castQueue[i].hasEnded == true)
+			i++;
+		Debug.Log ("SIE in " + transform.position.x + " " + transform.position.z + " on index " + i);
+		info = castQueue [i];
+		info.hasEnded = true;
+		info.success = success;
+		castQueue [i] = info;
+//		castQueue [i].hasEnded = true;
+//		castQueue [i].success = success;
 	}
 
 	public void SetupIncantation(int nbrPlayers)
 	{
-		neededCastersNbr = nbrPlayers;
+		castingInfo info;
+		info.neededCastersNbr = nbrPlayers;
+		info.activeCasters = new List<Player> ();
+		info.success = false;
+		info.hasEnded = false;
+		castQueue.Add (info);
 	}
 
 	public void AddCaster(Player caster)
 	{
-		activeCasters.Add (caster);
+		int i = 0;
+		
+		while (i < castQueue.Count && castQueue[i].activeCasters.Count >= castQueue[i].neededCastersNbr)
+			i++;
+		castQueue[i].activeCasters.Add (caster);
+
+		Debug.Log ("Caster added in " + this.transform.position.x + " " + this.transform.position.z);
 	}
 
 	public Egg layEgg(int eggNo, int playerNo)
@@ -123,15 +150,15 @@ public class Content : MonoBehaviour {
 
 	void Update()
 	{
-		if (castEnded && neededCastersNbr > 0 && activeCasters.Count >= neededCastersNbr)
-			triggerCastingEnd();
-		if (neededCastersNbr > 0)
-			Debug.Log (castEnded + " " + neededCastersNbr + " " + activeCasters.Count);
+		if (castQueue.Count > 0 && castQueue [0].hasEnded == true && castQueue [0].activeCasters.Count >= castQueue [0].neededCastersNbr)
+			triggerCastingEnd ();
+		else if (castQueue.Count > 0)
+			Debug.Log ("In " + transform.position.x + " " + transform.position.z + " " + castQueue[0].hasEnded  + " " + castQueue [0].activeCasters.Count + "/" + castQueue [0].neededCastersNbr);
 	}
 
 	void Start()
 	{
-		activeCasters = new List<Player> ();
+		castQueue = new List<castingInfo> ();
 		this.levelUpManager = GetComponent<AudioSource> ();
 	}
 }

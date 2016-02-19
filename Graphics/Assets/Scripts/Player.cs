@@ -35,10 +35,10 @@ public class Player : MonoBehaviour {
 
 	public void SetStopCasting(bool success)
 	{
-		Debug.Log("<color=green>Casting done for " + playerNo + "</color>");
 		animator.SetBool ("casting", false);
 		if (success == true)
 			level++;
+		Debug.Log("<color=green>Casting done for " + playerNo + " in x" + posx + " y" + posy + " lvl=" + level + "</color>");
 	}
 
 	public void SetColor(Color col)
