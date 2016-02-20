@@ -36,8 +36,13 @@ void	send_to_others(t_env *e, int cs)
 
 void	close_connection(t_env *e, int cs)
 {
+	char	*to_send;
+
 	close(cs);
 	clean_fd(&e->fds[cs]);
+	asprintf(&to_send, "pdi %d", cs);
+	send_cmd_to_graphics(e, to_send);
+	free(to_send);
 	printf("client #%d gone away\n", cs);
 }
 

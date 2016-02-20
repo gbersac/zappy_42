@@ -5,6 +5,7 @@
 /d_gfx/gfx
 /ser/serveur
 .DS_Store
+cli/__pycache__/
 
 .nfs.*
 
