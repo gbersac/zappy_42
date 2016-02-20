@@ -44,6 +44,8 @@ static void		take_idle_trantor2(t_env *env, t_fd *fd, t_team team_name)
 			fd->trantor.direction, available_connexion(env, team_name));
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
+	printf("Trantor took idle trantor at %d %d\n",
+			fd->trantor.pos_x, fd->trantor.pos_y);
 	asprintf(&to_send, "ebo %d %d %d %d %s", fd->trantor.id,
 			fd->trantor.pos_x, fd->trantor.pos_y,
 			fd->trantor.direction, team_name);

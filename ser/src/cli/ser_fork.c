@@ -9,7 +9,9 @@ int			ser_fork(t_env *env, t_fd *fd, char *cmd)
 	cmd = NULL;
 	new_egg = (t_egg*)malloc(sizeof(t_egg));
 	new_egg->countdown = -1;
-	printf("ser_fork team %s\n", fd->trantor.team);
+	printf("ser_fork team %s at %d %d\n", fd->trantor.team,
+			fd->trantor.pos_x,
+			fd->trantor.pos_y);
 	new_egg->team = fd->trantor.team;
 	new_egg->x = fd->trantor.pos_x;
 	new_egg->y = fd->trantor.pos_y;
