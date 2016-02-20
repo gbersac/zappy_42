@@ -6,13 +6,13 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/08 12:54:19 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/20 21:01:14 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cmd.h"
+#include "cmd.h"
 
-static void	send_infos(t_env *env, t_fd *fd, t_resource res)
+static void		send_infos(t_env *env, t_fd *fd, t_resource res)
 {
 	char			*msg;
 

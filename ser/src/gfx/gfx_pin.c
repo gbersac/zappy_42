@@ -15,7 +15,7 @@
 char		*gfx_pin_str(t_trantorian *trantor)
 {
 	char	*to_send;
-	char			*inv_str;
+	char	*inv_str;
 
 	inv_str = inventory_to_str(&trantor->inventory);
 	asprintf(&to_send, "pin %d %d %d %s",

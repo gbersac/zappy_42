@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/15 18:14:03 by gbersac           #+#    #+#             */
-/*   Updated: 2016/02/16 21:20:30 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/20 20:38:43 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ int	gfx_pie(t_env *env, int x, int y)
 	free(to_send);
 	return (1);
 }
-

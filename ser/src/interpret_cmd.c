@@ -32,7 +32,6 @@ static void		append_gfx_cmd(t_list *lst)
 	alc(&lst, "ppo", gfx_ppo, 0);
 	alc(&lst, "plv", gfx_plv, 0);
 	alc(&lst, "pin", gfx_pin, 0);
-	// alc(&lst, "pic", gfx_pic, 0);
 	alc(&lst, "sgt", gfx_sgt, 0);
 	alc(&lst, "sst", gfx_sst, 0);
 	alc(&lst, "enw", gfx_enw_all, 0);
@@ -91,7 +90,6 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd)
 					fd->trantor.countdown = command->time;
 			}
 			else
-				// send_cmd_to_client(fd, MSG_KO);
 				send_cmd_to_client(fd, "ko not enough time");
 			break ;
 		}

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cmd.h"
+#include "cmd.h"
 
 int			ser_inventaire(t_env *env, t_fd *fd, char *cmd)
 {
@@ -25,6 +25,6 @@ int			ser_inventaire(t_env *env, t_fd *fd, char *cmd)
 	free(to_send);
 	free(inventory);
 	return (0);
-	env = NULL;
-	cmd = NULL;
+	(void)env;
+	(void)cmd;
 }

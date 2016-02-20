@@ -58,7 +58,6 @@ typedef enum	e_fd_type
 
 /*
 ** This is the informations associated with one client.
-**
 ** fct_read: function to execute when something is read on this fd.
 ** fct_write: functionto execute when something is write on this fd.
 */
@@ -90,19 +89,17 @@ typedef struct		s_egg
 
 /*
 ** A message that will be send in countdown turn.
-**
 ** msg:	must be allocated on the heap because is going to be freed.
 */
-typedef struct	s_differed_msg
+typedef struct		s_differed_msg
 {
-	int			countdown;
-	t_fd		*recipient;
-	char		*msg;
-}				t_differed_msg;
+	int				countdown;
+	t_fd			*recipient;
+	char			*msg;
+}					t_differed_msg;
 
 /*
 ** Global vars of the program.
-**
 ** fds: array of all the possible fd. All are set to 0 except those
 ** 		corresponding to a client (use a lot of memory, I know).
 **		The num of a trantor is the fd number of its client so that
@@ -128,57 +125,57 @@ typedef struct		s_env
 	t_list			*differed_msg;
 }					t_env;
 
-void			ft_ferror(char *msg);
-void			init_env(t_env *e);
-void			main_loop(t_env *e);
-void			srv_create(t_env *e, int port);
-void			srv_accept(t_env *e, int s);
+void				ft_ferror(char *msg);
+void				init_env(t_env *e);
+void				main_loop(t_env *e);
+void				srv_create(t_env *e, int port);
+void				srv_accept(t_env *e, int s);
 
 /*
 ** Function to read command comming from a client
 ** (either graphic or normal client).
 */
-void			client_read(t_env *e, int cs);
-void			clean_fd(t_fd *fd);
-void			do_select(t_env *e);
-int				send_private_msg(t_env *e, int cs, char *cmd);
-int				cmd_msg_error(t_env *e, int cs, char *error);
-int				update_env(t_env *e, char **av);
-int				is_new_turn(t_env *env);
-long long		get_time_now(void);
-void			new_turn(t_env *e);
-void			close_connection(t_env *e, int cs);
-void			avance_trantor(t_env *env,
+void				client_read(t_env *e, int cs);
+void				clean_fd(t_fd *fd);
+void				do_select(t_env *e);
+int					send_private_msg(t_env *e, int cs, char *cmd);
+int					cmd_msg_error(t_env *e, int cs, char *error);
+int					update_env(t_env *e, char **av);
+int					is_new_turn(t_env *env);
+long long			get_time_now(void);
+void				new_turn(t_env *e);
+void				close_connection(t_env *e, int cs);
+void				avance_trantor(t_env *env,
 								t_trantorian *trantor,
 								t_direction dir);
 
 /*
 ** Send cmd to the client fd. Add the \n at the end.
 */
-void			send_cmd_to_client(t_fd *fd, char *str);
+void				send_cmd_to_client(t_fd *fd, char *str);
 
 /*
 ** Send str to all the graphics client connected to this server.
 ** Add the \n at the end.
 */
-void			send_cmd_to_graphics(t_env *env, char *str);
-void			send_cmd_to_all(t_env *env, char *str);
-void			send_cmd_to_clients(t_env *env, char *str);
-void			add_differed_msg(t_env *env, int countdown,
+void				send_cmd_to_graphics(t_env *env, char *str);
+void				send_cmd_to_all(t_env *env, char *str);
+void				send_cmd_to_clients(t_env *env, char *str);
+void				add_differed_msg(t_env *env, int countdown,
 						t_fd *recipient, char *msg);
 
-int				is_in_team(t_trantorian *trantor, t_team team);
-t_team			test_for_victory(t_env *env);
-int				nb_idle_trantor(t_env *env, t_team team);
-int				team_exist(t_env *env, t_team team);
+int					is_in_team(t_trantorian *trantor, t_team team);
+t_team				test_for_victory(t_env *env);
+int					nb_idle_trantor(t_env *env, t_team team);
+int					team_exist(t_env *env, t_team team);
 
 /*
 ** Return the number of new player which can be connected.
 */
-int				available_connexion(t_env *env, t_team team);
-int				team_exist(t_env *env, t_team team);
+int					available_connexion(t_env *env, t_team team);
+int					team_exist(t_env *env, t_team team);
 
-int				is_in_team(t_trantorian *trantor, t_team team);
-t_team			test_for_victory(t_env *env);
+int					is_in_team(t_trantorian *trantor, t_team team);
+t_team				test_for_victory(t_env *env);
 
 #endif

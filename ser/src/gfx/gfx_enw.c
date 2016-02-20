@@ -28,7 +28,7 @@ int	gfx_enw(t_env *env)
 		free(to_send);
 		iter = iter->next;
 	}
-	return 1;
+	return (1);
 }
 
 int	gfx_enw_all(t_env *env, t_fd *fd, char *cmd)
@@ -47,7 +47,7 @@ int	gfx_enw_all(t_env *env, t_fd *fd, char *cmd)
 		free(to_send);
 		iter = iter->next;
 	}
-	return 1;
+	return (1);
 	(void)fd;
 	(void)cmd;
 }

@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/07 20:37:58 by gbersac           #+#    #+#             */
-/*   Updated: 2016/02/16 21:19:12 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/20 21:28:20 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 # include "bircd.h"
 # include "libft.h"
 
-typedef int (*t_cmd_fct)(t_env *env, t_fd *fd, char *cmd);
+typedef int	(*t_cmd_fct)(t_env *env, t_fd *fd, char *cmd);
 
 /*
 ** This is one of the command that can be executed by a player.
-**
 ** label: Name of that command.
 ** fct: the function to execute to execute that command.
 ** time: time it take to execute that command.
@@ -105,5 +104,14 @@ int				interpret_cmd(t_env *e, t_fd *fd, char *cmd);
 ** find source sound direction from dst point of view
 */
 int				get_sound_dir(t_trantorian src, t_trantorian dst, t_map map);
+
+/*
+** Functions for new turn exported because norm 42
+*/
+void			fork_player(t_env *e, t_egg *egg);
+void			decrease_countdown(t_env *e);
+void			set_egg(t_env *e, t_trantorian *trantor);
+void			grow_egg(t_env *e);
+void			trantor_dead(t_env *env, int cs, t_fd *fd);
 
 #endif

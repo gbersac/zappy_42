@@ -4,7 +4,7 @@ class Env:
     def __init__(self, begin_info, socket, team):
         split = begin_info.split()
         if len(split) < 4:
-            raise Exception('Invalid begin info: ' + begin_info)
+            print("Error: connexion to server refused")
         x = int(split[1])
         y = int(split[2])
         direction = Direction.from_str(split[3])

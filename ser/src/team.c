@@ -12,14 +12,14 @@
 
 #include "bircd.h"
 
-int			is_in_team(t_trantorian *trantor, t_team team)
+int				is_in_team(t_trantorian *trantor, t_team team)
 {
 	if (trantor->team == NULL)
 		return (0);
 	return (strcmp(trantor->team, team) == 0);
 }
 
-static char	*test_for_victory2(t_env *env, t_team team)
+static char		*test_for_victory2(t_env *env, t_team team)
 {
 	char	*to_send;
 
@@ -31,7 +31,7 @@ static char	*test_for_victory2(t_env *env, t_team team)
 	return (team);
 }
 
-t_team		test_for_victory(t_env *env)
+t_team			test_for_victory(t_env *env)
 {
 	t_list		*iter;
 	t_team		team;
@@ -95,4 +95,3 @@ int				team_exist(t_env *env, t_team team)
 	}
 	return (0);
 }
-

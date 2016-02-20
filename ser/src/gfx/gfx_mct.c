@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gfx_mct.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/02/19 14:14:15 by gbersac           #+#    #+#             */
+/*   Updated: 2016/02/20 20:53:46 by gbersac          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cmd.h"
 
 int		gfx_mct(t_env *env, t_fd *fd, char *cmd)
@@ -5,8 +17,6 @@ int		gfx_mct(t_env *env, t_fd *fd, char *cmd)
 	int		x;
 	int		y;
 
-	printf("mct called\n");
-	
 	y = 0;
 	while (y < env->map.height)
 	{
@@ -18,7 +28,6 @@ int		gfx_mct(t_env *env, t_fd *fd, char *cmd)
 		}
 		++y;
 	}
-	return 1;
-	cmd = NULL;
+	return (1);
+	(void)cmd;
 }
-

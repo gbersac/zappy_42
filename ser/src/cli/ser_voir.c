@@ -6,11 +6,11 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/08 15:31:59 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/08 12:58:03 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/20 21:26:45 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cmd.h"
+#include "cmd.h"
 
 static void	add_sq_str(t_env *env, int x, int y, char **prev)
 {
@@ -43,9 +43,9 @@ static char	*explore_vert(t_env *env, t_fd *fd, int inc)
 		while (x <= lv)
 		{
 			add_sq_str(env, t->pos_x + x, t->pos_y + y, &to_return);
-			x++;
+			++x;
 		}
-		lv ++;
+		++lv;
 	}
 	return (to_return);
 }
@@ -70,7 +70,7 @@ static char	*explore_hori(t_env *env, t_fd *fd, int inc)
 			add_sq_str(env, t->pos_x + x, t->pos_y + y, &to_return);
 			y++;
 		}
-		lv ++;
+		lv++;
 	}
 	return (to_return);
 }
@@ -92,25 +92,18 @@ int			ser_voir(t_env *env, t_fd *fd, char *cmd)
 	char			*str;
 
 	trantor = &(fd->trantor);
-	switch (trantor->direction)
-	{
-		case NORTH:
-			str = explore_vert(env, fd, +1);
-			break ;
-		case EAST:
-			str = explore_hori(env, fd, +1);
-			break ;
-		case SOUTH:
-			str = explore_vert(env, fd, -1);
-			break ;
-		case WEST:
-			str = explore_hori(env, fd, -1);
-			break ;
-		default:
-			return (0);
-			break;
-	}
+	str = NULL;
+	if (trantor->direction == NORTH)
+		str = explore_vert(env, fd, +1);
+	else if (trantor->direction == EAST)
+		str = explore_hori(env, fd, +1);
+	else if (trantor->direction == SOUTH)
+		str = explore_vert(env, fd, -1);
+	else if (trantor->direction == WEST)
+		str = explore_hori(env, fd, -1);
+	else
+		return (-1);
 	end_ser_voir(env, fd, str);
-	cmd = NULL;
 	return (0);
+	(void)cmd;
 }

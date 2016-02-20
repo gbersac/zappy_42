@@ -75,8 +75,7 @@ static int	test_env(t_env *e)
 			e->map.width > 0 &&
 			e->map.height > 0 &&
 			e->map.time_d > 0 &&
-			e->map.max_client > 0
-			);
+			e->map.max_client > 0);
 }
 
 int			update_env(t_env *e, char **av)

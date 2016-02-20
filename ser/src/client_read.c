@@ -12,7 +12,7 @@
 
 #include "cmd.h"
 
-void	send_to_others(t_env *e, int cs)
+void		send_to_others(t_env *e, int cs)
 {
 	int		i;
 	char	*tmp;
@@ -34,7 +34,7 @@ void	send_to_others(t_env *e, int cs)
 	free(tmp2);
 }
 
-void	close_connection(t_env *e, int cs)
+void		close_connection(t_env *e, int cs)
 {
 	char	*to_send;
 
@@ -92,7 +92,6 @@ void		client_read(t_env *e, int cs)
 
 	r = recv(cs, buf, BUF_SIZE, 0);
 	buf[r] = '\0';
-	// printf("<-[%d]-- %s\n", cs, buf);
 	if (r <= 0)
 		close_connection(e, cs);
 	else

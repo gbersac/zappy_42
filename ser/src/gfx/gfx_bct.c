@@ -29,7 +29,6 @@ char	*gfx_bct_str(t_env *env, int x, int y)
 int		gfx_bct_call(t_env *env, t_fd *fd, int x, int y)
 {
 	char		*to_send;
-
 	t_inventory	*inventory;
 	t_square	*sq;
 

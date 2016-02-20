@@ -35,17 +35,13 @@
 
 /*
 ** This structure represent the ressources required to launch an incantation.
+** players: The number of players required to create an incantation.
 */
 typedef struct	s_incantation
 {
-	int		beg_level;
-	int		end_level;
-
-	/*
-	** The number of players required to create an incantation.
-	*/
-	int		players;
-
+	int			beg_level;
+	int			end_level;
+	int			players;
 	t_inventory	required_resources;
 }				t_incantation;
 

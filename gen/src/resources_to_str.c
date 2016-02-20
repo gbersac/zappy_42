@@ -36,7 +36,7 @@ char		*resources_to_str(t_list *lst_res)
 	char		*to_return;
 	t_list		*iter;
 
-	iter= lst_res;
+	iter = lst_res;
 	to_return = strdup("");
 	while (iter != NULL)
 	{

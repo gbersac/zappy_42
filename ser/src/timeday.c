@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   timeday.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/06 19:29:37 by gbersac           #+#    #+#             */
-/*   Updated: 2014/06/06 20:48:21 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/20 21:07:34 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 long long	get_time_now(void)
 {
 	struct timeval	tv;
-    time_t			curtime;
+	time_t			curtime;
 	long long		to_return;
 
 	gettimeofday(&tv, NULL);

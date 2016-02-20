@@ -24,27 +24,24 @@ typedef struct	s_square
 	t_inventory	content;
 }				t_square;
 
+/*
+** time_d: Time divisor (option -t).
+** tartan:	Pointer to the table of square which is the map.
+** 			Case numerotation is :
+** 			0 1 2
+** 			3 4 5...
+*/
 typedef struct	s_map
 {
 	int			width;
 	int			height;
 	t_list		*teams;
-
-	/*
-	** Time divisor (option -t).
-	*/
 	int			time_d;
 	int			max_client;
-
-	/*
-	** Pointer to the table of square which is the map. Case numerotation is :
-	** 0 1 2
-	** 3 4 5...
-	*/
 	t_square	*tartan;
 }				t_map;
 
-struct			s_env;
+struct s_env;
 
 t_square		*get_square(struct s_env *e, int x, int y);
 void			gen_map(struct s_env *e);

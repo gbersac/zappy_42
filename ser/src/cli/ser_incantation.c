@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cmd.h"
+#include "cmd.h"
 
 static t_list	*get_lst_trantor(t_env *env, t_trantorian *trantor, int n_play)
 {
@@ -24,8 +24,8 @@ static t_list	*get_lst_trantor(t_env *env, t_trantorian *trantor, int n_play)
 		if (env->fds[i].type == FD_CLIENT &&
 				env->fds[i].trantor.pos_x == trantor->pos_x &&
 				env->fds[i].trantor.pos_y == trantor->pos_y &&
- 				env->fds[i].trantor.level == trantor->level &&
- 				strcmp(env->fds[i].trantor.team, trantor->team) == 0)
+				env->fds[i].trantor.level == trantor->level &&
+				strcmp(env->fds[i].trantor.team, trantor->team) == 0)
 		{
 			ft_listpushback(&lst, &env->fds[i]);
 			if (ft_listcnt(lst) == n_play)
@@ -57,9 +57,6 @@ static int		trantor_has_resources(t_trantorian *trantor,
 	return (1);
 }
 
-/*
-** up each level trantor and countdown.
-*/
 static void		modify_trantor(t_env *env,
 		t_list *trantors,
 		t_trantorian *initiator,
@@ -72,9 +69,8 @@ static void		modify_trantor(t_env *env,
 	sub_inventory(&initiator->inventory, &incant->required_resources);
 	while (iter != NULL)
 	{
-		fd = (t_fd*) iter->data;
+		fd = (t_fd*)iter->data;
 		fd->trantor.level += 1;
-		/* the initiator will have its countdown increased at the end */
 		if (fd->trantor.id != initiator->id)
 		{
 			fd->trantor.countdown += CMD_INCANTATION_TIME;

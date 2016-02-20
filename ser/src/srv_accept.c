@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:50 by rfrey             #+#    #+#             */
-/*   Updated: 2016/01/18 20:48:06 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/20 21:14:05 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ char			*get_dfl_nickname(char *teamname)
 	return (nickname);
 }
 
-/*
-** Each message to send must be allocated on the heap.
-*/
 static void		client_write(t_env *e, int cs)
 {
 	char	*tmp;
@@ -42,13 +39,12 @@ static void		client_write(t_env *e, int cs)
 	{
 		tmp = (char*)ft_listpop(&e->fds[cs].to_send);
 		send(cs, tmp, ft_strlen(tmp) + 1, 0);
-		// printf("--[%d]-> %s\n", cs, tmp);
 		free(tmp);
 	}
 	e->fds[cs].to_send = 0;
 }
 
-void		accept_player(t_env *e, int cs, char *teamname)
+void			accept_player(t_env *e, int cs, char *teamname)
 {
 	struct sockaddr_in	csin;
 	socklen_t			csin_len;
@@ -66,7 +62,7 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	e->fds[cs].nickname = get_dfl_nickname(teamname);
 	e->fds[cs].buf_read_len = 0;
 	init_trantorian(&e->fds[cs].trantor, cs);
-	e->fds[cs].trantor.team = ft_strdup(teamname+11);
+	e->fds[cs].trantor.team = ft_strdup(teamname + 11);
 	e->fds[cs].trantor.pos_x = rand() % e->map.width;
 	e->fds[cs].trantor.pos_y = rand() % e->map.height;
 	e->fds[cs].trantor.direction = rand() % 4 + 1;
@@ -74,7 +70,7 @@ void		accept_player(t_env *e, int cs, char *teamname)
 	send(cs, "CONNECTED\n", strlen("CONNECTED\n"), 0);
 }
 
-void		accept_graphic(t_env *e, int cs)
+void			accept_graphic(t_env *e, int cs)
 {
 	struct sockaddr_in	csin;
 
@@ -96,7 +92,7 @@ void		accept_graphic(t_env *e, int cs)
 	interpret_cmd(e, &e->fds[cs], "enw");
 }
 
-void		srv_accept(t_env *e, int s)
+void			srv_accept(t_env *e, int s)
 {
 	int					r;
 	char				buf[BUF_SIZE + 1];
@@ -113,5 +109,5 @@ void		srv_accept(t_env *e, int s)
 	if (strncmp("GRAPHIC\n", buf, 8) == 0)
 		accept_graphic(e, cs);
 	else
-	 	accept_player(e, cs, buf);
+		accept_player(e, cs, buf);
 }

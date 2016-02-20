@@ -116,32 +116,25 @@ typedef struct	s_inventory
 
 typedef char*	t_team;
 
+/*
+** countdown: Time before the trantor is allow to do something.
+** laying:	Boolean value for trantorian laying an egg
+** 			1 : he is laying, 0 : he isn't
+** id:	This is the number of the trantorian. It correspond to the fd num of
+** 		the client.
+** 		If trantorian is not associated to a fd, its id is -1
+*/
 typedef struct	s_trantorian
 {
 	int			health_point;
 	int			pos_x;
 	int			pos_y;
 	t_team		team;
- 	int			level;
+	int			level;
 	t_direction	direction;
 	t_inventory	inventory;
-
-	/*
-	** Time before the trantor is allow to do something.
-	*/
 	int			countdown;
-
-	/*
-	** Boolean value for trantorian laying an egg
-	** 1 : he is laying, 0 : he isn't
-	*/
 	int			laying;
-
-	/*
-	** This is the number of the trantorian. It correspond to the fd num of
-	** the client.
-	** If trantorian is not associated to a fd, its id is -1
-	*/
 	int			id;
 }				t_trantorian;
 
@@ -175,7 +168,6 @@ int				direction_to_nbr(t_direction dir);
 ** Return a string of the inventory in the form :
 ** %d         %d       %d       %d    %d       %d     %d
 ** nourriture linemate deraumes sibur mendiane phiras thystame
-**
 ** The returned string have to be freed.
 */
 char			*inventory_to_str(t_inventory *inv);
