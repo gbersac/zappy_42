@@ -3,6 +3,8 @@ import math
 
 from direction import Direction
 
+PRINT_MSG = False
+
 # All the messages should began by the team of the sender
 
 def incantation_call(team, level):
@@ -13,8 +15,10 @@ def incantation_ready(team, level):
     return ('{} i am here for incantation level {}'.
             format(team, str(level)))
 
-def message_to_cmd(msg):
+def message_to_cmd(msg, trantor):
     """ Change a simple message to a broadcast command. """
+    if PRINT_MSG:
+        print("-->[{}] {}".format(trantor.level, msg))
     return 'broadcast ' + msg
 
 def trim_team(msg):
@@ -86,7 +90,8 @@ class MessageList:
         msg = Message(s)
         if msg == None or not hasattr(msg, 'message'):
             return
-        print("received: ", msg.message)
+        if PRINT_MSG:
+            print("<-- ", msg.message)
         self.list.append(msg)
 
     def clear(self):

@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:16:37 by gbersac           #+#    #+#             */
-/*   Updated: 2016/01/18 20:02:38 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/21 14:39:40 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ static void		take_idle_trantor2(t_env *env, t_fd *fd, t_team team_name)
 {
 	char			*to_send;
 
-	asprintf(&to_send, "%s %d %d %d %d",
-			CMD_BEGIN_INFO, fd->trantor.pos_x, fd->trantor.pos_y,
-			fd->trantor.direction, available_connexion(env, team_name));
+	asprintf(&to_send, "%s %d",
+			CMD_BEGIN_INFO, available_connexion(env, team_name));
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
 	printf("Trantor took idle trantor at %d %d\n",
@@ -83,9 +82,8 @@ static void		take_initial_connect(t_env *env, t_fd *fd, t_team team_name)
 
 	--env->map.max_client;
 	fd->trantor.team = strdup(team_name);
-	asprintf(&to_send, "%s %d %d %d %d",
-			CMD_BEGIN_INFO, fd->trantor.pos_x, fd->trantor.pos_y,
-			fd->trantor.direction, available_connexion(env, team_name));
+	asprintf(&to_send, "%s %d",
+			CMD_BEGIN_INFO, available_connexion(env, team_name));
 	send_cmd_to_client(fd, to_send);
 	free(to_send);
 	to_send = gfx_pnw_str(&fd->trantor);

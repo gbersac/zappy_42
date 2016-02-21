@@ -18,10 +18,7 @@ class State(Enum):
 class Trantor:
     """ Trantorian is the player """
 
-    def __init__(self, x, y, direction, team):
-        self.x = x
-        self.y = y
-        self.direction = direction
+    def __init__(self, team):
         self.inventory = Inventory()
         self.voir = None
         self.state = None
@@ -117,16 +114,15 @@ class Trantor:
             action = msg.action_to_join_sender()
             if action == None:
                 return message.message_to_cmd(
-                        message.incantation_ready(self.team, self.level))
+                        message.incantation_ready(self.team, self.level), self)
             else:
                 return action
 
         if self.state == State.START_INCANTATION:
             if self.enough_trantor_for_incantation():
                 return 'incantation'
-            print("send:", message.incantation_call(self.team, self.level))
             return message.message_to_cmd(
-                    message.incantation_call(self.team, self.level))
+                    message.incantation_call(self.team, self.level), self)
 
     def commit_cmd(self, cmd):
         if 'avance' in cmd:
