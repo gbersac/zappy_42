@@ -80,7 +80,6 @@ class Trantor:
         incant = Incantation.incantation_to_level_up(self.level)
         trant_ready = self.messages.nb_of_trantor_ready_for_incantation(
                 self.team, self.level) + 1
-        print('enough_trantor_for_incantation: ', incant.nb_player, '<=', trant_ready)
         return incant.nb_player <= trant_ready
 
     # every branch of play must return a command, if not the player freeze
@@ -89,7 +88,6 @@ class Trantor:
     def play(self):
         # define what the trantor should do
         self.state = self.action_to_perform()
-        print('action_to_perform: ', self.state)
 
         if self.state == State.SEARCH_FOOD:
             return self.action_to_find_resource(Resource.FOOD)
@@ -126,6 +124,7 @@ class Trantor:
         if self.state == State.START_INCANTATION:
             if self.enough_trantor_for_incantation():
                 return 'incantation'
+            print("send:", message.incantation_call(self.team, self.level))
             return message.message_to_cmd(
                     message.incantation_call(self.team, self.level))
 
@@ -156,15 +155,12 @@ class Trantor:
 
     def update_inventaire(self, cmd):
         cmd = cmd[11:]
-        print('#' + cmd + '#')
         self.inventory = Inventory.from_str(cmd)
 
     def interpret_cmd(self, prev_cmd, new_cmd):
         if 'ko' in new_cmd[:2]:
-            print('cmd ' + prev_cmd + ' is ko')
             return self.play()
         if 'ok' in new_cmd[:2]:
-            print('cmd ' + prev_cmd + ' is ok')
             cmd = self.commit_cmd(prev_cmd)
             if cmd != None:
                 return cmd
@@ -193,7 +189,7 @@ class Trantor:
             if nb_connection_slot <= 1:
                 return 'fork'
         if 'relaunch' in new_cmd[:9]:
-            print('cmd ' + prev_cmd + ' is ok [relaunch]')
+            print('relaunch')
             cmd = self.commit_cmd(prev_cmd)
             if cmd != None:
                 return cmd

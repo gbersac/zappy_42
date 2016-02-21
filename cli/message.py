@@ -37,7 +37,6 @@ class Message:
         self.self_direction = Direction.from_str(m.group(5))
         self.team = m.group(6)
         self.message = m.group(7)
-        print('register message:', self.message)
 
     def action_to_join_sender(self):
         # calc diffs
@@ -87,6 +86,7 @@ class MessageList:
         msg = Message(s)
         if msg == None or not hasattr(msg, 'message'):
             return
+        print("received: ", msg.message)
         self.list.append(msg)
 
     def clear(self):
@@ -95,7 +95,6 @@ class MessageList:
     # check if the messages are in the same team
     def nb_same_msg(self, team, s):
         to_return = 0
-        print('nb_same_msg list length', len(self.list))
         for msg in self.list:
             if s != None and msg.message == s:
                 to_return += 1

@@ -10,7 +10,6 @@ def main_loop(env):
     env.socket.send((prev_cmd + '\n').encode())
     buf = ''
     while True:
-        print('\n###New Loop level', env.trantor.level, 'team', env.trantor.team)
         recv = env.socket.recv(1024).decode('utf-8')
         if recv == '':
             print('Disconnected by server')
@@ -22,11 +21,9 @@ def main_loop(env):
             line = lines[i]
             if line == '' or line == '\x00':
                 continue
-            print('Received message: #' + line + '#')
             new_cmd = env.trantor.interpret_cmd(prev_cmd, line)
             if new_cmd != '' and new_cmd != None:
                 env.trantor.messages.clear()
-                print("Send: " + new_cmd)
                 env.socket.send((new_cmd + '\n').encode())
                 prev_cmd = new_cmd
         if lines[-1] != '\x00':
