@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
 	public int			posx = 0;
 	public int			posy = 0;
 	public string		teamName;
+	public bool			idle = false;
 
 	float				toMove = 0;
 	string				playerName;
@@ -102,16 +103,11 @@ public class Player : MonoBehaviour {
 				w = -0.7f;
 			Quaternion rot = new Quaternion(0, y, 0, w);
 			transform.rotation = rot;
-//			if (or > orientation || (or == 1 && orientation == 4))
-//				Droite ();
-//			else
-//				Gauche ();
 			orientation = or;
 		}
 		if (x != posx || z != posy) {
 			Avance ();
 		}
-		//can we move for more than one case at a time ? if so tomove should be fixed
 	}
 
 	public void SetDie()
@@ -119,7 +115,6 @@ public class Player : MonoBehaviour {
 		animQueue.Add ("die");
 	}
 
-	//don't queue this one
 	public void ForceDie()
 	{
 		isAlive = false;
@@ -127,7 +122,6 @@ public class Player : MonoBehaviour {
 		animator.SetTrigger ("die");
 	}
 
-	//don't queue this one but set dead too ?
 	public void Celebrate()
 	{
 		isAlive = false;
@@ -264,7 +258,7 @@ public class Player : MonoBehaviour {
 		targetY = z;
 	}
 
-	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team, bool borning)
+	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team, bool borning, bool ready)
 	{
 		this.playerNo = id;
 		this.playerName = team+id;
@@ -278,8 +272,11 @@ public class Player : MonoBehaviour {
 		gameObject.SetActive (true);
 		if (borning == true)
 			animator.Play ("Raising");
-		else {
+		else if (ready == true) {
 			animator.Play ("Waiting");
+		} else if (ready == false) {
+			idle = true;
+			GetComponentInChildren <SkinnedMeshRenderer>().enabled = false;
 		}
 	}
 
@@ -349,6 +346,11 @@ public class Player : MonoBehaviour {
 			return;
 		transform.position = currentPos;
 
+	}
+	public void StopIdle()
+	{
+		idle = false;
+		GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
 	}
 
 	void ForcePosition()
@@ -464,11 +466,13 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if (!isAlive)
 			return;
-		if (toMove > 0f)
-			Move ();
-		else
-			animator.SetBool ("walking", false);
-		CheckAnimsQueue ();
-		CheckBorders ();
+		if (idle == false) {
+			if (toMove > 0f)
+				Move ();
+			else
+				animator.SetBool ("walking", false);
+			CheckAnimsQueue ();
+			CheckBorders ();
+		}
 	}
 }

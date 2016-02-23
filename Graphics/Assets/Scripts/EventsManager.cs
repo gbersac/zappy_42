@@ -86,7 +86,7 @@ public class EventsManager : MonoBehaviour {
 		string [] split = s.Split (' ');
 		try
 		{
-			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true);
+			newPlayer.Initnew (int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse (split [3]), int.Parse(split[4]), split[5], true, true);
 			newPlayer.transform.parent = GameObject.Find("World").transform;
 			players.Add(newPlayer);
 			teams.Find(t => t.teamName == split[5]).AddPlayer(newPlayer);
@@ -107,15 +107,7 @@ public class EventsManager : MonoBehaviour {
 				int or = int.Parse (s.Split (' ') [3]);
 				players.Find (p => p.playerNo == playerNo).SetMoveOrTurn (x, z, or);
 			} else {
-				// we should NOT instantiate player this way because we lack info here
-				debugMessage(DebugLevel.Error, "Unknown player moving, instantiating with insuffisant data.");
-				int x = int.Parse (s.Split (' ') [1]);
-				int z = int.Parse (s.Split (' ') [2]);
-				int or = int.Parse (s.Split (' ') [3]);
-				Player newPlayer = Instantiate<Player> (playerPrefab);
-				newPlayer.Initnew(playerNo, x, z, or, 1, string.Empty, false);//team name ? lvl == 0 or 1 ?
-				newPlayer.transform.parent = GameObject.Find("World").transform;
-				players.Add(newPlayer);
+				debugMessage(DebugLevel.Error, "Unknown player moving.");
 			}
 		}
 		catch
@@ -294,7 +286,15 @@ public class EventsManager : MonoBehaviour {
 			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_new_egg_pos. " + s);
 		}
 	}
-	
+
+	public Player	GetIdlePlayer(int x, int y, string team)
+	{
+		if (players.Exists (p => p.posx == x && p.posy == y && p.idle == true && p.teamName == team) == false)
+			return null;
+		Player play = players.Find (p => p.posx == x && p.posy == y && p.idle == true && p.teamName == team);
+		return (play);
+	}
+
 	void	ft_egg_born(string s)
 	{
 		Egg egg;
@@ -305,6 +305,7 @@ public class EventsManager : MonoBehaviour {
 			eggNo = int.Parse(s);
 			egg = eggs.Find(x => x.eggNo == eggNo);
 			players.Find(x => x.playerNo == egg.playerNo).SetEggReady(eggNo);
+			debugMessage(DebugLevel.Info, "Egg ready. " + s);
 		}
 		catch
 		{
@@ -313,27 +314,8 @@ public class EventsManager : MonoBehaviour {
 	}
 	void	ft_player_replaces_egg(string s)
 	{
-		//we have eggno 
-		//we can find teamno & pos, but not playerno and O
-		Egg egg;
-		int eggNo;
+		Egg egg = null;
 
-//		try
-//		{
-//			eggNo = int.Parse(s);
-//			egg = eggs.Find(x => x.eggNo == eggNo);
-//
-//			//destroy egg
-//			//pos sleeping player
-//			Player newPlayer = Instantiate<Player>(playerPrefab);
-//			//id ?? orientation ??
-//			newPlayer.Initnew (-1, egg.posx, egg.posy, 3, 1, egg.teamName, false);
-//			newPlayer.transform.parent = GameObject.Find("World").transform;
-//			players.Add(newPlayer);
-//			teams.Find(t => t.teamName == egg.teamName).AddPlayer(newPlayer);
-//			eggs.Remove(egg);
-//			egg.KillEgg();
-//		}
 		try
 		{
 			//we get pno X Y Or team
@@ -344,16 +326,25 @@ public class EventsManager : MonoBehaviour {
 			int y = int.Parse(ss[2]);
 			int or = int.Parse(ss[3]);
 			string team = ss[4];
-			egg = eggs.Find(e => e.posx == x && e.posy == y && e.teamName == team);
-			
-			//destroy egg
+			bool ready;
+
+			if (eggs.Exists(e => e.posx == x && e.posy == y && e.ready == true && e.teamName == team) == true)
+			{
+				egg = eggs.Find(e => e.posx == x && e.posy == y && e.ready == true && e.teamName == team);
+				ready = true;
+			}
+			else
+				ready = false;
+			debugMessage(DebugLevel.Info, "New player is ready ? " + ready);
 			Player newPlayer = Instantiate<Player>(playerPrefab);
-			newPlayer.Initnew (playerNo, x, y, or, 1, team, false);
+			newPlayer.Initnew (playerNo, x, y, or, 1, team, false, ready);
 			newPlayer.transform.parent = GameObject.Find("World").transform;
 			players.Add(newPlayer);
 			teams.Find(t => t.teamName == team).AddPlayer(newPlayer);
-			eggs.Remove(egg);
-			egg.KillEgg();
+			if (ready == true)
+			{
+				egg.KillEgg();
+			}
 		}
 		catch
 		{

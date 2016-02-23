@@ -8,29 +8,38 @@ public class Egg : MonoBehaviour {
 	public int		posx;
 	public int		posy;
 	public string	teamName;
+	public bool		ready = false;
 
 	public void KillEgg()
 	{
+		EventsManager.em.eggs.Remove (this);
 		Destroy (this.gameObject);
 	}
 
 	void EggReady()
 	{		
+		ready = true;
 		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
 		Color gold = new Color (1f, 215f / 255f, 0f, msh.material.color.a);
 		msh.material.color = gold;
+
+		Player p = EventsManager.em.GetIdlePlayer (posx, posy, teamName);
+		if (p != null) {
+			p.StopIdle();
+			KillEgg();
+		}
+		//if there is a player idle in pos posy with teamName, rm idle and rm this egg
 	}
 
 	public void SetEggReady()
 	{
-		Invoke ("EggReady", 1.0f);
+		EggReady ();
 	}
 
 	void DestroyEgg()
 	{
 		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
 		msh.material.color = Color.black;
-		EventsManager.em.eggs.Remove (this);
 		Invoke ("KillEgg", 3);
 	}
 
