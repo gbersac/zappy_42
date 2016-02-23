@@ -261,7 +261,7 @@ public class Player : MonoBehaviour {
 	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team, bool borning, bool ready)
 	{
 		this.playerNo = id;
-		this.playerName = team+id;
+		this.playerName = team + " - " + id;
 		this.teamName = team;
 		this.level = level;
 
