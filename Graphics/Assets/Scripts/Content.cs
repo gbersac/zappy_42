@@ -64,14 +64,14 @@ public class Content : MonoBehaviour {
 		castQueue[i].activeCasters.Add (caster);
 	}
 
-	public Egg layEgg(int eggNo, int playerNo)
+	public Egg layEgg(int eggNo, int playerNo, string team)
 	{
 		Vector3 spawnPosition;
 		spawnPosition.x = transform.position.x;
 		spawnPosition.z = transform.position.z;
 		spawnPosition.y = transform.position.y;
 		Egg newEgg = Instantiate(eggPrefab, spawnPosition, transform.rotation) as Egg;
-		newEgg.Init (eggNo, playerNo);
+		newEgg.Init (eggNo, playerNo, team, (int)transform.position.x, (int)transform.position.z);
 		newEgg.transform.parent = gameObject.transform;
 
 		return newEgg;
@@ -142,8 +142,6 @@ public class Content : MonoBehaviour {
 	{
 		if (castQueue.Count > 0 && castQueue [0].hasEnded == true && castQueue [0].activeCasters.Count >= castQueue [0].neededCastersNbr)
 			triggerCastingEnd ();
-		else if (castQueue.Count > 0)
-			Debug.Log ("In " + transform.position.x + " " + transform.position.z + " " + castQueue[0].hasEnded  + " " + castQueue [0].activeCasters.Count + "/" + castQueue [0].neededCastersNbr);
 	}
 
 	void Start()

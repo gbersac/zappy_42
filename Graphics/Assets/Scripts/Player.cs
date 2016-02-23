@@ -4,19 +4,16 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 	
-//	public GameObject infoPanel;
 	public bool			info = false;
 	public int			playerNo;
 	public bool			isAlive = false;
 	public Color		teamColor = Color.white;
-
-	//GameObject			pan;
-
-	float				toMove = 0;
-	string				playerName;
 	public int			posx = 0;
 	public int			posy = 0;
 	public string		teamName;
+
+	float				toMove = 0;
+	string				playerName;
 	int					orientation = 1;
 	int					level = 1;
 	int					nourriture = 0;
@@ -273,17 +270,17 @@ public class Player : MonoBehaviour {
 		this.playerName = team+id;
 		this.teamName = team;
 		this.level = level;
-	//	pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
 
 		animQueue = new List<string> ();
-		//pan = GameObject.Find ("Panels/infoPanel");
 		animator = GetComponent<Animator> ();
-		//pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
 		InitPos (pos_x, pos_y, direction, borning);
 		this.isAlive = true;
 		gameObject.SetActive (true);
 		if (borning == true)
 			animator.Play ("Raising");
+		else {
+			animator.Play ("Waiting");
+		}
 	}
 
 	void OnMouseDown () {

@@ -280,11 +280,13 @@ public class EventsManager : MonoBehaviour {
 		}
 		try
 		{
+			debugMessage(DebugLevel.Info, "New egg. " + s);
 			eggNo = int.Parse(split [0]);
 			playerNo = int.Parse(split [1]);
+			Player player = players.Find(p => p.playerNo == playerNo);
 			x = int.Parse(split [2]);
 			y = int.Parse(split [3]);
-			eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo));
+			eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo, player.teamName));
 			players.Find(p => p.playerNo == playerNo).SetStopLaying(eggNo);
 		}
 		catch
@@ -311,8 +313,52 @@ public class EventsManager : MonoBehaviour {
 	}
 	void	ft_player_replaces_egg(string s)
 	{
-		debugMessage (DebugLevel.Error, "EBO NOT IMPLEMENTED");
-//		ft_egg_died (s);
+		//we have eggno 
+		//we can find teamno & pos, but not playerno and O
+		Egg egg;
+		int eggNo;
+
+//		try
+//		{
+//			eggNo = int.Parse(s);
+//			egg = eggs.Find(x => x.eggNo == eggNo);
+//
+//			//destroy egg
+//			//pos sleeping player
+//			Player newPlayer = Instantiate<Player>(playerPrefab);
+//			//id ?? orientation ??
+//			newPlayer.Initnew (-1, egg.posx, egg.posy, 3, 1, egg.teamName, false);
+//			newPlayer.transform.parent = GameObject.Find("World").transform;
+//			players.Add(newPlayer);
+//			teams.Find(t => t.teamName == egg.teamName).AddPlayer(newPlayer);
+//			eggs.Remove(egg);
+//			egg.KillEgg();
+//		}
+		try
+		{
+			//we get pno X Y Or team
+			string []ss = s.Split(' ');
+
+			 int playerNo = int.Parse(ss[0]);
+			int x = int.Parse(ss[1]);
+			int y = int.Parse(ss[2]);
+			int or = int.Parse(ss[3]);
+			string team = ss[4];
+			egg = eggs.Find(e => e.posx == x && e.posy == y && e.teamName == team);
+			
+			//destroy egg
+			Player newPlayer = Instantiate<Player>(playerPrefab);
+			newPlayer.Initnew (playerNo, x, y, or, 1, team, false);
+			newPlayer.transform.parent = GameObject.Find("World").transform;
+			players.Add(newPlayer);
+			teams.Find(t => t.teamName == team).AddPlayer(newPlayer);
+			eggs.Remove(egg);
+			egg.KillEgg();
+		}
+		catch
+		{
+			debugMessage(DebugLevel.Error, "Error: bad parameters in ft_player_replaces_egg. " + s);
+		}
 	}
 
 	void	ft_egg_died(string s)

@@ -3,10 +3,13 @@ using System.Collections;
 
 public class Egg : MonoBehaviour {
 
-	public int eggNo;
-	public int playerNo;
+	public int 		eggNo;
+	public int		playerNo;
+	public int		posx;
+	public int		posy;
+	public string	teamName;
 
-	void KillEgg()
+	public void KillEgg()
 	{
 		Destroy (this.gameObject);
 	}
@@ -41,10 +44,13 @@ public class Egg : MonoBehaviour {
 		Debug.Log ("IM HATCHING YO THIS ISNT IMPLEMENTED");
 	}
 
-	public void Init(int eggno, int playerno)
+	public void Init(int eggno, int playerno, string team, int x, int y)
 	{
 		eggNo = eggno;
 		playerNo = playerno;
+		teamName = team;
+		posx = x;
+		posy = y;
 	}
 
 	void Start()
