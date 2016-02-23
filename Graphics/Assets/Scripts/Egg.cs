@@ -9,6 +9,8 @@ public class Egg : MonoBehaviour {
 	public int		posy;
 	public string	teamName;
 	public bool		ready = false;
+	public MeshRenderer	msh;
+	Color			eggColor;
 
 	public void KillEgg()
 	{
@@ -19,14 +21,13 @@ public class Egg : MonoBehaviour {
 	void EggReady()
 	{		
 		ready = true;
-		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
-		Color gold = new Color (1f, 215f / 255f, 0f, msh.material.color.a);
-		msh.material.color = gold;
+		eggColor.a = 1.0f;
+		msh.material.color = eggColor;
 
 		Player p = EventsManager.em.GetIdlePlayer (posx, posy, teamName);
 		if (p != null) {
 			p.StopIdle();
-			KillEgg();
+			DestroyEgg();
 		}
 		//if there is a player idle in pos posy with teamName, rm idle and rm this egg
 	}
@@ -40,7 +41,7 @@ public class Egg : MonoBehaviour {
 	{
 		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
 		msh.material.color = Color.black;
-		Invoke ("KillEgg", 3);
+		Invoke ("KillEgg", 1);
 	}
 
 	public void SetDestroyEgg()
@@ -48,23 +49,17 @@ public class Egg : MonoBehaviour {
 		Invoke ("DestroyEgg", 1.0f);
 	}
 
-	public void HatchEgg()
+	public void Init(int eggno, int playerno, string team, int x, int y, Color col)
 	{
-		Debug.Log ("IM HATCHING YO THIS ISNT IMPLEMENTED");
-	}
-
-	public void Init(int eggno, int playerno, string team, int x, int y)
-	{
+		msh = GetComponentInChildren <MeshRenderer> ();
+		msh.enabled = false;
 		eggNo = eggno;
 		playerNo = playerno;
 		teamName = team;
 		posx = x;
 		posy = y;
+		eggColor = col;
+		eggColor.a = 0.5f;
+		msh.material.color = col;
 	}
-
-	void Start()
-	{
-		this.gameObject.GetComponentInChildren <MeshRenderer> ().enabled = false;
-	}
-
 }

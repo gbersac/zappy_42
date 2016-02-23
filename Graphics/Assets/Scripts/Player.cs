@@ -223,7 +223,7 @@ public class Player : MonoBehaviour {
 	{
 		animator.SetBool ("laying", false);
 		Egg egg = EventsManager.em.eggs.Find (x => x.eggNo == eggNo);
-		egg.gameObject.GetComponentInChildren <MeshRenderer> ().enabled = true;
+		egg.msh.enabled = true;
 	}
 
 	public void SetLevel(int lvl)
@@ -416,6 +416,7 @@ public class Player : MonoBehaviour {
 		}
 		else if (isLaying == true && animQueue [0].Split (' ') [0] == "stopLaying") {
 			StopLaying(int.Parse(animQueue [0].Split (' ') [1]));
+			animQueue.RemoveAt (0);
 			return;
 		}
 		if (isIdle == false)

@@ -278,7 +278,7 @@ public class EventsManager : MonoBehaviour {
 			Player player = players.Find(p => p.playerNo == playerNo);
 			x = int.Parse(split [2]);
 			y = int.Parse(split [3]);
-			eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo, player.teamName));
+			eggs.Add (map.dalles [x, y].GetComponent<Content> ().layEgg (eggNo, playerNo, player.teamName, player.teamColor));
 			players.Find(p => p.playerNo == playerNo).SetStopLaying(eggNo);
 		}
 		catch
@@ -321,7 +321,7 @@ public class EventsManager : MonoBehaviour {
 			//we get pno X Y Or team
 			string []ss = s.Split(' ');
 
-			 int playerNo = int.Parse(ss[0]);
+			int playerNo = int.Parse(ss[0]);
 			int x = int.Parse(ss[1]);
 			int y = int.Parse(ss[2]);
 			int or = int.Parse(ss[3]);
@@ -335,7 +335,6 @@ public class EventsManager : MonoBehaviour {
 			}
 			else
 				ready = false;
-			debugMessage(DebugLevel.Info, "New player is ready ? " + ready);
 			Player newPlayer = Instantiate<Player>(playerPrefab);
 			newPlayer.Initnew (playerNo, x, y, or, 1, team, false, ready);
 			newPlayer.transform.parent = GameObject.Find("World").transform;

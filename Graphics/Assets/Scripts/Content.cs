@@ -64,14 +64,14 @@ public class Content : MonoBehaviour {
 		castQueue[i].activeCasters.Add (caster);
 	}
 
-	public Egg layEgg(int eggNo, int playerNo, string team)
+	public Egg layEgg(int eggNo, int playerNo, string team, Color col)
 	{
 		Vector3 spawnPosition;
 		spawnPosition.x = transform.position.x;
 		spawnPosition.z = transform.position.z;
 		spawnPosition.y = transform.position.y;
 		Egg newEgg = Instantiate(eggPrefab, spawnPosition, transform.rotation) as Egg;
-		newEgg.Init (eggNo, playerNo, team, (int)transform.position.x, (int)transform.position.z);
+		newEgg.Init (eggNo, playerNo, team, (int)transform.position.x, (int)transform.position.z, col);
 		newEgg.transform.parent = gameObject.transform;
 
 		return newEgg;
