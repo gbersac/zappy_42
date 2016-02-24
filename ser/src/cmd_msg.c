@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/22 17:11:27 by rfrey             #+#    #+#             */
-/*   Updated: 2016/02/23 22:50:20 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/24 19:24:59 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,19 @@ void	send_cmd_to_all(t_env *env, char *str)
 	char	*to_send;
 	int		i;
 	t_fd	*client;
+	char	*n;
 
 	to_send = ft_strjoin(str, "\n");
 	i = 0;
 	while (i < env->maxfd)
 	{
 		client = &env->fds[i];
+		n = strdup(to_send);
 		if (client->type == FD_GRAPHIC || client->type == FD_CLIENT)
-			ft_listpushback(&client->to_send, to_send);
+			ft_listpushback(&client->to_send, n);
 		++i;
 	}
+	free(to_send);
 }
 
 void	add_differed_msg(t_env *env, int countdown, t_fd *recipient, char *msg)

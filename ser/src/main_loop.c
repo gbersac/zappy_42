@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:56:28 by rfrey             #+#    #+#             */
-/*   Updated: 2016/02/24 17:49:24 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/24 19:19:11 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ void		main_loop(t_env *e)
 	is_new_turn(e);
 	while (42)
 	{
-		if (e->victorious_team != NULL)
-			sleep(1);
 		init_fd(e);
 		e->r = select(e->max + 1, &e->fd_read, &e->fd_write, NULL, &tv);
 		check_fd(e);
