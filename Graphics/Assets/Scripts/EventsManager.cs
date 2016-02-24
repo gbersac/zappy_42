@@ -372,12 +372,11 @@ public class EventsManager : MonoBehaviour {
 	{
 		try
 		{
-			foreach (var p in players.FindAll(p => p.teamName != s))
+			debugMessage(DebugLevel.Warning, "END " + s);
+			foreach (var p in players.FindAll(p => p.teamName == s))
 			{
-				p.SetDie();
+				p.SetCelebration();
 			}
-			if (players.Exists(p => p.teamName == s))
-				players.Find(p => p.teamName == s).Celebrate();
 		}
 		catch
 		{
@@ -465,18 +464,32 @@ public class EventsManager : MonoBehaviour {
 		functions.Add("suc", unknownCommand);
 		functions.Add("sbp", badArgs);
 	}
-	int debugNo = 1;
+
 	void Update()
 	{
-		if (Input.GetKeyDown (KeyCode.Z)) {
-			Parse ("pnw " + debugNo + " 4 7 4 1 t0");
-			Parse ("ppo " + debugNo + " 4 7 3");
-			Parse ("ppo " + debugNo + " 4 7 2");
-			Parse ("ppo " + debugNo + " 5 7 2");
-			Parse ("ppo " + debugNo + " 6 7 2");
-			debugNo++;
+		bool end = false;
+		foreach (Team t in teams) {
+			foreach (Player p in t.players)
+			{
+				if (p.win == false){
+					end = false;
+					t.win = false;
+					break;
+				}
+				t.win = true;
+				end = true;
+			}
 		}
-		if (Input.GetKeyDown(KeyCode.X))
-			Parse ("ppo 9 5 5 4");
+		if (end == true) {
+			foreach (Player p in players)
+			{
+				if (p.win == true)
+					p.ForceCelebration();
+				else
+					p.ForceDie();
+			}
+			Team winningTeam = teams.Find(t => t.win == true);
+			msgBox.ServerMessage("Team " + winningTeam.teamName + " won !", Color.red);
+		}
 	}
 }

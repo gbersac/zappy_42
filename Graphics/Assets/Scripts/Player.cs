@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
 	public int			posy = 0;
 	public string		teamName;
 	public bool			idle = false;
-
+	public bool			win = false;
 	float				toMove = 0;
 	string				playerName;
 	int					orientation = 1;
@@ -122,10 +122,21 @@ public class Player : MonoBehaviour {
 		animator.SetTrigger ("die");
 	}
 
-	public void Celebrate()
+	public void SetCelebration()
+	{
+		animQueue.Add ("celebrate");
+	}
+
+	public void ForceCelebration()
 	{
 		isAlive = false;
+		animator.SetBool ("casting" , false);
 		animator.SetBool ("celebration", true);
+	}
+
+	void Celebrate()
+	{
+		win = true;
 	}
 
 	public void SetPickRess(int ressNo)
@@ -306,6 +317,15 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	void	QuitPlayerCam()
+	{
+		if (CamManagement.cmgnt.CamNo == playerNo) {
+			CamManagement.cmgnt.MapCam.rect = new Rect (0f, 0f, 1f, 1f);
+			CamManagement.cmgnt.PlayerCam.gameObject.SetActive (false);
+			CamManagement.cmgnt.CamNo = 0;
+		}
+	}
+
 	void	Avance() {
 		animator.SetBool ("walking", true);
 		toMove += 1f;
@@ -410,11 +430,11 @@ public class Player : MonoBehaviour {
 //			Debug.Log ("Qlist: " + db);
 		//END
 
-		if (isCasting == true && animQueue [0].Split (' ') [0] == "die") {
+		if (isCasting == true && animQueue.Count > 0 && animQueue [0].Split (' ') [0] == "die") {
 			ForceDie ();
 			return;
 		}
-		else if (isLaying == true && animQueue [0].Split (' ') [0] == "stopLaying") {
+		else if (isLaying == true && animQueue.Count > 0 && animQueue [0].Split (' ') [0] == "stopLaying") {
 			StopLaying(int.Parse(animQueue [0].Split (' ') [1]));
 			animQueue.RemoveAt (0);
 			return;
@@ -456,6 +476,9 @@ public class Player : MonoBehaviour {
 			case "throwRess":
 				ThrowRess (int.Parse (args [1]));
 				break;
+			case "celebrate":
+				Celebrate();
+				break;
 			default:
 				Debug.Log ("Unknown switch case : " + anim);
 				break;
@@ -465,6 +488,8 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update () {
+		if (Input.GetKeyDown (KeyCode.Space))
+			QuitPlayerCam ();
 		if (!isAlive)
 			return;
 		if (idle == false) {

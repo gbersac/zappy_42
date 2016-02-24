@@ -7,6 +7,8 @@ public class Team {
 	public string teamName;
 	public Color teamColor = Color.white;
 	private Color []colors = new Color[6] { Color.white, Color.blue, Color.red, Color.grey, Color.magenta, Color.yellow };
+	public bool win = false;
+
 	public void InitTeam(string name, int teamNo)
 	{
 		players = new List<Player> ();
