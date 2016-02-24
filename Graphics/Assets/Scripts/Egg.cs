@@ -3,32 +3,45 @@ using System.Collections;
 
 public class Egg : MonoBehaviour {
 
-	public int eggNo;
-	public int playerNo;
+	public int 		eggNo;
+	public int		playerNo;
+	public int		posx;
+	public int		posy;
+	public string	teamName;
+	public bool		ready = false;
+	public MeshRenderer	msh;
+	Color			eggColor;
 
-	void KillEgg()
+	public void KillEgg()
 	{
+		EventsManager.em.eggs.Remove (this);
 		Destroy (this.gameObject);
 	}
 
 	void EggReady()
 	{		
-		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
-		Color gold = new Color (1f, 215f / 255f, 0f, msh.material.color.a);
-		msh.material.color = gold;
+		ready = true;
+		eggColor.a = 1.0f;
+		msh.material.color = eggColor;
+
+		Player p = EventsManager.em.GetIdlePlayer (posx, posy, teamName);
+		if (p != null) {
+			p.StopIdle();
+			DestroyEgg();
+		}
+		//if there is a player idle in pos posy with teamName, rm idle and rm this egg
 	}
 
 	public void SetEggReady()
 	{
-		Invoke ("EggReady", 1.0f);
+		EggReady ();
 	}
 
 	void DestroyEgg()
 	{
 		MeshRenderer msh = GetComponentInChildren <MeshRenderer> ();
 		msh.material.color = Color.black;
-		EventsManager.em.eggs.Remove (this);
-		Invoke ("KillEgg", 3);
+		Invoke ("KillEgg", 1);
 	}
 
 	public void SetDestroyEgg()
@@ -36,20 +49,17 @@ public class Egg : MonoBehaviour {
 		Invoke ("DestroyEgg", 1.0f);
 	}
 
-	public void HatchEgg()
+	public void Init(int eggno, int playerno, string team, int x, int y, Color col)
 	{
-		Debug.Log ("IM HATCHING YO THIS ISNT IMPLEMENTED");
-	}
-
-	public void Init(int eggno, int playerno)
-	{
+		msh = GetComponentInChildren <MeshRenderer> ();
+		msh.enabled = false;
 		eggNo = eggno;
 		playerNo = playerno;
+		teamName = team;
+		posx = x;
+		posy = y;
+		eggColor = col;
+		eggColor.a = 0.5f;
+		msh.material.color = col;
 	}
-
-	void Start()
-	{
-		this.gameObject.GetComponentInChildren <MeshRenderer> ().enabled = false;
-	}
-
 }

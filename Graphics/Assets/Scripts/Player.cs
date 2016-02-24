@@ -4,19 +4,17 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 	
-//	public GameObject infoPanel;
 	public bool			info = false;
 	public int			playerNo;
 	public bool			isAlive = false;
 	public Color		teamColor = Color.white;
-
-	//GameObject			pan;
-
-	float				toMove = 0;
-	string				playerName;
 	public int			posx = 0;
 	public int			posy = 0;
 	public string		teamName;
+	public bool			idle = false;
+
+	float				toMove = 0;
+	string				playerName;
 	int					orientation = 1;
 	int					level = 1;
 	int					nourriture = 0;
@@ -105,16 +103,11 @@ public class Player : MonoBehaviour {
 				w = -0.7f;
 			Quaternion rot = new Quaternion(0, y, 0, w);
 			transform.rotation = rot;
-//			if (or > orientation || (or == 1 && orientation == 4))
-//				Droite ();
-//			else
-//				Gauche ();
 			orientation = or;
 		}
 		if (x != posx || z != posy) {
 			Avance ();
 		}
-		//can we move for more than one case at a time ? if so tomove should be fixed
 	}
 
 	public void SetDie()
@@ -122,7 +115,6 @@ public class Player : MonoBehaviour {
 		animQueue.Add ("die");
 	}
 
-	//don't queue this one
 	public void ForceDie()
 	{
 		isAlive = false;
@@ -130,7 +122,6 @@ public class Player : MonoBehaviour {
 		animator.SetTrigger ("die");
 	}
 
-	//don't queue this one but set dead too ?
 	public void Celebrate()
 	{
 		isAlive = false;
@@ -232,7 +223,7 @@ public class Player : MonoBehaviour {
 	{
 		animator.SetBool ("laying", false);
 		Egg egg = EventsManager.em.eggs.Find (x => x.eggNo == eggNo);
-		egg.gameObject.GetComponentInChildren <MeshRenderer> ().enabled = true;
+		egg.msh.enabled = true;
 	}
 
 	public void SetLevel(int lvl)
@@ -267,23 +258,26 @@ public class Player : MonoBehaviour {
 		targetY = z;
 	}
 
-	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team, bool borning)
+	public void Initnew(int id, int pos_x, int pos_y, int direction, int level, string team, bool borning, bool ready)
 	{
 		this.playerNo = id;
-		this.playerName = team+id;
+		this.playerName = team + " - " + id;
 		this.teamName = team;
 		this.level = level;
-	//	pan = Instantiate (infoPanel, infoPanel.transform.position, infoPanel.transform.rotation) as GameObject;
 
 		animQueue = new List<string> ();
-		//pan = GameObject.Find ("Panels/infoPanel");
 		animator = GetComponent<Animator> ();
-		//pan.GetComponent<infoPanel>().setinfo( playerName, pos_x, pos_y, level, nourriture, deraumere, linemate, mendiane, phiras, sibur, thystame);
 		InitPos (pos_x, pos_y, direction, borning);
 		this.isAlive = true;
 		gameObject.SetActive (true);
 		if (borning == true)
 			animator.Play ("Raising");
+		else if (ready == true) {
+			animator.Play ("Waiting");
+		} else if (ready == false) {
+			idle = true;
+			GetComponentInChildren <SkinnedMeshRenderer>().enabled = false;
+		}
 	}
 
 	void OnMouseDown () {
@@ -353,6 +347,11 @@ public class Player : MonoBehaviour {
 		transform.position = currentPos;
 
 	}
+	public void StopIdle()
+	{
+		idle = false;
+		GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
+	}
 
 	void ForcePosition()
 	{
@@ -417,6 +416,7 @@ public class Player : MonoBehaviour {
 		}
 		else if (isLaying == true && animQueue [0].Split (' ') [0] == "stopLaying") {
 			StopLaying(int.Parse(animQueue [0].Split (' ') [1]));
+			animQueue.RemoveAt (0);
 			return;
 		}
 		if (isIdle == false)
@@ -467,11 +467,13 @@ public class Player : MonoBehaviour {
 	void Update () {
 		if (!isAlive)
 			return;
-		if (toMove > 0f)
-			Move ();
-		else
-			animator.SetBool ("walking", false);
-		CheckAnimsQueue ();
-		CheckBorders ();
+		if (idle == false) {
+			if (toMove > 0f)
+				Move ();
+			else
+				animator.SetBool ("walking", false);
+			CheckAnimsQueue ();
+			CheckBorders ();
+		}
 	}
 }
