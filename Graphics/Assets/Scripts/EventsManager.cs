@@ -15,7 +15,8 @@ public class EventsManager : MonoBehaviour {
     public MessagesBox msgBox;
 	public Player playerPrefab;
 	public List<Egg> eggs;
-
+	bool	gameover = false;
+	bool	celebrationDone = false;
 	public GroundGenerator map;
 	static public EventsManager em;
 
@@ -246,6 +247,8 @@ public class EventsManager : MonoBehaviour {
 
 		try
 		{
+			if (gameover == true)
+				return ;
 			playerNo = int.Parse(s);
 			Player p = players.Find(pp => pp.playerNo == playerNo);
 			players.Remove(p);
@@ -372,6 +375,7 @@ public class EventsManager : MonoBehaviour {
 	{
 		try
 		{
+			gameover = true;
 			debugMessage(DebugLevel.Warning, "END " + s);
 			foreach (var p in players.FindAll(p => p.teamName == s))
 			{
@@ -467,6 +471,8 @@ public class EventsManager : MonoBehaviour {
 
 	void Update()
 	{
+		if (celebrationDone == true)
+			return;
 		bool end = false;
 		foreach (Team t in teams) {
 			foreach (Player p in t.players)
@@ -490,6 +496,7 @@ public class EventsManager : MonoBehaviour {
 			}
 			Team winningTeam = teams.Find(t => t.win == true);
 			msgBox.ServerMessage("Team " + winningTeam.teamName + " won !", Color.red);
+			celebrationDone = true;
 		}
 	}
 }
