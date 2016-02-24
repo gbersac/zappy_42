@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/06 20:58:22 by gbersac           #+#    #+#             */
-/*   Updated: 2015/12/06 22:05:31 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/24 17:58:45 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static char		*test_for_victory2(t_env *env, t_team team)
 	asprintf(&to_send, "seg %s", team);
 	send_cmd_to_all(env, to_send);
 	free(to_send);
+	env->victorious_team = team;
 	printf("Team %s is victorious !\n", team);
-	exit(EXIT_SUCCESS);
 	return (team);
 }
 

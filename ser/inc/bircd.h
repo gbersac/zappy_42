@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 18:05:59 by rfrey             #+#    #+#             */
-/*   Updated: 2016/01/08 12:56:15 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/24 13:47:10 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct		s_env
 	int				id_egg;
 	t_list			*idle_trant;
 	t_list			*differed_msg;
+	char			*victorious_team;
 }					t_env;
 
 void				ft_ferror(char *msg);

@@ -191,3 +191,6 @@ class Trantor:
                 return cmd
             else:
                 return self.play()
+        if 'seg ' in new_cmd[:4]:
+            print('Team', new_cmd[4:], 'is victorious !')
+            exit(0)

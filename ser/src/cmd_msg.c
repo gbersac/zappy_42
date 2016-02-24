@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/22 17:11:27 by rfrey             #+#    #+#             */
-/*   Updated: 2016/01/08 12:57:37 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/23 22:50:20 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	send_cmd_to_graphics(t_env *env, char *str)
 	int		i;
 	t_fd	*client;
 
-	printf("\e[0;31mto->[gfx]\e[0m %s\n", str);
+	// printf("\e[0;31mto->[gfx]\e[0m %s\n", str);
 	to_send = ft_strjoin(str, "\n");
 	i = 0;
 	while (i < env->maxfd)

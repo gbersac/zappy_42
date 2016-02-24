@@ -6,7 +6,7 @@
 /*   By: gbersac <gbersac@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/05/20 17:55:31 by rfrey             #+#    #+#             */
-/*   Updated: 2014/06/04 22:40:47 by gbersac          ###   ########.fr       */
+/*   Updated: 2016/02/24 13:51:02 by gbersac          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void		init_env(t_env *e)
 		i++;
 	}
 	e->port = -1;
+	e->victorious_team = NULL;
 	init_map(&(e->map));
 }
