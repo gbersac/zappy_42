@@ -410,11 +410,11 @@ public class Player : MonoBehaviour {
 //			Debug.Log ("Qlist: " + db);
 		//END
 
-		if (isCasting == true && animQueue [0].Split (' ') [0] == "die") {
+		if (isCasting == true && animQueue.Count > 0 && animQueue [0].Split (' ') [0] == "die") {
 			ForceDie ();
 			return;
 		}
-		else if (isLaying == true && animQueue [0].Split (' ') [0] == "stopLaying") {
+		else if (isLaying == true && animQueue.Count > 0 && animQueue [0].Split (' ') [0] == "stopLaying") {
 			StopLaying(int.Parse(animQueue [0].Split (' ') [1]));
 			animQueue.RemoveAt (0);
 			return;
